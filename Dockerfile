@@ -36,6 +36,8 @@ FROM appbase as staticbuilder
 # Set environmental variables (when building image on GitHub) 
 # specified in github workflow files  
 ARG NEXT_PUBLIC_LINKED_EVENTS_URL
+ARG NEXT_PUBLIC_SENTRY_DSN
+ARG NEXT_PUBLIC_ENVIRONMENT
 
 # Use non-root user
 USER appuser

@@ -32,6 +32,8 @@ jobs:
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-production
           DOCKER_BUILD_ARG_NEXT_PUBLIC_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          DOCKER_BUILD_ARG_NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.GH_SENTRY_DSN }}
+          DOCKER_BUILD_ARG_NEXT_PUBLIC_ENVIRONMENT: 'production'
 
   production:
     if: startsWith(github.ref, 'refs/tags')
