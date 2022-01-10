@@ -19,6 +19,7 @@ import ServerErrorSummary from '../../../common/components/serverErrorSummary/Se
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { ROUTES } from '../../app/routes/constants';
+import { reportError } from '../../app/sentry/utils';
 import { Registration } from '../../registration/types';
 import { isRegistrationPossible } from '../../registration/utils';
 import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../constants';
@@ -75,19 +76,6 @@ const EnrolmentForm: React.FC<Props> = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-  }: {
-    callbacks?: Callbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-  }) => {
-    closeModal();
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
-
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
   const formDisabled = !isRegistrationPossible(registration);
@@ -118,8 +106,16 @@ const EnrolmentForm: React.FC<Props> = ({
   };
 
   const createEnrolmentMutation = useCreateEnrolmentMutation({
-    onError: (error) => {
+    onError: (error, variables) => {
       showServerErrors({ error: JSON.parse(error.message) });
+      reportError({
+        data: {
+          error: JSON.parse(error.message),
+          payload: variables,
+          payloadAsString: JSON.stringify(variables),
+        },
+        message: 'Failed to create enrolment',
+      });
     },
     onSuccess: (data) => {
       goToEnrolmentCompletedPage(data);
@@ -127,12 +123,17 @@ const EnrolmentForm: React.FC<Props> = ({
   });
 
   const deleteEnrolmentMutation = useDeleteEnrolmentMutation({
-    onError: (error) => {
-      handleError({
-        callbacks: {
-          onError: () => showServerErrors({ error: JSON.parse(error.message) }),
+    onError: (error, variables) => {
+      closeModal();
+
+      showServerErrors({ error: JSON.parse(error.message) });
+      // Report error to Sentry
+      reportError({
+        data: {
+          error: JSON.parse(error.message),
+          cancellationCode: variables,
         },
-        error,
+        message: 'Failed to cancel enrolment',
       });
     },
     onSuccess: () => {
