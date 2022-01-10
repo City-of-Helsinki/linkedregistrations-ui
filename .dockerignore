@@ -1,5 +1,6 @@
 *
 !.env
+!.sentryclirc
 !public
 !src
 !next-i18next.config.js

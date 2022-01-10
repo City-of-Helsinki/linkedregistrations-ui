@@ -29,6 +29,7 @@ jobs:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-review
           DOCKER_BUILD_ARG_NEXT_PUBLIC_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
           DOCKER_BUILD_ARG_NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.GH_SENTRY_DSN }}
+          DOCKER_BUILD_ARG_SENTRY_AUTH_TOKEN: ${{ secrets.GH_SENTRY_AUTH_TOKEN }}
           DOCKER_BUILD_ARG_NEXT_PUBLIC_ENVIRONMENT: 'review'
 
   review:

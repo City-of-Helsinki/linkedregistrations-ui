@@ -33,11 +33,19 @@ CMD ["yarn", "dev"]
 FROM appbase as staticbuilder
 # ===================================
 
+# Get rid of the Sentry SSL error
+USER root
+RUN apt-get update && apt-get install -y ca-certificates
+
+# Use non-root user
+USER appuser
+
 # Set environmental variables (when building image on GitHub) 
 # specified in github workflow files  
 ARG NEXT_PUBLIC_LINKED_EVENTS_URL
 ARG NEXT_PUBLIC_SENTRY_DSN
 ARG NEXT_PUBLIC_ENVIRONMENT
+ARG SENTRY_AUTH_TOKEN
 
 # Use non-root user
 USER appuser
