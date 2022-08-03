@@ -57,27 +57,30 @@ const EditEnrolmentPage: React.FC<Props> = ({
 const EditEnrolmentPageWrapper: React.FC = () => {
   const { query } = useRouter();
 
-  const { data: registration, isLoading: isLoadingRegistration } =
+  const { data: registration, isFetching: isFetchingRegistration } =
     useRegistrationQuery(
       { id: query.registrationId as string },
       { enabled: !!query.registrationId }
     );
 
-  const { data: event, isLoading: isLoadingEvent } = useEventQuery(
+  const { data: event, isFetching: isFetchingEvent } = useEventQuery(
     { id: registration?.event as string, include: EVENT_INCLUDES },
     { enabled: !!registration?.event }
   );
 
-  const { data: enrolment, isLoading: isLoadingEnrolment } = useEnrolmentQuery({
-    cancellationCode: query.accessCode as string,
-  });
+  const { data: enrolment, isFetching: isFetchingEnrolment } =
+    useEnrolmentQuery({
+      cancellationCode: query.accessCode as string,
+    });
 
   const { openParticipant, setOpenParticipant, toggleOpenParticipant } =
     useEnrolmentPageContextValue();
 
   return (
     <LoadingSpinner
-      isLoading={isLoadingEnrolment || isLoadingEvent || isLoadingRegistration}
+      isLoading={
+        isFetchingEnrolment || isFetchingEvent || isFetchingRegistration
+      }
     >
       {enrolment && event && registration ? (
         <EnrolmentPageContext.Provider

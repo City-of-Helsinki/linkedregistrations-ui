@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-console */
 import { ParsedUrlQuery } from 'querystring';
 
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryClientProviderProps,
+} from '@tanstack/react-query';
 import {
   act,
   fireEvent,
@@ -14,12 +20,6 @@ import { RequestHandler } from 'msw';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
 import React from 'react';
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryClientProviderProps,
-  setLogger,
-} from 'react-query';
 import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
@@ -43,16 +43,16 @@ const customRender: CustomRender = (
 ) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
+    logger: {
+      log: console.log,
+      warn: console.warn,
+      // ✅ no more errors on the console for tests
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
+    },
   });
 
   const Wrapper: React.JSXElementConstructor<any> = ({ children }) => {
-    setLogger({
-      log: console.log,
-      warn: console.warn,
-      // no more errors on the console
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      error: () => {},
-    });
     return (
       <RouterContext.Provider
         value={{

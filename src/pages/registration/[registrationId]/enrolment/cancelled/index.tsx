@@ -1,6 +1,6 @@
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { dehydrate, QueryClient } from 'react-query';
 
 import EnrolmentCancelledPage from '../../../../../domain/enrolment/EnrolmentCancelledPage';
 import { EVENT_INCLUDES } from '../../../../../domain/event/constants';

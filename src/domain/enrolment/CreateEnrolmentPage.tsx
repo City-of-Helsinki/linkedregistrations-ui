@@ -48,15 +48,13 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
   const router = useRouter();
   const { query } = router;
 
-  const { data: registration, isLoading: isLoadingRegistration } =
+  const { data: registration, isFetching: isFetchingRegistration } =
     useRegistrationQuery(
-      {
-        id: query.registrationId as string,
-      },
+      { id: query.registrationId as string },
       { enabled: !!query.registrationId }
     );
 
-  const { data: event, isLoading: isLoadingEvent } = useEventQuery(
+  const { data: event, isFetching: isFetchingEvent } = useEventQuery(
     {
       id: registration?.event as string,
       include: EVENT_INCLUDES,
@@ -68,7 +66,7 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     useEnrolmentPageContextValue();
 
   return (
-    <LoadingSpinner isLoading={isLoadingRegistration || isLoadingEvent}>
+    <LoadingSpinner isLoading={isFetchingRegistration || isFetchingEvent}>
       {registration && event ? (
         <EnrolmentPageContext.Provider
           value={{ openParticipant, setOpenParticipant, toggleOpenParticipant }}

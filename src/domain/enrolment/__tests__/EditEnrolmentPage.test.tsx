@@ -8,6 +8,7 @@ import React from 'react';
 
 import {
   configure,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   setQueryMocks,
@@ -239,6 +240,8 @@ test('should show not found page if registration does not exist', async () => {
     },
   });
   renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
 
   await screen.findByRole('heading', {
     name: 'Valitettavasti etsimääsi sivua ei löydy',

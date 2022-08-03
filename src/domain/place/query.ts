@@ -1,4 +1,4 @@
-import { QueryClient, useQuery, UseQueryResult } from 'react-query';
+import { QueryClient, useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { Place } from './types';
 import { fetchPlace } from './utils';
@@ -7,8 +7,8 @@ import { fetchPlace } from './utils';
 export const prefetchPlaceQuery = (
   queryClient: QueryClient,
   id: string
-): Promise<void> => queryClient.prefetchQuery('place', () => fetchPlace(id));
+): Promise<void> => queryClient.prefetchQuery(['place'], () => fetchPlace(id));
 
 export const usePlaceQuery = (id: string): UseQueryResult<Place> => {
-  return useQuery('place', () => fetchPlace(id));
+  return useQuery(['place'], () => fetchPlace(id));
 };

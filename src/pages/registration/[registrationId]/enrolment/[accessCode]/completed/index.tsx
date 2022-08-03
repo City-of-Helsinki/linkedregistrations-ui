@@ -1,6 +1,6 @@
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { dehydrate, QueryClient } from 'react-query';
 
 import EnrolmentCompletedPage from '../../../../../../domain/enrolment/EnrolmentCompletedPage';
 import { prefetchEnrolmentQuery } from '../../../../../../domain/enrolment/query';

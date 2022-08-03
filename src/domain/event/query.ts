@@ -3,7 +3,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult,
-} from 'react-query';
+} from '@tanstack/react-query';
 
 import { Event, EventQueryVariables } from './types';
 import { fetchEvent } from './utils';

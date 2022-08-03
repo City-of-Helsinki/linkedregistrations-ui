@@ -3,7 +3,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult,
-} from 'react-query';
+} from '@tanstack/react-query';
 
 import { Enrolment, EnrolmentQueryVariables } from './types';
 import { fetchEnrolment } from './utils';
