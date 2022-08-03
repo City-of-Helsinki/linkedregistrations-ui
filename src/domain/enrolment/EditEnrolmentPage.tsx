@@ -57,21 +57,31 @@ const EditEnrolmentPage: React.FC<Props> = ({
 const EditEnrolmentPageWrapper: React.FC = () => {
   const { query } = useRouter();
 
-  const { data: registration, isFetching: isFetchingRegistration } =
-    useRegistrationQuery(
-      { id: query.registrationId as string },
-      { enabled: !!query.registrationId }
-    );
+  const {
+    data: registration,
+    isFetching: isFetchingRegistration,
+    status: statusRegistration,
+  } = useRegistrationQuery(
+    { id: query.registrationId as string },
+    { enabled: !!query.registrationId }
+  );
 
-  const { data: event, isFetching: isFetchingEvent } = useEventQuery(
+  const {
+    data: event,
+    isFetching: isFetchingEvent,
+    status: statusEvent,
+  } = useEventQuery(
     { id: registration?.event as string, include: EVENT_INCLUDES },
     { enabled: !!registration?.event }
   );
 
-  const { data: enrolment, isFetching: isFetchingEnrolment } =
-    useEnrolmentQuery({
-      cancellationCode: query.accessCode as string,
-    });
+  const {
+    data: enrolment,
+    isFetching: isFetchingEnrolment,
+    status: statusEnrolment,
+  } = useEnrolmentQuery({
+    cancellationCode: query.accessCode as string,
+  });
 
   const { openParticipant, setOpenParticipant, toggleOpenParticipant } =
     useEnrolmentPageContextValue();
@@ -79,7 +89,9 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner
       isLoading={
-        isFetchingEnrolment || isFetchingEvent || isFetchingRegistration
+        (statusRegistration === 'loading' && isFetchingRegistration) ||
+        (statusEvent === 'loading' && isFetchingEvent) ||
+        (statusEnrolment === 'loading' && isFetchingEnrolment)
       }
     >
       {enrolment && event && registration ? (

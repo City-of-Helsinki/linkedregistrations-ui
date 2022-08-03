@@ -30,7 +30,7 @@ export const prefetchRegistrationQuery = (
 
 export const useRegistrationQuery = (
   args: RegistrationQueryVariables,
-  options?: Pick<UseQueryOptions, 'enabled'>
+  options?: Pick<UseQueryOptions, 'enabled' | 'retry'>
 ): UseQueryResult<Registration> => {
   return useQuery<Registration, Error>(
     ['registration', args.id],

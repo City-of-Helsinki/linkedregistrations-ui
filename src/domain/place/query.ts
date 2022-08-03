@@ -7,8 +7,9 @@ import { fetchPlace } from './utils';
 export const prefetchPlaceQuery = (
   queryClient: QueryClient,
   id: string
-): Promise<void> => queryClient.prefetchQuery(['place'], () => fetchPlace(id));
+): Promise<void> =>
+  queryClient.prefetchQuery(['place', id], () => fetchPlace(id));
 
 export const usePlaceQuery = (id: string): UseQueryResult<Place> => {
-  return useQuery(['place'], () => fetchPlace(id));
+  return useQuery(['place', id], () => fetchPlace(id));
 };
