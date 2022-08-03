@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import merge from 'lodash/merge';
 
 import { LocalisedObject, Meta } from '../domain/api/types';
@@ -42,7 +42,7 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       name: faker.name.firstName(),
       native_language: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phone_number: faker.phone.phoneNumberFormat(),
+      phone_number: faker.phone.number(),
       registration: TEST_REGISTRATION_ID,
       service_language: 'fi',
       street_address: faker.address.streetAddress(),

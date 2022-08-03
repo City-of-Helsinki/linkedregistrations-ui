@@ -89,9 +89,10 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner
       isLoading={
-        (statusRegistration === 'loading' && isFetchingRegistration) ||
+        // istanbul ignore next
+        (statusEnrolment === 'loading' && isFetchingEnrolment) ||
         (statusEvent === 'loading' && isFetchingEvent) ||
-        (statusEnrolment === 'loading' && isFetchingEnrolment)
+        (statusRegistration === 'loading' && isFetchingRegistration)
       }
     >
       {enrolment && event && registration ? (
