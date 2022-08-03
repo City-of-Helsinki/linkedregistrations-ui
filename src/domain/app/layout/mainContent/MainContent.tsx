@@ -1,6 +1,4 @@
-import { useRouter } from 'next/router';
 import React from 'react';
-import { scroller } from 'react-scroll';
 
 import { MAIN_CONTENT_ID } from '../../../../constants';
 
