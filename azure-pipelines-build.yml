@@ -45,6 +45,6 @@ extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
   # Django example: azure-pipelines-linkedevents-api-release.yml
   # Drupal example: azure-pipelines-drupal-release.yml
-  template: azure-pipelines-build-linkedevents-api.yml@linkedevents-pipelines
+  template: azure-pipelines-build-linkedregistrations-ui.yml@linkedevents-pipelines
   #parameters:
   #imagetag: ${{ parameters.imagetag }}

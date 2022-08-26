@@ -40,7 +40,7 @@ resources:
   pipelines:
     # Pipeline trigger
     - pipeline: build
-      source: build-linkedcomponents-ui
+      source: build-linkedregistrations-ui
       # Run deploy-dev pipeline when any run of build pipeline completes
       trigger: true
 
