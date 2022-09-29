@@ -50,6 +50,8 @@
   },
   "showLess": "Visa mindre",
   "showMore": "Visa mer",
+  "signIn": "Logga in",
+  "signOut": "Logga ut",
   "titleServerErrorSummary": "Formuläret innehåller följande fel",
   "validation": {
     "age": {

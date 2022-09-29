@@ -50,6 +50,8 @@
   },
   "showLess": "Show less",
   "showMore": "Show more",
+  "signIn": "Sign in",
+  "signOut": "Sign out",
   "titleServerErrorSummary": "Form contains following errors",
   "validation": {
     "age": {

@@ -1,12 +1,12 @@
 {
   "extends": [
-    "next",
-    "react-app",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "next",
+    "next/core-web-vitals"
   ],
   "rules": {
     "@typescript-eslint/brace-style": [
@@ -39,7 +39,6 @@
     "max-len": ["warn", { "code": 120 }],
     "no-console": "warn",
     "no-plusplus": "error",
-    "no-undef": "warn",
     "object-curly-spacing": ["warn", "always"]
   }
 }

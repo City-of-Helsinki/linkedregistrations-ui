@@ -30,7 +30,6 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   disabled,
   disabledOptions,
   field: { name, onBlur, value, ...field },
-  form,
   errorName,
   min = 0,
   options,

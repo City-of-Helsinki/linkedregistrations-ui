@@ -10,7 +10,6 @@ type Props = FieldProps & DateInputProps;
 
 const DateInputField: React.FC<Props> = ({
   field: { name, value, onBlur, onChange, ...field },
-  form,
   helperText,
   ...rest
 }) => {

@@ -10,7 +10,6 @@ type Props = FieldProps & PhoneInputProps;
 
 const PhoneInputField: React.FC<Props> = ({
   field: { name, value, ...field },
-  form,
   helperText,
   ...rest
 }) => {

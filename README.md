@@ -53,6 +53,9 @@ Use .env.local for development.
 | NEXT_PUBLIC_ENVIRONMENT       | Environment used in Sentry. Use local for development |
 | NEXT_PUBLIC_SENTRY_DSN        | Sentry DSN.                                           |
 | SENTRY_AUTH_TOKEN             | Sentry authentication token.                          |
+| NEXT_PUBLIC_OIDC_AUTHORITY    | https://api.hel.fi/sso                                |
+| NEXT_PUBLIC_OIDC_CLIENT_ID    | linkedcomponents-ui-test                              |
+| NEXT_PUBLIC_OIDC_API_SCOPE    | https://api.hel.fi/auth/linkedeventsdev               |
 
 ## Url parameters
 

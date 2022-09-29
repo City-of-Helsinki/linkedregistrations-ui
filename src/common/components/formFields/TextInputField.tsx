@@ -11,7 +11,6 @@ export type TextInputFieldProps = FieldProps & TextInputProps;
 
 const TextInputField: React.FC<TextInputFieldProps> = ({
   field: { name, value, ...field },
-  form,
   helperText,
   maxLength,
   ...rest

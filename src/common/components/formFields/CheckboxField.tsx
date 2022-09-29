@@ -4,22 +4,14 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import useLocale from '../../../hooks/useLocale';
-import { OptionType } from '../../../types';
 import Checkbox from '../checkbox/Checkbox';
 import styles from './checkboxGroupField.module.scss';
 
-type Props = {
-  options: OptionType[];
-  visibleOptionAmount?: number;
-} & FieldProps &
-  CheckboxProps;
+type Props = FieldProps & CheckboxProps;
 
 const CheckboxField: React.FC<Props> = ({
   field: { name, value, ...field },
-  form,
   label,
-  options,
-  visibleOptionAmount,
   ...rest
 }) => {
   const locale = useLocale();

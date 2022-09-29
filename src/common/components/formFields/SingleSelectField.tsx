@@ -11,7 +11,6 @@ type Props = SingleSelectProps<OptionType> & FieldProps;
 
 const SingleSelectField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
-  form,
   helper,
   options,
   ...rest

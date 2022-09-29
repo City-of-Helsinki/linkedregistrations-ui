@@ -50,6 +50,8 @@
   },
   "showLess": "Näytä vähemmän",
   "showMore": "Näytä lisää",
+  "signIn": "Kirjaudu sisään",
+  "signOut": "Kirjaudu ulos",
   "titleServerErrorSummary": "Lomakkeella on seuraavat virheet",
   "validation": {
     "age": {

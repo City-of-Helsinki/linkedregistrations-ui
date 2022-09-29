@@ -1,5 +1,6 @@
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps, NextApiRequest, NextPage } from 'next';
+import { unstable_getServerSession } from 'next-auth';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import CreateEnrolmentPage from '../../../../domain/enrolment/CreateEnrolmentPage';
@@ -8,13 +9,22 @@ import { fetchEventQuery } from '../../../../domain/event/query';
 import { prefetchPlaceQuery } from '../../../../domain/place/query';
 import { fetchRegistrationQuery } from '../../../../domain/registration/query';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
+import { getNextAuthOptions } from '../../../api/auth/[...nextauth]';
 
 const CreateEnrolment: NextPage = () => <CreateEnrolmentPage />;
 
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
+  req,
+  res,
 }) => {
+  const session = await unstable_getServerSession(
+    req,
+    res,
+    getNextAuthOptions(req as NextApiRequest)
+  );
+
   const queryClient = new QueryClient();
 
   try {
@@ -45,6 +55,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         'enrolment',
       ])),
       dehydratedState: dehydrate(queryClient),
+      session,
     },
   };
 };

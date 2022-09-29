@@ -11,7 +11,6 @@ export type TextAreaFieldProps = FieldProps & TextAreaProps;
 
 const TextAreaField: React.FC<TextAreaFieldProps> = ({
   field: { name, value, ...field },
-  form,
   helperText,
   maxLength,
   ...rest

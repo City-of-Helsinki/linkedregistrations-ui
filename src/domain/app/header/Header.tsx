@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { Navigation } from 'hds-react';
+import { IconSignout, Navigation } from 'hds-react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,8 @@ import { ROUTES } from '../routes/constants';
 import styles from './header.module.scss';
 
 const Header: React.FC = () => {
+  const { data: session } = useSession();
+
   const locale = useLocale();
   const router = useRouter();
   const { changeLanguage, languageOptions } = useSelectLanguage();
@@ -43,6 +46,20 @@ const Header: React.FC = () => {
       logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
     >
       <Navigation.Actions>
+        <Navigation.User
+          authenticated={Boolean(session)}
+          label={t('common:signIn')}
+          onSignIn={() => signIn('tunnistamo')}
+          userName={session?.user?.email}
+        >
+          <Navigation.Item
+            label={t('common:signOut')}
+            href="#"
+            icon={<IconSignout aria-hidden />}
+            variant="supplementary"
+            onClick={() => signOut()}
+          />
+        </Navigation.User>
         <Navigation.LanguageSelector
           buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
           className={classNames(styles.languageSelector)}
