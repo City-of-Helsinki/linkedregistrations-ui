@@ -67,6 +67,8 @@ RUN yarn policies set-version $YARN_VERSION
 
 # Copy build folder from staticbuilder stage
 COPY --from=staticbuilder --chown=default:default /opt/app-root/src/.next /opt/app-root/src/.next
+# Copy .env file
+COPY --from=staticbuilder --chown=default:default /opt/app-root/src/.env /opt/app-root/src/.env
 
 # Copy next.js config
 COPY --chown=default:default next-i18next.config.js /opt/app-root/src/
@@ -79,8 +81,6 @@ COPY --chown=default:default package.json yarn.lock /opt/app-root/src/
 
 # Install production dependencies
 RUN yarn install --production --frozen-lockfile && yarn cache clean --force
-
-COPY .env .
 
 # Expose port
 EXPOSE $PORT
