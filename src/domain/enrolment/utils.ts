@@ -1,13 +1,14 @@
 import { AxiosError } from 'axios';
 import addMinutes from 'date-fns/addMinutes';
 import isPast from 'date-fns/isPast';
+import { NextPageContext } from 'next';
 
 import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import formatDate from '../../utils/formatDate';
 import getUnixTime from '../../utils/getUnixTime';
 import queryBuilder from '../../utils/queryBuilder';
 import stringToDate from '../../utils/stringToDate';
-import axiosClient from '../app/axios/axiosClient';
+import { callDelete, callGet, callPost } from '../app/axios/axiosClient';
 import { Registration } from '../registration/types';
 import {
   ATTENDEE_INITIAL_VALUES,
@@ -27,10 +28,11 @@ import {
 } from './types';
 
 export const fetchEnrolment = async (
-  args: EnrolmentQueryVariables
+  args: EnrolmentQueryVariables,
+  ctx?: Pick<NextPageContext, 'req' | 'res'>
 ): Promise<Enrolment> => {
   try {
-    const { data } = await axiosClient.get(enrolmentPathBuilder(args));
+    const { data } = await callGet(enrolmentPathBuilder(args), undefined, ctx);
     return data;
   } catch (error) {
     /* istanbul ignore next */
@@ -50,10 +52,16 @@ export const enrolmentPathBuilder = (args: EnrolmentQueryVariables): string => {
 };
 
 export const createEnrolment = async (
-  input: CreateEnrolmentMutationInput
+  input: CreateEnrolmentMutationInput,
+  ctx?: Pick<NextPageContext, 'req' | 'res'>
 ): Promise<Enrolment> => {
   try {
-    const { data } = await axiosClient.post('/signup/', JSON.stringify(input));
+    const { data } = await callPost(
+      '/signup/',
+      JSON.stringify(input),
+      undefined,
+      ctx
+    );
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
@@ -61,12 +69,15 @@ export const createEnrolment = async (
 };
 
 export const deleteEnrolment = async (
-  cancellationCode: string
+  cancellationCode: string,
+  ctx?: Pick<NextPageContext, 'req' | 'res'>
 ): Promise<null> => {
   try {
-    const { data } = await axiosClient.delete('/signup/', {
-      data: JSON.stringify({ cancellation_code: cancellationCode }),
-    });
+    const { data } = await callDelete(
+      '/signup/',
+      { data: JSON.stringify({ cancellation_code: cancellationCode }) },
+      ctx
+    );
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));

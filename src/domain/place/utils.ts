@@ -1,13 +1,17 @@
 import { AxiosError } from 'axios';
+import { NextPageContext } from 'next';
 
 import { Language } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
-import axiosClient from '../app/axios/axiosClient';
+import { callGet } from '../app/axios/axiosClient';
 import { Place, PlaceFields } from './types';
 
-export const fetchPlace = async (id: string): Promise<Event> => {
+export const fetchPlace = async (
+  id: string,
+  ctx?: Pick<NextPageContext, 'req' | 'res'>
+): Promise<Event> => {
   try {
-    const { data } = await axiosClient.get(`/place/${id}/`);
+    const { data } = await callGet(`/place/${id}/`, undefined, ctx);
     return data;
   } catch (error) {
     /* istanbul ignore next */

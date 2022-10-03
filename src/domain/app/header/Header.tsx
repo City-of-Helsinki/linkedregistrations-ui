@@ -8,11 +8,17 @@ import { useTranslation } from 'react-i18next';
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
+import { useUserQuery } from '../../user/query';
 import { ROUTES } from '../routes/constants';
 import styles from './header.module.scss';
 
 const Header: React.FC = () => {
   const { data: session } = useSession();
+
+  const { data: user } = useUserQuery(
+    { username: session?.sub as string },
+    { enabled: !!session?.sub }
+  );
 
   const locale = useLocale();
   const router = useRouter();
@@ -47,10 +53,10 @@ const Header: React.FC = () => {
     >
       <Navigation.Actions>
         <Navigation.User
-          authenticated={Boolean(session)}
+          authenticated={Boolean(session && user)}
           label={t('common:signIn')}
           onSignIn={() => signIn('tunnistamo')}
-          userName={session?.user?.email}
+          userName={user?.display_name}
         >
           <Navigation.Item
             label={t('common:signOut')}

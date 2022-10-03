@@ -1,6 +1,5 @@
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { GetServerSideProps, NextApiRequest, NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { GetServerSideProps, NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import CreateEnrolmentPage from '../../../../domain/enrolment/CreateEnrolmentPage';
@@ -8,8 +7,8 @@ import { EVENT_INCLUDES } from '../../../../domain/event/constants';
 import { fetchEventQuery } from '../../../../domain/event/query';
 import { prefetchPlaceQuery } from '../../../../domain/place/query';
 import { fetchRegistrationQuery } from '../../../../domain/registration/query';
+import { getSessionAndUser } from '../../../../utils/getSessionAndUser';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import { getNextAuthOptions } from '../../../api/auth/[...nextauth]';
 
 const CreateEnrolment: NextPage = () => <CreateEnrolmentPage />;
 
@@ -19,30 +18,31 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   res,
 }) => {
-  const session = await unstable_getServerSession(
+  const queryClient = new QueryClient();
+  const { session } = await getSessionAndUser(queryClient, {
     req,
     res,
-    getNextAuthOptions(req as NextApiRequest)
-  );
-
-  const queryClient = new QueryClient();
+  });
 
   try {
-    const registration = await fetchRegistrationQuery(queryClient, {
-      id: query.registrationId as string,
-    });
+    const registration = await fetchRegistrationQuery(
+      queryClient,
+      { id: query.registrationId as string },
+      { req, res }
+    );
 
     if (registration?.event) {
-      const event = await fetchEventQuery(queryClient, {
-        id: registration?.event,
-        include: EVENT_INCLUDES,
-      });
+      const event = await fetchEventQuery(
+        queryClient,
+        { id: registration?.event, include: EVENT_INCLUDES },
+        { req, res }
+      );
 
       if (event) {
         const placeId = parseIdFromAtId(event.location['@id']);
 
         if (placeId) {
-          await prefetchPlaceQuery(queryClient, placeId);
+          await prefetchPlaceQuery(queryClient, placeId, { req, res });
         }
       }
     }

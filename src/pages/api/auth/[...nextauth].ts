@@ -3,6 +3,12 @@ import absoluteUrl from 'next-absolute-url';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import { OAuthConfig } from 'next-auth/providers/oauth';
 
+import {
+  fetchApiToken,
+  getApiTokenExpirationTime,
+  isApiTokenExpiring,
+} from '../../../domain/auth/utils';
+
 type User = {
   iss: string;
   sub: string;
@@ -57,17 +63,41 @@ export const getNextAuthOptions = (req: NextApiRequest) => {
       } as OAuthConfig<User>,
     ],
     callbacks: {
-      jwt({ token, account }) {
+      async jwt({ token, account }) {
         if (account) {
           token.accessToken = account.access_token;
-          token.expiresAt = account.expires_at;
+          token.accessTokenExpiresAt = account.expires_at;
+        }
+
+        if (token.accessToken) {
+          if (
+            !token.apiTokenExpiresAt ||
+            isApiTokenExpiring(token.apiTokenExpiresAt as number)
+          ) {
+            try {
+              const apiToken = await fetchApiToken({
+                accessToken: token.accessToken as string,
+              });
+              token.apiToken = apiToken ?? null;
+              token.apiTokenExpiresAt = getApiTokenExpirationTime();
+            } catch (e) {
+              token.apiToken = null;
+              token.apiTokenExpiresAt = null;
+            }
+          }
+        } else {
+          token.apiToken = null;
+          token.apiTokenExpiresAt = null;
         }
 
         return token;
       },
-      session({ session, token }) {
-        session.accessToken = token.accessToken;
-        session.expiresAt = token.expiresAt;
+      async session({ session, token }) {
+        session.accessToken = token.accessToken ?? null;
+        session.accessTokenExpiresAt = token.accessTokenExpiresAt ?? null;
+        session.apiToken = token.apiToken ?? null;
+        session.apiTokenExpiresAt = token.apiTokenExpiresAt ?? null;
+        session.sub = token.sub ?? null;
 
         if (session.user && !session.user?.image) {
           session.user.image = null;

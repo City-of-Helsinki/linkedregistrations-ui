@@ -1,11 +1,12 @@
 import { AxiosError } from 'axios';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
+import { NextPageContext } from 'next';
 import { TFunction } from 'next-i18next';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../constants';
 import queryBuilder from '../../utils/queryBuilder';
-import axiosClient from '../app/axios/axiosClient';
+import { callGet } from '../app/axios/axiosClient';
 import {
   Registration,
   RegistrationFields,
@@ -13,10 +14,15 @@ import {
 } from './types';
 
 export const fetchRegistration = async (
-  args: RegistrationQueryVariables
+  args: RegistrationQueryVariables,
+  ctx?: Pick<NextPageContext, 'req' | 'res'>
 ): Promise<Registration> => {
   try {
-    const { data } = await axiosClient.get(registrationPathBuilder(args));
+    const { data } = await callGet(
+      registrationPathBuilder(args),
+      undefined,
+      ctx
+    );
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));

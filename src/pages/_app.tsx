@@ -23,7 +23,7 @@ const MyApp = ({
   const [queryClient] = React.useState(() => new QueryClient());
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={10}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <ToastContainer hideProgressBar={true} theme="colored" />

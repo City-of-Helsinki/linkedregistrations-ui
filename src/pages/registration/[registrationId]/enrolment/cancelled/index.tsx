@@ -6,14 +6,21 @@ import EnrolmentCancelledPage from '../../../../../domain/enrolment/EnrolmentCan
 import { EVENT_INCLUDES } from '../../../../../domain/event/constants';
 import { prefetchEventQuery } from '../../../../../domain/event/query';
 import { fetchRegistrationQuery } from '../../../../../domain/registration/query';
+import { getSessionAndUser } from '../../../../../utils/getSessionAndUser';
 
 const EnrolmentCancelled: NextPage = () => <EnrolmentCancelledPage />;
 
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
   query,
+  req,
+  res,
 }) => {
   const queryClient = new QueryClient();
+  const { session } = await getSessionAndUser(queryClient, {
+    req,
+    res,
+  });
 
   try {
     const registration = await fetchRegistrationQuery(queryClient, {
@@ -35,6 +42,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         'enrolment',
       ])),
       dehydratedState: dehydrate(queryClient),
+      session,
     },
   };
 };
