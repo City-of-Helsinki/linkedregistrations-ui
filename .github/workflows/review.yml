@@ -31,6 +31,7 @@ jobs:
           DOCKER_BUILD_ARG_NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.GH_SENTRY_DSN }}
           DOCKER_BUILD_ARG_SENTRY_AUTH_TOKEN: ${{ secrets.GH_SENTRY_AUTH_TOKEN }}
           DOCKER_BUILD_ARG_NEXT_PUBLIC_ENVIRONMENT: 'review'
+          DOCKER_BUILD_ARG_NEXTAUTH_SECRET: ${{ secrets.GH_NEXTAUTH_SECRET_REVIEW }}
 
   review:
     runs-on: ubuntu-latest

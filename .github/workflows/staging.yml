@@ -38,6 +38,7 @@ jobs:
           DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
           DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
           DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedeventsdev'
+          DOCKER_BUILD_ARG_NEXTAUTH_SECRET: ${{ secrets.GH_NEXTAUTH_SECRET_STAGING }}
 
   staging:
     runs-on: ubuntu-latest

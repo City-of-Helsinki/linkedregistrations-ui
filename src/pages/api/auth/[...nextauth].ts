@@ -33,6 +33,7 @@ type User = {
 export const getNextAuthOptions = (req: NextApiRequest) => {
   const { origin } = absoluteUrl(req);
   const authOptions: NextAuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     // Configure one or more authentication providers
     providers: [
       {
