@@ -40,14 +40,14 @@ USER default
 
 # Set environmental variables (when building image on GitHub) 
 # specified in github workflow files  
-ARG NEXT_PUBLIC_LINKED_EVENTS_URL
-ARG NEXT_PUBLIC_SENTRY_DSN
-ARG NEXT_PUBLIC_ENVIRONMENT
-ARG SENTRY_AUTH_TOKEN
-ARG NEXT_PUBLIC_OIDC_AUTHORITY
-ARG NEXT_PUBLIC_OIDC_CLIENT_ID
-ARG NEXT_PUBLIC_OIDC_API_SCOPE
-ARG NEXTAUTH_SECRET
+# ARG NEXT_PUBLIC_LINKED_EVENTS_URL
+# ARG NEXT_PUBLIC_SENTRY_DSN
+# ARG NEXT_PUBLIC_ENVIRONMENT
+# ARG SENTRY_AUTH_TOKEN
+# ARG NEXT_PUBLIC_OIDC_AUTHORITY
+# ARG NEXT_PUBLIC_OIDC_CLIENT_ID
+# ARG NEXT_PUBLIC_OIDC_API_SCOPE
+# ARG NEXTAUTH_SECRET
 
 
 # Build application
@@ -79,6 +79,8 @@ COPY --chown=default:default package.json yarn.lock /opt/app-root/src/
 
 # Install production dependencies
 RUN yarn install --production --frozen-lockfile && yarn cache clean --force
+
+COPY .env .
 
 # Expose port
 EXPOSE $PORT
