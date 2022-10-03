@@ -15,6 +15,7 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import PageLayout from '../domain/app/layout/pageLayout/PageLayout';
+import ApiTokenUpdater from '../domain/auth/ApiTokenUpdater';
 
 const MyApp = ({
   Component,
@@ -24,6 +25,7 @@ const MyApp = ({
 
   return (
     <SessionProvider session={session} refetchInterval={10}>
+      <ApiTokenUpdater />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <ToastContainer hideProgressBar={true} theme="colored" />

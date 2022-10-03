@@ -5,6 +5,8 @@ module.exports = {
     '!**/node_modules/**',
   ],
   coveragePathIgnorePatterns: [
+    '<rootDir>/src/domain/auth/ApiTokenUpdater.tsx',
+    '<rootDir>/src/domain/auth/hooks/useApiTokenUpdater.ts',
     '<rootDir>/src/pages/',
     '<rootDir>/src/tests/',
     '<rootDir>/src/utils/getPageHeaderHeight.ts',
