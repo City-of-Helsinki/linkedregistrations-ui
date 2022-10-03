@@ -49,6 +49,8 @@ ARG NEXT_PUBLIC_OIDC_CLIENT_ID
 ARG NEXT_PUBLIC_OIDC_API_SCOPE
 ARG NEXTAUTH_SECRET
 
+# copy all files
+COPY --chown=default:default . .
 
 # Build application
 RUN yarn build
@@ -67,8 +69,6 @@ RUN yarn policies set-version $YARN_VERSION
 
 # Copy build folder from staticbuilder stage
 COPY --from=staticbuilder --chown=default:default /opt/app-root/src/.next /opt/app-root/src/.next
-# Copy .env file
-COPY --from=staticbuilder --chown=default:default /opt/app-root/src/.env /opt/app-root/src/.env
 
 # Copy next.js config
 COPY --chown=default:default next-i18next.config.js /opt/app-root/src/
