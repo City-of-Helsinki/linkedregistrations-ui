@@ -24,6 +24,7 @@ import {
   Registration,
   RegistrationsResponse,
 } from '../domain/registration/types';
+import { User } from '../domain/user/types';
 import generateAtId from './generateAtId';
 
 export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
@@ -278,6 +279,31 @@ export const fakeRegistration = (
       maximum_attendee_capacity: null,
       minimum_attendee_capacity: null,
       waiting_list_capacity: null,
+    },
+    overrides
+  );
+};
+
+export const fakeUser = (overrides?: Partial<User>): User => {
+  const uuid = overrides?.uuid || faker.datatype.uuid();
+  return merge<User, typeof overrides>(
+    {
+      admin_organizations: [],
+      date_joined: null,
+      department_name: faker.random.words(),
+      display_name: faker.random.words(),
+      email: faker.internet.email(),
+      first_name: faker.name.firstName(),
+      is_staff: false,
+      last_login: '',
+      last_name: faker.name.lastName(),
+      organization: faker.random.words(),
+      organization_memberships: [],
+      username: faker.datatype.uuid(),
+      uuid,
+      '@id': generateAtId(uuid, 'user'),
+      '@context': 'http://schema.org',
+      '@type': 'User',
     },
     overrides
   );

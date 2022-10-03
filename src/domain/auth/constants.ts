@@ -10,3 +10,6 @@ export const API_TOKEN_NOTIFICATION_TIME = 1;
 export const API_TOKEN_CHECK_INTERVAL = 5000;
 
 export const OIDC_API_TOKEN_ENDPOINT = `${process.env.NEXT_PUBLIC_OIDC_AUTHORITY}/api-tokens/`;
+
+export const TEST_ACCESS_TOKEN = 'access-token';
+export const TEST_API_TOKEN = 'api-token';

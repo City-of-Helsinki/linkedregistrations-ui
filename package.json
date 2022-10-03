@@ -23,6 +23,7 @@
     "hds-core": "^2.1.1",
     "hds-design-tokens": "^2.1.1",
     "hds-react": "^2.1.1",
+    "jest-date-mock": "^1.0.8",
     "jsdom": "^20.0.0",
     "lodash": "^4.17.21",
     "next": "12.2.3",
