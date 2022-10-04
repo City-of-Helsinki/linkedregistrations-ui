@@ -32,9 +32,10 @@ jobs:
           DOCKER_BUILD_ARG_SENTRY_AUTH_TOKEN: ${{ secrets.GH_SENTRY_AUTH_TOKEN }}
           DOCKER_BUILD_ARG_NEXT_PUBLIC_ENVIRONMENT: 'review'
           DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
-          DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_CLIENT_ID: 'linkedcomponents-ui-review'
+          DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
           DOCKER_BUILD_ARG_NEXT_PUBLIC_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedeventsdev'
           DOCKER_BUILD_ARG_NEXTAUTH_SECRET: ${{ secrets.GH_NEXTAUTH_SECRET_REVIEW }}
+          DOCKER_BUILD_ARG_NEXTAUTH_URL: https://${{ env.K8S_NAMESPACE }}.${{ env.BASE_DOMAIN }}
 
   review:
     runs-on: ubuntu-latest
