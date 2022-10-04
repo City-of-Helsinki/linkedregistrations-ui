@@ -40,12 +40,11 @@ export const getNextAuthOptions = (req: NextApiRequest) => {
         id: 'tunnistamo',
         name: 'Tunnistamo',
         type: 'oauth',
-        wellKnown: 'https://api.hel.fi/sso/.well-known/openid-configuration',
+        wellKnown: `${process.env.NEXT_PUBLIC_OIDC_AUTHORITY}/.well-known/openid-configuration`,
         authorization: {
           params: {
             redirect_uri: `${origin}/callback`,
-            scope:
-              'openid profile email https://api.hel.fi/auth/linkedeventsdev',
+            scope: `openid profile email ${process.env.NEXT_PUBLIC_OIDC_API_SCOPE}`,
           },
         },
         client: {
@@ -53,7 +52,7 @@ export const getNextAuthOptions = (req: NextApiRequest) => {
         },
         checks: ['nonce', 'state'],
         idToken: true,
-        clientId: 'linkedcomponents-ui-test',
+        clientId: process.env.NEXT_PUBLIC_OIDC_CLIENT_ID,
         profile(user) {
           return {
             id: user.sub,
