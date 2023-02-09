@@ -70,6 +70,7 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
 
   console.log('DUMMY CONSOLE LOG TO TEST COVERAGE REPORT');
   console.log('SECOND DUMMY CONSOLE LOG TO TEST COVERAGE REPORT');
+  console.log('3RD DUMMY CONSOLE LOG TO TEST COVERAGE REPORT');
 
   return (
     <LoadingSpinner
