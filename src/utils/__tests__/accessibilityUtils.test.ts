@@ -38,7 +38,7 @@ describe('getA11yStatusMessage', () => {
       { ...defaultOptions, isOpen: true, resultCount: 0 },
       t
     );
-    expect(t).toBeCalledWith('dropdownSelect.accessibility.SHOULD_FAIL');
+    expect(t).toBeCalledWith('dropdownSelect.accessibility.noResults');
 
     getA11yStatusMessage(
       { ...defaultOptions, isOpen: true, resultCount: 15 },
