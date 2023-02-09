@@ -68,6 +68,8 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     { enabled: !!registration?.event }
   );
 
+  console.log('DUMMY CONSOLE LOG TO TEST COVERAGE REPORT');
+
   return (
     <LoadingSpinner
       isLoading={
