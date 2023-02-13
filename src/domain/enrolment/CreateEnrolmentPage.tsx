@@ -6,9 +6,9 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import { Event } from '../event/types';
 import NotFound from '../notFound/NotFound';
 import { Registration } from '../registration/types';
-import CreateEnrolmentPageMeta from './createEnrolmentPageMeta/CreateEnrolmentPageMeta';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
+import EnrolmentPageMeta from './enrolmentPageMeta/EnrolmentPageMeta';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
@@ -25,7 +25,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
   return (
     <MainContent>
-      <CreateEnrolmentPageMeta event={event} />
+      <EnrolmentPageMeta event={event} />
       <Container withOffset>
         <FormContainer>
           <EventInfo event={event} registration={registration} />
