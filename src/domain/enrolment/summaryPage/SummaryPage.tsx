@@ -14,11 +14,8 @@ import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import { ROUTES } from '../../app/routes/constants';
 import { reportError } from '../../app/sentry/utils';
-import { EVENT_INCLUDES } from '../../event/constants';
-import { useEventQuery } from '../../event/query';
 import { Event } from '../../event/types';
 import NotFound from '../../notFound/NotFound';
-import { useRegistrationQuery } from '../../registration/query';
 import { Registration } from '../../registration/types';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import ButtonWrapper from '../buttonWrapper/ButtonWrapper';
@@ -28,6 +25,7 @@ import { EnrolmentPageProvider } from '../enrolmentPageContext/EnrolmentPageCont
 import { EnrolmentServerErrorsProvider } from '../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import FormContainer from '../formContainer/FormContainer';
+import useEventAndRegistrationData from '../hooks/useEventAndRegistrationData';
 import { useCreateEnrolmentMutation } from '../mutation';
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
@@ -179,37 +177,10 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
 };
 
 const SummaryPageWrapper: React.FC = () => {
-  const router = useRouter();
-  const { query } = router;
-
-  const {
-    data: registration,
-    isFetching: isFetchingRegistration,
-    status: statusRegistration,
-  } = useRegistrationQuery(
-    { id: query.registrationId as string },
-    { enabled: !!query.registrationId, retry: 0 }
-  );
-
-  const {
-    data: event,
-    isFetching: isFetchingEvent,
-    status: statusEvent,
-  } = useEventQuery(
-    {
-      id: registration?.event as string,
-      include: EVENT_INCLUDES,
-    },
-    { enabled: !!registration?.event }
-  );
+  const { event, isLoading, registration } = useEventAndRegistrationData();
 
   return (
-    <LoadingSpinner
-      isLoading={
-        (statusRegistration === 'loading' && isFetchingRegistration) ||
-        (statusEvent === 'loading' && isFetchingEvent)
-      }
-    >
+    <LoadingSpinner isLoading={isLoading}>
       {event && registration ? (
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
