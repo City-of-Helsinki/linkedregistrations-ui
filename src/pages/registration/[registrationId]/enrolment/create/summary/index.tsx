@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import { NextPage } from 'next';
 
-import generateEnrolmentGetServerSideProps from '../../../../../../domain/enrolment/generateEnrolmentGetServerSideProps';
 import CreateEnrolmentSummaryPage from '../../../../../../domain/enrolment/summaryPage/SummaryPage';
+import generateEnrolmentGetServerSideProps from '../../../../../../utils/generateEnrolmentGetServerSideProps';
 
 const CreateEnrolment: NextPage = () => <CreateEnrolmentSummaryPage />;
 

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import EnrolmentCompletedPage from '../../../../../domain/enrolment/EnrolmentCompletedPage';
-import generateEnrolmentGetServerSideProps from '../../../../../domain/enrolment/generateEnrolmentGetServerSideProps';
+import generateEnrolmentGetServerSideProps from '../../../../../utils/generateEnrolmentGetServerSideProps';
 
 const EnrolmentCompleted: NextPage = () => <EnrolmentCompletedPage />;
 

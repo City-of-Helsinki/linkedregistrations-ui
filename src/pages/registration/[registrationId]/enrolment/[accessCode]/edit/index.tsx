@@ -2,7 +2,7 @@
 import { NextPage } from 'next';
 
 import EditEnrolmentPage from '../../../../../../domain/enrolment/EditEnrolmentPage';
-import generateEnrolmentGetServerSideProps from '../../../../../../domain/enrolment/generateEnrolmentGetServerSideProps';
+import generateEnrolmentGetServerSideProps from '../../../../../../utils/generateEnrolmentGetServerSideProps';
 
 const EditEnrolment: NextPage = () => <EditEnrolmentPage />;
 

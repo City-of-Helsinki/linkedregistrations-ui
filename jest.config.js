@@ -18,20 +18,26 @@ const customJestConfig = {
   coveragePathIgnorePatterns: [
     '<rootDir>/src/domain/auth/ApiTokenUpdater.tsx',
     '<rootDir>/src/domain/auth/hooks/useApiTokenUpdater.ts',
-    '<rootDir>/src/pages/',
+    '<rootDir>/src/pages/404.tsx',
+    '<rootDir>/src/pages/_app.tsx',
+    '<rootDir>/src/pages/_document.tsx',
+    '<rootDir>/src/pages/_error.tsx',
+    '<rootDir>/src/pages/callback.tsx',
+    '<rootDir>/src/pages/healthz.ts',
+    '<rootDir>/src/pages/readiness.ts',
+    '<rootDir>/src/pages/api/auth',
     '<rootDir>/src/tests/',
     '<rootDir>/src/utils/getPageHeaderHeight.ts',
     '<rootDir>/src/utils/getSessionAndUser.ts',
     '<rootDir>/src/utils/mockDataUtils.ts',
     '<rootDir>/src/utils/mockSession.ts',
-    '<rootDir>/src/utils/prefetchRegistrationAndEvent.ts',
     '<rootDir>/src/utils/testUtils.ts',
     'constants.ts',
     'query.ts',
     'types.ts',
   ],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'jsdom',
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
@@ -52,6 +58,11 @@ module.exports = async () => {
         {
           jsc: {
             preserveAllComments: true,
+            transform: {
+              react: {
+                runtime: 'automatic',
+              },
+            },
           },
         },
       ],

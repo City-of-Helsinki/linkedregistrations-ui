@@ -1,14 +1,22 @@
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+/* eslint-disable no-console */
+import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
+import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { getSessionAndUser } from '../../utils/getSessionAndUser';
-import prefetchRegistrationAndEvent from '../../utils/prefetchRegistrationAndEvent';
-import { prefetchEnrolmentQuery } from './query';
+import { prefetchEnrolmentQuery } from '../domain/enrolment/query';
+import { ExtendedSession } from '../types';
+import { getSessionAndUser } from './getSessionAndUser';
+import prefetchRegistrationAndEvent from './prefetchRegistrationAndEvent';
 
 type TranslationNamespaces = Array<
   'common' | 'enrolment' | 'reservation' | 'summary'
 >;
+
+export type EnrolmentServerSideProps = SSRConfig & {
+  dehydratedState: DehydratedState;
+  session: ExtendedSession | null;
+};
 
 type Props = {
   translationNamespaces: TranslationNamespaces;
@@ -20,7 +28,7 @@ const generateEnrolmentGetServerSideProps = ({
   shouldPrefetchEnrolment,
   shouldPrefetchPlace,
   translationNamespaces,
-}: Props): GetServerSideProps => {
+}: Props): GetServerSideProps<EnrolmentServerSideProps> => {
   return async ({ locale, query, req, res }) => {
     const queryClient = new QueryClient();
     const { session } = await getSessionAndUser(queryClient, {
@@ -37,13 +45,12 @@ const generateEnrolmentGetServerSideProps = ({
     });
 
     try {
-      if (shouldPrefetchEnrolment) {
+      if (shouldPrefetchEnrolment && typeof query?.accessCode === 'string') {
         await prefetchEnrolmentQuery(queryClient, {
-          cancellationCode: query.accessCode as string,
+          cancellationCode: query.accessCode,
         });
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e) /* istanbul ignore next */ {
       console.error(e);
     }
 
