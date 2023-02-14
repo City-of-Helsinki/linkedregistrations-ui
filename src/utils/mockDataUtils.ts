@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
+import addSeconds from 'date-fns/addSeconds';
+import { FormikState } from 'formik';
 import merge from 'lodash/merge';
 
+import { FORM_NAMES, RESERVATION_NAMES } from '../constants';
 import { LocalisedObject, Meta } from '../domain/api/types';
 import {
   ATTENDEE_STATUS,
+  ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
 } from '../domain/enrolment/constants';
-import { Enrolment } from '../domain/enrolment/types';
+import { Enrolment, EnrolmentFormFields } from '../domain/enrolment/types';
 import {
   EventStatus,
   EventTypeId,
@@ -352,4 +356,44 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const setEnrolmentFormSessionStorageValues = ({
+  enrolmentFormValues,
+  registrationId,
+  seatsReservation,
+}: {
+  registrationId: string;
+  enrolmentFormValues?: Partial<EnrolmentFormFields>;
+  seatsReservation?: SeatsReservation;
+}) => {
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    switch (key) {
+      case `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registrationId}`:
+        const state: FormikState<EnrolmentFormFields> = {
+          errors: {},
+          isSubmitting: false,
+          isValidating: false,
+          submitCount: 0,
+          touched: {},
+          values: {
+            ...ENROLMENT_INITIAL_VALUES,
+            ...enrolmentFormValues,
+          },
+        };
+
+        return JSON.stringify(state);
+      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`:
+        return seatsReservation ? JSON.stringify(seatsReservation) : '';
+      default:
+        return '';
+    }
+  });
+};
+
+export const getMockedSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  const expiration = addSeconds(now, expirationOffset).toISOString();
+
+  return fakeSeatsReservation({ expiration });
 };

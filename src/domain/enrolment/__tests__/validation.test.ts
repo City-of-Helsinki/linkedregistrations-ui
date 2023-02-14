@@ -78,6 +78,7 @@ describe('attendeeSchema function', () => {
     city: 'City',
     dateOfBirth: '1.1.2000',
     extraInfo: '',
+    inWaitingList: false,
     name: 'name',
     streetAddress: 'Street address',
     zip: '00100',

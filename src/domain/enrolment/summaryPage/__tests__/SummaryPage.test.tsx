@@ -1,18 +1,15 @@
 /* eslint-disable max-len */
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 import subYears from 'date-fns/subYears';
-import { FormikState } from 'formik';
 import { rest } from 'msw';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import React from 'react';
 
-import { FORM_NAMES, RESERVATION_NAMES } from '../../../../constants';
 import formatDate from '../../../../utils/formatDate';
 import {
   fakeEnrolment,
-  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setEnrolmentFormSessionStorageValues,
 } from '../../../../utils/mockDataUtils';
 import {
   loadingSpinnerIsNotInDocument,
@@ -30,8 +27,7 @@ import { place } from '../../../place/__mocks__/place';
 import { TEST_PLACE_ID } from '../../../place/constants';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../../registration/constants';
-import { SeatsReservation } from '../../../reserveSeats/types';
-import { ENROLMENT_INITIAL_VALUES, NOTIFICATIONS } from '../../constants';
+import { NOTIFICATIONS } from '../../constants';
 import { EnrolmentFormFields } from '../../types';
 import SummaryPage from '../SummaryPage';
 
@@ -45,49 +41,6 @@ beforeEach(() => {
 });
 
 const enrolment = fakeEnrolment();
-
-const setFormValues = (
-  values: Partial<EnrolmentFormFields>,
-  reservation?: SeatsReservation
-) => {
-  const state: FormikState<EnrolmentFormFields> = {
-    errors: {},
-    isSubmitting: false,
-    isValidating: false,
-    submitCount: 0,
-    touched: {},
-    values: {
-      ...ENROLMENT_INITIAL_VALUES,
-      ...values,
-    },
-  };
-
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`:
-        return JSON.stringify(state);
-      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`:
-        return reservation ? JSON.stringify(reservation) : '';
-      default:
-        return '';
-    }
-  });
-};
-
-const getReservationData = (expirationOffset: number) => {
-  const now = new Date();
-  let expiration = '';
-
-  if (expirationOffset) {
-    expiration = addSeconds(now, expirationOffset).toISOString();
-  } else {
-    expiration = subSeconds(now, expirationOffset).toISOString();
-  }
-
-  const reservation = fakeSeatsReservation({ expiration });
-
-  return reservation;
-};
 
 const enrolmentValues: EnrolmentFormFields = {
   accepted: true,
@@ -140,7 +93,11 @@ const getElement = (key: 'submitButton') => {
 test('should route back to enrolment form if reservation data is missing', async () => {
   setQueryMocks(...defaultMocks);
 
-  setFormValues(enrolmentValues);
+  setEnrolmentFormSessionStorageValues({
+    enrolmentFormValues: enrolmentValues,
+    registrationId: registration.id,
+  });
+
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT_SUMMARY,
     query: { registrationId: registration.id },
@@ -160,7 +117,12 @@ test('should route back to enrolment form after clicking submit button if there 
   const user = userEvent.setup();
   setQueryMocks(...defaultMocks);
 
-  setFormValues({ ...enrolmentValues, email: '' }, getReservationData(1000));
+  setEnrolmentFormSessionStorageValues({
+    enrolmentFormValues: { ...enrolmentValues, email: '' },
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(1000),
+  });
+
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT_SUMMARY,
     query: { registrationId: registration.id },
@@ -188,7 +150,11 @@ test('should route to enrolment completed page', async () => {
     )
   );
 
-  setFormValues(enrolmentValues, getReservationData(1000));
+  setEnrolmentFormSessionStorageValues({
+    enrolmentFormValues: enrolmentValues,
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(1000),
+  });
 
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT_SUMMARY,
@@ -228,7 +194,11 @@ test('should show server errors when post request fails', async () => {
     )
   );
 
-  setFormValues(enrolmentValues, getReservationData(1000));
+  setEnrolmentFormSessionStorageValues({
+    enrolmentFormValues: enrolmentValues,
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(1000),
+  });
 
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT_SUMMARY,

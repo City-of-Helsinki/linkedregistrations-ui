@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { QueryClient } from '@tanstack/react-query';
 import { NextPageContext } from 'next';
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
@@ -37,8 +38,7 @@ const prefetchRegistrationAndEvent = async ({
     if (shouldPrefetchPlace && placeId) {
       await prefetchPlaceQuery(queryClient, placeId, { req, res });
     }
-  } catch (e) {
-    // eslint-disable-next-line no-console
+  } catch (e) /* istanbul ignore next */ {
     console.error(e);
   }
 };

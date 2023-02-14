@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 import { rest } from 'msw';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import React from 'react';
 
-import { RESERVATION_NAMES } from '../../../../constants';
-import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
+import {
+  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setEnrolmentFormSessionStorageValues,
+} from '../../../../utils/mockDataUtils';
 import {
   render,
   screen,
@@ -19,7 +20,6 @@ import {
 import { ROUTES } from '../../../app/routes/constants';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../../registration/constants';
-import { SeatsReservation } from '../../../reserveSeats/types';
 import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import {
   EnrolmentServerErrorsContext,
@@ -56,32 +56,6 @@ beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
 });
-
-const setSessionStorageValues = (reservation: SeatsReservation) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`:
-        return reservation ? JSON.stringify(reservation) : '';
-      default:
-        return '';
-    }
-  });
-};
-
-const getReservationData = (expirationOffset: number) => {
-  const now = new Date();
-  let expiration = '';
-
-  if (expirationOffset) {
-    expiration = addSeconds(now, expirationOffset).toISOString();
-  } else {
-    expiration = subSeconds(now, expirationOffset).toISOString();
-  }
-
-  const reservation = fakeSeatsReservation({ expiration });
-
-  return reservation;
-};
 
 test('should show server errors when creating seats reservation fails', async () => {
   const showServerErrors = jest.fn();
@@ -136,7 +110,10 @@ test('should show modal if any of the reserved seats is in waiting list', async 
 test('should route to create enrolment page if reservation is expired', async () => {
   const user = userEvent.setup();
 
-  setSessionStorageValues(getReservationData(-1000));
+  setEnrolmentFormSessionStorageValues({
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(-1000),
+  });
 
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT_SUMMARY,
@@ -166,7 +143,10 @@ test('should reload page if reservation is expired and route is create enrolment
   mockRouter.reload = jest.fn();
   const user = userEvent.setup();
 
-  setSessionStorageValues(getReservationData(-1000));
+  setEnrolmentFormSessionStorageValues({
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(-1000),
+  });
 
   singletonRouter.push({
     pathname: ROUTES.CREATE_ENROLMENT,
