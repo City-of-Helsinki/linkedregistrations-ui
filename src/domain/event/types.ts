@@ -1,4 +1,9 @@
-import { LocalisedObject, numberOrNull, stringOrNull } from '../api/types';
+import {
+  LocalisedObject,
+  dateOrNull,
+  numberOrNull,
+  stringOrNull,
+} from '../api/types';
 import { Image } from '../image/types';
 import { Keyword } from '../keyword/types';
 import { LELanguage } from '../language/types';
@@ -77,14 +82,14 @@ export type EventFields = {
   audienceMaxAge: numberOrNull;
   audienceMinAge: numberOrNull;
   description: string;
-  endTime: Date | null;
+  endTime: dateOrNull;
   freeEvent: boolean;
   imageUrl: stringOrNull;
   keywords: Keyword[];
   name: string;
   offers: Offer[];
   shortDescription: string;
-  startTime: Date | null;
+  startTime: dateOrNull;
 };
 
 export type EventQueryVariables = {

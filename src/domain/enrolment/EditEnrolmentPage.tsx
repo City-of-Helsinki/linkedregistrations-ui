@@ -31,7 +31,8 @@ const EditEnrolmentPage: React.FC<Props> = ({
   event,
   registration,
 }) => {
-  const initialValues = getEnrolmentInitialValues(enrolment, registration);
+  const initialValues = getEnrolmentInitialValues(enrolment);
+
   return (
     <MainContent>
       <EnrolmentPageMeta event={event} />

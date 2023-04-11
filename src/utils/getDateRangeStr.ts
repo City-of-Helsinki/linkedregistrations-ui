@@ -7,6 +7,7 @@ import {
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
+import { dateOrNull } from '../domain/api/types';
 import { Language } from '../types';
 import formatDate from './formatDate';
 import getTimeFormat from './getTimeFormat';
@@ -19,9 +20,9 @@ const getDateRangeStr = ({
   language,
   start,
 }: {
-  end: Date | null;
+  end: dateOrNull;
   language: Language;
-  start: Date | null;
+  start: dateOrNull;
 }): string => {
   const timeZone = 'Europe/Helsinki';
   const dateFormat = 'd.M.yyyy';

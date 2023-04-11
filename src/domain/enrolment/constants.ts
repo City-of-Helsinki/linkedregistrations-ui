@@ -1,8 +1,6 @@
 import { AttendeeFields, EnrolmentFormFields } from './types';
 
 export enum ATTENDEE_FIELDS {
-  AUDIENCE_MAX_AGE = 'audienceMaxAge',
-  AUDIENCE_MIN_AGE = 'audienceMinAge',
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
@@ -35,8 +33,6 @@ export enum ENROLMENT_QUERY_PARAMS {
 }
 
 export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
-  [ATTENDEE_FIELDS.AUDIENCE_MAX_AGE]: null,
-  [ATTENDEE_FIELDS.AUDIENCE_MIN_AGE]: null,
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: '',
   [ATTENDEE_FIELDS.EXTRA_INFO]: '',

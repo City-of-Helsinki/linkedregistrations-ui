@@ -282,6 +282,7 @@ export const fakeRegistration = (
       instructions: faker.lorem.paragraph(),
       last_modified_at: '2020-09-12T15:00:00.000000Z',
       last_modified_by: '',
+      mandatory_fields: [],
       maximum_attendee_capacity: null,
       minimum_attendee_capacity: null,
       waiting_list_capacity: null,

@@ -16,6 +16,7 @@ export type Registration = {
   instructions: stringOrNull;
   last_modified_at: stringOrNull;
   last_modified_by: stringOrNull;
+  mandatory_fields: string[];
   maximum_attendee_capacity: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
   waiting_list_capacity: numberOrNull;
@@ -35,4 +36,5 @@ export type RegistrationFields = {
   audienceMaxAge: numberOrNull;
   audienceMinAge: numberOrNull;
   confirmationMessage: string;
+  mandatoryFields: string[];
 };

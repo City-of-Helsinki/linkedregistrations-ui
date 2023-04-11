@@ -49,7 +49,12 @@ import ParticipantAmountSelector from '../participantAmountSelector/ParticipantA
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { AttendeeFields, EnrolmentFormFields } from '../types';
-import { enrolmentSchema, scrollToFirstError, showErrors } from '../validation';
+import { isEnrolmentFieldRequired } from '../utils';
+import {
+  getEnrolmentSchema,
+  scrollToFirstError,
+  showErrors,
+} from '../validation';
 import Attendees from './attendees/Attendees';
 import styles from './enrolmentForm.module.scss';
 
@@ -143,7 +148,9 @@ const EnrolmentForm: React.FC<Props> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={readOnly ? undefined : enrolmentSchema}
+      validationSchema={
+        readOnly ? undefined : () => getEnrolmentSchema(registration)
+      }
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -157,7 +164,9 @@ const EnrolmentForm: React.FC<Props> = ({
             setServerErrorItems([]);
             clearErrors();
 
-            await enrolmentSchema.validate(values, { abortEarly: false });
+            await getEnrolmentSchema(registration).validate(values, {
+              abortEarly: false,
+            });
 
             goToEnrolmentSummaryPage();
           } catch (error) {
@@ -240,9 +249,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       label={t(`labelEmail`)}
                       placeholder={readOnly ? '' : t(`placeholderEmail`)}
                       readOnly={readOnly}
-                      required={values.notifications.includes(
-                        NOTIFICATIONS.EMAIL
-                      )}
+                      required
                     />
                     <Field
                       name={ENROLMENT_FIELDS.PHONE_NUMBER}
@@ -251,9 +258,13 @@ const EnrolmentForm: React.FC<Props> = ({
                       label={t(`labelPhoneNumber`)}
                       placeholder={readOnly ? '' : t(`placeholderPhoneNumber`)}
                       readOnly={readOnly}
-                      required={values.notifications.includes(
-                        NOTIFICATIONS.SMS
-                      )}
+                      required={
+                        values.notifications.includes(NOTIFICATIONS.SMS) ||
+                        isEnrolmentFieldRequired(
+                          registration.mandatory_fields,
+                          ENROLMENT_FIELDS.PHONE_NUMBER
+                        )
+                      }
                       type="tel"
                     />
                   </div>

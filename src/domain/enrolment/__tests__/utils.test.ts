@@ -1,7 +1,9 @@
-import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
-import { registration } from '../../registration/__mocks__/registration';
+import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import {
+  ATTENDEE_FIELDS,
   ATTENDEE_INITIAL_VALUES,
+  ENROLMENT_FIELDS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATIONS,
   NOTIFICATION_TYPE,
@@ -15,6 +17,8 @@ import {
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
+  isEnrolmentAttendeeFieldRequired,
+  isEnrolmentFieldRequired,
 } from '../utils';
 
 describe('enrolmentPathBuilder function', () => {
@@ -92,8 +96,6 @@ describe('getEnrolmentPayload function', () => {
         ...ENROLMENT_INITIAL_VALUES,
         attendees: [
           {
-            audienceMaxAge: null,
-            audienceMinAge: null,
             city,
             dateOfBirth,
             extraInfo: '',
@@ -138,35 +140,7 @@ describe('getEnrolmentPayload function', () => {
 
 describe('getAttendeeDefaultInitialValues function', () => {
   it('should return attendee initial values', () => {
-    expect(
-      getAttendeeDefaultInitialValues(
-        fakeRegistration({
-          audience_max_age: 18,
-          audience_min_age: 8,
-        })
-      )
-    ).toEqual({
-      audienceMaxAge: 18,
-      audienceMinAge: 8,
-      city: '',
-      dateOfBirth: '',
-      extraInfo: '',
-      inWaitingList: false,
-      name: '',
-      streetAddress: '',
-      zip: '',
-    });
-
-    expect(
-      getAttendeeDefaultInitialValues(
-        fakeRegistration({
-          audience_max_age: null,
-          audience_min_age: null,
-        })
-      )
-    ).toEqual({
-      audienceMaxAge: null,
-      audienceMinAge: null,
+    expect(getAttendeeDefaultInitialValues()).toEqual({
       city: '',
       dateOfBirth: '',
       extraInfo: '',
@@ -180,19 +154,10 @@ describe('getAttendeeDefaultInitialValues function', () => {
 
 describe('getEnrolmentDefaultInitialValues function', () => {
   it('should return enrolment initial values', () => {
-    expect(
-      getEnrolmentDefaultInitialValues(
-        fakeRegistration({
-          audience_max_age: 18,
-          audience_min_age: 8,
-        })
-      )
-    ).toEqual({
+    expect(getEnrolmentDefaultInitialValues()).toEqual({
       accepted: false,
       attendees: [
         {
-          audienceMaxAge: 18,
-          audienceMinAge: 8,
           city: '',
           dateOfBirth: '',
           extraInfo: '',
@@ -205,38 +170,6 @@ describe('getEnrolmentDefaultInitialValues function', () => {
       email: '',
       extraInfo: '',
       membershipNumber: '',
-      nativeLanguage: '',
-      notifications: [],
-      phoneNumber: '',
-      serviceLanguage: '',
-    });
-
-    expect(
-      getEnrolmentDefaultInitialValues(
-        fakeRegistration({
-          audience_max_age: null,
-          audience_min_age: null,
-        })
-      )
-    ).toEqual({
-      accepted: false,
-      attendees: [
-        {
-          audienceMaxAge: null,
-          audienceMinAge: null,
-          city: '',
-          dateOfBirth: '',
-          extraInfo: '',
-          inWaitingList: false,
-          name: '',
-          streetAddress: '',
-          zip: '',
-        },
-      ],
-      email: '',
-      extraInfo: '',
-      membershipNumber: '',
-
       nativeLanguage: '',
       notifications: [],
       phoneNumber: '',
@@ -270,14 +203,11 @@ describe('getEnrolmentInitialValues function', () => {
         service_language: null,
         street_address: null,
         zipcode: null,
-      }),
-      fakeRegistration({ audience_min_age: null, audience_max_age: null })
+      })
     );
 
     expect(attendees).toEqual([
       {
-        audienceMaxAge: null,
-        audienceMinAge: null,
         city: '-',
         dateOfBirth: '',
         extraInfo: '',
@@ -333,14 +263,11 @@ describe('getEnrolmentInitialValues function', () => {
         service_language: expectedServiceLanguage,
         street_address: expectedStreetAddress,
         zipcode: expectedZip,
-      }),
-      registration
+      })
     );
 
     expect(attendees).toEqual([
       {
-        audienceMaxAge: 18,
-        audienceMinAge: 8,
         city: expectedCity,
         dateOfBirth: expectedDateOfBirth,
         extraInfo: '',
@@ -377,4 +304,89 @@ describe('getEnrolmentNotificationTypes function', () => {
     ]);
     expect(getEnrolmentNotificationTypes('lorem ipsum')).toEqual([]);
   });
+});
+
+describe('isEnrolmentAttendeeFieldRequired', () => {
+  const falseCases: [string[], ATTENDEE_FIELDS][] = [
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.CITY],
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.DATE_OF_BIRTH],
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.EXTRA_INFO],
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.IN_WAITING_LIST],
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.NAME],
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.ZIP],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.DATE_OF_BIRTH],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.EXTRA_INFO],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.IN_WAITING_LIST],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.NAME],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.STREET_ADDRESS],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.CITY],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.DATE_OF_BIRTH],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.EXTRA_INFO],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.IN_WAITING_LIST],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.STREET_ADDRESS],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.ZIP],
+    [['not-exist'], ATTENDEE_FIELDS.CITY],
+  ];
+
+  it.each(falseCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(isEnrolmentAttendeeFieldRequired(mandatoryFields, field)).toBe(
+        false
+      )
+  );
+
+  const trueCases: [string[], ATTENDEE_FIELDS][] = [
+    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.STREET_ADDRESS],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.CITY],
+    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.ZIP],
+    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.NAME],
+  ];
+
+  it.each(trueCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(isEnrolmentAttendeeFieldRequired(mandatoryFields, field)).toBe(
+        true
+      )
+  );
+});
+
+describe('isEnrolmentFieldRequired', () => {
+  const falseCases: [string[], ENROLMENT_FIELDS][] = [
+    [[REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER], ENROLMENT_FIELDS.EMAIL],
+    [[REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER], ENROLMENT_FIELDS.EXTRA_INFO],
+    [
+      [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+      ENROLMENT_FIELDS.MEMBERSHIP_NUMBER,
+    ],
+    [
+      [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+      ENROLMENT_FIELDS.NATIVE_LANGUAGE,
+    ],
+    [
+      [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+      ENROLMENT_FIELDS.SERVICE_LANGUAGE,
+    ],
+    [['not-exist'], ENROLMENT_FIELDS.SERVICE_LANGUAGE],
+  ];
+
+  it.each(falseCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(isEnrolmentFieldRequired(mandatoryFields, field)).toBe(false)
+  );
+
+  const trueCases: [string[], ENROLMENT_FIELDS][] = [
+    [
+      [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+      ENROLMENT_FIELDS.PHONE_NUMBER,
+    ],
+  ];
+
+  it.each(trueCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(isEnrolmentFieldRequired(mandatoryFields, field)).toBe(true)
+  );
 });

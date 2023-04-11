@@ -12,7 +12,10 @@ import {
   TEST_EVENT_ID4,
   TEST_EVENT_ID5,
 } from '../../event/constants';
-import { TEST_REGISTRATION_ID } from '../constants';
+import {
+  REGISTRATION_MANDATORY_FIELDS,
+  TEST_REGISTRATION_ID,
+} from '../constants';
 import { Registration } from '../types';
 
 const now = new Date();
@@ -31,6 +34,7 @@ const registration = fakeRegistration({
   event: TEST_EVENT_ID,
   audience_max_age: 18,
   audience_min_age: 8,
+  mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.NAME],
 });
 
 const registrationsOverrides: Partial<Registration>[] = [

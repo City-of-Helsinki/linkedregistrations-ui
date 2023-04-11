@@ -21,7 +21,7 @@ type Props = {
 };
 
 const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getEnrolmentDefaultInitialValues();
 
   return (
     <MainContent>

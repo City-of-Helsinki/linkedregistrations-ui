@@ -165,10 +165,7 @@ test('should validate enrolment form and focus invalid field', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
-  const zipInput = getElement('zipInput');
-  const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
@@ -185,42 +182,19 @@ test('should validate enrolment form and focus invalid field', async () => {
 
   await user.type(nameInput, enrolmentValues.name);
   await user.click(submitButton);
-  await waitFor(() => expect(streetAddressInput).toHaveFocus());
-
-  await user.type(streetAddressInput, enrolmentValues.streetAddress);
-  await user.click(submitButton);
   await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
 
-  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 20)));
-  await user.click(submitButton);
-  await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
-
-  await user.clear(dateOfBirthInput);
-  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 7)));
-  await user.click(submitButton);
-  await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
-
-  await user.clear(dateOfBirthInput);
-  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
-  await user.click(submitButton);
-  await waitFor(() => expect(zipInput).toHaveFocus());
-
-  await user.type(zipInput, enrolmentValues.zip);
-  await user.click(submitButton);
-  await waitFor(() => expect(cityInput).toHaveFocus());
-
-  await user.type(cityInput, enrolmentValues.city);
-  await user.click(submitButton);
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-
-  expect(emailInput).not.toBeRequired();
-  await user.click(emailCheckbox);
+  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 15)));
   await user.click(submitButton);
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
-
   expect(phoneInput).not.toBeRequired();
+
   await user.type(emailInput, enrolmentValues.email);
+  await user.click(submitButton);
+  await waitFor(() => expect(emailCheckbox).toHaveFocus());
+
+  await user.click(emailCheckbox);
   await user.click(phoneCheckbox);
   await user.click(submitButton);
   await waitFor(() => expect(phoneInput).toHaveFocus());

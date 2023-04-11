@@ -75,7 +75,6 @@ const Attendees: React.FC<Props> = ({
           attendees: attendees.filter(
             (_, index) => index !== indexToRemove.current
           ),
-          registration,
           seatsReservation,
         });
 
@@ -135,6 +134,7 @@ const Attendees: React.FC<Props> = ({
                     index={index}
                     onDelete={openModal}
                     readOnly={readOnly}
+                    registration={registration}
                     showDelete={attendees.length > 1}
                   />
                 </React.Fragment>

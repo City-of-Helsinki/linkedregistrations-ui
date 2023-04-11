@@ -35,7 +35,7 @@ import {
   getEnrolmentDefaultInitialValues,
   getEnrolmentPayload,
 } from '../utils';
-import { enrolmentSchema } from '../validation';
+import { getEnrolmentSchema } from '../validation';
 import Attendees from './attendees/Attendees';
 import InformantInfo from './informantInfo/InformantInfo';
 import SummaryEventInfo from './summaryEventInfo/SummaryEventInfo';
@@ -80,7 +80,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     );
   };
 
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getEnrolmentDefaultInitialValues();
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -112,14 +112,16 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
           <Formik
             initialValues={initialValues}
             onSubmit={/* istanbul ignore next */ () => undefined}
-            validationSchema={enrolmentSchema}
+            validationSchema={() => getEnrolmentSchema(registration)}
           >
             {({ values }) => {
               const handleSubmit = async () => {
                 try {
                   setServerErrorItems([]);
 
-                  await enrolmentSchema.validate(values, { abortEarly: true });
+                  await getEnrolmentSchema(registration).validate(values, {
+                    abortEarly: true,
+                  });
 
                   const reservationData = getSeatsReservationData(
                     registration.id

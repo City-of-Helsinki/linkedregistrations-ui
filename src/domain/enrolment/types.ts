@@ -7,8 +7,6 @@ import {
 } from './constants';
 
 export type AttendeeFields = {
-  [ATTENDEE_FIELDS.AUDIENCE_MAX_AGE]: number | null;
-  [ATTENDEE_FIELDS.AUDIENCE_MIN_AGE]: number | null;
   [ATTENDEE_FIELDS.CITY]: string;
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: string;
   [ATTENDEE_FIELDS.EXTRA_INFO]: string;

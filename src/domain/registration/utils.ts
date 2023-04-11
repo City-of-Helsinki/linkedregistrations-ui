@@ -168,5 +168,6 @@ export const getRegistrationFields = (
     audienceMaxAge: registration.audience_max_age || null,
     audienceMinAge: registration.audience_min_age || null,
     confirmationMessage: registration.confirmation_message,
+    mandatoryFields: registration.mandatory_fields,
   };
 };

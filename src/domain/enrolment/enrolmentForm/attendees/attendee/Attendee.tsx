@@ -10,10 +10,12 @@ import TextAreaField from '../../../../../common/components/formFields/TextAreaF
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import useLocale from '../../../../../hooks/useLocale';
+import { Registration } from '../../../../registration/types';
 import { ATTENDEE_FIELDS } from '../../../constants';
 import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import InWaitingListInfo from '../../../inWaitingListInfo/InWaitingListInfo';
 import { AttendeeFields } from '../../../types';
+import { isEnrolmentAttendeeFieldRequired } from '../../../utils';
 import styles from './attendee.module.scss';
 
 type Props = {
@@ -23,6 +25,7 @@ type Props = {
   index: number;
   onDelete: () => void;
   readOnly?: boolean;
+  registration: Registration;
   showDelete: boolean;
 };
 
@@ -36,6 +39,7 @@ const Attendee: React.FC<Props> = ({
   index,
   onDelete,
   readOnly,
+  registration,
   showDelete,
 }) => {
   const { t } = useTranslation(['enrolment']);
@@ -74,7 +78,10 @@ const Attendee: React.FC<Props> = ({
             label={t(`labelName`)}
             placeholder={readOnly ? '' : t(`placeholderName`)}
             readOnly={readOnly}
-            required
+            required={isEnrolmentAttendeeFieldRequired(
+              registration.mandatory_fields,
+              ATTENDEE_FIELDS.NAME
+            )}
           />
         </FormGroup>
         <FormGroup>
@@ -90,7 +97,10 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelStreetAddress`)}
               placeholder={readOnly ? '' : t(`placeholderStreetAddress`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentAttendeeFieldRequired(
+                registration.mandatory_fields,
+                ATTENDEE_FIELDS.STREET_ADDRESS
+              )}
             />
             <Field
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
@@ -125,7 +135,10 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelZip`)}
               placeholder={readOnly ? '' : t(`placeholderZip`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentAttendeeFieldRequired(
+                registration.mandatory_fields,
+                ATTENDEE_FIELDS.ZIP
+              )}
             />
             <Field
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.CITY)}
@@ -134,7 +147,10 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelCity`)}
               placeholder={readOnly ? '' : t(`placeholderCity`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentAttendeeFieldRequired(
+                registration.mandatory_fields,
+                ATTENDEE_FIELDS.CITY
+              )}
             />
           </div>
         </FormGroup>
