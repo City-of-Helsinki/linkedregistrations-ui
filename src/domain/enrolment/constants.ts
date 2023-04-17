@@ -7,7 +7,7 @@ export enum ATTENDEE_FIELDS {
   IN_WAITING_LIST = 'inWaitingList',
   NAME = 'name',
   STREET_ADDRESS = 'streetAddress',
-  ZIP = 'zip',
+  ZIPCODE = 'zipcode',
 }
 
 export enum ENROLMENT_FIELDS {
@@ -39,7 +39,7 @@ export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
   [ATTENDEE_FIELDS.NAME]: '',
   [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
-  [ATTENDEE_FIELDS.ZIP]: '',
+  [ATTENDEE_FIELDS.ZIPCODE]: '',
 };
 
 export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {

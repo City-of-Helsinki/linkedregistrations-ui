@@ -51,7 +51,9 @@ const useSeatsReservationActions = ({
 
   const registrationId = registration.id as string;
 
-  const createSeatsReservationMutation = useReserveSeatsMutation({ session });
+  const createSeatsReservationMutation = useReserveSeatsMutation({
+    session,
+  });
   const updateSeatsReservationMutation = useUpdateReserveSeatsMutation({
     session,
   });
@@ -121,19 +123,21 @@ const useSeatsReservationActions = ({
   ) => {
     const payload = { registration: registrationId, seats: 1, waitlist: true };
 
-    createSeatsReservationMutation.mutate(payload, {
-      onError: (error) => {
-        handleError({
-          callbacks,
-          error,
-          message: 'Failed to reserve seats',
-          payload,
-        });
-      },
-      onSuccess: (seatsReservation) => {
-        cleanAfterUpdate(seatsReservation, callbacks);
-      },
-    });
+    try {
+      // For some reason onSuccess and onError callbacks are not called when using mutate function
+      // Use mutateAsync instead
+      const seatsReservation = await createSeatsReservationMutation.mutateAsync(
+        payload
+      );
+      cleanAfterUpdate(seatsReservation, callbacks);
+    } catch (error) {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to reserve seats',
+        payload,
+      });
+    }
   };
 
   const updateSeatsReservation = async (

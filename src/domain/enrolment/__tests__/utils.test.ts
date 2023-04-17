@@ -1,7 +1,6 @@
-import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import {
-  ATTENDEE_FIELDS,
   ATTENDEE_INITIAL_VALUES,
   ENROLMENT_FIELDS,
   ENROLMENT_INITIAL_VALUES,
@@ -17,7 +16,6 @@ import {
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
-  isEnrolmentAttendeeFieldRequired,
   isEnrolmentFieldRequired,
 } from '../utils';
 
@@ -63,12 +61,12 @@ describe('getEnrolmentPayload function', () => {
       reservation_code: 'code',
       signups: [
         {
-          city: null,
+          city: '',
           date_of_birth: null,
           email: null,
           extra_info: '',
           membership_number: '',
-          name: null,
+          name: '',
           native_language: null,
           notifications: 'none',
           phone_number: null,
@@ -102,7 +100,7 @@ describe('getEnrolmentPayload function', () => {
             inWaitingList: false,
             name,
             streetAddress,
-            zip: zipcode,
+            zipcode,
           },
         ],
         email,
@@ -147,7 +145,7 @@ describe('getAttendeeDefaultInitialValues function', () => {
       inWaitingList: false,
       name: '',
       streetAddress: '',
-      zip: '',
+      zipcode: '',
     });
   });
 });
@@ -164,7 +162,7 @@ describe('getEnrolmentDefaultInitialValues function', () => {
           inWaitingList: false,
           name: '',
           streetAddress: '',
-          zip: '',
+          zipcode: '',
         },
       ],
       email: '',
@@ -214,7 +212,7 @@ describe('getEnrolmentInitialValues function', () => {
         inWaitingList: false,
         name: '-',
         streetAddress: '-',
-        zip: '-',
+        zipcode: '-',
       },
     ]);
     expect(email).toBe('-');
@@ -274,7 +272,7 @@ describe('getEnrolmentInitialValues function', () => {
         inWaitingList: false,
         name: expectedName,
         streetAddress: expectedStreetAddress,
-        zip: expectedZip,
+        zipcode: expectedZip,
       },
     ]);
     expect(email).toBe(expectedEmail);
@@ -306,52 +304,6 @@ describe('getEnrolmentNotificationTypes function', () => {
   });
 });
 
-describe('isEnrolmentAttendeeFieldRequired', () => {
-  const falseCases: [string[], ATTENDEE_FIELDS][] = [
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.CITY],
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.DATE_OF_BIRTH],
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.EXTRA_INFO],
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.IN_WAITING_LIST],
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.NAME],
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.ZIP],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.DATE_OF_BIRTH],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.EXTRA_INFO],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.IN_WAITING_LIST],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.NAME],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.STREET_ADDRESS],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.CITY],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.DATE_OF_BIRTH],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.EXTRA_INFO],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.IN_WAITING_LIST],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.STREET_ADDRESS],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.ZIP],
-    [['not-exist'], ATTENDEE_FIELDS.CITY],
-  ];
-
-  it.each(falseCases)(
-    'should return false if field is not mandatory with args %p, result %p',
-    (mandatoryFields, field) =>
-      expect(isEnrolmentAttendeeFieldRequired(mandatoryFields, field)).toBe(
-        false
-      )
-  );
-
-  const trueCases: [string[], ATTENDEE_FIELDS][] = [
-    [[REGISTRATION_MANDATORY_FIELDS.ADDRESS], ATTENDEE_FIELDS.STREET_ADDRESS],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.CITY],
-    [[REGISTRATION_MANDATORY_FIELDS.CITY], ATTENDEE_FIELDS.ZIP],
-    [[REGISTRATION_MANDATORY_FIELDS.NAME], ATTENDEE_FIELDS.NAME],
-  ];
-
-  it.each(trueCases)(
-    'should return false if field is not mandatory with args %p, result %p',
-    (mandatoryFields, field) =>
-      expect(isEnrolmentAttendeeFieldRequired(mandatoryFields, field)).toBe(
-        true
-      )
-  );
-});
-
 describe('isEnrolmentFieldRequired', () => {
   const falseCases: [string[], ENROLMENT_FIELDS][] = [
     [[REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER], ENROLMENT_FIELDS.EMAIL],
@@ -373,8 +325,10 @@ describe('isEnrolmentFieldRequired', () => {
 
   it.each(falseCases)(
     'should return false if field is not mandatory with args %p, result %p',
-    (mandatoryFields, field) =>
-      expect(isEnrolmentFieldRequired(mandatoryFields, field)).toBe(false)
+    (mandatory_fields, field) =>
+      expect(
+        isEnrolmentFieldRequired(fakeRegistration({ mandatory_fields }), field)
+      ).toBe(false)
   );
 
   const trueCases: [string[], ENROLMENT_FIELDS][] = [
@@ -386,7 +340,9 @@ describe('isEnrolmentFieldRequired', () => {
 
   it.each(trueCases)(
     'should return false if field is not mandatory with args %p, result %p',
-    (mandatoryFields, field) =>
-      expect(isEnrolmentFieldRequired(mandatoryFields, field)).toBe(true)
+    (mandatory_fields, field) =>
+      expect(
+        isEnrolmentFieldRequired(fakeRegistration({ mandatory_fields }), field)
+      ).toBe(true)
   );
 });

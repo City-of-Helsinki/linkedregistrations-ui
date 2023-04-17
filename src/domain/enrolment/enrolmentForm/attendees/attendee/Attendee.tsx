@@ -15,7 +15,10 @@ import { ATTENDEE_FIELDS } from '../../../constants';
 import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import InWaitingListInfo from '../../../inWaitingListInfo/InWaitingListInfo';
 import { AttendeeFields } from '../../../types';
-import { isEnrolmentAttendeeFieldRequired } from '../../../utils';
+import {
+  isDateOfBirthFieldRequired,
+  isEnrolmentFieldRequired,
+} from '../../../utils';
 import styles from './attendee.module.scss';
 
 type Props = {
@@ -78,8 +81,8 @@ const Attendee: React.FC<Props> = ({
             label={t(`labelName`)}
             placeholder={readOnly ? '' : t(`placeholderName`)}
             readOnly={readOnly}
-            required={isEnrolmentAttendeeFieldRequired(
-              registration.mandatory_fields,
+            required={isEnrolmentFieldRequired(
+              registration,
               ATTENDEE_FIELDS.NAME
             )}
           />
@@ -97,8 +100,8 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelStreetAddress`)}
               placeholder={readOnly ? '' : t(`placeholderStreetAddress`)}
               readOnly={readOnly}
-              required={isEnrolmentAttendeeFieldRequired(
-                registration.mandatory_fields,
+              required={isEnrolmentFieldRequired(
+                registration,
                 ATTENDEE_FIELDS.STREET_ADDRESS
               )}
             />
@@ -109,7 +112,7 @@ const Attendee: React.FC<Props> = ({
               language={locale}
               placeholder={readOnly ? '' : t(`placeholderDateOfBirth`)}
               readOnly={readOnly}
-              required
+              required={isDateOfBirthFieldRequired(registration)}
               {...(readOnly
                 ? { component: TextInputField }
                 : {
@@ -129,15 +132,15 @@ const Attendee: React.FC<Props> = ({
             })}
           >
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIP)}
+              name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelZip`)}
               placeholder={readOnly ? '' : t(`placeholderZip`)}
               readOnly={readOnly}
-              required={isEnrolmentAttendeeFieldRequired(
-                registration.mandatory_fields,
-                ATTENDEE_FIELDS.ZIP
+              required={isEnrolmentFieldRequired(
+                registration,
+                ATTENDEE_FIELDS.ZIPCODE
               )}
             />
             <Field
@@ -147,8 +150,8 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelCity`)}
               placeholder={readOnly ? '' : t(`placeholderCity`)}
               readOnly={readOnly}
-              required={isEnrolmentAttendeeFieldRequired(
-                registration.mandatory_fields,
+              required={isEnrolmentFieldRequired(
+                registration,
                 ATTENDEE_FIELDS.CITY
               )}
             />
@@ -162,6 +165,10 @@ const Attendee: React.FC<Props> = ({
           label={t(`labelAttendeeExtraInfo`)}
           placeholder={readOnly ? '' : t(`placeholderAttendeeExtraInfo`)}
           readOnly={readOnly}
+          required={isEnrolmentFieldRequired(
+            registration,
+            ATTENDEE_FIELDS.EXTRA_INFO
+          )}
         />
       </Fieldset>
     </Accordion>

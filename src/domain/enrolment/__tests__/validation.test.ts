@@ -121,7 +121,7 @@ describe('attendeeSchema function', () => {
     inWaitingList: true,
     name: 'name',
     streetAddress: 'Street address',
-    zip: '00100',
+    zipcode: '00100',
   };
 
   test('should return true if attendee is valid', async () => {
@@ -143,7 +143,7 @@ describe('attendeeSchema function', () => {
     expect(
       await testAttendeeSchema(
         fakeRegistration({
-          mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.ADDRESS],
+          mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS],
         }),
         { ...validAttendee, streetAddress: '' }
       )
@@ -203,9 +203,9 @@ describe('attendeeSchema function', () => {
     expect(
       await testAttendeeSchema(
         fakeRegistration({
-          mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.CITY],
+          mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.ZIPCODE],
         }),
-        { ...validAttendee, zip: '' }
+        { ...validAttendee, zipcode: '' }
       )
     ).toBe(false);
   });
@@ -214,7 +214,7 @@ describe('attendeeSchema function', () => {
     expect(
       await testAttendeeSchema(registration, {
         ...validAttendee,
-        zip: '123456',
+        zipcode: '123456',
       })
     ).toBe(false);
   });

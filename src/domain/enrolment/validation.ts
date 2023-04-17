@@ -19,7 +19,6 @@ import {
 import wait from '../../utils/wait';
 import { numberOrNull, stringOrNull } from '../api/types';
 import { Registration } from '../registration/types';
-import { getRegistrationFields } from '../registration/utils';
 import {
   ATTENDEE_FIELDS,
   ENROLMENT_FIELDS,
@@ -27,10 +26,7 @@ import {
   NOTIFICATIONS,
 } from './constants';
 import { EnrolmentFormFields } from './types';
-import {
-  isEnrolmentAttendeeFieldRequired,
-  isEnrolmentFieldRequired,
-} from './utils';
+import { isDateOfBirthFieldRequired, isEnrolmentFieldRequired } from './utils';
 
 export const isAboveMinAge = (
   dateStr: stringOrNull | undefined,
@@ -57,24 +53,18 @@ const getStringSchema = (required: boolean) =>
     : Yup.string();
 
 export const getAttendeeSchema = (registration: Registration) => {
-  const { audience_max_age, audience_min_age, mandatory_fields } = registration;
-
-  const dateOfBirthSchema =
-    audience_max_age || audience_min_age
-      ? Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      : Yup.string();
+  const { audience_max_age, audience_min_age } = registration;
 
   return Yup.object().shape({
     [ATTENDEE_FIELDS.NAME]: getStringSchema(
-      isEnrolmentAttendeeFieldRequired(mandatory_fields, ATTENDEE_FIELDS.NAME)
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.NAME)
     ),
     [ATTENDEE_FIELDS.STREET_ADDRESS]: getStringSchema(
-      isEnrolmentAttendeeFieldRequired(
-        mandatory_fields,
-        ATTENDEE_FIELDS.STREET_ADDRESS
-      )
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.STREET_ADDRESS)
     ),
-    [ATTENDEE_FIELDS.DATE_OF_BIRTH]: dateOfBirthSchema
+    [ATTENDEE_FIELDS.DATE_OF_BIRTH]: getStringSchema(
+      isDateOfBirthFieldRequired(registration)
+    )
       .test(
         'isAboveMinAge',
         () => ({
@@ -91,22 +81,23 @@ export const getAttendeeSchema = (registration: Registration) => {
         }),
         (date) => isBelowMaxAge(date, audience_max_age)
       ),
-    [ATTENDEE_FIELDS.ZIP]: getStringSchema(
-      isEnrolmentAttendeeFieldRequired(mandatory_fields, ATTENDEE_FIELDS.ZIP)
+    [ATTENDEE_FIELDS.ZIPCODE]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.ZIPCODE)
     ).test(
       'isValidZip',
       VALIDATION_MESSAGE_KEYS.ZIP,
       (value) => !value || isValidZip(value)
     ),
     [ATTENDEE_FIELDS.CITY]: getStringSchema(
-      isEnrolmentAttendeeFieldRequired(mandatory_fields, ATTENDEE_FIELDS.CITY)
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.CITY)
+    ),
+    [ATTENDEE_FIELDS.EXTRA_INFO]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.EXTRA_INFO)
     ),
   });
 };
 
 export const getEnrolmentSchema = (registration: Registration) => {
-  const { mandatoryFields } = getRegistrationFields(registration);
-
   return Yup.object().shape({
     [ENROLMENT_FIELDS.ATTENDEES]: Yup.array().of(
       getAttendeeSchema(registration)
@@ -115,7 +106,7 @@ export const getEnrolmentSchema = (registration: Registration) => {
       .email(VALIDATION_MESSAGE_KEYS.EMAIL)
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     [ENROLMENT_FIELDS.PHONE_NUMBER]: getStringSchema(
-      isEnrolmentFieldRequired(mandatoryFields, ENROLMENT_FIELDS.PHONE_NUMBER)
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.PHONE_NUMBER)
     )
       .test(
         'isValidPhoneNumber',
@@ -129,6 +120,9 @@ export const getEnrolmentSchema = (registration: Registration) => {
             ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
             : schema
       ),
+    [ENROLMENT_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.MEMBERSHIP_NUMBER)
+    ),
     [ENROLMENT_FIELDS.NOTIFICATIONS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, (param) =>
@@ -139,6 +133,9 @@ export const getEnrolmentSchema = (registration: Registration) => {
     ),
     [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [ENROLMENT_FIELDS.EXTRA_INFO]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.EXTRA_INFO)
     ),
     [ENROLMENT_FIELDS.ACCEPTED]: Yup.bool().oneOf(
       [true],

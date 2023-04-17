@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import isEqual from 'lodash/isEqual';
+import snakeCase from 'lodash/snakeCase';
 
 import { FORM_NAMES } from '../../constants';
 import { ExtendedSession } from '../../types';
@@ -7,7 +8,7 @@ import formatDate from '../../utils/formatDate';
 import queryBuilder from '../../utils/queryBuilder';
 import stringToDate from '../../utils/stringToDate';
 import { callDelete, callGet, callPost } from '../app/axios/axiosClient';
-import { REGISTRATION_MANDATORY_FIELDS } from '../registration/constants';
+import { Registration } from '../registration/types';
 import { SeatsReservation } from '../reserveSeats/types';
 import {
   ATTENDEE_FIELDS,
@@ -145,22 +146,22 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
     return {
-      city: city || null,
+      city: city || '',
       date_of_birth: dateOfBirth
         ? formatDate(stringToDate(dateOfBirth), 'yyyy-MM-dd')
         : null,
       email: email || null,
       extra_info: extraInfo,
       membership_number: membershipNumber,
-      name: name || null,
+      name: name || '',
       native_language: nativeLanguage || null,
       notifications: getEnrolmentNotificationsCode(notifications),
       phone_number: phoneNumber || null,
       service_language: serviceLanguage || null,
       street_address: streetAddress || null,
-      zipcode: zip || null,
+      zipcode: zipcode || null,
     };
   });
 
@@ -195,7 +196,7 @@ export const getEnrolmentInitialValues = (
         inWaitingList: false,
         name: enrolment.name || '-',
         streetAddress: enrolment.street_address || '-',
-        zip: enrolment.zipcode || '-',
+        zipcode: enrolment.zipcode || '-',
       },
     ],
     email: enrolment.email || '-',
@@ -242,52 +243,11 @@ export const getNewAttendees = ({
 };
 
 export const isEnrolmentFieldRequired = (
-  mandatoryFields: string[],
-  fieldId: ENROLMENT_FIELDS
-) => {
-  let required = false;
-  const isRequired = (mf: string) => {
-    switch (mf) {
-      case REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER:
-        return ([ENROLMENT_FIELDS.PHONE_NUMBER] as string[]).includes(fieldId);
-      default:
-        return false;
-    }
-  };
+  registration: Registration,
+  fieldId: ATTENDEE_FIELDS | ENROLMENT_FIELDS
+): boolean => registration.mandatory_fields.includes(snakeCase(fieldId));
 
-  mandatoryFields.forEach((mf) => {
-    if (isRequired(mf)) {
-      required = true;
-    }
-  });
-  return required;
-};
-
-export const isEnrolmentAttendeeFieldRequired = (
-  mandatoryFields: string[],
-  fieldId: ATTENDEE_FIELDS
-) => {
-  let required = false;
-  const isRequired = (mf: string) => {
-    switch (mf) {
-      case REGISTRATION_MANDATORY_FIELDS.ADDRESS:
-        return ([ATTENDEE_FIELDS.STREET_ADDRESS] as string[]).includes(fieldId);
-      case REGISTRATION_MANDATORY_FIELDS.CITY:
-        return (
-          [ATTENDEE_FIELDS.CITY, ATTENDEE_FIELDS.ZIP] as string[]
-        ).includes(fieldId);
-      case REGISTRATION_MANDATORY_FIELDS.NAME:
-        return ([ATTENDEE_FIELDS.NAME] as string[]).includes(fieldId);
-      default:
-        return false;
-    }
-  };
-
-  mandatoryFields.forEach((mf) => {
-    if (isRequired(mf)) {
-      required = true;
-    }
-  });
-
-  return required;
-};
+export const isDateOfBirthFieldRequired = (
+  registration: Registration
+): boolean =>
+  Boolean(registration.audience_max_age || registration.audience_min_age);

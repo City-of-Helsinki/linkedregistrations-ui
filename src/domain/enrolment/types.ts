@@ -13,7 +13,7 @@ export type AttendeeFields = {
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: boolean;
   [ATTENDEE_FIELDS.NAME]: string;
   [ATTENDEE_FIELDS.STREET_ADDRESS]: string;
-  [ATTENDEE_FIELDS.ZIP]: string;
+  [ATTENDEE_FIELDS.ZIPCODE]: string;
 };
 
 export type EnrolmentFormFields = {

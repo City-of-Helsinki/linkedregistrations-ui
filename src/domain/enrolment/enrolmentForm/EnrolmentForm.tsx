@@ -210,7 +210,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       reservationTimerCallbacksDisabled.current
                     }
                     disableCallbacks={disableReservationTimerCallbacks}
-                    initReservationData={true}
+                    initReservationData={!cancellationCode}
                     registration={registration}
                     setAttendees={setAttendees}
                   />
@@ -261,7 +261,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       required={
                         values.notifications.includes(NOTIFICATIONS.SMS) ||
                         isEnrolmentFieldRequired(
-                          registration.mandatory_fields,
+                          registration,
                           ENROLMENT_FIELDS.PHONE_NUMBER
                         )
                       }
@@ -297,6 +297,10 @@ const EnrolmentForm: React.FC<Props> = ({
                         readOnly ? '' : t(`placeholderMembershipNumber`)
                       }
                       readOnly={readOnly}
+                      required={isEnrolmentFieldRequired(
+                        registration,
+                        ENROLMENT_FIELDS.MEMBERSHIP_NUMBER
+                      )}
                     />
                   </div>
                 </FormGroup>
@@ -335,6 +339,10 @@ const EnrolmentForm: React.FC<Props> = ({
                     label={t(`labelExtraInfo`)}
                     placeholder={readOnly ? '' : t(`placeholderExtraInfo`)}
                     readOnly={readOnly}
+                    required={isEnrolmentFieldRequired(
+                      registration,
+                      ENROLMENT_FIELDS.EXTRA_INFO
+                    )}
                   />
                 </FormGroup>
               </Fieldset>

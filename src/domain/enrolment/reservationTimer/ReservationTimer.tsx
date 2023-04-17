@@ -103,33 +103,33 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     const data = getSeatsReservationData(registrationId);
 
     /* istanbul ignore else */
-    if (initReservationData && !creatingReservationStarted.current && !data) {
+    if (!creatingReservationStarted.current && !data) {
       creatingReservationStarted.current = true;
-      // Clear server errors
-      setServerErrorItems([]);
+      if (initReservationData) {
+        // Clear server errors
+        setServerErrorItems([]);
 
-      // useEffect runs twice in React v18.0, so start creating new seats reservation
-      // only if creatingReservationStarted is false
-      createSeatsReservation({
-        onError: (error) =>
-          showServerErrors(
-            { error: JSON.parse(error.message) },
-            'seatsReservation'
-          ),
-        onSuccess: () => {
-          const seatsReservation = getSeatsReservationData(registrationId);
-
-          enableTimer();
-          if (seatsReservation) {
-            setTimeLeft(getRegistrationTimeLeft(seatsReservation));
-          }
-        },
-      });
+        // useEffect runs twice in React v18.0, so start creating new seats reservation
+        // only if creatingReservationStarted is false
+        createSeatsReservation({
+          onError: (error) =>
+            showServerErrors(
+              { error: JSON.parse(error.message) },
+              'seatsReservation'
+            ),
+          onSuccess: (seatsReservation) => {
+            enableTimer();
+            if (seatsReservation) {
+              setTimeLeft(getRegistrationTimeLeft(seatsReservation));
+            }
+          },
+        });
+      } else if (!data) {
+        onDataNotFound && onDataNotFound();
+      }
     } else if (data) {
       enableTimer();
       setTimeLeft(getRegistrationTimeLeft(data));
-    } else if (!data) {
-      onDataNotFound && onDataNotFound();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
