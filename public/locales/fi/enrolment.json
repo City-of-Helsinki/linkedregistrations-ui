@@ -55,7 +55,7 @@
   "labelPhoneNumber": "Puhelinnumero",
   "labelServiceLanguage": "Asiointikieli",
   "labelStreetAddress": "Katuosoite",
-  "labelZip": "Postinumero",
+  "labelZipcode": "Postinumero",
   "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
   "notifications": {
     "email": "Sähköpostilla",
@@ -77,7 +77,7 @@
   "placeholderPhoneNumber": "+358 44 1234 567",
   "placeholderServiceLanguage": "Valitse asiointikieli",
   "placeholderStreetAddress": "Syötä katuosoite",
-  "placeholderZip": "Syötä postinumero",
+  "placeholderZipcode": "Syötä postinumero",
   "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
   "titleAdditionalInfo": "Lisätiedot",
   "titleBasicInfo": "Ilmoittautujan perustiedot",

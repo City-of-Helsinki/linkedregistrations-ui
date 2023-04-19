@@ -54,9 +54,9 @@ const Attendee: React.FC<AttendeeProps> = ({ attendee, attendeePath }) => {
       <FormGroup>
         <div className={styles.zipRow}>
           <ReadOnlyTextInput
-            id={getFieldId(ATTENDEE_FIELDS.ZIP)}
-            label={t(`labelZip`)}
-            value={getFieldText(attendee.zip)}
+            id={getFieldId(ATTENDEE_FIELDS.ZIPCODE)}
+            label={t(`labelZipcode`)}
+            value={getFieldText(attendee.zipcode)}
           />
           <ReadOnlyTextInput
             id={getFieldId(ATTENDEE_FIELDS.CITY)}

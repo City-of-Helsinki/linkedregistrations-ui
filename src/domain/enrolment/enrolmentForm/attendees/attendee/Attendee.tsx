@@ -135,8 +135,8 @@ const Attendee: React.FC<Props> = ({
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={formDisabled}
-              label={t(`labelZip`)}
-              placeholder={readOnly ? '' : t(`placeholderZip`)}
+              label={t(`labelZipcode`)}
+              placeholder={readOnly ? '' : t(`placeholderZipcode`)}
               readOnly={readOnly}
               required={isEnrolmentFieldRequired(
                 registration,
