@@ -17,7 +17,6 @@ import {
   EventStatus,
   EventTypeId,
   PublicationStatus,
-  TEST_EVENT_ID,
 } from '../domain/event/constants';
 import { Event, Offer } from '../domain/event/types';
 import { Image, ImagesResponse } from '../domain/image/types';
@@ -264,6 +263,7 @@ export const fakeRegistration = (
   overrides?: Partial<Registration>
 ): Registration => {
   const id = overrides?.id || faker.datatype.uuid();
+  const event = fakeEvent();
 
   return merge<Registration, typeof overrides>(
     {
@@ -278,13 +278,14 @@ export const fakeRegistration = (
       current_waiting_list_count: 0,
       enrolment_end_time: '2020-09-30T16:00:00.000000Z',
       enrolment_start_time: '2020-09-27T15:00:00.000000Z',
-      event: TEST_EVENT_ID,
+      event,
       instructions: faker.lorem.paragraph(),
       last_modified_at: '2020-09-12T15:00:00.000000Z',
       last_modified_by: '',
       mandatory_fields: [],
       maximum_attendee_capacity: null,
       minimum_attendee_capacity: null,
+      publisher: event.publisher,
       waiting_list_capacity: null,
     },
     overrides

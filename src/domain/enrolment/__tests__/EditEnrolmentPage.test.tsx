@@ -17,11 +17,7 @@ import {
   within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
-import { event } from '../../event/__mocks__/event';
-import { TEST_EVENT_ID } from '../../event/constants';
 import { languagesResponse } from '../../language/__mocks__/languages';
-import { place } from '../../place/__mocks__/place';
-import { TEST_PLACE_ID } from '../../place/constants';
 import { registration } from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { enrolment } from '../__mocks__/enrolment';
@@ -92,12 +88,6 @@ test.skip('page is accessible', async () => {
 });
 
 const defaultMocks = [
-  rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(event))
-  ),
-  rest.get(`*/place/${TEST_PLACE_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(place))
-  ),
   rest.get('*/language/', (req, res, ctx) =>
     res(ctx.status(200), ctx.json(languagesResponse))
   ),

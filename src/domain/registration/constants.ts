@@ -7,3 +7,5 @@ export enum REGISTRATION_MANDATORY_FIELDS {
 }
 
 export const TEST_REGISTRATION_ID = '1';
+
+export const REGISTRATION_INCLUDES = ['event', 'keywords', 'location'];

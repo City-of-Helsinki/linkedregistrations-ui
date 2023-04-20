@@ -56,7 +56,7 @@ export type Event = {
   in_language: LELanguage[];
   keywords: Keyword[];
   last_modified_time: stringOrNull;
-  location: Place;
+  location: Place | null;
   location_extra_info: LocalisedObject;
   maximum_attendee_capacity: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
@@ -89,10 +89,5 @@ export type EventFields = {
   name: string;
   offers: Offer[];
   shortDescription: string;
-  startTime: dateOrNull;
-};
-
-export type EventQueryVariables = {
-  id: string;
-  include?: string[];
+  startTime: Date | null;
 };

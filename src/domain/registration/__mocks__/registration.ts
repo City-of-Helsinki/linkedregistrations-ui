@@ -2,9 +2,11 @@ import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 
 import {
+  fakeEvent,
   fakeRegistration,
   fakeRegistrations,
 } from '../../../utils/mockDataUtils';
+import { event } from '../../event/__mocks__/event';
 import {
   TEST_EVENT_ID,
   TEST_EVENT_ID2,
@@ -31,7 +33,7 @@ const registrationOverrides = {
 const registration = fakeRegistration({
   ...registrationOverrides,
   id: TEST_REGISTRATION_ID,
-  event: TEST_EVENT_ID,
+  event,
   audience_max_age: 18,
   audience_min_age: 8,
   mandatory_fields: [REGISTRATION_MANDATORY_FIELDS.NAME],
@@ -41,20 +43,20 @@ const registrationsOverrides: Partial<Registration>[] = [
   {
     ...registrationOverrides,
     id: '1',
-    event: TEST_EVENT_ID,
+    event: fakeEvent({ id: TEST_EVENT_ID }),
     current_attendee_count: 0,
   },
   {
     ...registrationOverrides,
     id: '2',
-    event: TEST_EVENT_ID2,
+    event: fakeEvent({ id: TEST_EVENT_ID2 }),
     current_attendee_count: registrationOverrides.maximum_attendee_capacity,
     current_waiting_list_count: 0,
   },
   {
     ...registrationOverrides,
     id: '3',
-    event: TEST_EVENT_ID3,
+    event: fakeEvent({ id: TEST_EVENT_ID3 }),
     current_attendee_count: registrationOverrides.maximum_attendee_capacity,
     current_waiting_list_count: 0,
     waiting_list_capacity: null,
@@ -62,14 +64,14 @@ const registrationsOverrides: Partial<Registration>[] = [
   {
     ...registrationOverrides,
     id: '4',
-    event: TEST_EVENT_ID4,
+    event: fakeEvent({ id: TEST_EVENT_ID4 }),
     current_attendee_count: registrationOverrides.maximum_attendee_capacity,
     current_waiting_list_count: registrationOverrides.waiting_list_capacity,
   },
   {
     ...registrationOverrides,
     id: '5',
-    event: TEST_EVENT_ID5,
+    event: fakeEvent({ id: TEST_EVENT_ID5 }),
     current_attendee_count: 1000,
     maximum_attendee_capacity: 0,
   },

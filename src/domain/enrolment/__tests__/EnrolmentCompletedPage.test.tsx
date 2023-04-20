@@ -10,7 +10,6 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import { event, eventOverrides } from '../../event/__mocks__/event';
-import { TEST_EVENT_ID } from '../../event/constants';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { ENROLMENT_QUERY_PARAMS } from '../constants';
 import EnrolmentCompletedPage from '../EnrolmentCompletedPage';
@@ -27,7 +26,7 @@ const renderComponent = (query?: {
 
 const registrationWithoutConfirmationMessage = fakeRegistration({
   id: TEST_REGISTRATION_ID,
-  event: TEST_EVENT_ID,
+  event,
   confirmation_message: '',
 });
 const mockedRegistrationWithoutConfirmationMessageResponse = rest.get(
@@ -40,7 +39,7 @@ const confirmationMessage = 'Custom confirmation message';
 
 const registrationWithConfirmationMessage = fakeRegistration({
   id: TEST_REGISTRATION_ID,
-  event: TEST_EVENT_ID,
+  event,
   confirmation_message: confirmationMessage,
 });
 const mockedRegistrationWithConfirmationMessageResponse = rest.get(
@@ -48,12 +47,6 @@ const mockedRegistrationWithConfirmationMessageResponse = rest.get(
   (req, res, ctx) =>
     res(ctx.status(200), ctx.json(registrationWithConfirmationMessage))
 );
-
-const defaultMocks = [
-  rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(event))
-  ),
-];
 
 const { location } = window;
 
@@ -69,10 +62,7 @@ afterAll((): void => {
 });
 
 test('should show default enrolment completed text', async () => {
-  setQueryMocks(
-    ...defaultMocks,
-    mockedRegistrationWithoutConfirmationMessageResponse
-  );
+  setQueryMocks(mockedRegistrationWithoutConfirmationMessageResponse);
   renderComponent();
 
   await screen.findByRole('heading', { name: 'Kiitos ilmoittautumisestasi!' });
@@ -82,10 +72,7 @@ test('should show default enrolment completed text', async () => {
 });
 
 test('should show custom confirmation message', async () => {
-  setQueryMocks(
-    ...defaultMocks,
-    mockedRegistrationWithConfirmationMessageResponse
-  );
+  setQueryMocks(mockedRegistrationWithConfirmationMessageResponse);
   renderComponent();
 
   await screen.findByRole('heading', { name: 'Kiitos ilmoittautumisestasi!' });
@@ -94,10 +81,7 @@ test('should show custom confirmation message', async () => {
 
 test('should sutomatically redirect user', async () => {
   const redirectUrl = 'https://www.google.com';
-  setQueryMocks(
-    ...defaultMocks,
-    mockedRegistrationWithoutConfirmationMessageResponse
-  );
+  setQueryMocks(mockedRegistrationWithoutConfirmationMessageResponse);
   renderComponent({ redirect_url: redirectUrl });
 
   await waitFor(() => expect(window.location.href).toBe(redirectUrl), {

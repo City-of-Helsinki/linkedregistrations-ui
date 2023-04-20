@@ -4,7 +4,6 @@ import React from 'react';
 import TextWithIcon from '../../../../common/components/textWithIcon/TextWithIcon';
 import useLocale from '../../../../hooks/useLocale';
 import useEventLocationText from '../../../event/hooks/useEventLocationText';
-import { Event } from '../../../event/types';
 import { getEventFields } from '../../../event/utils';
 import { Registration } from '../../../registration/types';
 import { getRegistrationFields } from '../../../registration/utils';
@@ -14,12 +13,12 @@ import PriceText from '../../eventInfo/PriceText';
 import styles from './summaryEventInfo.module.scss';
 
 type EventInfoProps = {
-  event: Event;
   registration: Registration;
 };
 
-const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
+const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
   const locale = useLocale();
+  const { event } = registration;
   const { endTime, freeEvent, name, offers, startTime } = getEventFields(
     event,
     locale

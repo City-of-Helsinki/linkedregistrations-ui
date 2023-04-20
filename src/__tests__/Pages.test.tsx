@@ -16,10 +16,7 @@ import {
 } from '../domain/enrolment/constants';
 import { EnrolmentFormFields } from '../domain/enrolment/types';
 import { event } from '../domain/event/__mocks__/event';
-import { TEST_EVENT_ID } from '../domain/event/constants';
 import { languagesResponse } from '../domain/language/__mocks__/languages';
-import { place } from '../domain/place/__mocks__/place';
-import { TEST_PLACE_ID } from '../domain/place/constants';
 import { registration } from '../domain/registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import EditEnrolmentPage, {
@@ -90,12 +87,6 @@ const enrolmentValues: EnrolmentFormFields = {
 };
 
 const mocks = [
-  rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(event))
-  ),
-  rest.get(`*/place/${TEST_PLACE_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(place))
-  ),
   rest.get('*/language/', (req, res, ctx) =>
     res(ctx.status(200), ctx.json(languagesResponse))
   ),
@@ -143,16 +134,6 @@ describe('CreateEnrolmentPage', () => {
         queryKey: ['registration', TEST_REGISTRATION_ID],
         state: expect.objectContaining({ data: registration }),
       },
-      {
-        queryHash: `["event","${TEST_EVENT_ID}"]`,
-        queryKey: ['event', TEST_EVENT_ID],
-        state: expect.objectContaining({ data: event }),
-      },
-      {
-        queryHash: `["place","${TEST_PLACE_ID}"]`,
-        queryKey: ['place', TEST_PLACE_ID],
-        state: expect.objectContaining({ data: place }),
-      },
     ]);
   });
 });
@@ -193,16 +174,6 @@ describe('SummaryPage', () => {
         queryKey: ['registration', TEST_REGISTRATION_ID],
         state: expect.objectContaining({ data: registration }),
       },
-      {
-        queryHash: `["event","${TEST_EVENT_ID}"]`,
-        queryKey: ['event', TEST_EVENT_ID],
-        state: expect.objectContaining({ data: event }),
-      },
-      {
-        queryHash: `["place","${TEST_PLACE_ID}"]`,
-        queryKey: ['place', TEST_PLACE_ID],
-        state: expect.objectContaining({ data: place }),
-      },
     ]);
   });
 });
@@ -236,11 +207,6 @@ describe('EnrolmentCompletedPage', () => {
         queryHash: `["registration","${TEST_REGISTRATION_ID}"]`,
         queryKey: ['registration', TEST_REGISTRATION_ID],
         state: expect.objectContaining({ data: registration }),
-      },
-      {
-        queryHash: `["event","${TEST_EVENT_ID}"]`,
-        queryKey: ['event', TEST_EVENT_ID],
-        state: expect.objectContaining({ data: event }),
       },
     ]);
   });
@@ -283,11 +249,6 @@ describe('EditEnrolmentPage', () => {
         state: expect.objectContaining({ data: registration }),
       },
       {
-        queryHash: `["event","${TEST_EVENT_ID}"]`,
-        queryKey: ['event', TEST_EVENT_ID],
-        state: expect.objectContaining({ data: event }),
-      },
-      {
         queryHash: `["enrolment","${TEST_ENROLMENT_CANCELLATION_CODE}"]`,
         queryKey: ['enrolment', TEST_ENROLMENT_CANCELLATION_CODE],
         state: expect.objectContaining({ data: enrolment }),
@@ -325,11 +286,6 @@ describe('EnrolmentCancelledPage', () => {
         queryHash: `["registration","${TEST_REGISTRATION_ID}"]`,
         queryKey: ['registration', TEST_REGISTRATION_ID],
         state: expect.objectContaining({ data: registration }),
-      },
-      {
-        queryHash: `["event","${TEST_EVENT_ID}"]`,
-        queryKey: ['event', TEST_EVENT_ID],
-        state: expect.objectContaining({ data: event }),
       },
     ]);
   });

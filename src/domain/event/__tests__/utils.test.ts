@@ -4,21 +4,7 @@ import {
   fakeOffers,
 } from '../../../utils/mockDataUtils';
 import { imagesResponse } from '../../image/__mocks__/image';
-import { EventQueryVariables } from '../types';
-import { eventPathBuilder, getEventFields } from '../utils';
-
-describe('eventPathBuilder function', () => {
-  const cases: [EventQueryVariables, string][] = [
-    [
-      { id: 'hel:123', include: ['include1', 'include2'] },
-      '/event/hel:123/?include=include1,include2',
-    ],
-    [{ id: 'hel:123' }, '/event/hel:123/'],
-  ];
-  it.each(cases)('should build correct path', (variables, expectedPath) =>
-    expect(eventPathBuilder(variables)).toBe(expectedPath)
-  );
-});
+import { getEventFields } from '../utils';
 
 describe('getEventFields function', () => {
   it('should return default values if value is not set', () => {

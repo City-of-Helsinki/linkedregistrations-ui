@@ -107,7 +107,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
           >
             {t('notificationLabel')}
           </Notification>
-          <SummaryEventInfo event={event} registration={registration} />
+          <SummaryEventInfo registration={registration} />
 
           <Formik
             initialValues={initialValues}

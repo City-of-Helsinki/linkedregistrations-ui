@@ -1,4 +1,5 @@
 import { Meta, numberOrNull, stringOrNull } from '../api/types';
+import { Event } from '../event/types';
 
 export type Registration = {
   id: string;
@@ -12,13 +13,14 @@ export type Registration = {
   current_waiting_list_count: number;
   enrolment_end_time: string;
   enrolment_start_time: string;
-  event: string;
+  event: Event;
   instructions: stringOrNull;
   last_modified_at: stringOrNull;
   last_modified_by: stringOrNull;
   mandatory_fields: string[];
   maximum_attendee_capacity: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
+  publisher: string;
   waiting_list_capacity: numberOrNull;
 };
 

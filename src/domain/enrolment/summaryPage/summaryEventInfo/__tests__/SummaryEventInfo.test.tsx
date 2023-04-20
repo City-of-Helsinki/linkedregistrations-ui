@@ -48,7 +48,7 @@ beforeEach(() => {
 });
 
 test('should show event info', async () => {
-  render(<SummaryEventInfo event={event} registration={registration} />);
+  render(<SummaryEventInfo registration={registration} />);
 
   await findElement('location');
   getElement('name');
@@ -59,8 +59,7 @@ test('should show event info', async () => {
 test('should show event time correctly if only start time is defined', async () => {
   render(
     <SummaryEventInfo
-      event={{ ...event, end_time: null }}
-      registration={registration}
+      registration={{ ...registration, event: { ...event, end_time: null } }}
     />
   );
 
@@ -70,8 +69,7 @@ test('should show event time correctly if only start time is defined', async () 
 test('should show event time correctly if only end time is defined', async () => {
   render(
     <SummaryEventInfo
-      event={{ ...event, start_time: null }}
-      registration={registration}
+      registration={{ ...registration, event: { ...event, start_time: null } }}
     />
   );
 
