@@ -15,6 +15,18 @@ const moduleExports = {
   sentry: {
     hideSourceMaps: true,
   },
+  publicRuntimeConfig: {
+    linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
+  },
+  serverRuntimeConfig: {
+    env: process.env.NEXT_ENV,
+    oidcApiTokensUrl: process.env.OIDC_API_TOKENS_URL,
+    oidcClientId: process.env.OIDC_CLIENT_ID,
+    oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
+    oidcIssuer: process.env.OIDC_ISSUER,
+    oidcLinkedEventsApiScope: process.env.OIDC_LINKED_EVENTS_API_SCOPE,
+    oidcTokenUrl: process.env.OIDC_TOKEN_URL,
+  },
   output: 'standalone',
 };
 

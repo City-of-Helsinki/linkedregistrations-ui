@@ -3,11 +3,7 @@
 /* eslint-disable no-console */
 import { ParsedUrlQuery } from 'querystring';
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryClientProviderProps,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   act,
   fireEvent,
@@ -17,7 +13,6 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { RequestHandler } from 'msw';
-import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { NextRouter } from 'next/router';
@@ -26,6 +21,7 @@ import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { server } from '../tests/msw/server';
+import { ExtendedSession } from '../types';
 
 export const arrowUpKeyPressHelper = (): boolean =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
@@ -54,7 +50,7 @@ const customRender: CustomRender = (
     },
   });
 
-  const Wrapper: React.JSXElementConstructor<any> = ({ children }) => {
+  const Wrapper = ({ children }) => {
     return (
       <RouterContext.Provider
         value={{
@@ -104,7 +100,7 @@ const mockRouter: NextRouter = {
 export type CustomRenderOptions = {
   path?: string;
   query?: ParsedUrlQuery;
-  session?: Session | null;
+  session?: ExtendedSession | null;
   router?: Partial<NextRouter>;
 };
 
@@ -116,17 +112,17 @@ export const setQueryMocks = (...handlers: RequestHandler[]): void => {
   server.use(...handlers);
 };
 
-export const getQueryWrapper = (): React.JSXElementConstructor<any> => {
+export const getQueryWrapper = (session: ExtendedSession | null = null) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
 
-  const wrapper: React.FC<
-    React.PropsWithChildren<QueryClientProviderProps>
-  > = ({ children }) => (
-    // @ts-ignore
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  const wrapper = ({ children }) => (
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </SessionProvider>
   );
+
   return wrapper;
 };
 

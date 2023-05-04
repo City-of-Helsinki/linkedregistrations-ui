@@ -13,11 +13,9 @@ export const createMinErrorMessage = (
 };
 
 export const isValidPhoneNumber = (phone: string): boolean =>
-  /^\+?\(?[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?/.test(
-    phone
-  );
+  /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{4}( ?-?\d{3})?/.test(phone);
 
-export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
+export const isValidZip = (zip: string): boolean => /^\d{5}$/.test(zip);
 
 /** Get string error text
  * @param {string} error
@@ -30,9 +28,9 @@ export const getErrorText = (
   touched: boolean,
   t: TFunction
 ): string => {
-  return !!error && touched
-    ? typeof error === 'string'
-      ? t(error)
-      : t(error.key, error)
-    : '';
+  if (!!error && touched) {
+    return typeof error === 'string' ? t(error) : t(error.key, error);
+  }
+
+  return '';
 };

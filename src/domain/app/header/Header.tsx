@@ -10,6 +10,7 @@ import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { ExtendedSession } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { getUserName } from '../../auth/utils';
 import { useUserQuery } from '../../user/query';
 import { ROUTES } from '../routes/constants';
 import styles from './header.module.scss';
@@ -21,13 +22,15 @@ interface NavigationItem {
 }
 
 const Header: React.FC = () => {
-  const { data } = useSession();
-  const session = data as ExtendedSession;
+  const { data: session } = useSession() as { data: ExtendedSession | null };
+  const userId = session?.user?.id ?? '';
+  const linkedEventsApiToken = session?.apiTokens?.linkedevents;
 
-  const { data: user } = useUserQuery(
-    { username: session?.sub as string },
-    { enabled: Boolean(session?.sub && session?.apiToken) }
-  );
+  const { data: user } = useUserQuery({
+    args: { username: userId },
+    options: { enabled: Boolean(userId && linkedEventsApiToken) },
+    session,
+  });
 
   const locale = useLocale();
   const router = useRouter();
@@ -88,10 +91,10 @@ const Header: React.FC = () => {
       logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
     >
       <Navigation.Row>
-        {navigationItems.map((item, index) => (
+        {navigationItems.map((item) => (
           <Navigation.Item
             variant="primary"
-            key={index}
+            key={item.url}
             icon={item.icon}
             href={item.url}
             label={item.label}
@@ -102,10 +105,10 @@ const Header: React.FC = () => {
 
       <Navigation.Actions>
         <Navigation.User
-          authenticated={Boolean(session?.apiToken && user)}
+          authenticated={Boolean(linkedEventsApiToken)}
           label={t('common:signIn')}
           onSignIn={() => signIn('tunnistamo')}
-          userName={user?.display_name}
+          userName={getUserName({ session, user })}
         >
           <Navigation.Item
             label={t('common:signOut')}

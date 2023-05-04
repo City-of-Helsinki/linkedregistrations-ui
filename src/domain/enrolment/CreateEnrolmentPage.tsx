@@ -1,21 +1,18 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
-import { EVENT_INCLUDES } from '../event/constants';
-import { useEventQuery } from '../event/query';
 import { Event } from '../event/types';
 import NotFound from '../notFound/NotFound';
-import { useRegistrationQuery } from '../registration/query';
 import { Registration } from '../registration/types';
-import CreateEnrolmentPageMeta from './createEnrolmentPageMeta/CreateEnrolmentPageMeta';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
+import EnrolmentPageMeta from './enrolmentPageMeta/EnrolmentPageMeta';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
+import useEventAndRegistrationData from './hooks/useEventAndRegistrationData';
 import { getEnrolmentDefaultInitialValues } from './utils';
 
 type Props = {
@@ -24,11 +21,11 @@ type Props = {
 };
 
 const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getEnrolmentDefaultInitialValues();
 
   return (
     <MainContent>
-      <CreateEnrolmentPageMeta event={event} />
+      <EnrolmentPageMeta event={event} />
       <Container withOffset>
         <FormContainer>
           <EventInfo event={event} registration={registration} />
@@ -44,37 +41,10 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 };
 
 const CreateEnrolmentPageWrapper: React.FC = () => {
-  const router = useRouter();
-  const { query } = router;
-
-  const {
-    data: registration,
-    isFetching: isFetchingRegistration,
-    status: statusRegistration,
-  } = useRegistrationQuery(
-    { id: query.registrationId as string },
-    { enabled: !!query.registrationId, retry: 0 }
-  );
-
-  const {
-    data: event,
-    isFetching: isFetchingEvent,
-    status: statusEvent,
-  } = useEventQuery(
-    {
-      id: registration?.event as string,
-      include: EVENT_INCLUDES,
-    },
-    { enabled: !!registration?.event }
-  );
+  const { event, isLoading, registration } = useEventAndRegistrationData();
 
   return (
-    <LoadingSpinner
-      isLoading={
-        (statusRegistration === 'loading' && isFetchingRegistration) ||
-        (statusEvent === 'loading' && isFetchingEvent)
-      }
-    >
+    <LoadingSpinner isLoading={isLoading}>
       {registration && event ? (
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>

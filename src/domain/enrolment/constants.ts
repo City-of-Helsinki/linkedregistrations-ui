@@ -1,15 +1,13 @@
 import { AttendeeFields, EnrolmentFormFields } from './types';
 
 export enum ATTENDEE_FIELDS {
-  AUDIENCE_MAX_AGE = 'audienceMaxAge',
-  AUDIENCE_MIN_AGE = 'audienceMinAge',
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
   IN_WAITING_LIST = 'inWaitingList',
   NAME = 'name',
   STREET_ADDRESS = 'streetAddress',
-  ZIP = 'zip',
+  ZIPCODE = 'zipcode',
 }
 
 export enum ENROLMENT_FIELDS {
@@ -35,15 +33,13 @@ export enum ENROLMENT_QUERY_PARAMS {
 }
 
 export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
-  [ATTENDEE_FIELDS.AUDIENCE_MAX_AGE]: null,
-  [ATTENDEE_FIELDS.AUDIENCE_MIN_AGE]: null,
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: '',
   [ATTENDEE_FIELDS.EXTRA_INFO]: '',
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
   [ATTENDEE_FIELDS.NAME]: '',
   [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
-  [ATTENDEE_FIELDS.ZIP]: '',
+  [ATTENDEE_FIELDS.ZIPCODE]: '',
 };
 
 export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {
@@ -75,8 +71,9 @@ export enum NOTIFICATION_TYPE {
   SMS_EMAIL = 'sms and email',
 }
 
-export enum ENROLMENT_EDIT_ACTIONS {
+export enum ENROLMENT_ACTIONS {
   CANCEL = 'cancel',
+  CREATE = 'create',
 }
 
 export const TEST_ENROLMENT_CANCELLATION_CODE =

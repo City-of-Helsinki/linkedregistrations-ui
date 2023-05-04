@@ -17,7 +17,6 @@ import { ToastContainer } from 'react-toastify';
 
 import CookieConsent from '../domain/app/cookieConsent/CookieConsent';
 import PageLayout from '../domain/app/layout/pageLayout/PageLayout';
-import ApiTokenUpdater from '../domain/auth/ApiTokenUpdater';
 
 type Props = {
   dehydratedState?: unknown;
@@ -32,7 +31,6 @@ const MyApp = ({
 
   return (
     <SessionProvider session={session} refetchInterval={10}>
-      <ApiTokenUpdater />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <CookieConsent />

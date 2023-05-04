@@ -1,15 +1,18 @@
 import { AxiosError } from 'axios';
-import { NextPageContext } from 'next';
 
+import { ExtendedSession } from '../../types';
 import { callGet } from '../app/axios/axiosClient';
 import { User, UserQueryVariables } from './types';
 
 export const fetchUser = async (
   args: UserQueryVariables,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
+  session: ExtendedSession | null
 ): Promise<User> => {
   try {
-    const { data } = await callGet(userPathBuilder(args), undefined, ctx);
+    const { data } = await callGet({
+      session,
+      url: userPathBuilder(args),
+    });
     return data;
   } catch (error) {
     /* istanbul ignore next */

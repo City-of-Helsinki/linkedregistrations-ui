@@ -7,7 +7,11 @@ import singletonRouter from 'next/router';
 import React from 'react';
 
 import formatDate from '../../../utils/formatDate';
-import { fakeSeatsReservation } from '../../../utils/mockDataUtils';
+import {
+  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setEnrolmentFormSessionStorageValues,
+} from '../../../utils/mockDataUtils';
 import {
   actWait,
   configure,
@@ -20,11 +24,7 @@ import {
   within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
-import { event } from '../../event/__mocks__/event';
-import { TEST_EVENT_ID } from '../../event/constants';
 import { languagesResponse } from '../../language/__mocks__/languages';
-import { place } from '../../place/__mocks__/place';
-import { TEST_PLACE_ID } from '../../place/constants';
 import { registration } from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import CreateEnrolmentPage from '../CreateEnrolmentPage';
@@ -119,12 +119,6 @@ beforeEach(() => {
 });
 
 const defaultMocks = [
-  rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(event))
-  ),
-  rest.get(`*/place/${TEST_PLACE_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(place))
-  ),
   rest.get('*/language/', (req, res, ctx) =>
     res(ctx.status(200), ctx.json(languagesResponse))
   ),
@@ -161,10 +155,7 @@ test('should validate enrolment form and focus invalid field', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
-  const zipInput = getElement('zipInput');
-  const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
@@ -181,42 +172,19 @@ test('should validate enrolment form and focus invalid field', async () => {
 
   await user.type(nameInput, enrolmentValues.name);
   await user.click(submitButton);
-  await waitFor(() => expect(streetAddressInput).toHaveFocus());
-
-  await user.type(streetAddressInput, enrolmentValues.streetAddress);
-  await user.click(submitButton);
   await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
 
-  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 20)));
-  await user.click(submitButton);
-  await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
-
-  await user.clear(dateOfBirthInput);
-  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 7)));
-  await user.click(submitButton);
-  await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
-
-  await user.clear(dateOfBirthInput);
-  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
-  await user.click(submitButton);
-  await waitFor(() => expect(zipInput).toHaveFocus());
-
-  await user.type(zipInput, enrolmentValues.zip);
-  await user.click(submitButton);
-  await waitFor(() => expect(cityInput).toHaveFocus());
-
-  await user.type(cityInput, enrolmentValues.city);
-  await user.click(submitButton);
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-
-  expect(emailInput).not.toBeRequired();
-  await user.click(emailCheckbox);
+  await user.type(dateOfBirthInput, formatDate(subYears(new Date(), 15)));
   await user.click(submitButton);
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
-
   expect(phoneInput).not.toBeRequired();
+
   await user.type(emailInput, enrolmentValues.email);
+  await user.click(submitButton);
+  await waitFor(() => expect(emailCheckbox).toHaveFocus());
+
+  await user.click(emailCheckbox);
   await user.click(phoneCheckbox);
   await user.click(submitButton);
   await waitFor(() => expect(phoneInput).toHaveFocus());
@@ -497,4 +465,33 @@ test('should show server errors when updating seats reservation fails', async ()
   await user.click(deleteParticipantButton);
 
   await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+});
+
+test('should reload page if reservation is expired and route is create enrolment page', async () => {
+  mockRouter.reload = jest.fn();
+  const user = userEvent.setup();
+
+  setQueryMocks(...defaultMocks);
+  setEnrolmentFormSessionStorageValues({
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(-1000),
+  });
+  singletonRouter.push({
+    pathname: ROUTES.CREATE_ENROLMENT,
+    query: { registrationId: registration.id },
+  });
+
+  renderComponent();
+
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Varausaika on täynnä.' },
+    { timeout: 5000 }
+  );
+  const tryAgainButton = within(modal).getByRole('button', {
+    name: 'Yritä uudelleen',
+  });
+
+  user.click(tryAgainButton);
+  await waitFor(() => expect(mockRouter.reload).toBeCalled());
 });

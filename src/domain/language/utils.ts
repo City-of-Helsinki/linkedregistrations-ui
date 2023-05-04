@@ -1,17 +1,16 @@
 import { AxiosError } from 'axios';
 import { capitalize } from 'lodash';
-import { NextPageContext } from 'next';
 
-import { OptionType, Language } from '../../types';
+import { OptionType, Language, ExtendedSession } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import { callGet } from '../app/axios/axiosClient';
 import { LanguagesResponse, LELanguage } from './types';
 
 export const fetchLanguages = async (
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
+  session: ExtendedSession | null
 ): Promise<LanguagesResponse> => {
   try {
-    const { data } = await callGet('/language/', undefined, ctx);
+    const { data } = await callGet({ session, url: '/language/' });
     return data;
   } catch (error) {
     /* istanbul ignore next */

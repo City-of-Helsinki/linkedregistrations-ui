@@ -1,13 +1,6 @@
 # Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
-trigger:
-  batch: true
-  branches:
-    include:
-      - production
-  paths:
-    exclude:
-      - README.md
+trigger: none
 
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
 # opened with one of the specified target branches, or when updates are made to
@@ -21,7 +14,7 @@ trigger:
 pr: none
 
 # By default, use self-hosted agents
-pool: Default
+pool: Production
 
 # Image tag name for Fuse projects
 #parameters:

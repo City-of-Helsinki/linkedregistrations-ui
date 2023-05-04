@@ -39,6 +39,13 @@
 
     & > div {
       box-shadow: var(--shadow-m);
+      left: unset;
+      right: 0;
+    }
+
+    @include small-down {
+      position: absolute;
+      right: var(--spacing-5-xl);
     }
   }
 
@@ -46,18 +53,6 @@
     & > div {
       left: 50%;
       transform: translateX(-50%);
-    }
-  }
-
-  .languageSelector {
-    @include small-down {
-      position: absolute;
-      right: var(--spacing-5-xl);
-    }
-
-    & > div {
-      left: unset;
-      right: 0;
     }
   }
 }

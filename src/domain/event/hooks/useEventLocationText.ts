@@ -1,12 +1,10 @@
 import useLocale from '../../../hooks/useLocale';
+import { Event } from '../../event/types';
 import { getPlaceFields } from '../../place/utils';
-import { Event } from '../types';
-import useEventLocation from './useEventLocation';
 
 const useEventLocationText = (event: Event): string => {
   const locale = useLocale();
-
-  const { location } = useEventLocation(event);
+  const { location } = event;
   const {
     addressLocality,
     name: locationName,

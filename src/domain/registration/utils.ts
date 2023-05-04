@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
-import { NextPageContext } from 'next';
 import { TFunction } from 'next-i18next';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../constants';
+import { ExtendedSession } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import { callGet } from '../app/axios/axiosClient';
 import {
@@ -15,14 +15,13 @@ import {
 
 export const fetchRegistration = async (
   args: RegistrationQueryVariables,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
+  session: ExtendedSession | null
 ): Promise<Registration> => {
   try {
-    const { data } = await callGet(
-      registrationPathBuilder(args),
-      undefined,
-      ctx
-    );
+    const { data } = await callGet({
+      session,
+      url: registrationPathBuilder(args),
+    });
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
@@ -169,5 +168,6 @@ export const getRegistrationFields = (
     audienceMaxAge: registration.audience_max_age || null,
     audienceMinAge: registration.audience_min_age || null,
     confirmationMessage: registration.confirmation_message,
+    mandatoryFields: registration.mandatory_fields,
   };
 };

@@ -1,33 +1,6 @@
-import { AxiosError } from 'axios';
-import { NextPageContext } from 'next';
-
 import { Language } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
-import queryBuilder from '../../utils/queryBuilder';
-import { callGet } from '../app/axios/axiosClient';
-import { Event, EventFields, EventQueryVariables } from './types';
-
-export const fetchEvent = async (
-  args: EventQueryVariables,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-): Promise<Event> => {
-  try {
-    const { data } = await callGet(eventPathBuilder(args), undefined, ctx);
-    return data;
-  } catch (error) {
-    /* istanbul ignore next */
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
-  }
-};
-
-export const eventPathBuilder = (args: EventQueryVariables): string => {
-  const { id, include } = args;
-  const variableToKeyItems = [{ key: 'include', value: include }];
-
-  const query = queryBuilder(variableToKeyItems);
-
-  return `/event/${id}/${query}`;
-};
+import { Event, EventFields } from './types';
 
 export const getEventFields = (event: Event, locale: Language): EventFields => {
   return {

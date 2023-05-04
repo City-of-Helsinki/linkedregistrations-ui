@@ -72,13 +72,13 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
           styles[`columns${columns}`]
         )}
       >
-        {visibleOptions.map((option, index) => {
+        {visibleOptions.map((option) => {
           const checked = value.includes(option.value);
 
           return (
             <Checkbox
               {...field}
-              key={index}
+              key={option.value}
               id={`${name}-${option.value}`}
               name={name}
               checked={value.includes(option.value)}

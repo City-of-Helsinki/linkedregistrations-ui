@@ -3,10 +3,13 @@
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-localstorage-mock';
 import './tests/initI18n';
-
 import { toHaveNoViolations } from 'jest-axe';
+import { setConfig } from 'next/config';
 
+import config from '../next.config';
 import { server } from './tests/msw/server';
+
+setConfig(config);
 
 expect.extend(toHaveNoViolations);
 

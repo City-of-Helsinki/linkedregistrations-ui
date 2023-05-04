@@ -1,19 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
+import addSeconds from 'date-fns/addSeconds';
+import { FormikState } from 'formik';
 import merge from 'lodash/merge';
 
+import { FORM_NAMES, RESERVATION_NAMES } from '../constants';
 import { LocalisedObject, Meta } from '../domain/api/types';
 import {
   ATTENDEE_STATUS,
+  ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
 } from '../domain/enrolment/constants';
-import { Enrolment } from '../domain/enrolment/types';
+import { Enrolment, EnrolmentFormFields } from '../domain/enrolment/types';
 import {
   EventStatus,
   EventTypeId,
   PublicationStatus,
-  TEST_EVENT_ID,
 } from '../domain/event/constants';
 import { Event, Offer } from '../domain/event/types';
 import { Image, ImagesResponse } from '../domain/image/types';
@@ -260,6 +263,7 @@ export const fakeRegistration = (
   overrides?: Partial<Registration>
 ): Registration => {
   const id = overrides?.id || faker.datatype.uuid();
+  const event = fakeEvent();
 
   return merge<Registration, typeof overrides>(
     {
@@ -274,12 +278,14 @@ export const fakeRegistration = (
       current_waiting_list_count: 0,
       enrolment_end_time: '2020-09-30T16:00:00.000000Z',
       enrolment_start_time: '2020-09-27T15:00:00.000000Z',
-      event: TEST_EVENT_ID,
+      event,
       instructions: faker.lorem.paragraph(),
       last_modified_at: '2020-09-12T15:00:00.000000Z',
       last_modified_by: '',
+      mandatory_fields: [],
       maximum_attendee_capacity: null,
       minimum_attendee_capacity: null,
+      publisher: event.publisher,
       waiting_list_capacity: null,
     },
     overrides
@@ -352,4 +358,44 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const setEnrolmentFormSessionStorageValues = ({
+  enrolmentFormValues,
+  registrationId,
+  seatsReservation,
+}: {
+  registrationId: string;
+  enrolmentFormValues?: Partial<EnrolmentFormFields>;
+  seatsReservation?: SeatsReservation;
+}) => {
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    switch (key) {
+      case `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registrationId}`:
+        const state: FormikState<EnrolmentFormFields> = {
+          errors: {},
+          isSubmitting: false,
+          isValidating: false,
+          submitCount: 0,
+          touched: {},
+          values: {
+            ...ENROLMENT_INITIAL_VALUES,
+            ...enrolmentFormValues,
+          },
+        };
+
+        return JSON.stringify(state);
+      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`:
+        return seatsReservation ? JSON.stringify(seatsReservation) : '';
+      default:
+        return '';
+    }
+  });
+};
+
+export const getMockedSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  const expiration = addSeconds(now, expirationOffset).toISOString();
+
+  return fakeSeatsReservation({ expiration });
 };

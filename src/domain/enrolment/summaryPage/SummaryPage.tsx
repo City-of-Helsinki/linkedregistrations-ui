@@ -3,7 +3,7 @@ import { Notification } from 'hds-react';
 import pick from 'lodash/pick';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 
 import Button from '../../../common/components/button/Button';
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
@@ -13,14 +13,13 @@ import { FORM_NAMES } from '../../../constants';
 import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import { ROUTES } from '../../app/routes/constants';
-import { reportError } from '../../app/sentry/utils';
-import { EVENT_INCLUDES } from '../../event/constants';
-import { useEventQuery } from '../../event/query';
 import { Event } from '../../event/types';
 import NotFound from '../../notFound/NotFound';
-import { useRegistrationQuery } from '../../registration/query';
 import { Registration } from '../../registration/types';
-import { getSeatsReservationData } from '../../reserveSeats/utils';
+import {
+  clearSeatsReservationData,
+  getSeatsReservationData,
+} from '../../reserveSeats/utils';
 import ButtonWrapper from '../buttonWrapper/ButtonWrapper';
 import { ENROLMENT_QUERY_PARAMS } from '../constants';
 import Divider from '../divider/Divider';
@@ -28,17 +27,15 @@ import { EnrolmentPageProvider } from '../enrolmentPageContext/EnrolmentPageCont
 import { EnrolmentServerErrorsProvider } from '../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import FormContainer from '../formContainer/FormContainer';
-import { useCreateEnrolmentMutation } from '../mutation';
-import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
+import useEnrolmentActions from '../hooks/useEnrolmentActions';
+import useEventAndRegistrationData from '../hooks/useEventAndRegistrationData';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
-import { ReservationTimerProvider } from '../reservationTimer/ReservationTimerContext';
 import {
   clearCreateEnrolmentFormData,
-  clearEnrolmentReservationData,
   getEnrolmentDefaultInitialValues,
   getEnrolmentPayload,
 } from '../utils';
-import { enrolmentSchema } from '../validation';
+import { getEnrolmentSchema } from '../validation';
 import Attendees from './attendees/Attendees';
 import InformantInfo from './informantInfo/InformantInfo';
 import SummaryEventInfo from './summaryEventInfo/SummaryEventInfo';
@@ -51,8 +48,13 @@ type SummaryPageProps = {
 };
 
 const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
-  const { disableCallbacks: disableReservationTimerCallbacks } =
-    useReservationTimer();
+  const { createEnrolment } = useEnrolmentActions({ registration });
+
+  const reservationTimerCallbacksDisabled = useRef(false);
+  const disableReservationTimerCallbacks = useCallback(() => {
+    reservationTimerCallbacksDisabled.current = true;
+  }, []);
+
   const { t } = useTranslation(['summary']);
   const router = useRouter();
 
@@ -62,7 +64,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     disableReservationTimerCallbacks();
 
     clearCreateEnrolmentFormData(registration.id);
-    clearEnrolmentReservationData(registration.id);
+    clearSeatsReservationData(registration.id);
 
     goToPage(
       ROUTES.ENROLMENT_COMPLETED.replace('[registrationId]', registration.id)
@@ -78,7 +80,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     );
   };
 
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getEnrolmentDefaultInitialValues();
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -93,24 +95,6 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     });
   };
 
-  const createEnrolmentMutation = useCreateEnrolmentMutation(
-    registration.id as string,
-    {
-      onError: (error, variables) => {
-        showServerErrors({ error: JSON.parse(error.message) }, 'enrolment');
-        reportError({
-          data: {
-            error: JSON.parse(error.message),
-            payload: variables,
-            payloadAsString: JSON.stringify(variables),
-          },
-          message: 'Failed to create enrolment',
-        });
-      },
-      onSuccess: goToEnrolmentCompletedPage,
-    }
-  );
-
   return (
     <MainContent className={styles.summaryPage}>
       <SummaryPageMeta event={event} />
@@ -123,19 +107,21 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
           >
             {t('notificationLabel')}
           </Notification>
-          <SummaryEventInfo event={event} registration={registration} />
+          <SummaryEventInfo registration={registration} />
 
           <Formik
             initialValues={initialValues}
             onSubmit={/* istanbul ignore next */ () => undefined}
-            validationSchema={enrolmentSchema}
+            validationSchema={() => getEnrolmentSchema(registration)}
           >
             {({ values }) => {
               const handleSubmit = async () => {
                 try {
                   setServerErrorItems([]);
 
-                  await enrolmentSchema.validate(values, { abortEarly: true });
+                  await getEnrolmentSchema(registration).validate(values, {
+                    abortEarly: true,
+                  });
 
                   const reservationData = getSeatsReservationData(
                     registration.id
@@ -145,7 +131,14 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                     reservationCode: reservationData?.code as string,
                   });
 
-                  createEnrolmentMutation.mutate(payload);
+                  createEnrolment(payload, {
+                    onError: (error) =>
+                      showServerErrors(
+                        { error: JSON.parse(error.message) },
+                        'enrolment'
+                      ),
+                    onSuccess: goToEnrolmentCompletedPage,
+                  });
                 } catch (e) {
                   goToCreateEnrolmentPage();
                 }
@@ -161,7 +154,15 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
 
                   <Divider />
 
-                  <ReservationTimer onDataNotFound={goToCreateEnrolmentPage} />
+                  <ReservationTimer
+                    callbacksDisabled={
+                      reservationTimerCallbacksDisabled.current
+                    }
+                    disableCallbacks={disableReservationTimerCallbacks}
+                    initReservationData={false}
+                    onDataNotFound={goToCreateEnrolmentPage}
+                    registration={registration}
+                  />
                   <Divider />
                   <Attendees />
                   <InformantInfo values={values} />
@@ -179,46 +180,14 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
 };
 
 const SummaryPageWrapper: React.FC = () => {
-  const router = useRouter();
-  const { query } = router;
-
-  const {
-    data: registration,
-    isFetching: isFetchingRegistration,
-    status: statusRegistration,
-  } = useRegistrationQuery(
-    { id: query.registrationId as string },
-    { enabled: !!query.registrationId, retry: 0 }
-  );
-
-  const {
-    data: event,
-    isFetching: isFetchingEvent,
-    status: statusEvent,
-  } = useEventQuery(
-    {
-      id: registration?.event as string,
-      include: EVENT_INCLUDES,
-    },
-    { enabled: !!registration?.event }
-  );
+  const { event, isLoading, registration } = useEventAndRegistrationData();
 
   return (
-    <LoadingSpinner
-      isLoading={
-        (statusRegistration === 'loading' && isFetchingRegistration) ||
-        (statusEvent === 'loading' && isFetchingEvent)
-      }
-    >
+    <LoadingSpinner isLoading={isLoading}>
       {event && registration ? (
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
-            <ReservationTimerProvider
-              initializeReservationData={false}
-              registration={registration}
-            >
-              <SummaryPage event={event} registration={registration} />
-            </ReservationTimerProvider>
+            <SummaryPage event={event} registration={registration} />
           </EnrolmentServerErrorsProvider>
         </EnrolmentPageProvider>
       ) : (

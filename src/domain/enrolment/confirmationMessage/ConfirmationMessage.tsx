@@ -13,8 +13,8 @@ const ConfirmationMessage: React.FC<Props> = ({ registration }) => {
 
   return (
     <>
-      {confirmationMessageParts.map((part, index) => (
-        <p key={index}>{part}</p>
+      {confirmationMessageParts.map((part) => (
+        <p key={part}>{part}</p>
       ))}
     </>
   );

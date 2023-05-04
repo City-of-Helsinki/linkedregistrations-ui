@@ -22,7 +22,6 @@ import { FORM_NAMES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
-import { reportError } from '../../app/sentry/utils';
 import { Registration } from '../../registration/types';
 import {
   getFreeAttendeeCapacity,
@@ -42,24 +41,22 @@ import {
 import Divider from '../divider/Divider';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import useEnrolmentActions from '../hooks/useEnrolmentActions';
 import useLanguageOptions from '../hooks/useLanguageOptions';
 import useNotificationOptions from '../hooks/useNotificationOptions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
-import { useDeleteEnrolmentMutation } from '../mutation';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
-import { ReservationTimerProvider } from '../reservationTimer/ReservationTimerContext';
 import { AttendeeFields, EnrolmentFormFields } from '../types';
-import { enrolmentSchema, scrollToFirstError, showErrors } from '../validation';
+import { isEnrolmentFieldRequired } from '../utils';
+import {
+  getEnrolmentSchema,
+  scrollToFirstError,
+  showErrors,
+} from '../validation';
 import Attendees from './attendees/Attendees';
 import styles from './enrolmentForm.module.scss';
-
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
-}
 
 const LanguageField = (
   props: FieldAttributes<Omit<SingleSelectProps<OptionType>, 'options'>>
@@ -85,21 +82,16 @@ const EnrolmentForm: React.FC<Props> = ({
   registration,
 }) => {
   const { t } = useTranslation(['enrolment', 'common']);
-
+  const { cancelEnrolment } = useEnrolmentActions({ registration });
   const formSavingDisabled = React.useRef(!!readOnly);
 
-  const { openModal, setOpenModal, setOpenParticipant } =
+  const reservationTimerCallbacksDisabled = React.useRef(false);
+  const disableReservationTimerCallbacks = React.useCallback(() => {
+    reservationTimerCallbacksDisabled.current = true;
+  }, []);
+
+  const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useEnrolmentPageContext();
-
-  const closeModal = () => {
-    setOpenModal(null);
-  };
-
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
-    closeModal();
-    // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
-  };
 
   const freeCapacity = getFreeAttendeeCapacity(registration);
   const notificationOptions = useNotificationOptions();
@@ -138,28 +130,13 @@ const EnrolmentForm: React.FC<Props> = ({
     );
   };
 
-  const deleteEnrolmentMutation = useDeleteEnrolmentMutation({
-    onError: (error, variables) => {
-      closeModal();
-
-      showServerErrors({ error: JSON.parse(error.message) }, 'enrolment');
-      // Report error to Sentry
-      reportError({
-        data: {
-          error: JSON.parse(error.message),
-          cancellationCode: variables,
-        },
-        message: 'Failed to cancel enrolment',
-      });
-    },
-    onSuccess: () => {
-      cleanAfterUpdate({ onSuccess: () => goToEnrolmentCancelledPage() });
-    },
-  });
-
   const handleCancel = () => {
     setServerErrorItems([]);
-    deleteEnrolmentMutation.mutate(cancellationCode as string);
+    cancelEnrolment(cancellationCode as string, {
+      onError: (error) =>
+        showServerErrors({ error: JSON.parse(error.message) }, 'enrolment'),
+      onSuccess: goToEnrolmentCancelledPage,
+    });
   };
 
   const isRestoringDisabled = () => {
@@ -171,7 +148,9 @@ const EnrolmentForm: React.FC<Props> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={readOnly ? undefined : enrolmentSchema}
+      validationSchema={
+        readOnly ? undefined : () => getEnrolmentSchema(registration)
+      }
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -185,7 +164,9 @@ const EnrolmentForm: React.FC<Props> = ({
             setServerErrorItems([]);
             clearErrors();
 
-            await enrolmentSchema.validate(values, { abortEarly: false });
+            await getEnrolmentSchema(registration).validate(values, {
+              abortEarly: false,
+            });
 
             goToEnrolmentSummaryPage();
           } catch (error) {
@@ -221,15 +202,19 @@ const EnrolmentForm: React.FC<Props> = ({
               <RegistrationWarning registration={registration} />
 
               {!readOnly && (
-                <ReservationTimerProvider
-                  attendees={values.attendees}
-                  initializeReservationData={true}
-                  registration={registration}
-                  setAttendees={setAttendees}
-                >
+                <>
                   <Divider />
-                  <ReservationTimer />
-                </ReservationTimerProvider>
+                  <ReservationTimer
+                    attendees={values.attendees}
+                    callbacksDisabled={
+                      reservationTimerCallbacksDisabled.current
+                    }
+                    disableCallbacks={disableReservationTimerCallbacks}
+                    initReservationData={!cancellationCode}
+                    registration={registration}
+                    setAttendees={setAttendees}
+                  />
+                </>
               )}
 
               <Divider />
@@ -264,9 +249,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       label={t(`labelEmail`)}
                       placeholder={readOnly ? '' : t(`placeholderEmail`)}
                       readOnly={readOnly}
-                      required={values.notifications.includes(
-                        NOTIFICATIONS.EMAIL
-                      )}
+                      required
                     />
                     <Field
                       name={ENROLMENT_FIELDS.PHONE_NUMBER}
@@ -275,9 +258,13 @@ const EnrolmentForm: React.FC<Props> = ({
                       label={t(`labelPhoneNumber`)}
                       placeholder={readOnly ? '' : t(`placeholderPhoneNumber`)}
                       readOnly={readOnly}
-                      required={values.notifications.includes(
-                        NOTIFICATIONS.SMS
-                      )}
+                      required={
+                        values.notifications.includes(NOTIFICATIONS.SMS) ||
+                        isEnrolmentFieldRequired(
+                          registration,
+                          ENROLMENT_FIELDS.PHONE_NUMBER
+                        )
+                      }
                       type="tel"
                     />
                   </div>
@@ -310,6 +297,10 @@ const EnrolmentForm: React.FC<Props> = ({
                         readOnly ? '' : t(`placeholderMembershipNumber`)
                       }
                       readOnly={readOnly}
+                      required={isEnrolmentFieldRequired(
+                        registration,
+                        ENROLMENT_FIELDS.MEMBERSHIP_NUMBER
+                      )}
                     />
                   </div>
                 </FormGroup>
@@ -348,6 +339,10 @@ const EnrolmentForm: React.FC<Props> = ({
                     label={t(`labelExtraInfo`)}
                     placeholder={readOnly ? '' : t(`placeholderExtraInfo`)}
                     readOnly={readOnly}
+                    required={isEnrolmentFieldRequired(
+                      registration,
+                      ENROLMENT_FIELDS.EXTRA_INFO
+                    )}
                   />
                 </FormGroup>
               </Fieldset>

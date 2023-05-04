@@ -1,8 +1,9 @@
 import { AxiosError } from 'axios';
 import isEqual from 'lodash/isEqual';
-import { NextPageContext } from 'next';
+import snakeCase from 'lodash/snakeCase';
 
-import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
+import { FORM_NAMES } from '../../constants';
+import { ExtendedSession } from '../../types';
 import formatDate from '../../utils/formatDate';
 import queryBuilder from '../../utils/queryBuilder';
 import stringToDate from '../../utils/stringToDate';
@@ -10,7 +11,9 @@ import { callDelete, callGet, callPost } from '../app/axios/axiosClient';
 import { Registration } from '../registration/types';
 import { SeatsReservation } from '../reserveSeats/types';
 import {
+  ATTENDEE_FIELDS,
   ATTENDEE_INITIAL_VALUES,
+  ENROLMENT_FIELDS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATIONS,
   NOTIFICATION_TYPE,
@@ -27,10 +30,13 @@ import {
 
 export const fetchEnrolment = async (
   args: EnrolmentQueryVariables,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
+  session: ExtendedSession | null
 ): Promise<Enrolment> => {
   try {
-    const { data } = await callGet(enrolmentPathBuilder(args), undefined, ctx);
+    const { data } = await callGet({
+      session,
+      url: enrolmentPathBuilder(args),
+    });
     return data;
   } catch (error) {
     /* istanbul ignore next */
@@ -49,34 +55,40 @@ export const enrolmentPathBuilder = (args: EnrolmentQueryVariables): string => {
   return `/signup/${query}`;
 };
 
-export const createEnrolment = async (
-  registrationId: string,
-  input: CreateEnrolmentMutationInput,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-): Promise<CreateEnrolmentResponse> => {
+export const createEnrolment = async ({
+  input,
+  registrationId,
+  session,
+}: {
+  input: CreateEnrolmentMutationInput;
+  registrationId: string;
+  session: ExtendedSession | null;
+}): Promise<CreateEnrolmentResponse> => {
   try {
-    const { data } = await callPost(
-      `/registration/${registrationId}/signup/`,
-      JSON.stringify(input),
-      undefined,
-      ctx
-    );
+    const { data } = await callPost({
+      data: JSON.stringify(input),
+      session,
+      url: `/registration/${registrationId}/signup/`,
+    });
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
   }
 };
 
-export const deleteEnrolment = async (
-  cancellationCode: string,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-): Promise<null> => {
+export const deleteEnrolment = async ({
+  cancellationCode,
+  session,
+}: {
+  cancellationCode: string;
+  session: ExtendedSession | null;
+}): Promise<null> => {
   try {
-    const { data } = await callDelete(
-      '/signup/',
-      { data: JSON.stringify({ cancellation_code: cancellationCode }) },
-      ctx
-    );
+    const { data } = await callDelete({
+      config: { data: JSON.stringify({ cancellation_code: cancellationCode }) },
+      session,
+      url: '/signup/',
+    });
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
@@ -134,22 +146,22 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
     return {
-      city: city || null,
+      city: city || '',
       date_of_birth: dateOfBirth
         ? formatDate(stringToDate(dateOfBirth), 'yyyy-MM-dd')
         : null,
       email: email || null,
       extra_info: extraInfo,
       membership_number: membershipNumber,
-      name: name || null,
+      name: name || '',
       native_language: nativeLanguage || null,
       notifications: getEnrolmentNotificationsCode(notifications),
       phone_number: phoneNumber || null,
       service_language: serviceLanguage || null,
       street_address: streetAddress || null,
-      zipcode: zip || null,
+      zipcode: zipcode || null,
     };
   });
 
@@ -159,32 +171,23 @@ export const getEnrolmentPayload = ({
   };
 };
 
-export const getAttendeeDefaultInitialValues = (
-  registration: Registration
-): AttendeeFields => ({
+export const getAttendeeDefaultInitialValues = (): AttendeeFields => ({
   ...ATTENDEE_INITIAL_VALUES,
-  audienceMaxAge: registration.audience_max_age ?? null,
-  audienceMinAge: registration.audience_min_age ?? null,
 });
 
-export const getEnrolmentDefaultInitialValues = (
-  registration: Registration
-): EnrolmentFormFields => ({
+export const getEnrolmentDefaultInitialValues = (): EnrolmentFormFields => ({
   ...ENROLMENT_INITIAL_VALUES,
-  attendees: [getAttendeeDefaultInitialValues(registration)],
+  attendees: [getAttendeeDefaultInitialValues()],
 });
 
 export const getEnrolmentInitialValues = (
-  enrolment: Enrolment,
-  registration: Registration
+  enrolment: Enrolment
 ): EnrolmentFormFields => {
   return {
-    ...getEnrolmentDefaultInitialValues(registration),
+    ...getEnrolmentDefaultInitialValues(),
     accepted: true,
     attendees: [
       {
-        audienceMaxAge: registration.audience_max_age ?? null,
-        audienceMinAge: registration.audience_min_age ?? null,
         city: enrolment.city || '-',
         dateOfBirth: enrolment.date_of_birth
           ? formatDate(new Date(enrolment.date_of_birth))
@@ -193,7 +196,7 @@ export const getEnrolmentInitialValues = (
         inWaitingList: false,
         name: enrolment.name || '-',
         streetAddress: enrolment.street_address || '-',
-        zip: enrolment.zipcode || '-',
+        zipcode: enrolment.zipcode || '-',
       },
     ],
     email: enrolment.email || '-',
@@ -214,23 +217,15 @@ export const clearCreateEnrolmentFormData = (registrationId: string): void => {
   );
 };
 
-export const clearEnrolmentReservationData = (registrationId: string): void => {
-  sessionStorage?.removeItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
-  );
-};
-
 export const getNewAttendees = ({
   attendees,
-  registration,
   seatsReservation,
 }: {
   attendees: AttendeeFields[];
-  registration: Registration;
   seatsReservation: SeatsReservation;
 }) => {
   const { seats, seats_at_event } = seatsReservation;
-  const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
+  const attendeeInitialValues = getAttendeeDefaultInitialValues();
   const filledAttendees = attendees.filter(
     (a) => !isEqual(a, attendeeInitialValues)
   );
@@ -246,3 +241,13 @@ export const getNewAttendees = ({
       inWaitingList: index + 1 > seats_at_event,
     }));
 };
+
+export const isEnrolmentFieldRequired = (
+  registration: Registration,
+  fieldId: ATTENDEE_FIELDS | ENROLMENT_FIELDS
+): boolean => registration.mandatory_fields.includes(snakeCase(fieldId));
+
+export const isDateOfBirthFieldRequired = (
+  registration: Registration
+): boolean =>
+  Boolean(registration.audience_max_age || registration.audience_min_age);

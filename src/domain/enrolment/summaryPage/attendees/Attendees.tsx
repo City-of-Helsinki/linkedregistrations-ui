@@ -20,7 +20,7 @@ const Attendees: React.FC = () => {
   return (
     <div className={styles.attendees}>
       <h2>{t('titleAttendeesInfo')}</h2>
-      {attendees.map((attendee, index: number) => {
+      {attendees.map((attendee, index) => {
         return (
           <Attendee
             key={index}

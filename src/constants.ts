@@ -1,7 +1,3 @@
-export const LINKED_EVENTS_URL =
-  process.env.NEXT_PUBLIC_LINKED_EVENTS_URL ??
-  'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1';
-
 export enum SUPPORTED_LANGUAGES {
   FI = 'fi',
   SV = 'sv',

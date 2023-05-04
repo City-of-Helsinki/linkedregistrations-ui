@@ -2,41 +2,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import merge from 'lodash/merge';
-import { Session } from 'next-auth';
 
-import { TEST_ACCESS_TOKEN, TEST_API_TOKEN } from '../domain/auth/constants';
+import {
+  TEST_ACCESS_TOKEN,
+  TEST_API_TOKEN,
+  TEST_REFRESH_TOKEN,
+} from '../domain/auth/constants';
 import { TEST_USER_ID } from '../domain/user/constants';
-import { ExtendedSession } from '../types';
+import { ExtendedSession, OidcUser } from '../types';
 
-type SessionUser = {
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-};
-
-export const fakeSessionUser = (
-  overrides?: Partial<SessionUser>
-): SessionUser =>
-  merge<SessionUser, typeof overrides>(
+export const fakeOidcUser = (overrides?: Partial<OidcUser>): OidcUser =>
+  merge<OidcUser, typeof overrides>(
     {
+      id: TEST_USER_ID,
       name: faker.name.firstName(),
       email: faker.internet.email(),
-      image: null,
+      email_verified: true,
+      family_name: faker.name.lastName(),
+      given_name: faker.name.firstName(),
+      nickname: faker.name.firstName(),
     },
     overrides
   );
 
 export const sessionDefaultValue: ExtendedSession = {
-  user: fakeSessionUser(),
-  expires: '2022-11-02T13:10:14.577Z',
   accessToken: TEST_ACCESS_TOKEN,
-  accessTokenExpiresAt: 1664803843,
-  apiToken: TEST_API_TOKEN,
-  apiTokenExpiresAt: 1664802675,
-  sub: TEST_USER_ID,
+  accessTokenExpires: 1664803843,
+  apiTokens: { linkedevents: TEST_API_TOKEN },
+  expires: '2022-11-02T13:10:14.577Z',
+  refreshToken: TEST_REFRESH_TOKEN,
+  user: fakeOidcUser(),
 };
 
 export const fakeAuthenticatedSession = (
-  overrides?: Partial<Session>
-): Session =>
-  merge<Session, typeof overrides>({ ...sessionDefaultValue }, overrides);
+  overrides?: Partial<ExtendedSession>
+): ExtendedSession =>
+  merge<ExtendedSession, typeof overrides>(
+    { ...sessionDefaultValue },
+    overrides
+  );

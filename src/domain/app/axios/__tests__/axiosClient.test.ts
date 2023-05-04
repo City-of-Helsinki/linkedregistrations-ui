@@ -1,22 +1,18 @@
+import { fakeAuthenticatedSession } from '../../../../utils/mockSession';
 import { TEST_API_TOKEN } from '../../../auth/constants';
-import {
-  clearApiTokenFromCookie,
-  setApiTokenToCookie,
-} from '../../../auth/utils';
 import axiosClient, { callDelete, callGet, callPost } from '../axiosClient';
 
 const apiToken = TEST_API_TOKEN;
 
-afterEach(() => {
+beforeEach(() => {
   jest.clearAllMocks();
-  clearApiTokenFromCookie();
 });
 
 describe('callDelete', () => {
   it('should call axios delete without authorization header', async () => {
     const axiosDelete = jest.spyOn(axiosClient, 'delete').mockResolvedValue({});
 
-    callDelete('/test/');
+    await callDelete({ session: null, url: '/test/' });
 
     expect(axiosDelete).toHaveBeenCalledTimes(1);
     expect(axiosDelete).toHaveBeenCalledWith('/test/', undefined);
@@ -25,8 +21,7 @@ describe('callDelete', () => {
   it('should call axios delete with authorization header', async () => {
     const axiosDelete = jest.spyOn(axiosClient, 'delete').mockResolvedValue({});
 
-    setApiTokenToCookie(apiToken);
-    callDelete('/test/');
+    await callDelete({ session: fakeAuthenticatedSession(), url: '/test/' });
 
     expect(axiosDelete).toHaveBeenCalledTimes(1);
     expect(axiosDelete).toHaveBeenCalledWith('/test/', {
@@ -39,7 +34,7 @@ describe('callGet', () => {
   it('should call axios get without authorization header', async () => {
     const axiosGet = jest.spyOn(axiosClient, 'get').mockResolvedValue({});
 
-    callGet('/test/');
+    await callGet({ session: null, url: '/test/' });
 
     expect(axiosGet).toHaveBeenCalledTimes(1);
     expect(axiosGet).toHaveBeenCalledWith('/test/', undefined);
@@ -48,8 +43,7 @@ describe('callGet', () => {
   it('should call axios get with authorization header', async () => {
     const axiosGet = jest.spyOn(axiosClient, 'get').mockResolvedValue({});
 
-    setApiTokenToCookie(apiToken);
-    callGet('/test/');
+    await callGet({ session: fakeAuthenticatedSession(), url: '/test/' });
 
     expect(axiosGet).toHaveBeenCalledTimes(1);
     expect(axiosGet).toHaveBeenCalledWith('/test/', {
@@ -62,7 +56,7 @@ describe('callPost', () => {
   it('should call axios post without authorization header', async () => {
     const axiosPost = jest.spyOn(axiosClient, 'post').mockResolvedValue({});
 
-    callPost('/test/', 'data');
+    await callPost({ data: 'data', session: null, url: '/test/' });
 
     expect(axiosPost).toHaveBeenCalledTimes(1);
     expect(axiosPost).toHaveBeenCalledWith('/test/', 'data', undefined);
@@ -71,8 +65,11 @@ describe('callPost', () => {
   it('should call axios post with authorization header', async () => {
     const axiosPost = jest.spyOn(axiosClient, 'post').mockResolvedValue({});
 
-    setApiTokenToCookie(apiToken);
-    callPost('/test/', 'data');
+    await callPost({
+      data: 'data',
+      session: fakeAuthenticatedSession(),
+      url: '/test/',
+    });
 
     expect(axiosPost).toHaveBeenCalledTimes(1);
     expect(axiosPost).toHaveBeenCalledWith('/test/', 'data', {

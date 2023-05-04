@@ -10,10 +10,15 @@ import TextAreaField from '../../../../../common/components/formFields/TextAreaF
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import useLocale from '../../../../../hooks/useLocale';
+import { Registration } from '../../../../registration/types';
 import { ATTENDEE_FIELDS } from '../../../constants';
 import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import InWaitingListInfo from '../../../inWaitingListInfo/InWaitingListInfo';
 import { AttendeeFields } from '../../../types';
+import {
+  isDateOfBirthFieldRequired,
+  isEnrolmentFieldRequired,
+} from '../../../utils';
 import styles from './attendee.module.scss';
 
 type Props = {
@@ -23,6 +28,7 @@ type Props = {
   index: number;
   onDelete: () => void;
   readOnly?: boolean;
+  registration: Registration;
   showDelete: boolean;
 };
 
@@ -36,6 +42,7 @@ const Attendee: React.FC<Props> = ({
   index,
   onDelete,
   readOnly,
+  registration,
   showDelete,
 }) => {
   const { t } = useTranslation(['enrolment']);
@@ -74,7 +81,10 @@ const Attendee: React.FC<Props> = ({
             label={t(`labelName`)}
             placeholder={readOnly ? '' : t(`placeholderName`)}
             readOnly={readOnly}
-            required
+            required={isEnrolmentFieldRequired(
+              registration,
+              ATTENDEE_FIELDS.NAME
+            )}
           />
         </FormGroup>
         <FormGroup>
@@ -90,7 +100,10 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelStreetAddress`)}
               placeholder={readOnly ? '' : t(`placeholderStreetAddress`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentFieldRequired(
+                registration,
+                ATTENDEE_FIELDS.STREET_ADDRESS
+              )}
             />
             <Field
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
@@ -99,7 +112,7 @@ const Attendee: React.FC<Props> = ({
               language={locale}
               placeholder={readOnly ? '' : t(`placeholderDateOfBirth`)}
               readOnly={readOnly}
-              required
+              required={isDateOfBirthFieldRequired(registration)}
               {...(readOnly
                 ? { component: TextInputField }
                 : {
@@ -119,13 +132,16 @@ const Attendee: React.FC<Props> = ({
             })}
           >
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIP)}
+              name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={formDisabled}
-              label={t(`labelZip`)}
-              placeholder={readOnly ? '' : t(`placeholderZip`)}
+              label={t(`labelZipcode`)}
+              placeholder={readOnly ? '' : t(`placeholderZipcode`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentFieldRequired(
+                registration,
+                ATTENDEE_FIELDS.ZIPCODE
+              )}
             />
             <Field
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.CITY)}
@@ -134,7 +150,10 @@ const Attendee: React.FC<Props> = ({
               label={t(`labelCity`)}
               placeholder={readOnly ? '' : t(`placeholderCity`)}
               readOnly={readOnly}
-              required
+              required={isEnrolmentFieldRequired(
+                registration,
+                ATTENDEE_FIELDS.CITY
+              )}
             />
           </div>
         </FormGroup>
@@ -146,6 +165,10 @@ const Attendee: React.FC<Props> = ({
           label={t(`labelAttendeeExtraInfo`)}
           placeholder={readOnly ? '' : t(`placeholderAttendeeExtraInfo`)}
           readOnly={readOnly}
+          required={isEnrolmentFieldRequired(
+            registration,
+            ATTENDEE_FIELDS.EXTRA_INFO
+          )}
         />
       </Fieldset>
     </Accordion>

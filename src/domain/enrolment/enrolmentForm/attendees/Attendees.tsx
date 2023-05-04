@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 import { FieldArray, useField } from 'formik';
+import { useSession } from 'next-auth/react';
 import React, { useRef, useState } from 'react';
 
+import { ExtendedSession } from '../../../../types';
 import { reportError } from '../../../app/sentry/utils';
 import { Registration } from '../../../registration/types';
 import { useUpdateReserveSeatsMutation } from '../../../reserveSeats/mutation';
@@ -31,6 +33,8 @@ const Attendees: React.FC<Props> = ({
   readOnly,
   registration,
 }) => {
+  const { data: session } = useSession() as { data: ExtendedSession | null };
+
   const indexToRemove = useRef(-1);
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
@@ -47,40 +51,42 @@ const Attendees: React.FC<Props> = ({
   };
 
   const updateReserveSeatsMutation = useUpdateReserveSeatsMutation({
-    onError: (error, variables) => {
-      showServerErrors(
-        { error: JSON.parse(error.message) },
-        'seatsReservation'
-      );
+    options: {
+      onError: (error, variables) => {
+        showServerErrors(
+          { error: JSON.parse(error.message) },
+          'seatsReservation'
+        );
 
-      reportError({
-        data: {
-          error: JSON.parse(error.message),
-          payload: variables,
-          payloadAsString: JSON.stringify(variables),
-        },
-        message: 'Failed to update reserve seats',
-      });
+        reportError({
+          data: {
+            error: JSON.parse(error.message),
+            payload: variables,
+            payloadAsString: JSON.stringify(variables),
+          },
+          message: 'Failed to update reserve seats',
+        });
 
-      setSaving(false);
-      closeModal();
+        setSaving(false);
+        closeModal();
+      },
+      onSuccess: (seatsReservation) => {
+        const newAttendees = getNewAttendees({
+          attendees: attendees.filter(
+            (_, index) => index !== indexToRemove.current
+          ),
+          seatsReservation,
+        });
+
+        setAttendees(newAttendees);
+
+        setSeatsReservationData(registration.id, seatsReservation);
+
+        setSaving(false);
+        closeModal();
+      },
     },
-    onSuccess: (seatsReservation) => {
-      const newAttendees = getNewAttendees({
-        attendees: attendees.filter(
-          (_, index) => index !== indexToRemove.current
-        ),
-        registration,
-        seatsReservation,
-      });
-
-      setAttendees(newAttendees);
-
-      setSeatsReservationData(registration.id, seatsReservation);
-
-      setSaving(false);
-      closeModal();
-    },
+    session,
   });
 
   return (
@@ -122,13 +128,13 @@ const Attendees: React.FC<Props> = ({
                     participantCount={1}
                   />
                   <Attendee
-                    key={index}
                     attendee={attendee}
                     attendeePath={getAttendeePath(index)}
                     formDisabled={formDisabled}
                     index={index}
                     onDelete={openModal}
                     readOnly={readOnly}
+                    registration={registration}
                     showDelete={attendees.length > 1}
                   />
                 </React.Fragment>

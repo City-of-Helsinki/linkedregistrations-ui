@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import isPast from 'date-fns/isPast';
 
 import { RESERVATION_NAMES } from '../../constants';
+import { ExtendedSession } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
 import { callPost } from '../app/axios/axiosClient';
 import {
@@ -11,14 +12,18 @@ import {
 } from './types';
 
 export const reserveSeats = async ({
-  registration,
-  ...input
-}: ReserveSeatsInput): Promise<SeatsReservation> => {
+  input: { registration, ...input },
+  session,
+}: {
+  input: ReserveSeatsInput;
+  session: ExtendedSession | null;
+}): Promise<SeatsReservation> => {
   try {
-    const { data } = await callPost(
-      `/registration/${registration}/reserve_seats/`,
-      JSON.stringify(input)
-    );
+    const { data } = await callPost({
+      data: JSON.stringify(input),
+      session,
+      url: `/registration/${registration}/reserve_seats/`,
+    });
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
@@ -28,15 +33,18 @@ export const reserveSeats = async ({
 // TODO: Update seats reservation instead of creating new one
 // when API supports PUT request
 export const updateReserveSeats = async ({
-  code,
-  registration,
-  ...input
-}: UpdateReserveSeatsInput): Promise<SeatsReservation> => {
+  input: { code, registration, ...input },
+  session,
+}: {
+  input: UpdateReserveSeatsInput;
+  session: ExtendedSession | null;
+}): Promise<SeatsReservation> => {
   try {
-    const { data } = await callPost(
-      `/registration/${registration}/reserve_seats/`,
-      JSON.stringify(input)
-    );
+    const { data } = await callPost({
+      data: JSON.stringify(input),
+      session,
+      url: `/registration/${registration}/reserve_seats/`,
+    });
     return data;
   } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
@@ -63,6 +71,12 @@ export const setSeatsReservationData = (
   sessionStorage?.setItem(
     `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`,
     JSON.stringify(seatsReservation)
+  );
+};
+
+export const clearSeatsReservationData = (registrationId: string): void => {
+  sessionStorage?.removeItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
   );
 };
 

@@ -1,47 +1,63 @@
 /* eslint-disable no-console */
-import axios, { AxiosResponse } from 'axios';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import { OptionsType } from 'cookies-next/lib/types';
+import axios from 'axios';
 
-import getUnixTime from '../../utils/getUnixTime';
-import {
-  API_SCOPE,
-  API_TOKEN_EXPIRATION_TIME,
-  API_TOKEN_NOTIFICATION_TIME,
-  OIDC_API_TOKEN_ENDPOINT,
-} from './constants';
+import { APITokens, ExtendedSession, RefreshTokenResponse } from '../../types';
+import { User } from '../user/types';
 
-const storageKey = `oidc.api-token.${API_SCOPE}`;
-
-export const getApiTokenFromCookie = (options?: OptionsType): string | null =>
-  (getCookie(storageKey, options) as string | null) ?? null;
-
-export const setApiTokenToCookie = (
-  accessToken: string,
-  options?: OptionsType
-): void => setCookie(storageKey, accessToken, options);
-
-export const clearApiTokenFromCookie = (options?: OptionsType): void =>
-  deleteCookie(storageKey, options);
-
-export const fetchApiToken = async ({
+export const getApiTokensRequest = async ({
   accessToken,
+  linkedEventsApiScope,
+  url,
 }: {
   accessToken: string;
-}): Promise<string | null> => {
-  const res: AxiosResponse = await axios.get(OIDC_API_TOKEN_ENDPOINT, {
-    headers: { Authorization: `bearer ${accessToken}` },
+  linkedEventsApiScope: string;
+  url: string;
+}): Promise<APITokens> => {
+  const response = await axios.post(url, undefined, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    responseType: 'json',
   });
 
-  const apiToken = res.data[API_SCOPE];
-  return apiToken;
+  const linkedevents = response.data[linkedEventsApiScope];
+
+  return { linkedevents };
 };
 
-export const getApiTokenExpirationTime = (): number =>
-  getUnixTime(new Date()) + API_TOKEN_EXPIRATION_TIME;
-
-export const isApiTokenExpiring = (expirationTime: number | null): boolean =>
-  Boolean(
-    expirationTime &&
-      getUnixTime(new Date()) > expirationTime - API_TOKEN_NOTIFICATION_TIME
+export const refreshAccessTokenRequest = async ({
+  clientId,
+  clientSecret,
+  refreshToken,
+  url,
+}: {
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+  url: string;
+}): Promise<RefreshTokenResponse> => {
+  const response = await axios.post(
+    url,
+    {
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    },
+    {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      responseType: 'json',
+    }
   );
+
+  return response.data;
+};
+
+export const getUserName = ({
+  session,
+  user,
+}: {
+  session: ExtendedSession | null;
+  user: User | undefined;
+}): string => user?.display_name || session?.user?.email || '';

@@ -55,8 +55,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
           <div dangerouslySetInnerHTML={{ __html: description }}></div>
         </div>
         <div className={styles.keywordsRow}>
-          {keywords.map((keyword, index) => (
-            <Tag key={index} id={keyword.id}>
+          {keywords.map((keyword) => (
+            <Tag key={keyword.id} id={keyword.id}>
               {capitalize(getLocalisedString(keyword.name, locale))}
             </Tag>
           ))}

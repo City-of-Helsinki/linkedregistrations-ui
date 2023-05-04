@@ -1,19 +1,30 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { NextPageContext } from 'next';
 
-import { LINKED_EVENTS_URL } from '../../../constants';
-import { getApiTokenFromCookie } from '../../auth/utils';
+import { ExtendedSession } from '../../../types';
+import getPublicRuntimeConfig from '../../../utils/getPublicRuntimeConfig';
 
-const axiosClient = axios.create({
-  baseURL: LINKED_EVENTS_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
+const getAxiosClient = () => {
+  const { linkedEventsApiBaseUrl } = getPublicRuntimeConfig();
 
-const getRequestConfig = (
-  config?: AxiosRequestConfig,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-): AxiosRequestConfig | undefined => {
-  const token = getApiTokenFromCookie(ctx);
+  return axios.create({
+    baseURL: linkedEventsApiBaseUrl,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+const axiosClient = getAxiosClient();
+
+const getLinkedEventsApiToken = (session: ExtendedSession | null) =>
+  session?.apiTokens?.linkedevents;
+
+const getRequestConfig = ({
+  config,
+  session,
+}: {
+  config?: AxiosRequestConfig;
+  session: ExtendedSession | null;
+}): AxiosRequestConfig | undefined => {
+  const token = getLinkedEventsApiToken(session);
 
   return token
     ? {
@@ -23,29 +34,42 @@ const getRequestConfig = (
     : config;
 };
 
-export const callDelete = (
-  url: string,
-  config?: AxiosRequestConfig,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-) => {
-  return axiosClient.delete(url, getRequestConfig(config, ctx));
+export const callDelete = async ({
+  config,
+  session,
+  url,
+}: {
+  config?: AxiosRequestConfig;
+  session: ExtendedSession | null;
+  url: string;
+}) => {
+  return axiosClient.delete(url, getRequestConfig({ config, session }));
 };
 
-export const callGet = (
-  url: string,
-  config?: AxiosRequestConfig,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-) => {
-  return axiosClient.get(url, getRequestConfig(config, ctx));
+export const callGet = async ({
+  config,
+  session,
+  url,
+}: {
+  config?: AxiosRequestConfig;
+  session: ExtendedSession | null;
+  url: string;
+}) => {
+  return axiosClient.get(url, getRequestConfig({ config, session }));
 };
 
-export const callPost = (
-  url: string,
-  data: string,
-  config?: AxiosRequestConfig,
-  ctx?: Pick<NextPageContext, 'req' | 'res'>
-) => {
-  return axiosClient.post(url, data, getRequestConfig(config, ctx));
+export const callPost = async ({
+  config,
+  data,
+  session,
+  url,
+}: {
+  config?: AxiosRequestConfig;
+  data: string;
+  session: ExtendedSession | null;
+  url: string;
+}) => {
+  return axiosClient.post(url, data, getRequestConfig({ config, session }));
 };
 
 export default axiosClient;

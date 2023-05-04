@@ -9,15 +9,20 @@ const createJestConfig = nextJest({ dir: './' });
 // Any custom config you want to pass to Jest
 const customJestConfig = {
   coverageProvider: 'babel',
+  coverageReporters: ['clover', 'json', 'lcov', 'text', 'cobertura'],
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
   coveragePathIgnorePatterns: [
-    '<rootDir>/src/domain/auth/ApiTokenUpdater.tsx',
-    '<rootDir>/src/domain/auth/hooks/useApiTokenUpdater.ts',
-    '<rootDir>/src/pages/',
+    '<rootDir>/src/pages/404.tsx',
+    '<rootDir>/src/pages/_app.tsx',
+    '<rootDir>/src/pages/_document.tsx',
+    '<rootDir>/src/pages/_error.tsx',
+    '<rootDir>/src/pages/callback.tsx',
+    '<rootDir>/src/pages/healthz.ts',
+    '<rootDir>/src/pages/readiness.ts',
     '<rootDir>/src/tests/',
     '<rootDir>/src/utils/getPageHeaderHeight.ts',
     '<rootDir>/src/utils/getSessionAndUser.ts',
@@ -29,7 +34,7 @@ const customJestConfig = {
     'types.ts',
   ],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'jsdom',
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
@@ -50,6 +55,11 @@ module.exports = async () => {
         {
           jsc: {
             preserveAllComments: true,
+            transform: {
+              react: {
+                runtime: 'automatic',
+              },
+            },
           },
         },
       ],

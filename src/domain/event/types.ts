@@ -1,4 +1,9 @@
-import { LocalisedObject, numberOrNull, stringOrNull } from '../api/types';
+import {
+  LocalisedObject,
+  dateOrNull,
+  numberOrNull,
+  stringOrNull,
+} from '../api/types';
 import { Image } from '../image/types';
 import { Keyword } from '../keyword/types';
 import { LELanguage } from '../language/types';
@@ -51,7 +56,7 @@ export type Event = {
   in_language: LELanguage[];
   keywords: Keyword[];
   last_modified_time: stringOrNull;
-  location: Place;
+  location: Place | null;
   location_extra_info: LocalisedObject;
   maximum_attendee_capacity: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
@@ -77,7 +82,7 @@ export type EventFields = {
   audienceMaxAge: numberOrNull;
   audienceMinAge: numberOrNull;
   description: string;
-  endTime: Date | null;
+  endTime: dateOrNull;
   freeEvent: boolean;
   imageUrl: stringOrNull;
   keywords: Keyword[];
@@ -85,9 +90,4 @@ export type EventFields = {
   offers: Offer[];
   shortDescription: string;
   startTime: Date | null;
-};
-
-export type EventQueryVariables = {
-  id: string;
-  include?: string[];
 };

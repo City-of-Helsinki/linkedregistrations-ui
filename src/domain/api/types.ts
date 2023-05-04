@@ -1,3 +1,4 @@
+export type dateOrNull = Date | null;
 export type numberOrNull = number | null;
 export type stringOrNull = string | null;
 

@@ -8,9 +8,10 @@ import { getEventFields } from '../../event/utils';
 
 interface Props {
   event: Event;
+  title?: string;
 }
 
-const EditEnrolmentPageMeta: React.FC<Props> = ({ event }) => {
+const EnrolmentPageMeta: React.FC<Props> = ({ event, title }) => {
   const locale = useLocale();
 
   const {
@@ -20,15 +21,17 @@ const EditEnrolmentPageMeta: React.FC<Props> = ({ event }) => {
     shortDescription: description,
   } = getEventFields(event, locale);
 
+  const pageTitle = title || name;
+
   const openGraphProperties = {
     description: description,
     image: image as string,
-    title: name,
+    title: pageTitle,
   };
 
   return (
     <Head>
-      <title>{name}</title>
+      <title>{pageTitle}</title>
       <meta name="description" content={description} />
       <meta
         name="keywords"
@@ -48,4 +51,4 @@ const EditEnrolmentPageMeta: React.FC<Props> = ({ event }) => {
   );
 };
 
-export default EditEnrolmentPageMeta;
+export default EnrolmentPageMeta;

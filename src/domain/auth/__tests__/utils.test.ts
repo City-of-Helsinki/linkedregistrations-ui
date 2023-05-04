@@ -1,93 +1,72 @@
-/* eslint-disable no-console */
 import mockAxios from 'axios';
-import { advanceTo, clear } from 'jest-date-mock';
 
-import { API_SCOPE, TEST_ACCESS_TOKEN, TEST_API_TOKEN } from '../constants';
-import {
-  clearApiTokenFromCookie,
-  fetchApiToken,
-  getApiTokenExpirationTime,
-  getApiTokenFromCookie,
-  isApiTokenExpiring,
-  setApiTokenToCookie,
-} from '../utils';
+import { APITokens, RefreshTokenResponse } from '../../../types';
+import { getApiTokensRequest, refreshAccessTokenRequest } from '../utils';
 
-const accessToken = TEST_ACCESS_TOKEN;
-const apiToken = TEST_API_TOKEN;
+const accessToken = 'access-token';
+const apiToken = 'linked-events-api-token';
+const apiTokensUrl = 'https://localhost:8000/api-tokens/';
+const clientId = 'client-id';
+const clientSecret = 'client-secret';
+const linkedEventsApiScope = 'linkedevents';
+const refreshToken = 'refresh-token';
+const tokenUrl = 'https://localhost:8000/token/';
 
-afterEach(() => {
-  clear();
-});
+describe('getApiTokensRequest function', () => {
+  it('should fetch api token', async () => {
+    const apiTokenResponse: APITokens = { [linkedEventsApiScope]: apiToken };
+    const axiosFn = jest
+      .spyOn(mockAxios, 'post')
+      .mockResolvedValue({ data: { ...apiTokenResponse } });
 
-const axiosCalled = async ({
-  accessToken,
-  axiosFn,
-}: {
-  accessToken: string;
-  axiosFn: jest.SpyInstance;
-}) => {
-  expect(axiosFn).toHaveBeenCalledWith(
-    `${process.env.NEXT_PUBLIC_OIDC_AUTHORITY}/api-tokens/`,
-    { headers: { Authorization: `bearer ${accessToken}` } }
-  );
-};
-
-const apiTokenFetchSucceeded = async ({
-  accessToken,
-  axiosFn,
-}: {
-  accessToken: string;
-  axiosFn: jest.SpyInstance;
-}) => {
-  axiosCalled({ accessToken, axiosFn });
-};
-
-describe('fetchApiToken function', () => {
-  it('should fetxh api token', async () => {
-    const axiosGet = jest
-      .spyOn(mockAxios, 'get')
-      .mockResolvedValue({ data: { [API_SCOPE]: apiToken } });
-
-    await fetchApiToken({ accessToken });
-
-    await apiTokenFetchSucceeded({
+    await getApiTokensRequest({
       accessToken,
-      axiosFn: axiosGet,
+      linkedEventsApiScope,
+      url: apiTokensUrl,
+    });
+
+    await expect(axiosFn).toHaveBeenCalledWith(apiTokensUrl, undefined, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      responseType: 'json',
     });
   });
 });
 
-describe('getApiTokenFromCookie function', () => {
-  it('should store api token to session storage and get it from there', async () => {
-    expect(getApiTokenFromCookie()).toBe(null);
+describe('getApiTokensRequest function', () => {
+  it('should fetch api token', async () => {
+    const apiTokenResponse: RefreshTokenResponse = {
+      access_token: accessToken,
+      expires_in: 3600,
+      id_token: 'id-token',
+      refresh_token: refreshToken,
+      token_type: 'type',
+    };
+    const axiosFn = jest
+      .spyOn(mockAxios, 'post')
+      .mockResolvedValue({ data: { ...apiTokenResponse } });
 
-    setApiTokenToCookie(apiToken);
-    expect(getApiTokenFromCookie()).toBe(apiToken);
+    await refreshAccessTokenRequest({
+      clientId,
+      clientSecret,
+      refreshToken,
+      url: tokenUrl,
+    });
 
-    clearApiTokenFromCookie();
-    expect(getApiTokenFromCookie()).toBe(null);
-  });
-});
-
-describe('getApiTokenExpirationTime function', () => {
-  it('should get expiration time', async () => {
-    advanceTo('2022-09-08');
-    expect(getApiTokenExpirationTime()).toBe(1662595260);
-  });
-});
-
-describe('isApiTokenExpiring', () => {
-  const expirationTime = 1662595260;
-
-  it('should return true', async () => {
-    advanceTo('2022-09-08');
-    expect(isApiTokenExpiring(expirationTime - 60)).toBe(true);
-  });
-
-  it('should return true', async () => {
-    advanceTo('2022-09-08');
-
-    expect(isApiTokenExpiring(null)).toBe(false);
-    expect(isApiTokenExpiring(expirationTime - 59)).toBe(false);
+    await expect(axiosFn).toHaveBeenCalledWith(
+      tokenUrl,
+      {
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      },
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        responseType: 'json',
+      }
+    );
   });
 });
