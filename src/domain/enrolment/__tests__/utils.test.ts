@@ -21,7 +21,14 @@ import {
 
 describe('enrolmentPathBuilder function', () => {
   const cases: [EnrolmentQueryVariables, string][] = [
-    [{ cancellationCode: 'hel:123' }, '/signup/?cancellation_code=hel:123'],
+    [
+      {
+        cancellationCode: 'hel:123',
+        enrolmentId: 'enrolment:1',
+        registrationId: 'registration:1',
+      },
+      '/registration/registration:1/signup/enrolment:1/?cancellation_code=hel:123',
+    ],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

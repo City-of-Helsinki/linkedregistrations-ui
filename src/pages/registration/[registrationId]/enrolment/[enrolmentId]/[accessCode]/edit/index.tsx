@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import { NextPage } from 'next';
 
-import EditEnrolmentPage from '../../../../../../domain/enrolment/EditEnrolmentPage';
-import generateEnrolmentGetServerSideProps from '../../../../../../utils/generateEnrolmentGetServerSideProps';
+import EditEnrolmentPage from '../../../../../../../domain/enrolment/EditEnrolmentPage';
+import generateEnrolmentGetServerSideProps from '../../../../../../../utils/generateEnrolmentGetServerSideProps';
 
 const EditEnrolment: NextPage = () => <EditEnrolmentPage />;
 

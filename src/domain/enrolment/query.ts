@@ -18,7 +18,7 @@ export const fetchEnrolmentQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<Enrolment> => {
-  return queryClient.fetchQuery(['enrolment', args.cancellationCode], () =>
+  return queryClient.fetchQuery(['enrolment', args.enrolmentId], () =>
     fetchEnrolment(args, session)
   );
 };
@@ -32,7 +32,7 @@ export const prefetchEnrolmentQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<void> => {
-  return queryClient.prefetchQuery(['enrolment', args.cancellationCode], () =>
+  return queryClient.prefetchQuery(['enrolment', args.enrolmentId], () =>
     fetchEnrolment(args, session)
   );
 };
@@ -47,7 +47,7 @@ export const useEnrolmentQuery = ({
   session: ExtendedSession | null;
 }): UseQueryResult<Enrolment> => {
   return useQuery<Enrolment, Error>(
-    ['enrolment', args.cancellationCode],
+    ['enrolment', args.enrolmentId],
     () => fetchEnrolment(args, session),
     options
   );

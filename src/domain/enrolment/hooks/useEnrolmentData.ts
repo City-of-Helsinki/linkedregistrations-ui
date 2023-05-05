@@ -20,7 +20,11 @@ const useEnrolmentData = (): UseEnrolmentDataState => {
     isFetching,
     status,
   } = useEnrolmentQuery({
-    args: { cancellationCode: query.accessCode as string },
+    args: {
+      cancellationCode: query.accessCode as string,
+      enrolmentId: query.enrolmentId as string,
+      registrationId: query.registrationId as string,
+    },
     session,
   });
 

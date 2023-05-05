@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -19,14 +18,12 @@ import { Enrolment } from './types';
 import { getEnrolmentInitialValues } from './utils';
 
 type Props = {
-  cancellationCode: string;
   enrolment: Enrolment;
   event: Event;
   registration: Registration;
 };
 
 const EditEnrolmentPage: React.FC<Props> = ({
-  cancellationCode,
   enrolment,
   event,
   registration,
@@ -41,7 +38,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
           <EventInfo event={event} registration={registration} />
 
           <EnrolmentForm
-            cancellationCode={cancellationCode}
+            enrolment={enrolment}
             initialValues={initialValues}
             readOnly={true}
             registration={registration}
@@ -53,7 +50,6 @@ const EditEnrolmentPage: React.FC<Props> = ({
 };
 
 const EditEnrolmentPageWrapper: React.FC = () => {
-  const { query } = useRouter();
   const {
     event,
     isLoading: isLoadingEventOrReigstration,
@@ -69,7 +65,6 @@ const EditEnrolmentPageWrapper: React.FC = () => {
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
             <EditEnrolmentPage
-              cancellationCode={query.accessCode as string}
               enrolment={enrolment}
               event={event}
               registration={registration}

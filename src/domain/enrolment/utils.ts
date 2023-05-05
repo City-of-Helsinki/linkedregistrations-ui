@@ -45,14 +45,14 @@ export const fetchEnrolment = async (
 };
 
 export const enrolmentPathBuilder = (args: EnrolmentQueryVariables): string => {
-  const { cancellationCode } = args;
+  const { cancellationCode, enrolmentId, registrationId } = args;
   const variableToKeyItems = [
     { key: 'cancellation_code', value: cancellationCode },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
-  return `/signup/${query}`;
+  return `/registration/${registrationId}/signup/${enrolmentId}/${query}`;
 };
 
 export const createEnrolment = async ({
@@ -78,16 +78,24 @@ export const createEnrolment = async ({
 
 export const deleteEnrolment = async ({
   cancellationCode,
+  enrolmentId,
+  registrationId,
   session,
 }: {
   cancellationCode: string;
+  enrolmentId: string;
+  registrationId: string;
   session: ExtendedSession | null;
 }): Promise<null> => {
   try {
+    const variableToKeyItems = [
+      { key: 'cancellation_code', value: cancellationCode },
+    ];
+    const query = queryBuilder(variableToKeyItems);
+
     const { data } = await callDelete({
-      config: { data: JSON.stringify({ cancellation_code: cancellationCode }) },
       session,
-      url: '/signup/',
+      url: `/registration/${registrationId}/signup/${enrolmentId}/${query}`,
     });
     return data;
   } catch (error) {

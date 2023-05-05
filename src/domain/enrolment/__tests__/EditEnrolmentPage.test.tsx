@@ -21,7 +21,10 @@ import { languagesResponse } from '../../language/__mocks__/languages';
 import { registration } from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { enrolment } from '../__mocks__/enrolment';
-import { TEST_ENROLMENT_CANCELLATION_CODE } from '../constants';
+import {
+  TEST_ENROLMENT_CANCELLATION_CODE,
+  TEST_ENROLMENT_ID,
+} from '../constants';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
 configure({ defaultHidden: true });
@@ -105,6 +108,7 @@ test('should edit enrolment page field', async () => {
     pathname: ROUTES.EDIT_ENROLMENT,
     query: {
       accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
+      enrolmentId: TEST_ENROLMENT_ID,
       registrationId: TEST_REGISTRATION_ID,
     },
   });
@@ -141,7 +145,7 @@ test('should cancel enrolment', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.delete(`*/signup/`, (req, res, ctx) =>
+    rest.delete(`*/signup/${TEST_ENROLMENT_ID}`, (req, res, ctx) =>
       res(ctx.status(201), ctx.json(null))
     )
   );
@@ -149,6 +153,7 @@ test('should cancel enrolment', async () => {
     pathname: ROUTES.EDIT_ENROLMENT,
     query: {
       accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
+      enrolmentId: TEST_ENROLMENT_ID,
       registrationId: TEST_REGISTRATION_ID,
     },
   });
@@ -179,7 +184,7 @@ test('should show error message when cancelling enrolment fails', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.delete(`*/signup/`, (req, res, ctx) =>
+    rest.delete(`*/signup/${TEST_ENROLMENT_ID}`, (req, res, ctx) =>
       res(ctx.status(403), ctx.json({ detail: 'Malformed UUID.' }))
     )
   );
@@ -187,6 +192,7 @@ test('should show error message when cancelling enrolment fails', async () => {
     pathname: ROUTES.EDIT_ENROLMENT,
     query: {
       accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
+      enrolmentId: TEST_ENROLMENT_ID,
       registrationId: TEST_REGISTRATION_ID,
     },
   });
@@ -226,6 +232,7 @@ test('should show not found page if registration does not exist', async () => {
     pathname: ROUTES.EDIT_ENROLMENT,
     query: {
       accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
+      enrolmentId: TEST_ENROLMENT_ID,
       registrationId: 'not-found',
     },
   });

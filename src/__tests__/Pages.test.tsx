@@ -12,7 +12,7 @@ import { ROUTES } from '../domain/app/routes/constants';
 import { enrolment } from '../domain/enrolment/__mocks__/enrolment';
 import {
   NOTIFICATIONS,
-  TEST_ENROLMENT_CANCELLATION_CODE,
+  TEST_ENROLMENT_ID,
 } from '../domain/enrolment/constants';
 import { EnrolmentFormFields } from '../domain/enrolment/types';
 import { event } from '../domain/event/__mocks__/event';
@@ -21,7 +21,7 @@ import { registration } from '../domain/registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import EditEnrolmentPage, {
   getServerSideProps as getEditEnrolmentPageServerSideProps,
-} from '../pages/registration/[registrationId]/enrolment/[accessCode]/edit/index';
+} from '../pages/registration/[registrationId]/enrolment/[enrolmentId]/[accessCode]/edit/index';
 import EnrolmentCancelledPage, {
   getServerSideProps as getEnrolmentCancelledPageServerSideProps,
 } from '../pages/registration/[registrationId]/enrolment/cancelled/index';
@@ -66,15 +66,13 @@ const enrolmentValues: EnrolmentFormFields = {
   accepted: true,
   attendees: [
     {
-      audienceMaxAge: null,
-      audienceMinAge: null,
       city: 'City',
       dateOfBirth: formatDate(subYears(new Date(), 9)),
       extraInfo: '',
       inWaitingList: false,
       name: 'Participan name',
       streetAddress: 'Street address',
-      zip: '00100',
+      zipcode: '00100',
     },
   ],
   email: 'participant@email.com',
@@ -184,7 +182,7 @@ describe('EnrolmentCompletedPage', () => {
 
     singletonRouter.push({
       pathname: ROUTES.ENROLMENT_COMPLETED,
-      query: { registrationId: registration.id },
+      query: { enrolmentId: enrolment.id, registrationId: registration.id },
     });
 
     render(<EnrolmentCompletedPage />);
@@ -219,8 +217,9 @@ describe('EditEnrolmentPage', () => {
     singletonRouter.push({
       pathname: ROUTES.EDIT_ENROLMENT,
       query: {
-        accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
-        registrationId: TEST_REGISTRATION_ID,
+        accessCode: enrolment.cancellation_code,
+        enrolmentId: enrolment.id,
+        registrationId: registration.id,
       },
     });
 
@@ -235,8 +234,9 @@ describe('EditEnrolmentPage', () => {
     const { props } = (await getEditEnrolmentPageServerSideProps({
       locale: 'fi',
       query: {
-        accessCode: TEST_ENROLMENT_CANCELLATION_CODE,
-        registrationId: TEST_REGISTRATION_ID,
+        accessCode: enrolment.cancellation_code,
+        enrolmentId: enrolment.id,
+        registrationId: registration.id,
       },
     } as unknown as GetServerSidePropsContext)) as {
       props: EnrolmentServerSideProps;
@@ -249,8 +249,8 @@ describe('EditEnrolmentPage', () => {
         state: expect.objectContaining({ data: registration }),
       },
       {
-        queryHash: `["enrolment","${TEST_ENROLMENT_CANCELLATION_CODE}"]`,
-        queryKey: ['enrolment', TEST_ENROLMENT_CANCELLATION_CODE],
+        queryHash: `["enrolment","${TEST_ENROLMENT_ID}"]`,
+        queryKey: ['enrolment', TEST_ENROLMENT_ID],
         state: expect.objectContaining({ data: enrolment }),
       },
     ]);

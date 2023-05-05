@@ -48,7 +48,7 @@ import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal'
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
-import { AttendeeFields, EnrolmentFormFields } from '../types';
+import { AttendeeFields, Enrolment, EnrolmentFormFields } from '../types';
 import { isEnrolmentFieldRequired } from '../utils';
 import {
   getEnrolmentSchema,
@@ -69,20 +69,20 @@ const LanguageField = (
 };
 
 type Props = {
-  cancellationCode?: string;
+  enrolment?: Enrolment;
   initialValues: EnrolmentFormFields;
   readOnly?: boolean;
   registration: Registration;
 };
 
 const EnrolmentForm: React.FC<Props> = ({
-  cancellationCode,
+  enrolment,
   initialValues,
   readOnly,
   registration,
 }) => {
   const { t } = useTranslation(['enrolment', 'common']);
-  const { cancelEnrolment } = useEnrolmentActions({ registration });
+  const { cancelEnrolment } = useEnrolmentActions({ enrolment, registration });
   const formSavingDisabled = React.useRef(!!readOnly);
 
   const reservationTimerCallbacksDisabled = React.useRef(false);
@@ -132,7 +132,7 @@ const EnrolmentForm: React.FC<Props> = ({
 
   const handleCancel = () => {
     setServerErrorItems([]);
-    cancelEnrolment(cancellationCode as string, {
+    cancelEnrolment({
       onError: (error) =>
         showServerErrors({ error: JSON.parse(error.message) }, 'enrolment'),
       onSuccess: goToEnrolmentCancelledPage,
@@ -210,7 +210,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       reservationTimerCallbacksDisabled.current
                     }
                     disableCallbacks={disableReservationTimerCallbacks}
-                    initReservationData={!cancellationCode}
+                    initReservationData={!enrolment}
                     registration={registration}
                     setAttendees={setAttendees}
                   />

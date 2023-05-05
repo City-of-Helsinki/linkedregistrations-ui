@@ -10,7 +10,11 @@ import {
   useCreateEnrolmentMutation,
   useDeleteEnrolmentMutation,
 } from '../mutation';
-import { CreateEnrolmentMutationInput, Enrolment } from '../types';
+import {
+  CreateEnrolmentMutationInput,
+  DeleteEnrolmentMutationInput,
+  Enrolment,
+} from '../types';
 
 interface Props {
   enrolment?: Enrolment;
@@ -18,10 +22,7 @@ interface Props {
 }
 
 type UseEnrolmentActionsState = {
-  cancelEnrolment: (
-    cancellationCode: string,
-    callbacks?: MutationCallbacks
-  ) => Promise<void>;
+  cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
   createEnrolment: (
     payload: CreateEnrolmentMutationInput,
     callbacks?: MutationCallbacks
@@ -58,7 +59,7 @@ const useEnrolmentActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: CreateEnrolmentMutationInput | string;
+    payload?: CreateEnrolmentMutationInput | DeleteEnrolmentMutationInput;
   }) => {
     closeModal();
     savingFinished();
@@ -105,24 +106,29 @@ const useEnrolmentActions = ({
     });
   };
 
-  const cancelEnrolment = async (
-    cancellationCode: string,
-    callbacks?: MutationCallbacks
-  ) => {
+  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     setSaving(ENROLMENT_ACTIONS.CANCEL);
-    await deleteEnrolmentMutation.mutate(cancellationCode, {
-      onError: (error, variables) => {
-        handleError({
-          callbacks,
-          error,
-          message: 'Failed to cancel enrolment',
-          payload: variables,
-        });
+
+    await deleteEnrolmentMutation.mutate(
+      {
+        cancellationCode: enrolment?.cancellation_code as string,
+        enrolmentId: enrolment?.id as string,
+        registrationId: registration.id,
       },
-      onSuccess: () => {
-        cleanAfterUpdate(callbacks);
-      },
-    });
+      {
+        onError: (error, variables) => {
+          handleError({
+            callbacks,
+            error,
+            message: 'Failed to cancel enrolment',
+            payload: variables,
+          });
+        },
+        onSuccess: () => {
+          cleanAfterUpdate(callbacks);
+        },
+      }
+    );
   };
   return {
     cancelEnrolment,

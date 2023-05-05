@@ -75,7 +75,7 @@ export enum ENROLMENT_ACTIONS {
   CANCEL = 'cancel',
   CREATE = 'create',
 }
-
+export const TEST_ENROLMENT_ID = 'enrolment:1';
 export const TEST_ENROLMENT_CANCELLATION_CODE =
   '12345678-1234-5678-1234-123456789012';
 
