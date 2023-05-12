@@ -11,10 +11,23 @@ describe('parseEnrolmentServerErrors', () => {
   it('should set server error items', async () => {
     const error = {
       name: ['The name must be specified.'],
+      signups: [
+        {
+          non_field_errors: [
+            'Kenttien email, registration tulee muodostaa uniikki joukko.',
+          ],
+        },
+      ],
     };
 
     expect(parseEnrolmentServerErrors({ error, t: i18n.t.bind(i18n) })).toEqual(
-      [{ label: 'Nimi', message: 'Nimi on pakollinen.' }]
+      [
+        { label: 'Nimi', message: 'Nimi on pakollinen.' },
+        {
+          label: '',
+          message: 'Sähköpostiosoitteella on jo ilmoittautuminen.',
+        },
+      ]
     );
   });
 

@@ -23,7 +23,6 @@ const useEnrolmentData = (): UseEnrolmentDataState => {
     args: {
       cancellationCode: query.accessCode as string,
       enrolmentId: query.enrolmentId as string,
-      registrationId: query.registrationId as string,
     },
     session,
   });

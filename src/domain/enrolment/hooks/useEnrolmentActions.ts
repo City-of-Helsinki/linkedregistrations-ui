@@ -82,7 +82,6 @@ const useEnrolmentActions = ({
     session,
   });
   const createEnrolmentMutation = useCreateEnrolmentMutation({
-    registrationId: registration.id as string,
     session,
   });
 

@@ -14,7 +14,6 @@ import { createEnrolment, deleteEnrolment } from './utils';
 
 export const useCreateEnrolmentMutation = ({
   options,
-  registrationId,
   session,
 }: {
   options?: UseMutationOptions<
@@ -22,17 +21,13 @@ export const useCreateEnrolmentMutation = ({
     Error,
     CreateEnrolmentMutationInput
   >;
-  registrationId: string;
   session: ExtendedSession | null;
 }): UseMutationResult<
   CreateEnrolmentResponse,
   Error,
   CreateEnrolmentMutationInput
 > => {
-  return useMutation(
-    (input) => createEnrolment({ input, registrationId, session }),
-    options
-  );
+  return useMutation((input) => createEnrolment({ input, session }), options);
 };
 
 export const useDeleteEnrolmentMutation = ({
@@ -43,11 +38,10 @@ export const useDeleteEnrolmentMutation = ({
   session: ExtendedSession | null;
 }): UseMutationResult<null, Error, DeleteEnrolmentMutationInput> => {
   return useMutation(
-    ({ cancellationCode, enrolmentId, registrationId }) =>
+    ({ cancellationCode, enrolmentId }) =>
       deleteEnrolment({
         cancellationCode,
         enrolmentId,
-        registrationId,
         session,
       }),
     options
