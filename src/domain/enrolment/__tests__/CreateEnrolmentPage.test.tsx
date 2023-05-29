@@ -144,7 +144,7 @@ test('should validate enrolment form and focus invalid field', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
       res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
     )
   );
@@ -248,8 +248,11 @@ test('should add and delete participants', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
       res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    ),
+    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
+      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
     )
   );
   singletonRouter.push({
@@ -302,10 +305,16 @@ test('should show server errors when updating seats reservation fails', async ()
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
+      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    ),
+    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
       seats === 2
-        ? res(ctx.status(400), ctx.json('Not enough seats available.'))
-        : res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+        ? res(
+            ctx.status(400),
+            ctx.json('Not enough seats available. Capacity left: 0.')
+          )
+        : res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
     )
   );
   singletonRouter.push({
@@ -330,7 +339,9 @@ test('should show server errors when updating seats reservation fails', async ()
   seats = 2;
   await user.click(updateParticipantAmountButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });
 
 test('should show and hide participant specific fields', async () => {
@@ -338,8 +349,11 @@ test('should show and hide participant specific fields', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
       res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    ),
+    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
+      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
     )
   );
   singletonRouter.push({
@@ -365,8 +379,11 @@ test('should delete participants by clicking delete participant button', async (
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
       res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    ),
+    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
+      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
     )
   );
   singletonRouter.push({
@@ -420,10 +437,16 @@ test('should show server errors when updating seats reservation fails', async ()
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
+      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    ),
+    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
       seats === 2
-        ? res(ctx.status(400), ctx.json('Not enough seats available.'))
-        : res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+        ? res(
+            ctx.status(400),
+            ctx.json('Not enough seats available. Capacity left: 0.')
+          )
+        : res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
     )
   );
   singletonRouter.push({
@@ -464,7 +487,9 @@ test('should show server errors when updating seats reservation fails', async ()
   seats = 2;
   await user.click(deleteParticipantButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });
 
 test('should reload page if reservation is expired and route is create enrolment page', async () => {

@@ -37,7 +37,8 @@
     },
     "freeEvent": "Maksuton"
   },
-  "freeCapacity": "Saatavilla olevia paikkoja",
+  "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
+  "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
   "inWaitingList": {
     "text": "Varasija",
     "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
@@ -88,6 +89,7 @@
   "warnings": {
     "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
     "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+    "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
     "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
   }
 }

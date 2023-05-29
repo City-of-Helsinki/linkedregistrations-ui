@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
+import isNil from 'lodash/isNil';
 import { TFunction } from 'next-i18next';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../constants';
@@ -42,55 +43,41 @@ export const registrationPathBuilder = (
   return `/registration/${id}/${query}`;
 };
 
-export const isAttendeeCapacityUsed = (registration: Registration): boolean => {
-  // If there are seats in the event
-  if (!registration.maximum_attendee_capacity) {
-    return false;
-  } else if (
-    registration.current_attendee_count < registration.maximum_attendee_capacity
-  ) {
-    return false;
-  } else {
-    return true;
-  }
-};
+export const isAttendeeCapacityUsed = (registration: Registration): boolean =>
+  !isNil(registration.maximum_attendee_capacity) &&
+  registration.maximum_attendee_capacity <= registration.current_attendee_count;
 
-export const getTotalAttendeeCapacity = (
+export const isWaitingListCapacityUsed = (
   registration: Registration
-): number | undefined => {
-  const attendeeCapacity = getFreeAttendeeCapacity(registration);
-  // If there are seats in the event
-  if (attendeeCapacity === undefined) {
-    return undefined;
-  }
-  return attendeeCapacity + getFreeWaitlistCapacity(registration);
-};
+): boolean =>
+  !isNil(registration.waiting_list_capacity) &&
+  registration.waiting_list_capacity <= registration.current_waiting_list_count;
 
 export const getFreeAttendeeCapacity = (
   registration: Registration
-): number | undefined => {
-  // If there are seats in the event
-  if (!registration.maximum_attendee_capacity) {
-    return undefined;
-  }
-  return Math.max(
-    registration.maximum_attendee_capacity -
-      registration.current_attendee_count,
-    0
-  );
-};
+): number | undefined =>
+  isNil(registration.maximum_attendee_capacity)
+    ? undefined
+    : (registration.remaining_attendee_capacity as number);
 
-export const getFreeWaitlistCapacity = (registration: Registration): number => {
-  // If there are seats in the event
-  if (!registration.waiting_list_capacity) {
-    return 0;
+export const getFreeWaitingListCapacity = (
+  registration: Registration
+): number | undefined =>
+  isNil(registration.waiting_list_capacity)
+    ? undefined
+    : (registration.remaining_waiting_list_capacity as number);
+
+export const getFreeAttendeeOrWaitingListCapacity = (
+  registration: Registration
+) => {
+  const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
+  // Return the amount of free capacity if there are still capacity left
+  // Seat reservations are not counted
+  if (!isAttendeeCapacityUsed(registration)) {
+    return freeAttendeeCapacity;
   }
 
-  return Math.max(
-    registration.waiting_list_capacity -
-      registration.current_waiting_list_count,
-    0
-  );
+  return getFreeWaitingListCapacity(registration);
 };
 
 export const getAttendeeCapacityError = (
@@ -104,7 +91,7 @@ export const getAttendeeCapacityError = (
     }) as string;
   }
 
-  const freeCapacity = getTotalAttendeeCapacity(registration);
+  const freeCapacity = getFreeAttendeeOrWaitingListCapacity(registration);
 
   if (freeCapacity && participantAmount > freeCapacity) {
     return t(`common:${VALIDATION_MESSAGE_KEYS.CAPACITY_MAX}`, {
@@ -113,18 +100,6 @@ export const getAttendeeCapacityError = (
   }
 
   return undefined;
-};
-
-export const isWaitingCapacityUsed = (registration: Registration): boolean => {
-  // If there are seats in the event
-  if (
-    registration.waiting_list_capacity &&
-    registration.current_waiting_list_count < registration.waiting_list_capacity
-  ) {
-    return false;
-  } else {
-    return true;
-  }
 };
 
 export const isRegistrationOpen = (registration: Registration): boolean => {
@@ -140,7 +115,7 @@ export const isRegistrationPossible = (registration: Registration): boolean => {
   return (
     isRegistrationOpen(registration) &&
     (!isAttendeeCapacityUsed(registration) ||
-      !isWaitingCapacityUsed(registration))
+      !isWaitingListCapacityUsed(registration))
   );
 };
 
@@ -152,11 +127,15 @@ export const getRegistrationWarning = (
     return t('enrolment:warnings.closed');
   } else if (
     isAttendeeCapacityUsed(registration) &&
-    !isWaitingCapacityUsed(registration)
+    !isWaitingListCapacityUsed(registration)
   ) {
-    return t('enrolment:warnings.capacityInWaitingList', {
-      count: getFreeWaitlistCapacity(registration),
-    });
+    const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
+
+    return isNil(freeWaitlistCapacity)
+      ? t('enrolment:warnings.capacityInWaitingListNoLimit')
+      : t('enrolment:warnings.capacityInWaitingList', {
+          count: freeWaitlistCapacity,
+        });
   }
   return '';
 };

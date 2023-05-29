@@ -23,10 +23,7 @@ import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import { Registration } from '../../registration/types';
-import {
-  getFreeAttendeeCapacity,
-  isRegistrationPossible,
-} from '../../registration/utils';
+import { isRegistrationPossible } from '../../registration/utils';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
@@ -56,6 +53,7 @@ import {
   showErrors,
 } from '../validation';
 import Attendees from './attendees/Attendees';
+import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './enrolmentForm.module.scss';
 
 const LanguageField = (
@@ -93,7 +91,6 @@ const EnrolmentForm: React.FC<Props> = ({
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useEnrolmentPageContext();
 
-  const freeCapacity = getFreeAttendeeCapacity(registration);
   const notificationOptions = useNotificationOptions();
   const formDisabled = !isRegistrationPossible(registration);
   const locale = useLocale();
@@ -220,11 +217,7 @@ const EnrolmentForm: React.FC<Props> = ({
               <Divider />
               <h2>{t('titleRegistration')}</h2>
 
-              {typeof freeCapacity === 'number' && (
-                <p>
-                  {t('freeCapacity')} <strong>{freeCapacity}</strong>
-                </p>
-              )}
+              <AvailableSeatsText registration={registration} />
               <ParticipantAmountSelector
                 disabled={formDisabled || !!readOnly}
                 registration={registration}

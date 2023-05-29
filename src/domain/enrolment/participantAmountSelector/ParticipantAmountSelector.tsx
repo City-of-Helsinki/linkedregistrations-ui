@@ -7,7 +7,7 @@ import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { Registration } from '../../registration/types';
 import {
   getAttendeeCapacityError,
-  getTotalAttendeeCapacity,
+  getFreeAttendeeOrWaitingListCapacity,
 } from '../../registration/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
@@ -42,7 +42,6 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   const [participantAmount, setParticipantAmount] = useState(
     Math.max(getSeatsReservationData(registration.id)?.seats ?? 0, 1)
   );
-  const freeCapacity = getTotalAttendeeCapacity(registration);
 
   const handleParticipantAmountChange: React.ChangeEventHandler<
     HTMLInputElement
@@ -55,6 +54,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     participantAmount,
     t
   );
+
+  const maxSeatAmount = getFreeAttendeeOrWaitingListCapacity(registration);
 
   const { saving, updateSeatsReservation } = useSeatsReservationActions({
     attendees,
@@ -114,7 +115,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
           invalid={!!attendeeCapacityError}
           label={t(`labelParticipantAmount`)}
           min={1}
-          max={freeCapacity}
+          max={maxSeatAmount}
           onChange={handleParticipantAmountChange}
           required
           step={1}

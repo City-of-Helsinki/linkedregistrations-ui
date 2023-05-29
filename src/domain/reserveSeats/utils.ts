@@ -4,25 +4,25 @@ import isPast from 'date-fns/isPast';
 import { RESERVATION_NAMES } from '../../constants';
 import { ExtendedSession } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
-import { callPost } from '../app/axios/axiosClient';
+import { callPost, callPut } from '../app/axios/axiosClient';
 import {
-  ReserveSeatsInput,
+  CreateSeatsReservationInput,
   SeatsReservation,
-  UpdateReserveSeatsInput,
+  UpdateSeatsReservationInput,
 } from './types';
 
-export const reserveSeats = async ({
-  input: { registration, ...input },
+export const createSeatsReservation = async ({
+  input,
   session,
 }: {
-  input: ReserveSeatsInput;
+  input: CreateSeatsReservationInput;
   session: ExtendedSession | null;
 }): Promise<SeatsReservation> => {
   try {
     const { data } = await callPost({
       data: JSON.stringify(input),
       session,
-      url: `/registration/${registration}/reserve_seats/`,
+      url: `/seats_reservation/`,
     });
     return data;
   } catch (error) {
@@ -30,20 +30,18 @@ export const reserveSeats = async ({
   }
 };
 
-// TODO: Update seats reservation instead of creating new one
-// when API supports PUT request
-export const updateReserveSeats = async ({
-  input: { code, registration, ...input },
+export const updateSeatsReservation = async ({
+  input: { id, ...input },
   session,
 }: {
-  input: UpdateReserveSeatsInput;
+  input: UpdateSeatsReservationInput;
   session: ExtendedSession | null;
 }): Promise<SeatsReservation> => {
   try {
-    const { data } = await callPost({
+    const { data } = await callPut({
       data: JSON.stringify(input),
       session,
-      url: `/registration/${registration}/reserve_seats/`,
+      url: `/seats_reservation/${id}/`,
     });
     return data;
   } catch (error) {

@@ -68,14 +68,23 @@ describe('parseSeatsReservationServerErrors', () => {
   it('should return server error items when result is array', () => {
     const error = [
       { name: ['The name must be specified.'] },
-      { name: ['The name must be specified.'] },
+      { seats: ['Not enough seats available. Capacity left: 2.'] },
+      { seats: ['Not enough capacity in the waiting list. Capacity left: 5.'] },
     ];
 
     expect(
       parseSeatsReservationServerErrors({ error, t: i18n.t.bind(i18n) })
     ).toEqual([
       { label: 'name', message: 'Nimi on pakollinen.' },
-      { label: 'name', message: 'Nimi on pakollinen.' },
+      {
+        label: '',
+        message: 'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 2.',
+      },
+      {
+        label: '',
+        message:
+          'Jonopaikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 5.',
+      },
     ]);
   });
 

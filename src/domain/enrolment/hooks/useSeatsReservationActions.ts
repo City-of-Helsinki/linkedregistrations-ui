@@ -5,13 +5,13 @@ import { ExtendedSession, MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
 import { Registration } from '../../registration/types';
 import {
-  useReserveSeatsMutation,
-  useUpdateReserveSeatsMutation,
+  useCreateSeatsReservationMutation,
+  useUpdateSeatsReservationMutation,
 } from '../../reserveSeats/mutation';
 import {
-  ReserveSeatsInput,
+  CreateSeatsReservationInput,
   SeatsReservation,
-  UpdateReserveSeatsInput,
+  UpdateSeatsReservationInput,
 } from '../../reserveSeats/types';
 import {
   getSeatsReservationData,
@@ -51,10 +51,10 @@ const useSeatsReservationActions = ({
 
   const registrationId = registration.id as string;
 
-  const createSeatsReservationMutation = useReserveSeatsMutation({
+  const createSeatsReservationMutation = useCreateSeatsReservationMutation({
     session,
   });
-  const updateSeatsReservationMutation = useUpdateReserveSeatsMutation({
+  const updateSeatsReservationMutation = useUpdateSeatsReservationMutation({
     session,
   });
 
@@ -77,8 +77,8 @@ const useSeatsReservationActions = ({
     }
     setSeatsReservationData(registrationId, seatsReservation);
 
-    // Show modal to inform that some of the persons will be added to the waiting list
-    if (seatsReservation.waitlist_spots) {
+    // Show modal to inform that persons will be added to the waiting list
+    if (seatsReservation.in_waitlist) {
       setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
     } else {
       closeModal();
@@ -99,7 +99,7 @@ const useSeatsReservationActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: ReserveSeatsInput | UpdateReserveSeatsInput;
+    payload?: CreateSeatsReservationInput | UpdateSeatsReservationInput;
   }) => {
     savingFinished();
     closeModal();
@@ -121,7 +121,10 @@ const useSeatsReservationActions = ({
   const createSeatsReservation = async (
     callbacks?: MutationCallbacks<SeatsReservation>
   ) => {
-    const payload = { registration: registrationId, seats: 1, waitlist: true };
+    const payload: CreateSeatsReservationInput = {
+      registration: registrationId,
+      seats: 1,
+    };
 
     try {
       // For some reason onSuccess and onError callbacks are not called when using mutate function
@@ -147,11 +150,16 @@ const useSeatsReservationActions = ({
     setSaving(true);
     const reservationData = getSeatsReservationData(registrationId);
 
-    const payload = {
-      code: reservationData?.code as string,
+    /* istanbul ignore next */
+    if (!reservationData) {
+      throw new Error('Reservation data is not stored to session storage');
+    }
+
+    const payload: UpdateSeatsReservationInput = {
+      code: reservationData.code,
+      id: reservationData.id,
       registration: registrationId,
       seats,
-      waitlist: true,
     };
 
     await updateSeatsReservationMutation.mutate(payload, {

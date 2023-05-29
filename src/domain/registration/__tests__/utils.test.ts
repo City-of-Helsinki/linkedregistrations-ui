@@ -3,16 +3,15 @@ import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 
 import { fakeRegistration } from '../../../utils/mockDataUtils';
-import { registrationsResponse } from '../__mocks__/registration';
 import { RegistrationQueryVariables } from '../types';
 import {
   getAttendeeCapacityError,
-  getFreeAttendeeCapacity,
-  getFreeWaitlistCapacity,
+  getFreeAttendeeOrWaitingListCapacity,
+  getFreeWaitingListCapacity,
   getRegistrationWarning,
   isAttendeeCapacityUsed,
   isRegistrationOpen,
-  isWaitingCapacityUsed,
+  isWaitingListCapacityUsed,
   registrationPathBuilder,
 } from '../utils';
 
@@ -21,39 +20,75 @@ afterEach(() => {
 });
 
 describe('getRegistrationWarning', () => {
+  beforeEach(() => {
+    advanceTo('2022-11-07');
+  });
+
+  const singleRegistrationOverrides = {
+    enrolment_end_time: new Date('2022-11-08').toISOString(),
+    enrolment_start_time: new Date('2022-11-06').toISOString(),
+    maximum_attendee_capacity: 10,
+    waiting_list_capacity: 10,
+  };
+
   it('should return empty string if it is possible to enrol to the event', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[0], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          current_attendee_count: 0,
+          remaining_attendee_capacity: 10,
+        }),
+        i18n.t.bind(i18n)
+      )
     ).toBe('');
   });
 
   it('should return correct warning if there is space in waiting list', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[1], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          current_attendee_count: 10,
+          current_waiting_list_count: 0,
+          remaining_attendee_capacity: 0,
+          remaining_waiting_list_capacity: 10,
+        }),
+        i18n.t.bind(i18n)
+      )
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain 10 kpl.'
     );
   });
 
-  it('should return correct warning if all spaces are gone and there are no waiting list', () => {
-    expect(
-      getRegistrationWarning(registrationsResponse.data[2], i18n.t.bind(i18n))
-    ).toBe(
-      'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
-    );
-  });
-  it('should return correct warning if it is not possible to enrol to the event', () => {
-    expect(
-      getRegistrationWarning(registrationsResponse.data[3], i18n.t.bind(i18n))
-    ).toBe(
-      'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
-    );
-  });
-
   it('should return empty string if maximum attendee capacity is not set', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[4], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          current_attendee_count: 10,
+          maximum_attendee_capacity: null,
+          remaining_attendee_capacity: null,
+        }),
+        i18n.t.bind(i18n)
+      )
     ).toBe('');
+  });
+
+  it('should return correct warning if event is full and waiting list capacity is not set', () => {
+    expect(
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          current_attendee_count: 10,
+          remaining_attendee_capacity: 0,
+          waiting_list_capacity: null,
+        }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(
+      'Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.'
+    );
   });
 });
 
@@ -81,7 +116,11 @@ describe('getAttendeeCapacityError', () => {
   it('should return correct error if participantAmount is greater than maximum_attendee_capacity', () => {
     expect(
       getAttendeeCapacityError(
-        fakeRegistration({ maximum_attendee_capacity: 3 }),
+        fakeRegistration({
+          maximum_attendee_capacity: 3,
+          current_attendee_count: 0,
+          remaining_attendee_capacity: 3,
+        }),
         4,
         i18n.t.bind(i18n)
       )
@@ -98,7 +137,7 @@ describe('isAttendeeCapacityUsed', () => {
     ).toBe(false);
   });
 
-  it('should return correct false if current attendee count is less than maximum attendee capacity', () => {
+  it('should return false if current attendee count is less than maximum attendee capacity', () => {
     expect(
       isAttendeeCapacityUsed(
         fakeRegistration({
@@ -109,7 +148,7 @@ describe('isAttendeeCapacityUsed', () => {
     ).toBe(false);
   });
 
-  it('should return correct true if current attendee count equals maximum attendee capacity', () => {
+  it('should return true if current attendee count equals maximum attendee capacity', () => {
     expect(
       isAttendeeCapacityUsed(
         fakeRegistration({
@@ -120,7 +159,7 @@ describe('isAttendeeCapacityUsed', () => {
     ).toBe(true);
   });
 
-  it('should return correct true if current attendee count is greater than maximum attendee capacity', () => {
+  it('should return true if current attendee count is greater than maximum attendee capacity', () => {
     expect(
       isAttendeeCapacityUsed(
         fakeRegistration({
@@ -132,56 +171,40 @@ describe('isAttendeeCapacityUsed', () => {
   });
 });
 
-describe('getFreeAttendeeCapacity', () => {
-  it('should return undefined if maximum_attendee_capacity is not defined', () => {
+describe('getFreeWaitingListCapacity', () => {
+  it('should return undefined if waiting_list_capacity is not defined', () => {
     expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({ maximum_attendee_capacity: null })
+      getFreeWaitingListCapacity(
+        fakeRegistration({ waiting_list_capacity: null })
       )
-    ).toBeUndefined();
-  });
-
-  it('should return correct amount if maximum_attendee_capacity is defined', () => {
-    expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({
-          current_attendee_count: 4,
-          maximum_attendee_capacity: 40,
-        })
-      )
-    ).toBe(36);
-  });
-});
-
-describe('getFreeWaitlistCapacity', () => {
-  it('should return 0 if waiting_list_capacity is not defined', () => {
-    expect(
-      getFreeWaitlistCapacity(fakeRegistration({ waiting_list_capacity: null }))
-    ).toBe(0);
+    ).toBe(undefined);
   });
 
   it('should return correct amount if waiting_list_capacity is defined', () => {
     expect(
-      getFreeWaitlistCapacity(
+      getFreeWaitingListCapacity(
         fakeRegistration({
           current_waiting_list_count: 4,
           waiting_list_capacity: 40,
+          remaining_waiting_list_capacity: 36,
         })
       )
     ).toBe(36);
   });
 });
 
-describe('isWaitingCapacityUsed', () => {
-  it('should return true if waiting_list_capacity is not defined', () => {
+describe('isWaitingListCapacityUsed', () => {
+  it('should return false if waiting_list_capacity is not defined', () => {
     expect(
-      isWaitingCapacityUsed(fakeRegistration({ waiting_list_capacity: null }))
-    ).toBe(true);
+      isWaitingListCapacityUsed(
+        fakeRegistration({ waiting_list_capacity: null })
+      )
+    ).toBe(false);
   });
 
   it('should return true if current waiting list count is greater than waiting_list_capacity', () => {
     expect(
-      isWaitingCapacityUsed(
+      isWaitingListCapacityUsed(
         fakeRegistration({
           waiting_list_capacity: 15,
           current_waiting_list_count: 16,
@@ -192,7 +215,7 @@ describe('isWaitingCapacityUsed', () => {
 
   it('should return true if current waiting list count equals waiting_list_capacity', () => {
     expect(
-      isWaitingCapacityUsed(
+      isWaitingListCapacityUsed(
         fakeRegistration({
           waiting_list_capacity: 15,
           current_waiting_list_count: 15,
@@ -203,7 +226,7 @@ describe('isWaitingCapacityUsed', () => {
 
   it('should return true if current waiting list count is less than waiting_list_capacity', () => {
     expect(
-      isWaitingCapacityUsed(
+      isWaitingListCapacityUsed(
         fakeRegistration({
           waiting_list_capacity: 15,
           current_waiting_list_count: 14,
@@ -269,6 +292,66 @@ describe('isRegistrationOpen', () => {
         })
       )
     ).toBe(true);
+  });
+});
+
+describe('getFreeAttendeeOrWaitingListCapacity function', () => {
+  test('should return undefined if maximum attendee capacity is not set', () => {
+    expect(
+      getFreeAttendeeOrWaitingListCapacity(
+        fakeRegistration({ maximum_attendee_capacity: null })
+      )
+    ).toBe(undefined);
+  });
+
+  test('should return 0 if maximum attendee capacity is not used but all seats are reserved', () => {
+    expect(
+      getFreeAttendeeOrWaitingListCapacity(
+        fakeRegistration({
+          current_attendee_count: 3,
+          maximum_attendee_capacity: 10,
+          remaining_attendee_capacity: 0,
+        })
+      )
+    ).toBe(0);
+  });
+  test('should return free capacity', () => {
+    expect(
+      getFreeAttendeeOrWaitingListCapacity(
+        fakeRegistration({
+          current_attendee_count: 3,
+          maximum_attendee_capacity: 10,
+          remaining_attendee_capacity: 7,
+        })
+      )
+    ).toBe(7);
+  });
+  test('should return undefined if waiting list capacity is not set', () => {
+    expect(
+      getFreeAttendeeOrWaitingListCapacity(
+        fakeRegistration({
+          current_attendee_count: 10,
+          maximum_attendee_capacity: 10,
+          remaining_attendee_capacity: 0,
+          waiting_list_capacity: null,
+        })
+      )
+    ).toBe(undefined);
+  });
+
+  test('should return remaining waiting list capacity', () => {
+    expect(
+      getFreeAttendeeOrWaitingListCapacity(
+        fakeRegistration({
+          current_attendee_count: 10,
+          current_waiting_list_count: 3,
+          maximum_attendee_capacity: 10,
+          remaining_attendee_capacity: 0,
+          remaining_waiting_list_capacity: 7,
+          waiting_list_capacity: 10,
+        })
+      )
+    ).toBe(7);
   });
 });
 

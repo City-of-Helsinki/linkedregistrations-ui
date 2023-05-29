@@ -21,6 +21,8 @@ export type Registration = {
   maximum_attendee_capacity: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
   publisher: string;
+  remaining_attendee_capacity: numberOrNull;
+  remaining_waiting_list_capacity: numberOrNull;
   waiting_list_capacity: numberOrNull;
 };
 

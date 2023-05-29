@@ -231,7 +231,7 @@ export const getNewAttendees = ({
   attendees: AttendeeFields[];
   seatsReservation: SeatsReservation;
 }) => {
-  const { seats, seats_at_event } = seatsReservation;
+  const { in_waitlist, seats } = seatsReservation;
   const attendeeInitialValues = getAttendeeDefaultInitialValues();
   const filledAttendees = attendees.filter(
     (a) => !isEqual(a, attendeeInitialValues)
@@ -243,10 +243,7 @@ export const getNewAttendees = ({
     ),
   ]
     .slice(0, seats)
-    .map((attendee, index) => ({
-      ...attendee,
-      inWaitingList: index + 1 > seats_at_event,
-    }));
+    .map((attendee) => ({ ...attendee, inWaitingList: in_waitlist }));
 };
 
 export const isEnrolmentFieldRequired = (

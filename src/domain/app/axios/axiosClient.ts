@@ -72,4 +72,18 @@ export const callPost = async ({
   return axiosClient.post(url, data, getRequestConfig({ config, session }));
 };
 
+export const callPut = async ({
+  config,
+  data,
+  session,
+  url,
+}: {
+  config?: AxiosRequestConfig;
+  data: string;
+  session: ExtendedSession | null;
+  url: string;
+}) => {
+  return axiosClient.put(url, data, getRequestConfig({ config, session }));
+};
+
 export default axiosClient;

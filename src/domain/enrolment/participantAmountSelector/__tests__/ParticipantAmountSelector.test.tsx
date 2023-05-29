@@ -57,22 +57,22 @@ const getElement = (
   }
 };
 
-test('should show modal if any of the reserved seats is in waiting list', async () => {
+test('should show modal if reserved seats are in waiting list', async () => {
   const user = userEvent.setup();
 
+  const reservation = getMockedSeatsReservationData(1000);
   setEnrolmentFormSessionStorageValues({
     registrationId: registration.id,
-    seatsReservation: getMockedSeatsReservationData(1000),
+    seatsReservation: reservation,
   });
   setQueryMocks(
-    rest.post(`*/reserve_seats/`, (req, res, ctx) =>
+    rest.put(`*/seats_reservation/${reservation.id}`, (req, res, ctx) =>
       res(
-        ctx.status(201),
+        ctx.status(200),
         ctx.json(
           fakeSeatsReservation({
             seats: 2,
-            waitlist_spots: 1,
-            seats_at_event: 1,
+            in_waitlist: true,
           })
         )
       )

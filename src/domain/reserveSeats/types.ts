@@ -1,17 +1,19 @@
 export type SeatsReservation = {
+  id: string;
   code: string;
   expiration: string;
+  in_waitlist: boolean;
   registration: string;
   seats: number;
   timestamp: string;
-  seats_at_event: number;
-  waitlist_spots: number;
 };
 
-export type ReserveSeatsInput = {
+export type CreateSeatsReservationInput = {
   registration: string;
   seats: number;
-  waitlist: boolean;
 };
 
-export type UpdateReserveSeatsInput = { code: string } & ReserveSeatsInput;
+export type UpdateSeatsReservationInput = {
+  code: string;
+  id: string;
+} & CreateSeatsReservationInput;
