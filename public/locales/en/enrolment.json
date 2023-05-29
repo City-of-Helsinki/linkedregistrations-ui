@@ -37,7 +37,8 @@
     },
     "freeEvent": "Free"
   },
-  "freeCapacity": "Available seats",
+  "freeAttendeeCapacity": "Available seats",
+  "freeWaitingListCapacity": "Available waiting list seats",
   "inWaitingList": {
     "text": "In waiting list",
     "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
@@ -88,6 +89,7 @@
   "warnings": {
     "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
     "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+    "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seat left in the queue.",
     "closed": "Registration for this event is currently closed. Please try again later."
   }
 }

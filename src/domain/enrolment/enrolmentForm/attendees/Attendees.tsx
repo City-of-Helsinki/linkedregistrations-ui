@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import { ExtendedSession } from '../../../../types';
 import { reportError } from '../../../app/sentry/utils';
 import { Registration } from '../../../registration/types';
-import { useUpdateReserveSeatsMutation } from '../../../reserveSeats/mutation';
+import { useUpdateSeatsReservationMutation } from '../../../reserveSeats/mutation';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
@@ -50,7 +50,7 @@ const Attendees: React.FC<Props> = ({
     setOpenModalIndex(null);
   };
 
-  const updateReserveSeatsMutation = useUpdateReserveSeatsMutation({
+  const updateSeatsReservationMutation = useUpdateSeatsReservationMutation({
     options: {
       onError: (error, variables) => {
         showServerErrors(
@@ -103,18 +103,27 @@ const Attendees: React.FC<Props> = ({
               const deleteParticipant = async () => {
                 setSaving(true);
 
-                const data = getSeatsReservationData(registration.id);
+                const reservationData = getSeatsReservationData(
+                  registration.id
+                );
+
+                /* istanbul ignore next */
+                if (!reservationData) {
+                  throw new Error(
+                    'Reservation data is not stored to session storage'
+                  );
+                }
 
                 // Clear server errors
                 setServerErrorItems([]);
 
                 indexToRemove.current = index;
 
-                await updateReserveSeatsMutation.mutate({
-                  code: data?.code as string,
+                await updateSeatsReservationMutation.mutate({
+                  code: reservationData.code,
+                  id: reservationData.id,
                   registration: registration.id,
                   seats: attendees.length - 1,
-                  waitlist: true,
                 });
               };
 

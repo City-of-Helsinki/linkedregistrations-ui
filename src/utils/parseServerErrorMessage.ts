@@ -27,6 +27,20 @@ const parseServerErrorMessage = ({
     errorStr = Array.isArray(e) ? e[0] : e;
   }
 
+  const noSeatsLeftStart = `Not enough seats available. Capacity left: `;
+  if (errorStr.startsWith(noSeatsLeftStart)) {
+    const seatsLeft = errorStr.split(noSeatsLeftStart)[1].split('.')[0];
+    return t(`common:serverError.notEnoughSeats`, { seatsLeft });
+  }
+
+  const noWaitingListSeatsLeftStart = `Not enough capacity in the waiting list. Capacity left: `;
+  if (errorStr.startsWith(noWaitingListSeatsLeftStart)) {
+    const seatsLeft = errorStr
+      .split(noWaitingListSeatsLeftStart)[1]
+      .split('.')[0];
+    return t(`common:serverError.notEnoughWaitingListSeats`, { seatsLeft });
+  }
+
   switch (errorStr) {
     case 'Arvo saa olla enintään 255 merkkiä pitkä.':
       return t(`common:serverError.maxLength255`);
@@ -40,8 +54,6 @@ const parseServerErrorMessage = ({
       return t(`common:serverError.emailMustBeUnique`);
     case 'Kenttien phone_number, registration tulee muodostaa uniikki joukko.':
       return t(`common:serverError.phoneNumberMustBeUnique`);
-    case 'Not enough seats available.':
-      return t(`common:serverError.notEnoughSeats`);
     case 'Price info must be specified before an event is published.':
       return t(`common:serverError.offersIsRequired`);
     case 'Short description length must be 160 characters or less':

@@ -66,15 +66,13 @@ const enrolmentValues: EnrolmentFormFields = {
   accepted: true,
   attendees: [
     {
-      audienceMaxAge: null,
-      audienceMinAge: null,
       city: 'City',
       dateOfBirth: formatDate(subYears(new Date(), 9)),
       extraInfo: '',
       inWaitingList: false,
       name: 'Participan name',
       streetAddress: 'Street address',
-      zip: '00100',
+      zipcode: '00100',
     },
   ],
   email: 'participant@email.com',

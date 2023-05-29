@@ -6,30 +6,34 @@ import {
 
 import { ExtendedSession } from '../../types';
 import {
-  ReserveSeatsInput,
+  CreateSeatsReservationInput,
   SeatsReservation,
-  UpdateReserveSeatsInput,
+  UpdateSeatsReservationInput,
 } from './types';
-import { reserveSeats, updateReserveSeats } from './utils';
+import { createSeatsReservation, updateSeatsReservation } from './utils';
 
-export const useReserveSeatsMutation = ({
-  options,
-  session,
-}: {
-  options?: UseMutationOptions<SeatsReservation, Error, ReserveSeatsInput>;
-  session: ExtendedSession | null;
-}): UseMutationResult<SeatsReservation, Error, ReserveSeatsInput> =>
-  useMutation((input) => reserveSeats({ input, session }), options);
-
-export const useUpdateReserveSeatsMutation = ({
+export const useCreateSeatsReservationMutation = ({
   options,
   session,
 }: {
   options?: UseMutationOptions<
     SeatsReservation,
     Error,
-    UpdateReserveSeatsInput
+    CreateSeatsReservationInput
   >;
   session: ExtendedSession | null;
-}): UseMutationResult<SeatsReservation, Error, UpdateReserveSeatsInput> =>
-  useMutation((input) => updateReserveSeats({ input, session }), options);
+}): UseMutationResult<SeatsReservation, Error, CreateSeatsReservationInput> =>
+  useMutation((input) => createSeatsReservation({ input, session }), options);
+
+export const useUpdateSeatsReservationMutation = ({
+  options,
+  session,
+}: {
+  options?: UseMutationOptions<
+    SeatsReservation,
+    Error,
+    UpdateSeatsReservationInput
+  >;
+  session: ExtendedSession | null;
+}): UseMutationResult<SeatsReservation, Error, UpdateSeatsReservationInput> =>
+  useMutation((input) => updateSeatsReservation({ input, session }), options);

@@ -92,6 +92,14 @@ export const parseSeatsReservationServerErrors = ({
         []
       );
 
+  // Get correct field name for an error item
+  function parseSeatsReservationServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return key === 'seats' ? '' : key;
+  }
   // Get error item for an single error.
   function parseSeatsReservationServerError({
     error,
@@ -100,6 +108,11 @@ export const parseSeatsReservationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    return [{ label: key, message: parseServerErrorMessage({ error, t }) }];
+    return [
+      {
+        label: parseSeatsReservationServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
   }
 };
