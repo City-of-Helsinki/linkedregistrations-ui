@@ -127,9 +127,9 @@ const EnrolmentForm: React.FC<Props> = ({
     );
   };
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     setServerErrorItems([]);
-    cancelEnrolment({
+    await cancelEnrolment({
       onError: (error) =>
         showServerErrors({ error: JSON.parse(error.message) }, 'enrolment'),
       onSuccess: goToEnrolmentCancelledPage,
