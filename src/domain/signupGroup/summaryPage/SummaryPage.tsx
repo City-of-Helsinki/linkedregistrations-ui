@@ -2,9 +2,9 @@
 import { Form, Formik } from 'formik';
 import { IconPen, Notification } from 'hds-react';
 import pick from 'lodash/pick';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
 import React, { FC, useCallback, useRef } from 'react';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
