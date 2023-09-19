@@ -1,0 +1,17 @@
+.registrationInfo {
+  margin-bottom: var(--spacing-3-xl);
+
+  p {
+    margin: var(--spacing-2-xs) 0 !important;
+    color: var(--color-black-60);
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+
+    *:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
+  }
+}

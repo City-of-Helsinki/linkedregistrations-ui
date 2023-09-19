@@ -4,6 +4,7 @@ import { NOTIFICATION_TYPE, TEST_SIGNUP_ID } from '../constants';
 import { SignupQueryVariables } from '../types';
 import {
   getSignupGroupInitialValuesFromSignup,
+  getSignupFields,
   signupPathBuilder,
 } from '../utils';
 
@@ -15,6 +16,26 @@ describe('signupPathBuilder function', () => {
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(signupPathBuilder(variables)).toBe(expectedPath)
   );
+});
+
+describe('getSignupFields function', () => {
+  it('should return empty string for each field if value is null', () => {
+    const { firstName, fullName, lastName } = getSignupFields({
+      signup: fakeSignup({ first_name: null, last_name: null }),
+    });
+    expect(firstName).toBe('');
+    expect(fullName).toBe('');
+    expect(lastName).toBe('');
+  });
+
+  it('should return correct signup fields', () => {
+    const { firstName, fullName, lastName } = getSignupFields({
+      signup: fakeSignup({ first_name: 'Test', last_name: 'User' }),
+    });
+    expect(firstName).toBe('Test');
+    expect(fullName).toBe('Test User');
+    expect(lastName).toBe('User');
+  });
 });
 
 describe('getSignupGroupInitialValuesFromSignup function', () => {

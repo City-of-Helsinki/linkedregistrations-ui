@@ -47,7 +47,7 @@ import useSignupGroupActions from '../hooks/useSignupGroupActions';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields, SignupGroup, SignupGroupFormFields } from '../types';
+import { SignupFormFields, SignupGroup, SignupGroupFormFields } from '../types';
 import { isSignupFieldRequired } from '../utils';
 import {
   getSignupGroupSchema,
@@ -186,7 +186,7 @@ const SignupGroupForm: React.FC<Props> = ({
       {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
-        const setSignups = (signups: SignupFields[]) => {
+        const setSignups = (signups: SignupFormFields[]) => {
           setFieldValue(SIGNUP_GROUP_FIELDS.SIGNUPS, signups);
         };
 

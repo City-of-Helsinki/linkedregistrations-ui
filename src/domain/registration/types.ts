@@ -5,6 +5,7 @@ import {
   stringOrNull,
 } from '../api/types';
 import { Event } from '../event/types';
+import { Signup } from '../signup/types';
 
 export type Registration = {
   id: string;
@@ -29,6 +30,7 @@ export type Registration = {
   publisher: string;
   remaining_attendee_capacity: numberOrNull;
   remaining_waiting_list_capacity: numberOrNull;
+  signups: Signup[] | null;
   waiting_list_capacity: numberOrNull;
 };
 

@@ -5,6 +5,7 @@ import React from 'react';
 import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
 import ErrorPageMeta from '../../common/components/errrorPageMeta/ErrorPageMeta';
+import PageWrapper from '../../common/components/pageWrapper/PageWrapper';
 import MainContent from '../app/layout/mainContent/MainContent';
 
 import styles from './signInRequired.module.scss';
@@ -13,7 +14,7 @@ const SignInRequired: React.FC = () => {
   const { t } = useTranslation('common');
 
   return (
-    <>
+    <PageWrapper>
       <ErrorPageMeta
         description={t('signInRequired.text')}
         title={t('signInRequired.title')}
@@ -37,7 +38,7 @@ const SignInRequired: React.FC = () => {
           title={t('signInRequired.title')}
         />
       </MainContent>
-    </>
+    </PageWrapper>
   );
 };
 

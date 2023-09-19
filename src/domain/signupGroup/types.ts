@@ -28,7 +28,7 @@ export type SignupGroup = {
   signups: Signup[];
 };
 
-export type SignupFields = {
+export type SignupFormFields = {
   [SIGNUP_FIELDS.CITY]: string;
   [SIGNUP_FIELDS.DATE_OF_BIRTH]: string;
   [SIGNUP_FIELDS.EXTRA_INFO]: string;
@@ -50,7 +50,13 @@ export type SignupGroupFormFields = {
   [SIGNUP_GROUP_FIELDS.NOTIFICATIONS]: string[];
   [SIGNUP_GROUP_FIELDS.PHONE_NUMBER]: string;
   [SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE]: string;
-  [SIGNUP_GROUP_FIELDS.SIGNUPS]: SignupFields[];
+  [SIGNUP_GROUP_FIELDS.SIGNUPS]: SignupFormFields[];
+};
+
+export type SignupFields = {
+  firstName: string;
+  fullName: string;
+  lastName: string;
 };
 
 export type DeleteSignupGroupMutationInput = {

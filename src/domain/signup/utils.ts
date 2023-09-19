@@ -2,12 +2,21 @@ import { AxiosError } from 'axios';
 
 import { ExtendedSession } from '../../types';
 import formatDate from '../../utils/formatDate';
-import { callDelete, callGet } from '../app/axios/axiosClient';
+import skipFalsyType from '../../utils/skipFalsyType';
+import { callDelete, callGet, callPatch } from '../app/axios/axiosClient';
 import { NOTIFICATIONS } from '../signupGroup/constants';
-import { SignupFields, SignupGroupFormFields } from '../signupGroup/types';
+import {
+  SignupFields,
+  SignupFormFields,
+  SignupGroupFormFields,
+} from '../signupGroup/types';
 
 import { ATTENDEE_STATUS } from './constants';
-import { Signup, SignupQueryVariables } from './types';
+import {
+  PatchSignupMutationInput,
+  Signup,
+  SignupQueryVariables,
+} from './types';
 
 export const signupPathBuilder = (args: SignupQueryVariables): string => {
   return `/signup/${args.id}/`;
@@ -47,7 +56,26 @@ export const deleteSignup = async ({
   }
 };
 
-export const getSignupInitialValues = (signup: Signup): SignupFields => ({
+export const patchSignup = async ({
+  input: { id, ...input },
+  session,
+}: {
+  input: PatchSignupMutationInput;
+  session: ExtendedSession | null;
+}): Promise<Signup> => {
+  try {
+    const { data } = await callPatch({
+      data: JSON.stringify(input),
+      session,
+      url: signupPathBuilder({ id: id as string }),
+    });
+    return data;
+  } catch (error) {
+    throw Error(JSON.stringify((error as AxiosError).response?.data));
+  }
+};
+
+export const getSignupInitialValues = (signup: Signup): SignupFormFields => ({
   city: signup.city ?? '',
   dateOfBirth: signup.date_of_birth
     ? formatDate(new Date(signup.date_of_birth))
@@ -75,5 +103,21 @@ export const getSignupGroupInitialValuesFromSignup = (
     phoneNumber: signup.phone_number ?? '',
     serviceLanguage: signup.service_language ?? '',
     signups: [getSignupInitialValues(signup)],
+  };
+};
+
+export const getSignupFields = ({
+  signup,
+}: {
+  signup: Signup;
+}): SignupFields => {
+  const firstName = signup.first_name ?? '';
+  const lastName = signup.last_name ?? '';
+  const fullName = [firstName, lastName].filter(skipFalsyType).join(' ');
+
+  return {
+    firstName,
+    fullName,
+    lastName,
   };
 };

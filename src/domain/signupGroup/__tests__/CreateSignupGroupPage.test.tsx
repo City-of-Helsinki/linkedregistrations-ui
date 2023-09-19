@@ -109,7 +109,7 @@ test('should validate signup group form and focus invalid field', async () => {
   renderComponent();
 
   const firstNameInput = await findFirstNameInput();
-  const lastNameInput = await getSignupFormElement('lastNameInput');
+  const lastNameInput = getSignupFormElement('lastNameInput');
   const dateOfBirthInput = getSignupFormElement('dateOfBirthInput');
   const emailInput = getSignupFormElement('emailInput');
   const phoneInput = getSignupFormElement('phoneInput');

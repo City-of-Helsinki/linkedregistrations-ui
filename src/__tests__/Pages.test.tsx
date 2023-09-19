@@ -22,6 +22,9 @@ import {
   TEST_SIGNUP_GROUP_ID,
 } from '../domain/signupGroup/constants';
 import { SignupGroupFormFields } from '../domain/signupGroup/types';
+import AttendanceListPage, {
+  getServerSideProps as getAttendanceListPageServerSideProps,
+} from '../pages/registration/[registrationId]/attendance-list/index';
 import EditSignupPage, {
   getServerSideProps as getEditSignupPageServerSideProps,
 } from '../pages/registration/[registrationId]/signup/[signupId]/edit/index';
@@ -147,6 +150,30 @@ const mocks = [
 
 beforeEach(() => {
   setQueryMocks(...mocks);
+});
+
+describe('AttendanceListPage', () => {
+  it('should render heading', async () => {
+    singletonRouter.push({
+      pathname: ROUTES.ATTENDANCE_LIST,
+      query: { registrationId: registration.id },
+    });
+
+    render(<AttendanceListPage />);
+
+    await isHeadingRendered(`Osallistujalista: ${eventName}`);
+  });
+
+  it('should prefetch data', async () => {
+    const { props } = (await getAttendanceListPageServerSideProps({
+      locale: 'fi',
+      query: { registrationId: registration.id },
+    } as unknown as GetServerSidePropsContext)) as {
+      props: ExtendedSSRConfig;
+    };
+
+    isRegistrationInDehydratedState(props.dehydratedState);
+  });
 });
 
 describe('CreateSignupGroupPage', () => {

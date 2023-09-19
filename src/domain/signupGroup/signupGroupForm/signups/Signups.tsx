@@ -14,7 +14,7 @@ import {
 import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
-import { SignupFields } from '../../types';
+import { SignupFormFields } from '../../types';
 import { getNewSignups } from '../../utils';
 
 import Signup from './signup/Signup';
@@ -40,7 +40,7 @@ const Signups: React.FC<Props> = ({ formDisabled, readOnly, registration }) => {
     useSignupServerErrorsContext();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    SignupFields[]
+    SignupFormFields[]
   >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const closeModal = () => {

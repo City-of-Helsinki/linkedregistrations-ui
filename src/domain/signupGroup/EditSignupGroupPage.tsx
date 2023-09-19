@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import PageWrapper from '../../common/components/pageWrapper/PageWrapper';
 import { ExtendedSession } from '../../types';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -35,28 +36,30 @@ const EditSignupGroupPage: React.FC<Props> = ({
   const initialValues = getSignupGroupInitialValues(signupGroup);
 
   return (
-    <MainContent>
-      <SignupPageMeta event={event} />
-      <Container withOffset>
-        <FormContainer>
-          <EventInfo event={event} registration={registration} />
+    <PageWrapper>
+      <MainContent>
+        <SignupPageMeta event={event} />
+        <Container withOffset>
+          <FormContainer>
+            <EventInfo event={event} registration={registration} />
 
-          <SignupGroupForm
-            initialValues={initialValues}
-            readOnly={true}
-            registration={registration}
-            signupGroup={signupGroup}
-          />
-        </FormContainer>
-      </Container>
-    </MainContent>
+            <SignupGroupForm
+              initialValues={initialValues}
+              readOnly={true}
+              registration={registration}
+              signupGroup={signupGroup}
+            />
+          </FormContainer>
+        </Container>
+      </MainContent>
+    </PageWrapper>
   );
 };
 
 const EditSignupGroupPageWrapper: React.FC = () => {
   const {
     event,
-    isLoading: isLoadingEventOrReigstration,
+    isLoading: isLoadingEventOrRegistration,
     registration,
   } = useEventAndRegistrationData();
   const { isLoading: isLoadingSignup, signupGroup } = useSignupGroupData();
@@ -69,7 +72,7 @@ const EditSignupGroupPageWrapper: React.FC = () => {
   }
 
   return (
-    <LoadingSpinner isLoading={isLoadingSignup || isLoadingEventOrReigstration}>
+    <LoadingSpinner isLoading={isLoadingSignup || isLoadingEventOrRegistration}>
       {event && registration && signupGroup ? (
         <SignupGroupFormProvider>
           <SignupServerErrorsProvider>

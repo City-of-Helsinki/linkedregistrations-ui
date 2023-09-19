@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import PageWrapper from '../../common/components/pageWrapper/PageWrapper';
 import { ExtendedSession } from '../../types';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -33,21 +34,23 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
   };
 
   return (
-    <MainContent>
-      <SignupPageMeta event={event} />
-      <Container withOffset>
-        <FormContainer>
-          {!session && <AuthenticationRequiredNotification />}
-          <EventInfo event={event} registration={registration} />
-          {session && (
-            <SignupGroupForm
-              initialValues={initialValues}
-              registration={registration}
-            />
-          )}
-        </FormContainer>
-      </Container>
-    </MainContent>
+    <PageWrapper>
+      <MainContent>
+        <SignupPageMeta event={event} />
+        <Container withOffset>
+          <FormContainer>
+            {!session && <AuthenticationRequiredNotification />}
+            <EventInfo event={event} registration={registration} />
+            {session && (
+              <SignupGroupForm
+                initialValues={initialValues}
+                registration={registration}
+              />
+            )}
+          </FormContainer>
+        </Container>
+      </MainContent>
+    </PageWrapper>
   );
 };
 

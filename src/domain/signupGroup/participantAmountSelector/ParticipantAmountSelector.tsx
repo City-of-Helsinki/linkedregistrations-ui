@@ -15,7 +15,7 @@ import { SIGNUP_MODALS } from '../../signup/constants';
 import useSeatsReservationActions from '../../signup/hooks/useSeatsReservationActions';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../../signupGroup/constants';
-import { SignupFields } from '../../signupGroup/types';
+import { SignupFormFields } from '../../signupGroup/types';
 import ConfirmDeleteSignupFromForm from '../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 
@@ -39,7 +39,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   const [participantsToDelete, setParticipantsToDelete] = useState(0);
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    SignupFields[]
+    SignupFormFields[]
   >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const [participantAmount, setParticipantAmount] = useState(

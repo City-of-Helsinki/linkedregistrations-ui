@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import PageWrapper from '../../common/components/pageWrapper/PageWrapper';
 import SuccessTemplate from '../../common/components/successTemplate/SuccessTemplate';
 import useLocale from '../../hooks/useLocale';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -41,31 +42,33 @@ const SignupGroupCompletedPage: React.FC<Props> = ({ event, registration }) => {
   }, []);
 
   return (
-    <MainContent>
-      <Head>
-        <title>{t('completedPage.title')}</title>
-      </Head>
-      <SuccessTemplate title={t('completedPage.title')}>
-        {confirmationMessage ? (
-          <ConfirmationMessage registration={registration} />
-        ) : (
-          <p>{t('completedPage.text', { name })}</p>
-        )}
-        {redirectUrl && (
-          <>
-            <br></br>
-            <p>{t('completedPage.redirectInfo1')}</p>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: t('completedPage.redirectInfo2', {
-                  url: redirectUrl,
-                }) as string,
-              }}
-            />
-          </>
-        )}
-      </SuccessTemplate>
-    </MainContent>
+    <PageWrapper>
+      <MainContent>
+        <Head>
+          <title>{t('completedPage.title')}</title>
+        </Head>
+        <SuccessTemplate title={t('completedPage.title')}>
+          {confirmationMessage ? (
+            <ConfirmationMessage registration={registration} />
+          ) : (
+            <p>{t('completedPage.text', { name })}</p>
+          )}
+          {redirectUrl && (
+            <>
+              <br></br>
+              <p>{t('completedPage.redirectInfo1')}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: t('completedPage.redirectInfo2', {
+                    url: redirectUrl,
+                  }) as string,
+                }}
+              />
+            </>
+          )}
+        </SuccessTemplate>
+      </MainContent>
+    </PageWrapper>
   );
 };
 
