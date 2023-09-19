@@ -7,6 +7,12 @@ import {
 import { Event } from '../event/types';
 import { Signup } from '../signup/types';
 
+export type RegistrationUserAccess = {
+  email: string;
+  id: number;
+  language: string;
+};
+
 export type Registration = {
   id: string;
   attendee_registration: boolean;
@@ -28,6 +34,7 @@ export type Registration = {
   maximum_group_size: numberOrNull;
   minimum_attendee_capacity: numberOrNull;
   publisher: string;
+  registration_user_accesses?: RegistrationUserAccess[];
   remaining_attendee_capacity: numberOrNull;
   remaining_waiting_list_capacity: numberOrNull;
   signups: Signup[] | null;

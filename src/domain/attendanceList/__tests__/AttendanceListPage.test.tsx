@@ -19,9 +19,11 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PRESENCE_STATUS } from '../../signup/constants';
+import { mockedUserResponse, user } from '../../user/__mocks__/user';
+import { TEST_USER_ID } from '../../user/constants';
 import {
+  mockedRegistrationWithUserAccessResponse,
   patchedSignup,
-  registration,
   registrationId,
   signupNames,
 } from '../__mocks__/attendanceListPage';
@@ -39,9 +41,8 @@ const defaultSession = fakeAuthenticatedSession();
 (nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
 
 const defaultMocks = [
-  rest.get(`*/registration/${registrationId}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registration))
-  ),
+  mockedUserResponse,
+  mockedRegistrationWithUserAccessResponse,
 ];
 
 const pushAttendanceListRoute = () => {
@@ -57,6 +58,35 @@ const renderComponent = (session: ExtendedSession | null = defaultSession) =>
 const getSearchInput = () =>
   screen.getByRole('combobox', { name: 'Hae osallistujia' });
 
+const shouldShowNotFoundPage = async () => {
+  await screen.findByRole('heading', {
+    name: 'Valitettavasti etsimääsi sivua ei löydy',
+  });
+
+  screen.getByText(
+    'Hakemaasi sivua ei löytynyt. Yritä myöhemmin uudelleen. Jos ongelma jatkuu, ota meihin yhteyttä.'
+  );
+};
+
+const shouldShowSigninRequiredPage = async () => {
+  await screen.findByRole('heading', { name: 'Kirjautuminen vaaditaan' });
+
+  screen.getByText(
+    'Sinun tulee olla kirjautunut tarkastellaksesi ilmoittautumisen tietoja.'
+  );
+};
+
+const shouldShowStrongIdentificationRequiredPage = async () => {
+  await screen.findByRole('heading', {
+    name: 'Vahva tunnistautuminen vaaditaan',
+  });
+
+  screen.getByText(
+    'Tämän sisällön näkeminen edellyttää vahvaa tunnistautumista. Kirjaudu ulos ja kokeile toista kirjautumistapaa.'
+  );
+};
+
+// Tests
 test('should show attendance list page', async () => {
   setQueryMocks(...defaultMocks);
   pushAttendanceListRoute();
@@ -155,16 +185,39 @@ test('should show authentication required page if user is not authenticated', as
   renderComponent(null);
 
   await loadingSpinnerIsNotInDocument();
+  await shouldShowSigninRequiredPage();
+});
 
-  await screen.findByRole('heading', { name: 'Kirjautuminen vaaditaan' });
-
-  screen.getByText(
-    'Sinun tulee olla kirjautunut tarkastellaksesi ilmoittautumisen tietoja.'
+test('should show strong identification rewuired page if user is not strongly identificated', async () => {
+  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({ ...user, is_strongly_identificated: false })
+    )
   );
+  setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
+  pushAttendanceListRoute();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  await shouldShowStrongIdentificationRequiredPage();
+});
+
+test('should show not found page if user is not in registration user access users', async () => {
+  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json({ ...user, email: 'different@email.com' }))
+  );
+  setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
+  pushAttendanceListRoute();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  await shouldShowNotFoundPage();
 });
 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
+    mockedUserResponse,
     rest.get(`*/registration/${registrationId}/`, (req, res, ctx) =>
       res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
     )
@@ -173,12 +226,5 @@ test('should show not found page if registration does not exist', async () => {
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-
-  await screen.findByRole('heading', {
-    name: 'Valitettavasti etsimääsi sivua ei löydy',
-  });
-
-  screen.getByText(
-    'Hakemaasi sivua ei löytynyt. Yritä myöhemmin uudelleen. Jos ongelma jatkuu, ota meihin yhteyttä.'
-  );
+  await shouldShowNotFoundPage();
 });

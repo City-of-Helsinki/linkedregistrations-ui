@@ -10,6 +10,7 @@ import singletonRouter from 'next/router';
 import React from 'react';
 
 import { ROUTES } from '../domain/app/routes/constants';
+import { mockedRegistrationWithUserAccessResponse } from '../domain/attendanceList/__mocks__/attendanceListPage';
 import { eventName } from '../domain/event/__mocks__/event';
 import { mockedLanguagesResponses } from '../domain/language/__mocks__/languages';
 import { registration } from '../domain/registration/__mocks__/registration';
@@ -22,6 +23,7 @@ import {
   TEST_SIGNUP_GROUP_ID,
 } from '../domain/signupGroup/constants';
 import { SignupGroupFormFields } from '../domain/signupGroup/types';
+import { mockedUserResponse } from '../domain/user/__mocks__/user';
 import AttendanceListPage, {
   getServerSideProps as getAttendanceListPageServerSideProps,
 } from '../pages/registration/[registrationId]/attendance-list/index';
@@ -154,12 +156,14 @@ beforeEach(() => {
 
 describe('AttendanceListPage', () => {
   it('should render heading', async () => {
+    setQueryMocks(mockedUserResponse, mockedRegistrationWithUserAccessResponse);
     singletonRouter.push({
       pathname: ROUTES.ATTENDANCE_LIST,
       query: { registrationId: registration.id },
     });
 
     render(<AttendanceListPage />);
+    await loadingSpinnerIsNotInDocument(4000);
 
     await isHeadingRendered(`Osallistujalista: ${eventName}`);
   });

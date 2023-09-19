@@ -1,11 +1,9 @@
 import { ExtendedSession } from '../types';
+import { fakeAuthenticatedSession } from '../utils/mockSession';
 
 // Reference: https://github.com/nextauthjs/next-auth/issues/4866
 
-export const mockSession = {
-  expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  user: { name: 'admin' },
-};
+export const mockSession = fakeAuthenticatedSession();
 
 jest.mock('next-auth/react', () => {
   const originalModule = jest.requireActual('next-auth/react');

@@ -3,8 +3,8 @@ import {
   SearchInput as HdsSearchInput,
   SearchInputProps as HdsSearchInputProps,
 } from 'hds-react';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import styles from './searchInput.module.scss';
 

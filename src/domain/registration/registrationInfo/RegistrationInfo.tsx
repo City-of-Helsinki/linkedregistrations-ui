@@ -1,5 +1,5 @@
+import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
 import { Event } from '../../event/types';
