@@ -369,7 +369,7 @@ export const fakeUser = (overrides?: Partial<User>): User => {
       first_name: faker.person.firstName(),
       is_external: false,
       is_staff: false,
-      is_strongly_identificated: true,
+      is_strongly_identified: true,
       last_login: '',
       last_name: faker.person.lastName(),
       organization: faker.lorem.words(),

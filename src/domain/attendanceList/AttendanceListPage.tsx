@@ -83,7 +83,7 @@ const AttendanceListPageWrapper: React.FC = () => {
     }
 
     // Show strong identification required page if user doesn't have permissions to edit signups
-    if (!user?.is_strongly_identificated) {
+    if (!user?.is_strongly_identified) {
       return <StrongIdentificationRequired />;
     }
 

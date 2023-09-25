@@ -190,10 +190,7 @@ test('should show authentication required page if user is not authenticated', as
 
 test('should show strong identification rewuired page if user is not strongly identificated', async () => {
   const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({ ...user, is_strongly_identificated: false })
-    )
+    res(ctx.status(200), ctx.json({ ...user, is_strongly_identified: false }))
   );
   setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
   pushAttendanceListRoute();

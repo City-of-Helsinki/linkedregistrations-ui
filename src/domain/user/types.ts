@@ -8,7 +8,7 @@ export type User = {
   email: string;
   first_name: string;
   is_external: boolean;
-  is_strongly_identificated: boolean;
+  is_strongly_identified: boolean;
   is_staff: boolean;
   last_login: stringOrNull;
   last_name: string;
