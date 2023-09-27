@@ -4,13 +4,17 @@ import {
   fakeSignupGroup,
 } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
-import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
+import {
+  REGISTRATION_MANDATORY_FIELDS,
+  TEST_REGISTRATION_ID,
+} from '../../registration/constants';
 import { NOTIFICATION_TYPE, TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   NOTIFICATIONS,
   SIGNUP_GROUP_FIELDS,
   SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
+  TEST_SIGNUP_GROUP_ID,
 } from '../constants';
 import { SignupGroupQueryVariables } from '../types';
 import {
@@ -20,6 +24,7 @@ import {
   getSignupGroupPayload,
   getSignupNotificationTypes,
   getSignupNotificationsCode,
+  getUpdateSignupGroupPayload,
   isSignupFieldRequired,
   signupGroupPathBuilder,
 } from '../utils';
@@ -420,4 +425,114 @@ describe('signupGroupPathBuilder function', () => {
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(signupGroupPathBuilder(variables)).toBe(expectedPath)
   );
+});
+
+describe('getUpdateSignupGroupPayload function', () => {
+  it('should return signup group payload default values', () => {
+    expect(
+      getUpdateSignupGroupPayload({
+        formValues: {
+          ...SIGNUP_GROUP_INITIAL_VALUES,
+          signups: [{ ...SIGNUP_INITIAL_VALUES }],
+        },
+        id: TEST_SIGNUP_GROUP_ID,
+        registration,
+      })
+    ).toEqual({
+      extra_info: '',
+      id: TEST_SIGNUP_GROUP_ID,
+      registration: TEST_REGISTRATION_ID,
+      signups: [
+        {
+          city: '',
+          date_of_birth: null,
+          email: null,
+          extra_info: '',
+          first_name: '',
+          id: undefined,
+          last_name: '',
+          membership_number: '',
+          native_language: null,
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phone_number: null,
+          responsible_for_group: false,
+          service_language: null,
+          street_address: null,
+          zipcode: null,
+        },
+      ],
+    });
+  });
+
+  it('should return signup group payload', () => {
+    const city = 'City',
+      dateOfBirth = '10.10.1999',
+      email = 'Email',
+      extraInfo = 'Extra info',
+      groupExtraInfo = 'Group extra info',
+      firstName = 'First name',
+      lastName = 'Last name',
+      membershipNumber = 'XXX-123',
+      nativeLanguage = 'fi',
+      notifications = [NOTIFICATIONS.EMAIL],
+      phoneNumber = '0441234567',
+      serviceLanguage = 'sv',
+      streetAddress = 'Street address',
+      zipcode = '00100';
+    const signups = [
+      {
+        city,
+        dateOfBirth,
+        extraInfo,
+        firstName,
+        id: TEST_SIGNUP_ID,
+        inWaitingList: false,
+        lastName,
+        responsibleForGroup: true,
+        streetAddress,
+        zipcode,
+      },
+    ];
+
+    const payload = getUpdateSignupGroupPayload({
+      formValues: {
+        ...SIGNUP_GROUP_INITIAL_VALUES,
+        email,
+        extraInfo: groupExtraInfo,
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+        signups,
+      },
+      id: TEST_SIGNUP_GROUP_ID,
+      registration,
+    });
+
+    expect(payload).toEqual({
+      extra_info: groupExtraInfo,
+      id: TEST_SIGNUP_GROUP_ID,
+      registration: TEST_REGISTRATION_ID,
+      signups: [
+        {
+          city,
+          date_of_birth: '1999-10-10',
+          email,
+          extra_info: extraInfo,
+          first_name: firstName,
+          id: TEST_SIGNUP_ID,
+          last_name: lastName,
+          membership_number: membershipNumber,
+          native_language: nativeLanguage,
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phone_number: phoneNumber,
+          responsible_for_group: true,
+          service_language: serviceLanguage,
+          street_address: streetAddress,
+          zipcode,
+        },
+      ],
+    });
+  });
 });

@@ -5,9 +5,15 @@ import useMountedState from '../../../hooks/useMountedState';
 import { ExtendedSession, MutationCallbacks } from '../../../types';
 import { Registration } from '../../registration/types';
 import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
+import { SignupGroupFormFields } from '../../signupGroup/types';
 import { SIGNUP_ACTIONS } from '../constants';
-import { useDeleteSignupMutation } from '../mutation';
-import { DeleteSignupMutationInput, Signup } from '../types';
+import { useDeleteSignupMutation, useUpdateSignupMutation } from '../mutation';
+import {
+  DeleteSignupMutationInput,
+  Signup,
+  UpdateSignupMutationInput,
+} from '../types';
+import { getUpdateSignupPayload } from '../utils';
 
 interface Props {
   registration: Registration;
@@ -17,6 +23,10 @@ interface Props {
 type UseSignupActionsState = {
   deleteSignup: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: SIGNUP_ACTIONS | null;
+  updateSignup: (
+    values: SignupGroupFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
 };
 const useSignupActions = ({
   registration,
@@ -38,9 +48,15 @@ const useSignupActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const { handleError } = useHandleError<DeleteSignupMutationInput, Signup>();
+  const { handleError } = useHandleError<
+    DeleteSignupMutationInput | UpdateSignupMutationInput,
+    Signup
+  >();
 
   const deleteSignupMutation = useDeleteSignupMutation({
+    session,
+  });
+  const updateSignupMutation = useUpdateSignupMutation({
     session,
   });
 
@@ -68,9 +84,39 @@ const useSignupActions = ({
       }
     );
   };
+
+  const updateSignup = async (
+    values: SignupGroupFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(SIGNUP_ACTIONS.UPDATE);
+    const payload: UpdateSignupMutationInput = getUpdateSignupPayload({
+      formValues: values,
+      id: signup?.id as string,
+      registration: registration,
+    });
+
+    updateSignupMutation.mutate(payload, {
+      onError: (error, variables) => {
+        handleError({
+          callbacks,
+          error,
+          message: 'Failed to update signup',
+          object: signup,
+          payload: variables,
+          savingFinished,
+        });
+      },
+      onSuccess: () => {
+        cleanAfterUpdate(callbacks);
+      },
+    });
+  };
+
   return {
     deleteSignup,
     saving,
+    updateSignup,
   };
 };
 

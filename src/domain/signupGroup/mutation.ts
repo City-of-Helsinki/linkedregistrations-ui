@@ -9,8 +9,14 @@ import {
   CreateSignupGroupMutationInput,
   CreateSignupGroupResponse,
   DeleteSignupGroupMutationInput,
+  UpdateSignupGroupMutationInput,
+  UpdateSignupGroupResponse,
 } from './types';
-import { createSignupGroup, deleteSignupGroup } from './utils';
+import {
+  createSignupGroup,
+  deleteSignupGroup,
+  updateSignupGroup,
+} from './utils';
 
 export const useCreateSignupGroupMutation = ({
   options,
@@ -41,6 +47,31 @@ export const useDeleteSignupGroupMutation = ({
     ({ id }) =>
       deleteSignupGroup({
         id,
+        session,
+      }),
+    options
+  );
+};
+
+export const useUpdateSignupGroupMutation = ({
+  options,
+  session,
+}: {
+  options?: UseMutationOptions<
+    UpdateSignupGroupResponse,
+    Error,
+    UpdateSignupGroupMutationInput
+  >;
+  session: ExtendedSession | null;
+}): UseMutationResult<
+  UpdateSignupGroupResponse,
+  Error,
+  UpdateSignupGroupMutationInput
+> => {
+  return useMutation(
+    (input) =>
+      updateSignupGroup({
+        input,
         session,
       }),
     options

@@ -12,7 +12,7 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import useLocale from '../../../../../hooks/useLocale';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { Registration } from '../../../../registration/types';
-import { READ_ONLY_PLACEHOLDER, SIGNUP_FIELDS } from '../../../constants';
+import { SIGNUP_FIELDS } from '../../../constants';
 import InWaitingListInfo from '../../../inWaitingListInfo/InWaitingListInfo';
 import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFields } from '../../../types';
@@ -26,7 +26,6 @@ type Props = {
   formDisabled: boolean;
   index: number;
   onDelete: () => void;
-  readOnly?: boolean;
   registration: Registration;
   showDelete: boolean;
   signup: SignupFields;
@@ -40,7 +39,6 @@ const Signup: React.FC<Props> = ({
   formDisabled,
   index,
   onDelete,
-  readOnly,
   registration,
   showDelete,
   signup,
@@ -83,10 +81,7 @@ const Signup: React.FC<Props> = ({
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelFirstName`)}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderFirstName`)
-              }
-              readOnly={readOnly}
+              placeholder={t(`placeholderFirstName`)}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.FIRST_NAME
@@ -97,10 +92,7 @@ const Signup: React.FC<Props> = ({
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelLastName`)}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderLastName`)
-              }
-              readOnly={readOnly}
+              placeholder={t(`placeholderLastName`)}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.LAST_NAME
@@ -109,20 +101,13 @@ const Signup: React.FC<Props> = ({
           </div>
         </FormGroup>
         <FormGroup>
-          <div
-            className={classNames(styles.streetAddressRow, {
-              [styles.readOnly]: readOnly,
-            })}
-          >
+          <div className={classNames(styles.streetAddressRow)}>
             <Field
               name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelStreetAddress`)}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderStreetAddress`)
-              }
-              readOnly={readOnly}
+              placeholder={t(`placeholderStreetAddress`)}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.STREET_ADDRESS
@@ -130,41 +115,25 @@ const Signup: React.FC<Props> = ({
             />
             <Field
               name={getFieldName(signupPath, SIGNUP_FIELDS.DATE_OF_BIRTH)}
+              component={DateInputField}
               disabled={formDisabled}
               label={t(`labelDateOfBirth`)}
               language={locale}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderDateOfBirth`)
-              }
-              readOnly={readOnly}
+              maxDate={new Date()}
+              minDate={new Date(`${new Date().getFullYear() - 100}-01-01`)}
+              placeholder={t(`placeholderDateOfBirth`)}
               required={isDateOfBirthFieldRequired(registration)}
-              {...(readOnly
-                ? { component: TextInputField }
-                : {
-                    component: DateInputField,
-                    maxDate: new Date(),
-                    minDate: new Date(
-                      `${new Date().getFullYear() - 100}-01-01`
-                    ),
-                  })}
             />
           </div>
         </FormGroup>
         <FormGroup>
-          <div
-            className={classNames(styles.zipRow, {
-              [styles.readOnly]: readOnly,
-            })}
-          >
+          <div className={classNames(styles.zipRow)}>
             <Field
               name={getFieldName(signupPath, SIGNUP_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelZipcode`)}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderZipcode`)
-              }
-              readOnly={readOnly}
+              placeholder={t(`placeholderZipcode`)}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.ZIPCODE
@@ -175,10 +144,7 @@ const Signup: React.FC<Props> = ({
               component={TextInputField}
               disabled={formDisabled}
               label={t(`labelCity`)}
-              placeholder={
-                readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderCity`)
-              }
-              readOnly={readOnly}
+              placeholder={t(`placeholderCity`)}
               required={isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)}
             />
           </div>
@@ -189,10 +155,7 @@ const Signup: React.FC<Props> = ({
           component={TextAreaField}
           disabled={formDisabled}
           label={t(`labelSignupExtraInfo`)}
-          placeholder={
-            readOnly ? READ_ONLY_PLACEHOLDER : t(`placeholderSignupExtraInfo`)
-          }
-          readOnly={readOnly}
+          placeholder={t(`placeholderSignupExtraInfo`)}
           required={isSignupFieldRequired(
             registration,
             SIGNUP_FIELDS.EXTRA_INFO

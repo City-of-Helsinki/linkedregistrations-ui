@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
 import styles from '../../../../common/components/dialog/dialog.module.scss';
-import LoadingButton from '../../../../common/components/loadingButton/LoadingButton';
 
 export interface ConfirmDeleteSignupFromFormModalProps {
   isOpen: boolean;
@@ -65,10 +64,15 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
         <p>{t('signup:deleteSignupFromFormModal.text2')}</p>
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <LoadingButton
+        <Button
           disabled={isSaving}
-          icon={<IconCross aria-hidden={true} />}
-          loading={isSaving}
+          iconLeft={<IconCross aria-hidden={true} />}
+          isLoading={isSaving}
+          loadingText={
+            t('signup:deleteSignupFromFormModal.buttonDelete', {
+              count: participantCount,
+            }) as string
+          }
           onClick={handleDelete}
           type="button"
           variant="danger"
@@ -76,7 +80,7 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
           {t('signup:deleteSignupFromFormModal.buttonDelete', {
             count: participantCount,
           })}
-        </LoadingButton>
+        </Button>
         <Button
           disabled={isSaving}
           onClick={handleClose}

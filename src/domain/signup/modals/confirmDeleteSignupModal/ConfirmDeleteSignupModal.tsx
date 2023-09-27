@@ -1,4 +1,4 @@
-import { Dialog, IconAlertCircle } from 'hds-react';
+import { Dialog, IconAlertCircle, IconCross } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -7,12 +7,14 @@ import styles from '../../../../common/components/dialog/dialog.module.scss';
 
 export interface ConfirmDeleteSignupModalProps {
   isOpen: boolean;
+  isSaving: boolean;
   onClose: () => void;
   onCancel: () => void;
 }
 
 const ConfirmDeleteSignupModal: React.FC<ConfirmDeleteSignupModalProps> = ({
   isOpen,
+  isSaving,
   onClose,
   onCancel,
 }) => {
@@ -44,7 +46,14 @@ const ConfirmDeleteSignupModal: React.FC<ConfirmDeleteSignupModalProps> = ({
         <p id={descriptionId}>{t('signup:deleteSignupModal.text')} </p>
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button onClick={onCancel} variant="danger">
+        <Button
+          disabled={isSaving}
+          iconLeft={<IconCross aria-hidden={true} />}
+          isLoading={isSaving}
+          loadingText={t('signup:deleteSignupModal.buttonCancel') as string}
+          onClick={onCancel}
+          variant="danger"
+        >
           {t('signup:deleteSignupModal.buttonCancel')}
         </Button>
         <Button onClick={onClose} theme={'black'} variant="secondary">

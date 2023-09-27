@@ -7,9 +7,9 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React, { FC, useCallback, useRef } from 'react';
 
+import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
-import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES } from '../../../constants';
@@ -21,10 +21,7 @@ import { Event } from '../../event/types';
 import NotFound from '../../notFound/NotFound';
 import useEventAndRegistrationData from '../../registration/hooks/useEventAndRegistrationData';
 import { Registration } from '../../registration/types';
-import {
-  clearSeatsReservationData,
-  getSeatsReservationData,
-} from '../../reserveSeats/utils';
+import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import { SIGNUP_QUERY_PARAMS } from '../../signup/constants';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SignupServerErrorsProvider } from '../../signup/signupServerErrorsContext/SignupServerErrorsContext';
@@ -39,7 +36,6 @@ import { SignupGroupFormProvider } from '../signupGroupFormContext/SignupGroupFo
 import {
   clearCreateSignupGroupFormData,
   getSignupGroupDefaultInitialValues,
-  getSignupGroupPayload,
 } from '../utils';
 import { getSignupGroupSchema } from '../validation';
 import InformantInfo from './informantInfo/InformantInfo';
@@ -58,7 +54,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     data: ExtendedSession | null;
   };
 
-  const { createSignupGroup, saving } = useSignupGroupActions();
+  const { createSignupGroup, saving } = useSignupGroupActions({ registration });
 
   const reservationTimerCallbacksDisabled = useRef(false);
   const disableReservationTimerCallbacks = useCallback(() => {
@@ -136,16 +132,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                   abortEarly: true,
                 });
 
-                const reservationData = getSeatsReservationData(
-                  registration.id
-                );
-                const payload = getSignupGroupPayload({
-                  formValues: values,
-                  registration,
-                  reservationCode: reservationData?.code as string,
-                });
-
-                createSignupGroup(payload, {
+                createSignupGroup(values, {
                   onError: (error) =>
                     showServerErrors(
                       { error: JSON.parse(error.message) },
@@ -200,15 +187,16 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                   )}
                   onBack={goToCreateSignupGroupPage}
                   submitButtons={[
-                    <LoadingButton
+                    <Button
                       disabled={Boolean(saving)}
-                      icon={<IconPen aria-hidden={true} />}
-                      loading={saving == SIGNUP_GROUP_ACTIONS.CREATE}
+                      iconLeft={<IconPen aria-hidden={true} />}
+                      isLoading={saving == SIGNUP_GROUP_ACTIONS.CREATE}
+                      loadingText={t('buttonSend') as string}
                       key="save"
                       onClick={handleSubmit}
                     >
                       {t('buttonSend')}
-                    </LoadingButton>,
+                    </Button>,
                   ]}
                 ></ButtonPanel>
               </Form>

@@ -26,7 +26,6 @@ export const parseSignupGroupServerErrors = ({
       []
     );
   }
-
   return typeof error === 'string'
     ? [{ label: '', message: parseServerErrorMessage({ error: [error], t }) }]
     : Object.entries(error).reduce(

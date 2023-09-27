@@ -47,6 +47,7 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
         <SignupGroupForm
           event={event}
           initialValues={initialValues}
+          mode="create-signup-group"
           registration={registration}
         />
       )}

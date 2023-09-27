@@ -6,6 +6,7 @@ import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import singletonRouter from 'next/router';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ExtendedSession } from '../../../types';
 import { fakeAuthenticatedSession } from '../../../utils/mockSession';
@@ -26,7 +27,8 @@ import {
   findFirstNameInput,
   shouldRenderSignupFormFields,
   tryToCancel,
-} from '../../signupGroup/__tests__/EditSignupGroupPage.test';
+  tryToUpdate,
+} from '../../signupGroup/testUtils';
 import { signup } from '../__mocks__/signup';
 import { TEST_SIGNUP_ID } from '../constants';
 import EditSignupPage from '../EditSignupPage';
@@ -110,6 +112,45 @@ test('should show error message when cancelling signup fails', async () => {
 
   await findFirstNameInput();
   await tryToCancel();
+
+  await screen.findByRole(
+    'heading',
+    { name: /lomakkeella on seuraavat virheet/i },
+    { timeout: 10000 }
+  );
+});
+
+test('should update signup', async () => {
+  toast.success = jest.fn();
+  setQueryMocks(
+    ...defaultMocks,
+    rest.put(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
+      res(ctx.status(201), ctx.json(signup))
+    )
+  );
+  pushEditSignupRoute(TEST_REGISTRATION_ID);
+  renderComponent();
+
+  await findFirstNameInput();
+  await tryToUpdate();
+
+  await waitFor(() =>
+    expect(toast.success).toBeCalledWith('Osallistujan tiedot on tallennettu')
+  );
+});
+
+test('should show error message when updating signup fails', async () => {
+  setQueryMocks(
+    ...defaultMocks,
+    rest.put(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
+      res(ctx.status(403), ctx.json({ name: 'Name is required.' }))
+    )
+  );
+  pushEditSignupRoute(TEST_REGISTRATION_ID);
+  renderComponent();
+
+  await findFirstNameInput();
+  await tryToUpdate();
 
   await screen.findByRole(
     'heading',
