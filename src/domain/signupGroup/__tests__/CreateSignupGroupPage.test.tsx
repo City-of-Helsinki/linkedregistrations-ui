@@ -32,11 +32,7 @@ import { mockedLanguagesResponses } from '../../language/__mocks__/languages';
 import { registration } from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import CreateSignupGroupPage from '../CreateSignupGroupPage';
-
-import {
-  findFirstNameInput,
-  getSignupFormElement,
-} from './EditSignupGroupPage.test';
+import { findFirstNameInput, getSignupFormElement } from '../testUtils';
 
 configure({ defaultHidden: true });
 

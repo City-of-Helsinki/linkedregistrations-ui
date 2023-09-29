@@ -26,7 +26,7 @@ import {
   findFirstNameInput,
   shouldRenderSignupFormFields,
   tryToCancel,
-} from '../../signupGroup/__tests__/EditSignupGroupPage.test';
+} from '../../signupGroup/testUtils';
 import { signup } from '../__mocks__/signup';
 import { TEST_SIGNUP_ID } from '../constants';
 import EditSignupPage from '../EditSignupPage';
