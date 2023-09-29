@@ -10,9 +10,6 @@ export const canUserUpdateSignupPresenceStatus = ({
   user?: User;
 }): boolean => {
   return Boolean(
-    user?.is_strongly_identified &&
-      registration?.registration_user_accesses?.find(
-        (i) => i.email === user.email
-      )
+    user?.is_strongly_identified && registration?.has_registration_user_access
   );
 };

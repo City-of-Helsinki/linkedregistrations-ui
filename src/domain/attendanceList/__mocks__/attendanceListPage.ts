@@ -6,7 +6,6 @@ import { event } from '../../event/__mocks__/event';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { Registration } from '../../registration/types';
 import { PRESENCE_STATUS } from '../../signup/constants';
-import { TEST_USER_EMAIL } from '../../user/constants';
 
 const registrationId = TEST_REGISTRATION_ID;
 
@@ -24,9 +23,7 @@ const signups = fakeSignups(
 const registrationOverrides: Partial<Registration> = {
   id: registrationId,
   event,
-  registration_user_accesses: [
-    { id: 1, email: TEST_USER_EMAIL, language: 'fi' },
-  ],
+  has_registration_user_access: true,
   signups,
 };
 
@@ -42,8 +39,18 @@ const mockedRegistrationWithUserAccessResponse = rest.get(
   (req, res, ctx) => res(ctx.status(200), ctx.json(registration))
 );
 
+const mockedRegistrationWithoutUserAccessResponse = rest.get(
+  `*/registration/${registrationId}/`,
+  (req, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({ ...registration, has_registration_user_access: false })
+    )
+);
+
 export {
   mockedRegistrationWithUserAccessResponse,
+  mockedRegistrationWithoutUserAccessResponse,
   patchedSignup,
   registration,
   registrationId,

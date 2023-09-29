@@ -22,6 +22,7 @@ import { PRESENCE_STATUS } from '../../signup/constants';
 import { mockedUserResponse, user } from '../../user/__mocks__/user';
 import { TEST_USER_ID } from '../../user/constants';
 import {
+  mockedRegistrationWithoutUserAccessResponse,
   mockedRegistrationWithUserAccessResponse,
   patchedSignup,
   registrationId,
@@ -188,7 +189,7 @@ test('should show authentication required page if user is not authenticated', as
   await shouldShowSigninRequiredPage();
 });
 
-test('should show strong identification rewuired page if user is not strongly identificated', async () => {
+test('should show strong identification required page if user is not strongly identificated', async () => {
   const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json({ ...user, is_strongly_identified: false }))
   );
@@ -200,11 +201,10 @@ test('should show strong identification rewuired page if user is not strongly id
   await shouldShowStrongIdentificationRequiredPage();
 });
 
-test('should show not found page if user is not in registration user access users', async () => {
-  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({ ...user, email: 'different@email.com' }))
+test('should show not found page if has_registration_user_access is false', async () => {
+  setQueryMocks(
+    ...[mockedUserResponse, mockedRegistrationWithoutUserAccessResponse]
   );
-  setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
   pushAttendanceListRoute();
   renderComponent();
 
