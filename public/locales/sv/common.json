@@ -38,6 +38,7 @@
     "menuToggleAriaLabel": "Menyn",
     "skipToContentLabel": "Gå till innehållet"
   },
+  "noResults": "Inga resultat",
   "numberInput": {
     "minusStepButtonAriaLabel": "Minska",
     "plusStepButtonAriaLabel": "Öka"

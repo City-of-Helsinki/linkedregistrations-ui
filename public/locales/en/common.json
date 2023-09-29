@@ -38,6 +38,7 @@
     "menuToggleAriaLabel": "Menu",
     "skipToContentLabel": "Skip to content"
   },
+  "noResults": "No results",
   "numberInput": {
     "minusStepButtonAriaLabel": "Decrease",
     "plusStepButtonAriaLabel": "Increase"

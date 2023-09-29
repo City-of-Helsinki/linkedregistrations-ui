@@ -1,4 +1,5 @@
 export enum ROUTES {
+  ATTENDANCE_LIST = '/registration/[registrationId]/attendance-list',
   CALLBACK = '/api/auth/callback/tunnistamo',
   CREATE_SIGNUP_GROUP = '/registration/[registrationId]/signup-group/create',
   CREATE_SIGNUP_GROUP_SUMMARY = '/registration/[registrationId]/signup-group/create/summary',
