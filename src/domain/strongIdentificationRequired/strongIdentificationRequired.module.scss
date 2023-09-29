@@ -1,0 +1,7 @@
+@import '../../styles/widths.scss';
+
+.buttons {
+  button {
+    @include max-width-column(2);
+  }
+}

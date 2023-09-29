@@ -5,6 +5,7 @@ import { TEST_USER_EMAIL, TEST_USER_ID } from '../constants';
 
 const user = fakeUser({
   email: TEST_USER_EMAIL,
+  is_strongly_identified: true,
 });
 
 const mockedUserResponse = rest.get(
