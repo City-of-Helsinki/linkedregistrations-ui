@@ -7,7 +7,9 @@ export type User = {
   display_name: string;
   email: string;
   first_name: string;
+  is_external: boolean;
   is_staff: boolean;
+  is_strongly_identified: boolean;
   last_login: stringOrNull;
   last_name: string;
   organization: stringOrNull;

@@ -75,6 +75,10 @@
   },
   "signInToEnrol": "Du måste vara inloggad för att registrera dig för detta evenemang.",
   "signOut": "Logga ut",
+  "strongIdentificationRequired": {
+    "text": "Att se detta innehåll kräver stark identifiering. Logga ut och prova en annan inloggningsmetod.",
+    "title": "Stark identifiering krävs"
+  },
   "titleServerErrorSummary": "Formuläret innehåller följande fel",
   "validation": {
     "age": {

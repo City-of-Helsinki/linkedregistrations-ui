@@ -23,6 +23,7 @@ const signups = fakeSignups(
 const registrationOverrides: Partial<Registration> = {
   id: registrationId,
   event,
+  has_registration_user_access: true,
   signups,
 };
 

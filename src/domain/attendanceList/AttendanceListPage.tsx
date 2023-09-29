@@ -12,9 +12,11 @@ import { Event } from '../event/types';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import useEventAndRegistrationData from '../registration/hooks/useEventAndRegistrationData';
+import { canUserUpdateSignupPresenceStatus } from '../registration/permissions';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { Registration } from '../registration/types';
 import SignInRequired from '../signInRequired/SignInRequired';
+import StrongIdentificationRequired from '../strongIdentificationRequired/StrongIdentificationRequired';
 import { useUserQuery } from '../user/query';
 
 import styles from './attendanceListPage.module.scss';
@@ -65,7 +67,7 @@ const AttendanceListPageWrapper: React.FC = () => {
   const linkedEventsApiToken = session?.apiTokens?.linkedevents;
   const enableUserRequest = Boolean(userId && linkedEventsApiToken);
 
-  const { isLoading: isLoadingUser } = useUserQuery({
+  const { data: user, isLoading: isLoadingUser } = useUserQuery({
     args: { username: userId },
     options: { enabled: enableUserRequest },
     session,
@@ -75,6 +77,16 @@ const AttendanceListPageWrapper: React.FC = () => {
     // Show sign in required page if user is not authenticated
     if (!session) {
       return <SignInRequired />;
+    }
+
+    // Show strong identification required page if user doesn't have permissions to edit signups
+    if (!user?.is_strongly_identified) {
+      return <StrongIdentificationRequired />;
+    }
+
+    // Show not found page if user doesn't have permissions to edit signups
+    if (!canUserUpdateSignupPresenceStatus({ registration, user })) {
+      return <NotFound />;
     }
 
     if (event && registration) {

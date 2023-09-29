@@ -75,6 +75,10 @@
   },
   "signInToEnrol": "Sinun täytyy kirjautua sisään ilmoittautuaksesi tähän tapahtumaan.",
   "signOut": "Kirjaudu ulos",
+  "strongIdentificationRequired": {
+    "text": "Tämän sisällön näkeminen edellyttää vahvaa tunnistautumista. Kirjaudu ulos ja kokeile toista kirjautumistapaa.",
+    "title": "Vahva tunnistautuminen vaaditaan"
+  },
   "titleServerErrorSummary": "Lomakkeella on seuraavat virheet",
   "validation": {
     "age": {
