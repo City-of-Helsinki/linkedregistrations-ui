@@ -2,6 +2,7 @@
   "appName": "Linked Registrations",
   "buttonBack": "Tillbaka",
   "cancel": "Ångra",
+  "clear": "Klar",
   "cookieConsent": {
     "expiration": {
       "session": "Session"
@@ -42,6 +43,7 @@
     "plusStepButtonAriaLabel": "Öka"
   },
   "openInNewTab": "(öppnas i en ny flik)",
+  "search": "Sök",
   "serverError": {
     "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",

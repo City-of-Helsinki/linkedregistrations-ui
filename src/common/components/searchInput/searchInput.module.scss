@@ -1,0 +1,7 @@
+@import '../../../styles/mixins.scss';
+
+.hideLabel {
+  label {
+    @include hidden-from-screen;
+  }
+}

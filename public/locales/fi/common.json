@@ -2,6 +2,7 @@
   "appName": "Linked Registrations",
   "buttonBack": "Takaisin",
   "cancel": "Peruuta",
+  "clear": "Tyhjennä",
   "cookieConsent": {
     "expiration": {
       "session": "Istunto"
@@ -42,6 +43,7 @@
     "plusStepButtonAriaLabel": "Lisää"
   },
   "openInNewTab": "(avataan uudessa välilehdessä)",
+  "search": "Etsi",
   "serverError": {
     "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
