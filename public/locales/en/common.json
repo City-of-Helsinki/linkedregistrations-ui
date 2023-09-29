@@ -2,6 +2,7 @@
   "appName": "Linked Registrations",
   "buttonBack": "Back",
   "cancel": "Undo",
+  "clear": "Clear",
   "cookieConsent": {
     "expiration": {
       "session": "Session"
@@ -42,6 +43,7 @@
     "plusStepButtonAriaLabel": "Increase"
   },
   "openInNewTab": "(will open in a new tab)",
+  "search": "Search",
   "serverError": {
     "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
