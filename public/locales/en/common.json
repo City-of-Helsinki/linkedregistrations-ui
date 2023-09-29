@@ -75,6 +75,10 @@
   },
   "signInToEnrol": "You must be logged in to register for this event.",
   "signOut": "Sign out",
+  "strongIdentificationRequired": {
+    "text": "Viewing this content requires strong identification. Log out and try another login method.",
+    "title": "Strong identification is required"
+  },
   "titleServerErrorSummary": "Form contains following errors",
   "validation": {
     "age": {
