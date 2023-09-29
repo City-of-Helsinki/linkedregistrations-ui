@@ -15,23 +15,24 @@ configure({ defaultHidden: true });
 
 const defaultProps: ConfirmDeleteSignupModalProps = {
   isOpen: true,
-  onCancel: jest.fn(),
+  isSaving: false,
   onClose: jest.fn(),
+  onDelete: jest.fn(),
 };
 
 const renderComponent = (props: Partial<ConfirmDeleteSignupModalProps>) =>
   render(<ConfirmDeleteSignupModal {...defaultProps} {...props} />);
 
-test('should call onCancel', async () => {
-  const onCancel = jest.fn();
+test('should call onDelete', async () => {
+  const onDelete = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onCancel });
+  renderComponent({ onDelete });
 
   const cancelButton = screen.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
   await act(async () => await user.click(cancelButton));
-  expect(onCancel).toBeCalled();
+  expect(onDelete).toBeCalled();
 });
 
 test('should call onClose', async () => {

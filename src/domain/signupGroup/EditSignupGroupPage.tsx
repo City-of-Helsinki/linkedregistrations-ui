@@ -3,7 +3,6 @@ import React from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ExtendedSession } from '../../types';
-import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import { Event } from '../event/types';
 import NotFound from '../notFound/NotFound';
@@ -12,8 +11,6 @@ import { Registration } from '../registration/types';
 import SignInRequired from '../signInRequired/SignInRequired';
 import SignupPageMeta from '../signup/signupPageMeta/SignupPageMeta';
 import { SignupServerErrorsProvider } from '../signup/signupServerErrorsContext/SignupServerErrorsContext';
-import EventInfo from '../signupGroup/eventInfo/EventInfo';
-import FormContainer from '../signupGroup/formContainer/FormContainer';
 import SignupGroupForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import { SignupGroupFormProvider } from '../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { getSignupGroupInitialValues } from '../signupGroup/utils';
@@ -37,18 +34,13 @@ const EditSignupGroupPage: React.FC<Props> = ({
   return (
     <MainContent>
       <SignupPageMeta event={event} />
-      <Container withOffset>
-        <FormContainer>
-          <EventInfo event={event} registration={registration} />
-
-          <SignupGroupForm
-            initialValues={initialValues}
-            readOnly={true}
-            registration={registration}
-            signupGroup={signupGroup}
-          />
-        </FormContainer>
-      </Container>
+      <SignupGroupForm
+        event={event}
+        initialValues={initialValues}
+        readOnly={true}
+        registration={registration}
+        signupGroup={signupGroup}
+      />
     </MainContent>
   );
 };
