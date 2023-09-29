@@ -1,4 +1,4 @@
-import { SignupFields, SignupGroupFormFields } from './types';
+import { SignupFormFields, SignupGroupFormFields } from './types';
 
 export enum SIGNUP_FIELDS {
   CITY = 'city',
@@ -30,7 +30,7 @@ export enum NOTIFICATIONS {
   SMS = 'sms',
 }
 
-export const SIGNUP_INITIAL_VALUES: SignupFields = {
+export const SIGNUP_INITIAL_VALUES: SignupFormFields = {
   [SIGNUP_FIELDS.CITY]: '',
   [SIGNUP_FIELDS.DATE_OF_BIRTH]: '',
   [SIGNUP_FIELDS.EXTRA_INFO]: '',

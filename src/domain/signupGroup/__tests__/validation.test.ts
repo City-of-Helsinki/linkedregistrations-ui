@@ -6,7 +6,7 @@ import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { Registration } from '../../registration/types';
 import { NOTIFICATIONS } from '../constants';
-import { SignupFields, SignupGroupFormFields } from '../types';
+import { SignupFormFields, SignupGroupFormFields } from '../types';
 import {
   getSignupGroupSchema,
   getSignupSchema,
@@ -56,7 +56,7 @@ const testBelowMaxAge = async (maxAge: number, date: string) => {
 
 const testSignupSchema = async (
   registration: Registration,
-  signup: SignupFields
+  signup: SignupFormFields
 ) => {
   try {
     await getSignupSchema(registration).validate(signup);
@@ -132,7 +132,7 @@ describe('isBelowMaxAge function', () => {
 
 describe('signupSchema function', () => {
   const registration = fakeRegistration();
-  const validSignup: SignupFields = {
+  const validSignup: SignupFormFields = {
     city: 'City',
     dateOfBirth: '1.1.2000',
     extraInfo: '',

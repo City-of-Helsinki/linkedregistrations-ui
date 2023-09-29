@@ -7,13 +7,13 @@ import TextArea from '../../../../../common/components/textArea/TextArea';
 import { SIGNUP_FIELDS } from '../../../constants';
 import Divider from '../../../divider/Divider';
 import InWaitingListInfo from '../../../inWaitingListInfo/InWaitingListInfo';
-import { SignupFields } from '../../../types';
+import { SignupFormFields } from '../../../types';
 import ReadOnlyTextInput from '../../readOnlyTextInput/ReadOnlyTextInput';
 
 import styles from './signup.module.scss';
 
 export type SignupProps = {
-  signup: SignupFields;
+  signup: SignupFormFields;
   signupPath: string;
 };
 

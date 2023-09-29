@@ -19,7 +19,7 @@ import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsCon
 import { clearCreateSignupGroupFormData } from '../../signupGroup/utils';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../types';
+import { SignupFormFields } from '../types';
 
 const getTimeStr = (timeLeft: number) => {
   const hours = Math.floor(timeLeft / 3600);
@@ -40,8 +40,8 @@ interface ReservationTimerProps {
   initReservationData: boolean;
   onDataNotFound?: () => void;
   registration: Registration;
-  setSignups?: (value: SignupFields[]) => void;
-  signups?: SignupFields[];
+  setSignups?: (value: SignupFormFields[]) => void;
+  signups?: SignupFormFields[];
 }
 
 const ReservationTimer: React.FC<ReservationTimerProps> = ({

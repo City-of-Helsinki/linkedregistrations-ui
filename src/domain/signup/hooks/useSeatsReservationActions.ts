@@ -19,14 +19,14 @@ import {
   setSeatsReservationData,
 } from '../../reserveSeats/utils';
 import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../../signupGroup/types';
+import { SignupFormFields } from '../../signupGroup/types';
 import { getNewSignups } from '../../signupGroup/utils';
 import { SIGNUP_MODALS } from '../constants';
 
 type UseSeatsReservationActionsProps = {
   registration: Registration;
-  setSignups?: (value: SignupFields[]) => void;
-  signups?: SignupFields[];
+  setSignups?: (value: SignupFormFields[]) => void;
+  signups?: SignupFormFields[];
 };
 
 type UseSeatsReservationActionsState = {

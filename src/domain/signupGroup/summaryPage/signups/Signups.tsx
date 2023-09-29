@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
-import { SignupFields } from '../../types';
+import { SignupFormFields } from '../../types';
 
 import Signup from './signup/Signup';
 import styles from './signups.module.scss';
@@ -14,7 +14,7 @@ const getSignupPath = (index: number) =>
 const Signups: React.FC = () => {
   const { t } = useTranslation('summary');
 
-  const [{ value: signups }] = useField<SignupFields[]>({
+  const [{ value: signups }] = useField<SignupFormFields[]>({
     name: SIGNUP_GROUP_FIELDS.SIGNUPS,
   });
 

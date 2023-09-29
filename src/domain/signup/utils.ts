@@ -4,7 +4,7 @@ import { ExtendedSession } from '../../types';
 import formatDate from '../../utils/formatDate';
 import { callDelete, callGet } from '../app/axios/axiosClient';
 import { NOTIFICATIONS } from '../signupGroup/constants';
-import { SignupFields, SignupGroupFormFields } from '../signupGroup/types';
+import { SignupFormFields, SignupGroupFormFields } from '../signupGroup/types';
 
 import { ATTENDEE_STATUS } from './constants';
 import { Signup, SignupQueryVariables } from './types';
@@ -47,7 +47,7 @@ export const deleteSignup = async ({
   }
 };
 
-export const getSignupInitialValues = (signup: Signup): SignupFields => ({
+export const getSignupInitialValues = (signup: Signup): SignupFormFields => ({
   city: signup.city ?? '',
   dateOfBirth: signup.date_of_birth
     ? formatDate(new Date(signup.date_of_birth))
