@@ -2,12 +2,13 @@
 import { NextPage } from 'next';
 
 import EditSignupGroupPage from '../../../../../../domain/signupGroup/EditSignupGroupPage';
-import generateSignupGroupGetServerSideProps from '../../../../../../utils/generateSignupGroupGetServerSideProps';
+import generateGetServerSideProps from '../../../../../../utils/generateGetServerSideProps';
 
 const EditSignupGroup: NextPage = () => <EditSignupGroupPage />;
 
-export const getServerSideProps = generateSignupGroupGetServerSideProps({
+export const getServerSideProps = generateGetServerSideProps({
   shouldPrefetchPlace: false,
+  shouldPrefetchSignup: false,
   shouldPrefetchSignupGroup: true,
   translationNamespaces: ['common', 'signup'],
 });
