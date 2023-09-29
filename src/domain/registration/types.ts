@@ -20,6 +20,7 @@ export type Registration = {
   enrolment_end_time: string;
   enrolment_start_time: string;
   event: Event;
+  has_registration_user_access: boolean;
   instructions: LocalisedObject;
   last_modified_at: stringOrNull;
   last_modified_by: stringOrNull;
