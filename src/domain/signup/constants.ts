@@ -3,6 +3,11 @@ export enum ATTENDEE_STATUS {
   Waitlisted = 'waitlisted',
 }
 
+export enum PRESENCE_STATUS {
+  NotPresent = 'not_present',
+  Present = 'present',
+}
+
 export enum NOTIFICATION_TYPE {
   NO_NOTIFICATION = 'none',
   SMS = 'sms',

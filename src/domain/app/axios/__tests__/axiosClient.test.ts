@@ -1,6 +1,11 @@
 import { fakeAuthenticatedSession } from '../../../../utils/mockSession';
 import { TEST_API_TOKEN } from '../../../auth/constants';
-import axiosClient, { callDelete, callGet, callPost } from '../axiosClient';
+import axiosClient, {
+  callDelete,
+  callGet,
+  callPatch,
+  callPost,
+} from '../axiosClient';
 
 const apiToken = TEST_API_TOKEN;
 
@@ -47,6 +52,32 @@ describe('callGet', () => {
 
     expect(axiosGet).toHaveBeenCalledTimes(1);
     expect(axiosGet).toHaveBeenCalledWith('/test/', {
+      headers: { Authorization: `bearer ${apiToken}` },
+    });
+  });
+});
+
+describe('callPatch', () => {
+  it('should call axios patch without authorization header', async () => {
+    const axiosPatch = jest.spyOn(axiosClient, 'patch').mockResolvedValue({});
+
+    await callPatch({ data: 'data', session: null, url: '/test/' });
+
+    expect(axiosPatch).toHaveBeenCalledTimes(1);
+    expect(axiosPatch).toHaveBeenCalledWith('/test/', 'data', undefined);
+  });
+
+  it('should call axios patch with authorization header', async () => {
+    const axiosPatch = jest.spyOn(axiosClient, 'patch').mockResolvedValue({});
+
+    await callPatch({
+      data: 'data',
+      session: fakeAuthenticatedSession(),
+      url: '/test/',
+    });
+
+    expect(axiosPatch).toHaveBeenCalledTimes(1);
+    expect(axiosPatch).toHaveBeenCalledWith('/test/', 'data', {
       headers: { Authorization: `bearer ${apiToken}` },
     });
   });

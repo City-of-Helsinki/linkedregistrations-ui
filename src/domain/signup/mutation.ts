@@ -6,8 +6,12 @@ import {
 
 import { ExtendedSession } from '../../types';
 
-import { DeleteSignupMutationInput } from './types';
-import { deleteSignup } from './utils';
+import {
+  DeleteSignupMutationInput,
+  PatchSignupMutationInput,
+  Signup,
+} from './types';
+import { deleteSignup, patchSignup } from './utils';
 
 export const useDeleteSignupMutation = ({
   options,
@@ -20,6 +24,23 @@ export const useDeleteSignupMutation = ({
     ({ signupId }) =>
       deleteSignup({
         id: signupId,
+        session,
+      }),
+    options
+  );
+};
+
+export const usePatchSignupMutation = ({
+  options,
+  session,
+}: {
+  options?: UseMutationOptions<Signup, Error, PatchSignupMutationInput>;
+  session: ExtendedSession | null;
+}): UseMutationResult<Signup, Error, PatchSignupMutationInput> => {
+  return useMutation(
+    (input) =>
+      patchSignup({
+        input,
         session,
       }),
     options

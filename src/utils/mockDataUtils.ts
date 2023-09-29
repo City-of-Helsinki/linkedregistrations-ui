@@ -23,8 +23,12 @@ import {
   RegistrationsResponse,
 } from '../domain/registration/types';
 import { SeatsReservation } from '../domain/reserveSeats/types';
-import { ATTENDEE_STATUS, NOTIFICATION_TYPE } from '../domain/signup/constants';
-import { Signup } from '../domain/signup/types';
+import {
+  ATTENDEE_STATUS,
+  NOTIFICATION_TYPE,
+  PRESENCE_STATUS,
+} from '../domain/signup/constants';
+import { Signup, SignupsResponse } from '../domain/signup/types';
 import { SIGNUP_GROUP_INITIAL_VALUES } from '../domain/signupGroup/constants';
 import {
   SignupGroup,
@@ -265,6 +269,7 @@ export const fakeRegistration = (
       publisher: event.publisher,
       remaining_attendee_capacity: null,
       remaining_waiting_list_capacity: null,
+      signups: [],
       waiting_list_capacity: null,
     },
     overrides
@@ -292,6 +297,14 @@ export const fakeSeatsReservation = (
   );
 };
 
+export const fakeSignups = (
+  count = 1,
+  signups?: Partial<Signup>[]
+): SignupsResponse => ({
+  data: generateNodeArray((i) => fakeSignup(signups?.[i]), count),
+  meta: fakeMeta(count),
+});
+
 export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
   const id = overrides?.id || faker.string.uuid();
 
@@ -313,6 +326,7 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       native_language: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phone_number: faker.phone.number(),
+      presence_status: PRESENCE_STATUS.NotPresent,
       registration: TEST_REGISTRATION_ID,
       responsible_for_group: false,
       service_language: 'fi',
