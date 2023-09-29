@@ -58,6 +58,20 @@ export const callGet = async ({
   return axiosClient.get(url, getRequestConfig({ config, session }));
 };
 
+export const callPatch = async ({
+  config,
+  data,
+  session,
+  url,
+}: {
+  config?: AxiosRequestConfig;
+  data: string;
+  session: ExtendedSession | null;
+  url: string;
+}) => {
+  return axiosClient.patch(url, data, getRequestConfig({ config, session }));
+};
+
 export const callPost = async ({
   config,
   data,
