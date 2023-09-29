@@ -1,0 +1,10 @@
+{
+  "count": "{{count}} osallistuja",
+  "count_other": "{{count}} osallistujaa",
+  "errors": {
+    "presenceStatusUpdateFails": "Läsnäolotiedon päivittäminen epäonnistui"
+  },
+  "labelSearch": "Hae osallistujia",
+  "pageTitle": "Osallistujalista: {{name}}",
+  "title": "Osallistujalista"
+}

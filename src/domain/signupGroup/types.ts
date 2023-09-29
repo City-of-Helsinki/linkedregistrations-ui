@@ -53,6 +53,12 @@ export type SignupGroupFormFields = {
   [SIGNUP_GROUP_FIELDS.SIGNUPS]: SignupFormFields[];
 };
 
+export type SignupFields = {
+  firstName: string;
+  fullName: string;
+  lastName: string;
+};
+
 export type DeleteSignupGroupMutationInput = {
   id: string;
 };

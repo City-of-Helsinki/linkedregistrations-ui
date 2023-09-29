@@ -38,6 +38,7 @@
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön"
   },
+  "noResults": "Ei tuloksia",
   "numberInput": {
     "minusStepButtonAriaLabel": "Vähennä",
     "plusStepButtonAriaLabel": "Lisää"
