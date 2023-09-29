@@ -19,8 +19,10 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PRESENCE_STATUS } from '../../signup/constants';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import { mockedUserResponse, user } from '../../user/__mocks__/user';
+import { TEST_USER_ID } from '../../user/constants';
 import {
+  mockedRegistrationWithoutUserAccessResponse,
   mockedRegistrationWithUserAccessResponse,
   patchedSignup,
   registrationId,
@@ -72,6 +74,16 @@ const shouldShowSigninRequiredPage = async () => {
 
   screen.getByText(
     'Sinun tulee olla kirjautunut tarkastellaksesi ilmoittautumisen tietoja.'
+  );
+};
+
+const shouldShowStrongIdentificationRequiredPage = async () => {
+  await screen.findByRole('heading', {
+    name: 'Vahva tunnistautuminen vaaditaan',
+  });
+
+  screen.getByText(
+    'Tämän sisällön näkeminen edellyttää vahvaa tunnistautumista. Kirjaudu ulos ja kokeile toista kirjautumistapaa.'
   );
 };
 
@@ -175,6 +187,29 @@ test('should show authentication required page if user is not authenticated', as
 
   await loadingSpinnerIsNotInDocument();
   await shouldShowSigninRequiredPage();
+});
+
+test('should show strong identification required page if user is not strongly identificated', async () => {
+  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json({ ...user, is_strongly_identified: false }))
+  );
+  setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
+  pushAttendanceListRoute();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  await shouldShowStrongIdentificationRequiredPage();
+});
+
+test('should show not found page if has_registration_user_access is false', async () => {
+  setQueryMocks(
+    ...[mockedUserResponse, mockedRegistrationWithoutUserAccessResponse]
+  );
+  pushAttendanceListRoute();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  await shouldShowNotFoundPage();
 });
 
 test('should show not found page if registration does not exist', async () => {
