@@ -35,18 +35,22 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
   return (
     <MainContent>
       <SignupPageMeta event={event} />
-      <Container withOffset>
-        <FormContainer>
-          {!session && <AuthenticationRequiredNotification />}
-          <EventInfo event={event} registration={registration} />
-          {session && (
-            <SignupGroupForm
-              initialValues={initialValues}
-              registration={registration}
-            />
-          )}
-        </FormContainer>
-      </Container>
+      {!session && (
+        <Container withOffset>
+          <FormContainer>
+            {<AuthenticationRequiredNotification />}
+            <EventInfo event={event} registration={registration} />
+          </FormContainer>
+        </Container>
+      )}
+
+      {session && (
+        <SignupGroupForm
+          event={event}
+          initialValues={initialValues}
+          registration={registration}
+        />
+      )}
     </MainContent>
   );
 };
