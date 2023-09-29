@@ -4,13 +4,16 @@ import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 
 import { REGISTRATION_INCLUDES } from '../domain/registration/constants';
 import { fetchRegistrationQuery } from '../domain/registration/query';
+import { RegistrationQueryVariables } from '../domain/registration/types';
 import { ExtendedSession } from '../types';
 
 const prefetchRegistrationAndEvent = async ({
+  overrideRegistrationsVariables,
   query,
   queryClient,
   session,
 }: {
+  overrideRegistrationsVariables?: Partial<RegistrationQueryVariables>;
   query: NextParsedUrlQuery;
   queryClient: QueryClient;
   session: ExtendedSession | null;
@@ -21,6 +24,7 @@ const prefetchRegistrationAndEvent = async ({
       args: {
         id: query.registrationId as string,
         include: REGISTRATION_INCLUDES,
+        ...overrideRegistrationsVariables,
       },
       queryClient,
       session,

@@ -5,7 +5,11 @@ import { ExtendedSession } from '../../../types';
 import { Event } from '../../event/types';
 import { REGISTRATION_INCLUDES } from '../constants';
 import { useRegistrationQuery } from '../query';
-import { Registration } from '../types';
+import { Registration, RegistrationQueryVariables } from '../types';
+
+type UseRegistrationAndEventDataProps = {
+  overrideRegistrationsVariables?: Partial<RegistrationQueryVariables>;
+};
 
 type UseEventAndRegistrationDataState = {
   event: Event | undefined;
@@ -13,7 +17,9 @@ type UseEventAndRegistrationDataState = {
   registration: Registration | undefined;
 };
 
-const useEventAndRegistrationData = (): UseEventAndRegistrationDataState => {
+const useEventAndRegistrationData = ({
+  overrideRegistrationsVariables,
+}: UseRegistrationAndEventDataProps = {}): UseEventAndRegistrationDataState => {
   const router = useRouter();
   const { query } = router;
   const { data: session } = useSession() as { data: ExtendedSession | null };
@@ -26,6 +32,7 @@ const useEventAndRegistrationData = (): UseEventAndRegistrationDataState => {
     args: {
       id: query.registrationId as string,
       include: REGISTRATION_INCLUDES,
+      ...overrideRegistrationsVariables,
     },
     options: { enabled: !!query.registrationId, retry: 0 },
     session,

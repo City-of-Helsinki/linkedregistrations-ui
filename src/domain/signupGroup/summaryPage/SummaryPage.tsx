@@ -125,7 +125,10 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
 
         <Formik
           initialValues={initialValues}
-          onSubmit={/* istanbul ignore next */ () => undefined}
+          onSubmit={
+            /* istanbul ignore next */
+            () => undefined
+          }
           validationSchema={() => getSignupGroupSchema(registration)}
         >
           {({ values }) => {
