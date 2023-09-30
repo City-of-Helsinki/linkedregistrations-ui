@@ -8,10 +8,9 @@ import { ExtendedSession } from '../../types';
 
 import {
   CreateSignupGroupMutationInput,
-  CreateSignupGroupResponse,
+  CreateOrUpdateSignupGroupResponse,
   DeleteSignupGroupMutationInput,
   UpdateSignupGroupMutationInput,
-  UpdateSignupGroupResponse,
 } from './types';
 import {
   createSignupGroup,
@@ -24,13 +23,13 @@ export const useCreateSignupGroupMutation = ({
   session,
 }: {
   options?: UseMutationOptions<
-    CreateSignupGroupResponse,
+    CreateOrUpdateSignupGroupResponse,
     Error,
     CreateSignupGroupMutationInput
   >;
   session: ExtendedSession | null;
 }): UseMutationResult<
-  CreateSignupGroupResponse,
+  CreateOrUpdateSignupGroupResponse,
   Error,
   CreateSignupGroupMutationInput
 > => {
@@ -59,13 +58,13 @@ export const useUpdateSignupGroupMutation = ({
   session,
 }: {
   options?: UseMutationOptions<
-    UpdateSignupGroupResponse,
+    CreateOrUpdateSignupGroupResponse,
     Error,
     UpdateSignupGroupMutationInput
   >;
   session: ExtendedSession | null;
 }): UseMutationResult<
-  UpdateSignupGroupResponse,
+  CreateOrUpdateSignupGroupResponse,
   Error,
   UpdateSignupGroupMutationInput
 > => {

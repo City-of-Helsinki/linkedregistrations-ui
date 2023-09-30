@@ -28,10 +28,6 @@
 
   @include medium-up {
     grid-template-columns: 4fr 2fr;
-
-    &.readOnly {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 }
 
@@ -42,10 +38,6 @@
 
   @include medium-up {
     grid-template-columns: 2fr 4fr;
-
-    &.readOnly {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 }
 

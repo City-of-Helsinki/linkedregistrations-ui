@@ -192,7 +192,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                       disabled={Boolean(saving)}
                       iconLeft={<IconPen aria-hidden={true} />}
                       isLoading={saving == SIGNUP_GROUP_ACTIONS.CREATE}
-                      loadingText={t('buttonSend') as string}
+                      loadingText={t('buttonSend')}
                       key="save"
                       onClick={handleSubmit}
                     >
