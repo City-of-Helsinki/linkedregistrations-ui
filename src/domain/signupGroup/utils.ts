@@ -26,13 +26,12 @@ import {
 } from './constants';
 import {
   CreateSignupGroupMutationInput,
-  CreateSignupGroupResponse,
+  CreateOrUpdateSignupGroupResponse,
   SignupFields,
   SignupGroup,
   SignupGroupFormFields,
   SignupGroupQueryVariables,
   UpdateSignupGroupMutationInput,
-  UpdateSignupGroupResponse,
 } from './types';
 
 export const getSignupNotificationsCode = (
@@ -210,7 +209,7 @@ export const createSignupGroup = async ({
 }: {
   input: CreateSignupGroupMutationInput;
   session: ExtendedSession | null;
-}): Promise<CreateSignupGroupResponse> => {
+}): Promise<CreateOrUpdateSignupGroupResponse> => {
   try {
     const { data } = await callPost({
       data: JSON.stringify(input),
@@ -263,12 +262,12 @@ export const updateSignupGroup = async ({
 }: {
   input: UpdateSignupGroupMutationInput;
   session: ExtendedSession | null;
-}): Promise<UpdateSignupGroupResponse> => {
+}): Promise<CreateOrUpdateSignupGroupResponse> => {
   try {
     const { data } = await callPut({
       data: JSON.stringify(input),
       session,
-      url: signupGroupPathBuilder({ id: id as string }),
+      url: signupGroupPathBuilder({ id }),
     });
     return data;
   } catch (error) {

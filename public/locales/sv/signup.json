@@ -2,6 +2,7 @@
   "buttonCancel": "Avbryt registreringen",
   "buttonDeleteSignup": "Ta bort deltagare",
   "buttonGoToSummary": "Fortsätt till registreringen",
+  "buttonUpdate": "Spara",
   "buttonUpdateParticipantAmount": "Uppdatera",
   "cancelledPage": {
     "text": "Du har avbokat din anmälan till vårt evenemang {{name}}.",
@@ -64,6 +65,8 @@
     "email": "Via e-post",
     "sms": "Med sms"
   },
+  "notificationSignupUpdated": "Deltagarinformation har sparad",
+  "notificationSignupGroupUpdated": "Deltagarinformation har sparad",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Stänga",
     "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
