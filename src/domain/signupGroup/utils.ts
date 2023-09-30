@@ -4,15 +4,18 @@ import snakeCase from 'lodash/snakeCase';
 
 import { FORM_NAMES } from '../../constants';
 import { ExtendedSession } from '../../types';
-import formatDate from '../../utils/formatDate';
 import skipFalsyType from '../../utils/skipFalsyType';
-import stringToDate from '../../utils/stringToDate';
-import { callDelete, callGet, callPost } from '../app/axios/axiosClient';
+import {
+  callDelete,
+  callGet,
+  callPost,
+  callPut,
+} from '../app/axios/axiosClient';
 import { Registration } from '../registration/types';
 import { SeatsReservation } from '../reserveSeats/types';
 import { NOTIFICATION_TYPE } from '../signup/constants';
 import { Signup, SignupInput } from '../signup/types';
-import { getSignupInitialValues } from '../signup/utils';
+import { getSignupInitialValues, getSignupPayload } from '../signup/utils';
 
 import {
   NOTIFICATIONS,
@@ -28,6 +31,8 @@ import {
   SignupGroup,
   SignupGroupFormFields,
   SignupGroupQueryVariables,
+  UpdateSignupGroupMutationInput,
+  UpdateSignupGroupResponse,
 } from './types';
 
 export const getSignupNotificationsCode = (
@@ -62,25 +67,6 @@ export const getSignupNotificationTypes = (
   }
 };
 
-export const createSignupGroup = async ({
-  input,
-  session,
-}: {
-  input: CreateSignupGroupMutationInput;
-  session: ExtendedSession | null;
-}): Promise<CreateSignupGroupResponse> => {
-  try {
-    const { data } = await callPost({
-      data: JSON.stringify(input),
-      session,
-      url: `/signup_group/`,
-    });
-    return data;
-  } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
-  }
-};
-
 export const getSignupGroupPayload = ({
   formValues,
   registration,
@@ -90,52 +76,47 @@ export const getSignupGroupPayload = ({
   registration: Registration;
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
-  const {
-    email,
-    extraInfo: groupExtraInfo,
-    membershipNumber,
-    nativeLanguage,
-    phoneNumber,
-    serviceLanguage,
-    signups: signupsValues,
-  } = formValues;
+  const { extraInfo: groupExtraInfo, signups: signupsValues } = formValues;
 
-  const signups: SignupInput[] = signupsValues.map((signup, index) => {
-    const {
-      city,
-      dateOfBirth,
-      extraInfo,
-      firstName,
-      lastName,
-      streetAddress,
-      zipcode,
-    } = signup;
-    return {
-      city: city || '',
-      date_of_birth: dateOfBirth
-        ? formatDate(stringToDate(dateOfBirth), 'yyyy-MM-dd')
-        : null,
-      email: email || null,
-      extra_info: extraInfo,
-      first_name: firstName || '',
-      last_name: lastName || '',
-      membership_number: membershipNumber,
-      native_language: nativeLanguage || null,
-      // TODO: At the moment only email notifications are supported
-      notifications: NOTIFICATION_TYPE.EMAIL,
-      // notifications: getSignupNotificationsCode(notifications),
-      phone_number: phoneNumber || null,
-      responsible_for_group: index == 0,
-      service_language: serviceLanguage || null,
-      street_address: streetAddress || null,
-      zipcode: zipcode || null,
-    };
-  });
+  const signups: SignupInput[] = signupsValues.map((signupData, index) =>
+    getSignupPayload({
+      formValues,
+      responsibleForGroup: index === 0,
+      signupData,
+    })
+  );
 
   return {
     extra_info: groupExtraInfo,
     registration: registration.id,
     reservation_code: reservationCode,
+    signups,
+  };
+};
+
+export const getUpdateSignupGroupPayload = ({
+  formValues,
+  id,
+  registration,
+}: {
+  formValues: SignupGroupFormFields;
+  id: string;
+  registration: Registration;
+}): UpdateSignupGroupMutationInput => {
+  const { extraInfo: groupExtraInfo, signups: signupsValues } = formValues;
+
+  const signups: SignupInput[] = signupsValues.map((signupData) =>
+    getSignupPayload({
+      formValues,
+      responsibleForGroup: signupData.responsibleForGroup,
+      signupData,
+    })
+  );
+
+  return {
+    extra_info: groupExtraInfo,
+    id,
+    registration: registration.id,
     signups,
   };
 };
@@ -223,6 +204,25 @@ export const signupGroupPathBuilder = (
   return `/signup_group/${args.id}/`;
 };
 
+export const createSignupGroup = async ({
+  input,
+  session,
+}: {
+  input: CreateSignupGroupMutationInput;
+  session: ExtendedSession | null;
+}): Promise<CreateSignupGroupResponse> => {
+  try {
+    const { data } = await callPost({
+      data: JSON.stringify(input),
+      session,
+      url: `/signup_group/`,
+    });
+    return data;
+  } catch (error) {
+    throw Error(JSON.stringify((error as AxiosError).response?.data));
+  }
+};
+
 export const fetchSignupGroup = async (
   args: SignupGroupQueryVariables,
   session: ExtendedSession | null
@@ -250,6 +250,25 @@ export const deleteSignupGroup = async ({
     const { data } = await callDelete({
       session,
       url: signupGroupPathBuilder({ id }),
+    });
+    return data;
+  } catch (error) {
+    throw Error(JSON.stringify((error as AxiosError).response?.data));
+  }
+};
+
+export const updateSignupGroup = async ({
+  input: { id, ...input },
+  session,
+}: {
+  input: UpdateSignupGroupMutationInput;
+  session: ExtendedSession | null;
+}): Promise<UpdateSignupGroupResponse> => {
+  try {
+    const { data } = await callPut({
+      data: JSON.stringify(input),
+      session,
+      url: signupGroupPathBuilder({ id: id as string }),
     });
     return data;
   } catch (error) {

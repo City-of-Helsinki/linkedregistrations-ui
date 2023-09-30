@@ -14,6 +14,7 @@ export const TEST_SIGNUP_ID = 'signup:1';
 
 export enum SIGNUP_ACTIONS {
   DELETE = 'delete',
+  UPDATE = 'update',
 }
 
 export enum SIGNUP_MODALS {

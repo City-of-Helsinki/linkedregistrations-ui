@@ -97,6 +97,7 @@ const SignupGroupForm: React.FC<Props> = ({
   });
   const { deleteSignupGroup, saving: savingSignupGroup } =
     useSignupGroupActions({
+      registration,
       signupGroup,
     });
   const formSavingDisabled = React.useRef(!!readOnly);
