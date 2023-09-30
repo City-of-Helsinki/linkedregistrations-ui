@@ -66,6 +66,4 @@ export enum SIGNUP_GROUP_ACTIONS {
   UPDATE = 'update',
 }
 
-export const READ_ONLY_PLACEHOLDER = '-';
-
 export const TEST_SIGNUP_GROUP_ID = 'signupGroup:1';

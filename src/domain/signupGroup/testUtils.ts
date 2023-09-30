@@ -21,6 +21,7 @@ export const getSignupFormElement = (
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
+    | 'updateButton'
     | 'updateParticipantAmountButton'
     | 'zipInput'
 ) => {
@@ -59,6 +60,8 @@ export const getSignupFormElement = (
       return screen.getByLabelText(/katuosoite/i);
     case 'submitButton':
       return screen.getByRole('button', { name: /jatka ilmoittautumiseen/i });
+    case 'updateButton':
+      return screen.getByRole('button', { name: /tallenna/i });
     case 'updateParticipantAmountButton':
       return screen.getByRole('button', { name: /päivitä/i });
     case 'zipInput':
@@ -67,32 +70,20 @@ export const getSignupFormElement = (
 };
 
 export const shouldRenderSignupFormFields = async () => {
-  const firstNameInput = await findFirstNameInput();
-  const lastNameInput = getSignupFormElement('lastNameInput');
-  const streetAddressInput = getSignupFormElement('streetAddressInput');
-  const dateOfBirthInput = getSignupFormElement('dateOfBirthInput');
-  const zipInput = getSignupFormElement('zipInput');
-  const cityInput = getSignupFormElement('cityInput');
-  const emailInput = getSignupFormElement('emailInput');
-  const phoneInput = getSignupFormElement('phoneInput');
-  const emailCheckbox = getSignupFormElement('emailCheckbox');
-  const phoneCheckbox = getSignupFormElement('phoneCheckbox');
-  const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
-  const serviceLanguageButton = getSignupFormElement('serviceLanguageButton');
+  await findFirstNameInput();
+  getSignupFormElement('lastNameInput');
+  getSignupFormElement('streetAddressInput');
+  getSignupFormElement('dateOfBirthInput');
+  getSignupFormElement('zipInput');
+  getSignupFormElement('cityInput');
+  getSignupFormElement('emailInput');
+  getSignupFormElement('phoneInput');
+  getSignupFormElement('emailCheckbox');
+  getSignupFormElement('phoneCheckbox');
+  getSignupFormElement('nativeLanguageButton');
+  getSignupFormElement('serviceLanguageButton');
   getSignupFormElement('cancelButton');
-
-  expect(firstNameInput.hasAttribute('readonly')).toBeTruthy();
-  expect(lastNameInput.hasAttribute('readonly')).toBeTruthy();
-  expect(streetAddressInput.hasAttribute('readonly')).toBeTruthy();
-  expect(dateOfBirthInput.hasAttribute('readonly')).toBeTruthy();
-  expect(zipInput.hasAttribute('readonly')).toBeTruthy();
-  expect(cityInput.hasAttribute('readonly')).toBeTruthy();
-  expect(emailInput.hasAttribute('readonly')).toBeTruthy();
-  expect(phoneInput.hasAttribute('readonly')).toBeTruthy();
-  expect(emailCheckbox).toBeDisabled();
-  expect(phoneCheckbox).toBeDisabled();
-  expect(nativeLanguageButton).toBeDisabled();
-  expect(serviceLanguageButton).toBeDisabled();
+  getSignupFormElement('updateButton');
 };
 
 export const tryToCancel = async () => {
@@ -108,4 +99,10 @@ export const tryToCancel = async () => {
     name: 'Peruuta ilmoittautuminen',
   });
   await user.click(cancelSignupButton);
+};
+
+export const tryToUpdate = async () => {
+  const user = userEvent.setup();
+  const updateButton = getSignupFormElement('updateButton');
+  await user.click(updateButton);
 };

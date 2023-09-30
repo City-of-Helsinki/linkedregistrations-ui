@@ -2,6 +2,7 @@
   "buttonCancel": "Peruuta ilmoittautuminen",
   "buttonDeleteSignup": "Poista osallistuja",
   "buttonGoToSummary": "Jatka ilmoittautumiseen",
+  "buttonUpdate": "Tallenna",
   "buttonUpdateParticipantAmount": "Päivitä",
   "cancelledPage": {
     "text": "Olet perunut ilmoittautumisesi tapahtumaamme {{name}}.",
@@ -64,6 +65,8 @@
     "email": "Sähköpostilla",
     "sms": "Tekstiviestillä"
   },
+  "notificationSignupUpdated": "Osallistujan tiedot on tallennettu",
+  "notificationSignupGroupUpdated": "Osallistujien tiedot on tallennettu",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Sulje",
     "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",

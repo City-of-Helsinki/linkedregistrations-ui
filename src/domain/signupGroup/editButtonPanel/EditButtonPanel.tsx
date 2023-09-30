@@ -1,16 +1,24 @@
-import { Button, IconCross } from 'hds-react';
+import { Button, IconCross, IconPen } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
+import { SIGNUP_GROUP_ACTIONS } from '../constants';
 
 type EditButtonPanelProps = {
   disabled: boolean;
-  onDelete: () => void;
+  onCancel: () => void;
+  onUpdate: () => void;
+  savingSignup: SIGNUP_ACTIONS | null;
+  savingSignupGroup: SIGNUP_GROUP_ACTIONS | null;
 };
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   disabled,
-  onDelete,
+  onCancel,
+  onUpdate,
+  savingSignup,
+  savingSignupGroup,
 }) => {
   const { t } = useTranslation('signup');
   return (
@@ -18,12 +26,30 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       submitButtons={[
         <Button
           key="cancel"
-          disabled={disabled}
           iconLeft={<IconCross aria-hidden={true} />}
-          onClick={onDelete}
+          onClick={onCancel}
           variant="danger"
         >
           {t('buttonCancel')}
+        </Button>,
+
+        <Button
+          key="update"
+          disabled={Boolean(
+            disabled ||
+              savingSignup === SIGNUP_ACTIONS.UPDATE ||
+              savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
+          )}
+          iconLeft={<IconPen aria-hidden={true} />}
+          isLoading={
+            savingSignup === SIGNUP_ACTIONS.UPDATE ||
+            savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
+          }
+          loadingText={t('buttonUpdate') as string}
+          onClick={onUpdate}
+          variant="primary"
+        >
+          {t('buttonUpdate')}
         </Button>,
       ]}
     ></ButtonPanel>
