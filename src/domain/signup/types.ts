@@ -8,6 +8,7 @@ export type SignupInput = {
   email?: stringOrNull;
   extra_info?: stringOrNull;
   first_name?: stringOrNull;
+  id?: stringOrNull;
   last_name?: stringOrNull;
   membership_number?: stringOrNull;
   native_language?: stringOrNull;
@@ -18,6 +19,11 @@ export type SignupInput = {
   street_address?: stringOrNull;
   zipcode?: stringOrNull;
 };
+
+export type UpdateSignupMutationInput = {
+  id: string;
+  registration: string;
+} & SignupInput;
 
 export type Signup = {
   id: string;

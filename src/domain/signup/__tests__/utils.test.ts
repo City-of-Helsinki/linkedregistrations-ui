@@ -1,9 +1,14 @@
 import { fakeSignup } from '../../../utils/mockDataUtils';
-import { NOTIFICATIONS } from '../../signupGroup/constants';
+import { registration } from '../../registration/__mocks__/registration';
+import {
+  NOTIFICATIONS,
+  SIGNUP_GROUP_INITIAL_VALUES,
+} from '../../signupGroup/constants';
 import { NOTIFICATION_TYPE, TEST_SIGNUP_ID } from '../constants';
 import { SignupQueryVariables } from '../types';
 import {
   getSignupGroupInitialValuesFromSignup,
+  getUpdateSignupPayload,
   signupPathBuilder,
 } from '../utils';
 
@@ -136,5 +141,96 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
     expect(notifications).toEqual(expectedNotifications);
     expect(phoneNumber).toBe(expectedPhoneNumber);
     expect(serviceLanguage).toBe(expectedServiceLanguage);
+  });
+});
+
+describe('getUpdateSignupPayload function', () => {
+  it('should return payload to update a signup', () => {
+    expect(
+      getUpdateSignupPayload({
+        formValues: SIGNUP_GROUP_INITIAL_VALUES,
+        id: TEST_SIGNUP_ID,
+        registration,
+      })
+    ).toEqual({
+      city: '',
+      date_of_birth: null,
+      email: null,
+      extra_info: '',
+      first_name: '',
+      id: TEST_SIGNUP_ID,
+      last_name: '',
+      membership_number: '',
+      native_language: null,
+      notifications: NOTIFICATION_TYPE.EMAIL,
+      phone_number: null,
+      registration: registration.id,
+      responsible_for_group: false,
+      service_language: null,
+      street_address: null,
+      zipcode: null,
+    });
+
+    const city = 'City',
+      dateOfBirth = '10.10.1999',
+      email = 'Email',
+      extraInfo = 'Extra info',
+      firstName = 'First name',
+      lastName = 'Last name',
+      membershipNumber = 'XXX-123',
+      nativeLanguage = 'fi',
+      notifications = [NOTIFICATIONS.EMAIL],
+      phoneNumber = '0441234567',
+      serviceLanguage = 'sv',
+      streetAddress = 'Street address',
+      zipcode = '00100';
+    const signups = [
+      {
+        city,
+        dateOfBirth,
+        extraInfo,
+        firstName,
+        id: null,
+        inWaitingList: false,
+        lastName,
+        responsibleForGroup: true,
+        streetAddress,
+        zipcode,
+      },
+    ];
+    const payload = getUpdateSignupPayload({
+      formValues: {
+        ...SIGNUP_GROUP_INITIAL_VALUES,
+        email,
+        extraInfo: '',
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+        signups,
+      },
+      id: TEST_SIGNUP_ID,
+      registration,
+    });
+
+    expect(payload).toEqual({
+      city,
+      date_of_birth: '1999-10-10',
+      email,
+      extra_info: extraInfo,
+      first_name: firstName,
+      id: TEST_SIGNUP_ID,
+      last_name: lastName,
+      membership_number: membershipNumber,
+      native_language: nativeLanguage,
+      notifications: NOTIFICATION_TYPE.EMAIL,
+      phone_number: phoneNumber,
+      registration: registration.id,
+      responsible_for_group: true,
+      service_language: serviceLanguage,
+      street_address: streetAddress,
+      zipcode,
+    });
   });
 });

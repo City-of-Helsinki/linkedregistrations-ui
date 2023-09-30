@@ -10,12 +10,19 @@ export type CreateSignupGroupMutationInput = {
   signups: SignupInput[];
 };
 
+export type UpdateSignupGroupMutationInput = { id: string } & Omit<
+  CreateSignupGroupMutationInput,
+  'reservation_code'
+>;
+
 export type CreateSignupGroupResponse = {
   extra_info: string;
   id: string;
   registration: string;
   signups: Signup[];
 };
+
+export type UpdateSignupGroupResponse = CreateSignupGroupResponse;
 
 export type SignupGroup = {
   created_at: stringOrNull;

@@ -2,12 +2,19 @@ import { AxiosError } from 'axios';
 
 import { ExtendedSession } from '../../types';
 import formatDate from '../../utils/formatDate';
-import { callDelete, callGet } from '../app/axios/axiosClient';
+import stringToDate from '../../utils/stringToDate';
+import { callDelete, callGet, callPut } from '../app/axios/axiosClient';
+import { Registration } from '../registration/types';
 import { NOTIFICATIONS } from '../signupGroup/constants';
 import { SignupFields, SignupGroupFormFields } from '../signupGroup/types';
 
-import { ATTENDEE_STATUS } from './constants';
-import { Signup, SignupQueryVariables } from './types';
+import { ATTENDEE_STATUS, NOTIFICATION_TYPE } from './constants';
+import {
+  Signup,
+  SignupInput,
+  SignupQueryVariables,
+  UpdateSignupMutationInput,
+} from './types';
 
 export const signupPathBuilder = (args: SignupQueryVariables): string => {
   return `/signup/${args.id}/`;
@@ -47,6 +54,25 @@ export const deleteSignup = async ({
   }
 };
 
+export const updateSignup = async ({
+  input: { id, ...input },
+  session,
+}: {
+  input: UpdateSignupMutationInput;
+  session: ExtendedSession | null;
+}): Promise<Signup> => {
+  try {
+    const { data } = await callPut({
+      data: JSON.stringify(input),
+      session,
+      url: signupPathBuilder({ id: id as string }),
+    });
+    return data;
+  } catch (error) {
+    throw Error(JSON.stringify((error as AxiosError).response?.data));
+  }
+};
+
 export const getSignupInitialValues = (signup: Signup): SignupFields => ({
   city: signup.city ?? '',
   dateOfBirth: signup.date_of_birth
@@ -75,5 +101,74 @@ export const getSignupGroupInitialValuesFromSignup = (
     phoneNumber: signup.phone_number ?? '',
     serviceLanguage: signup.service_language ?? '',
     signups: [getSignupInitialValues(signup)],
+  };
+};
+
+export const getSignupPayload = ({
+  formValues,
+  responsibleForGroup,
+  signupData,
+}: {
+  formValues: SignupGroupFormFields;
+  responsibleForGroup: boolean;
+  signupData: SignupFields;
+}): SignupInput => {
+  const {
+    email,
+    membershipNumber,
+    nativeLanguage,
+    phoneNumber,
+    serviceLanguage,
+  } = formValues;
+
+  const {
+    city,
+    dateOfBirth,
+    extraInfo,
+    firstName,
+    id,
+    lastName,
+    streetAddress,
+    zipcode,
+  } = signupData;
+  return {
+    city: city || '',
+    date_of_birth: dateOfBirth
+      ? formatDate(stringToDate(dateOfBirth), 'yyyy-MM-dd')
+      : null,
+    email: email || null,
+    extra_info: extraInfo || '',
+    first_name: firstName || '',
+    id: id ?? undefined,
+    last_name: lastName || '',
+    membership_number: membershipNumber,
+    native_language: nativeLanguage || null,
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    phone_number: phoneNumber || null,
+    responsible_for_group: responsibleForGroup,
+    service_language: serviceLanguage || null,
+    street_address: streetAddress || null,
+    zipcode: zipcode || null,
+  };
+};
+
+export const getUpdateSignupPayload = ({
+  formValues,
+  id,
+  registration,
+}: {
+  formValues: SignupGroupFormFields;
+  id: string;
+  registration: Registration;
+}): UpdateSignupMutationInput => {
+  const signupData = formValues.signups[0] ?? {};
+  return {
+    ...getSignupPayload({
+      formValues,
+      responsibleForGroup: !!signupData.responsibleForGroup,
+      signupData,
+    }),
+    id,
+    registration: registration.id,
   };
 };
