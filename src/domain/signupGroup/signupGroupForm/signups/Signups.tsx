@@ -25,11 +25,15 @@ const getSignupPath = (index: number) =>
 
 interface Props {
   formDisabled: boolean;
-  readOnly?: boolean;
+  isEditingMode: boolean;
   registration: Registration;
 }
 
-const Signups: React.FC<Props> = ({ formDisabled, readOnly, registration }) => {
+const Signups: React.FC<Props> = ({
+  formDisabled,
+  isEditingMode,
+  registration,
+}) => {
   const { data: session } = useSession() as { data: ExtendedSession | null };
 
   const indexToRemove = useRef(-1);
@@ -137,9 +141,8 @@ const Signups: React.FC<Props> = ({ formDisabled, readOnly, registration }) => {
                     formDisabled={formDisabled}
                     index={index}
                     onDelete={openModal}
-                    readOnly={readOnly}
                     registration={registration}
-                    showDelete={!readOnly && signups.length > 1}
+                    showDelete={!isEditingMode && signups.length > 1}
                     signup={signup}
                     signupPath={getSignupPath(index)}
                   />

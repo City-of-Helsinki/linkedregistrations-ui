@@ -33,7 +33,7 @@ const EditSignupPage: React.FC<Props> = ({ event, registration, signup }) => {
       <SignupGroupForm
         event={event}
         initialValues={initialValues}
-        readOnly={true}
+        mode="update-signup"
         registration={registration}
         signup={signup}
       />

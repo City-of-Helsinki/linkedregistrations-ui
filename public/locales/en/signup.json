@@ -2,6 +2,7 @@
   "buttonCancel": "Cancel registration",
   "buttonDeleteSignup": "Delete participant",
   "buttonGoToSummary": "Continue to registration",
+  "buttonUpdate": "Save",
   "buttonUpdateParticipantAmount": "Update",
   "cancelledPage": {
     "text": "You have canceled your registration for our event {{name}}.",
@@ -64,6 +65,8 @@
     "email": "By email",
     "sms": "By text message"
   },
+  "notificationSignupUpdated": "The signup has been saved",
+  "notificationSignupGroupUpdated": "The signup group has been saved",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Close",
     "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",

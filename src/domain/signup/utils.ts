@@ -65,7 +65,7 @@ export const updateSignup = async ({
     const { data } = await callPut({
       data: JSON.stringify(input),
       session,
-      url: signupPathBuilder({ id: id as string }),
+      url: signupPathBuilder({ id }),
     });
     return data;
   } catch (error) {
