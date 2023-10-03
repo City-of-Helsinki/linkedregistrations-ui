@@ -1,11 +1,7 @@
 @mixin focus-outline($offset: 0px, $color: var(--focus-outline-color)) {
   &:focus {
-    outline: var(--focus-outline-width) solid $color;
+    outline: var(--focus-outline-width) solid $color !important;
     outline-offset: $offset;
-
-    // &:not(:global(.focus-visible)) {
-    //   outline: none;
-    // }
   }
 }
 
