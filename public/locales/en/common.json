@@ -1,5 +1,6 @@
 {
   "appName": "Linked Registrations",
+  "ariaLogo": "Service logo",
   "buttonBack": "Back",
   "cancel": "Undo",
   "clear": "Clear",
@@ -25,16 +26,19 @@
     "text": "The page you were looking for was not found. Please try again later. If this problem persists, please contact us.",
     "title": "Unfortunately this page was not found"
   },
+  "frontPage": "Frontpage",
+  "headerTitle": "City of Helsinki",
+  "helsinkiProfile": "Helsinki profile",
   "loading": "Loading...",
   "loadingFinished": "Loading finished",
   "navigation": {
+    "ariaLanguageSelection": "Choose language",
     "backToSignupGroupForm": "Back to the registration form",
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "languageSelectorAriaLabel": "English - language selection",
     "menuToggleAriaLabel": "Menu",
     "skipToContentLabel": "Skip to content"
   },
@@ -73,6 +77,7 @@
     "text": "You must be logged in to view registration information.",
     "title": "Login is required"
   },
+  "signInShort": "Sign in",
   "signInToEnrol": "You must be logged in to register for this event.",
   "signOut": "Sign out",
   "strongIdentificationRequired": {

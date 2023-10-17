@@ -1,5 +1,6 @@
 {
   "appName": "Linked Registrations",
+  "ariaLogo": "Service logo",
   "buttonBack": "Tillbaka",
   "cancel": "Ångra",
   "clear": "Klar",
@@ -25,16 +26,20 @@
     "text": "Sidan du letade efter hittades inte. Vänligen försök igen senare. Kontakta oss om problemet kvarstår.",
     "title": "Tyvärr hittades inte denna sida"
   },
+  "frontPage": "Hemsida",
+  "headerTitle": "Helsingfors Stad",
+  "helsinkiProfile": "Helsingfors profil",
   "loading": "Laddar...",
   "loadingFinished": "Laddningen är klar",
   "navigation": {
+    "ariaLanguageSelection": "Välja spräk",
     "backToSignupGroupForm": "Återgå till registreringsformuläret",
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "languageSelectorAriaLabel": "Svenska - språkval",
+
     "menuToggleAriaLabel": "Menyn",
     "skipToContentLabel": "Gå till innehållet"
   },
@@ -73,6 +78,7 @@
     "text": "Du måste vara inloggad för att se registreringsinformation.",
     "title": "Inloggning krävs"
   },
+  "signInShort": "Logga in",
   "signInToEnrol": "Du måste vara inloggad för att registrera dig för detta evenemang.",
   "signOut": "Logga ut",
   "strongIdentificationRequired": {

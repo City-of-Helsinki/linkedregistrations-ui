@@ -11,7 +11,7 @@ const renderComponent = (session?: ExtendedSession) =>
   render(<SignInRequired />, { session });
 
 const getSignInButton = () => {
-  return screen.getByRole('button', { name: /kirjaudu sisään/i });
+  return screen.getByRole('button', { name: /kirjaudu/i });
 };
 
 test('should render sign in required page', () => {

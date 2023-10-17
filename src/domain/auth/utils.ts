@@ -54,6 +54,15 @@ export const refreshAccessTokenRequest = async ({
   return response.data;
 };
 
+export const getUserFirstName = ({
+  session,
+  user,
+}: {
+  session: ExtendedSession | null;
+  user: User | undefined;
+}): string =>
+  user?.first_name || user?.display_name || session?.user?.email || '';
+
 export const getUserName = ({
   session,
   user,

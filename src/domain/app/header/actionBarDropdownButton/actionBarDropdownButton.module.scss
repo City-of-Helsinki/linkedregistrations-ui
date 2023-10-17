@@ -1,0 +1,17 @@
+@import '.././../../../styles/mixins.scss';
+
+.link {
+  display: flex;
+  color: var(--color-black-90);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  min-height: 56px;
+
+  @include focus-outline(-3px);
+
+  > * {
+    margin-left: var(--spacing-2-xs);
+  }
+}

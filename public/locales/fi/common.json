@@ -1,5 +1,6 @@
 {
   "appName": "Linked Registrations",
+  "ariaLogo": "Palvelun logo",
   "buttonBack": "Takaisin",
   "cancel": "Peruuta",
   "clear": "Tyhjennä",
@@ -25,16 +26,20 @@
     "text": "Hakemaasi sivua ei löytynyt. Yritä myöhemmin uudelleen. Jos ongelma jatkuu, ota meihin yhteyttä.",
     "title": "Valitettavasti etsimääsi sivua ei löydy"
   },
+  "frontPage": "Etusivu",
+  "headerTitle": "Helsingin kaupunki",
+  "helsinkiProfile": "Helsinki-profiili",
   "loading": "Ladataan...",
   "loadingFinished": "Lataaminen päättynyt",
   "navigation": {
+    "ariaLanguageSelection": "Kielen valinta",
     "backToSignupGroupForm": "Palaa ilmoittautumiskaavakkeeseen",
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "languageSelectorAriaLabel": "Suomi - kielivalikko",
+
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön"
   },
@@ -73,6 +78,7 @@
     "text": "Sinun tulee olla kirjautunut tarkastellaksesi ilmoittautumisen tietoja.",
     "title": "Kirjautuminen vaaditaan"
   },
+  "signInShort": "Kirjaudu",
   "signInToEnrol": "Sinun täytyy kirjautua sisään ilmoittautuaksesi tähän tapahtumaan.",
   "signOut": "Kirjaudu ulos",
   "strongIdentificationRequired": {

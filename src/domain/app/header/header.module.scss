@@ -1,12 +1,15 @@
 @import '../../../styles/breakpoints.scss';
 
-.navigation {
-  --header-background-color: var(--color-coat-of-arms) !important;
-  --header-color: var(--color-white) !important;
-  --header-divider-color: var(--color-black-20) !important;
+.header {
+  --actionbar-background-color: var(--color-coat-of-arms) !important;
   --header-focus-outline-color: var(--color-white) !important;
-  --header-focus-outline-border-radius: 0px !important;
-  --navigation-row-color: var(--color-bus) !important;
+  --nav-background-color: var(--color-coat-of-arms) !important;
+  --header-color: var(--color-white) !important;
+
+  @include medium-down {
+    --lang-selector-item-font-color: var(--color-black-90) !important;
+    --header-focus-outline-color: var(--color-coat-of-arms) !important;
+  }
 
   z-index: var(--header-z-index);
   left: 0;
@@ -23,36 +26,15 @@
   > a:first-child {
     z-index: calc(var(--header-z-index) + 1) !important;
   }
+}
 
-  .languageSelector {
-    --menu-border-width: 0px;
-    --menu-border-color: transparent;
-    --menu-button-focus-outline-color: var(--color-white);
-    --menu-item-background-color: var(--color-white);
-    --menu-item-background-color-highlighted: var(--color-black-10);
-    --menu-item-color: var(--color-black-90);
-    --menu-item-color-highlighted: var(--color-black);
-
-    &:focus-within {
-      box-shadow: 0 0 0 3px var(--menu-button-focus-outline-color);
-    }
-
-    & > div {
-      box-shadow: var(--shadow-m);
-      left: unset;
-      right: 0;
-    }
-
-    @include small-down {
-      position: absolute;
-      right: var(--spacing-5-xl);
-    }
+.actionBar {
+  @include medium-down {
+    --header-focus-outline-color: var(--color-white) !important;
   }
+}
 
-  .userDropdown {
-    & > div {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
+.signInButton,
+.signOutButton {
+  font-weight: 500;
 }

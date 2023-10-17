@@ -1,7 +1,17 @@
 import mockAxios from 'axios';
 
-import { APITokens, RefreshTokenResponse } from '../../../types';
-import { getApiTokensRequest, refreshAccessTokenRequest } from '../utils';
+import { APITokens, OidcUser, RefreshTokenResponse } from '../../../types';
+import { fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakeAuthenticatedSession,
+  fakeOidcUser,
+} from '../../../utils/mockSession';
+import {
+  getApiTokensRequest,
+  getUserFirstName,
+  getUserName,
+  refreshAccessTokenRequest,
+} from '../utils';
 
 const accessToken = 'access-token';
 const apiToken = 'linked-events-api-token';
@@ -68,5 +78,58 @@ describe('getApiTokensRequest function', () => {
         responseType: 'json',
       }
     );
+  });
+});
+
+describe('getUserFirstName function', () => {
+  it('should return correct user first name', () => {
+    const user = fakeUser({ display_name: 'Username', first_name: 'User' });
+    const session = fakeAuthenticatedSession({
+      user: fakeOidcUser({ email: 'test@email.com' }),
+    });
+    expect(getUserFirstName({ user, session })).toBe('User');
+    expect(
+      getUserFirstName({ user: { ...user, first_name: '' }, session })
+    ).toBe('Username');
+    expect(
+      getUserFirstName({
+        user: { ...user, display_name: '', first_name: '' },
+        session,
+      })
+    ).toBe('test@email.com');
+    expect(
+      getUserFirstName({
+        user: { ...user, display_name: '', first_name: '' },
+        session: {
+          ...session,
+          user: { ...session.user, email: '' } as OidcUser,
+        },
+      })
+    ).toBe('');
+  });
+});
+
+describe('getUserName function', () => {
+  it('should return correct userame', () => {
+    const user = fakeUser({ display_name: 'Username' });
+    const session = fakeAuthenticatedSession({
+      user: fakeOidcUser({ email: 'test@email.com' }),
+    });
+    expect(getUserName({ user, session })).toBe('Username');
+    expect(
+      getUserName({
+        user: { ...user, display_name: '' },
+        session,
+      })
+    ).toBe('test@email.com');
+    expect(
+      getUserName({
+        user: { ...user, display_name: '' },
+        session: {
+          ...session,
+          user: { ...session.user, email: '' } as OidcUser,
+        },
+      })
+    ).toBe('');
   });
 });

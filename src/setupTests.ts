@@ -33,6 +33,17 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
   );
 };
 
+const originalError = console.error.bind(console.error);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+console.error = (msg: any, ...optionalParams: any[]) => {
+  const msgStr = msg.toString();
+
+  return (
+    !msgStr.includes('Could not parse CSS stylesheet') &&
+    originalError(msg, ...optionalParams)
+  );
+};
+
 beforeAll(() => {
   server.listen();
 });

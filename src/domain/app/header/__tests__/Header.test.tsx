@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import i18n from 'i18next';
 import { rest } from 'msw';
-import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import React from 'react';
@@ -35,83 +34,54 @@ beforeEach(() => {
 const renderComponent = (session?: ExtendedSession) =>
   render(<Header />, { session });
 
-const getElement = (key: 'enOption' | 'menuButton' | 'svOption') => {
-  switch (key) {
-    case 'enOption':
-      return screen.getByRole('link', {
-        hidden: false,
-        name: /In English/i,
-      });
-    case 'svOption':
-      return screen.getByRole('link', {
-        hidden: false,
-        name: /På svenska/i,
-      });
-    case 'menuButton':
-      return screen.getByRole('button', {
-        name: 'Valikko',
-      });
-  }
-};
-
-const getElements = (
-  key: 'appName' | 'languageSelector' | 'signInButton' | 'signOutLink'
+const getElement = (
+  key:
+    | 'appName'
+    | 'enOption'
+    | 'signInButton'
+    | 'signInMenuButton'
+    | 'signOutButton'
+    | 'svOption'
 ) => {
   switch (key) {
     case 'appName':
-      return screen.getAllByRole('link', {
+      return screen.getByRole('link', {
         name: /linked registrations/i,
       });
-    case 'languageSelector':
-      return screen.getAllByRole('button', {
-        name: /suomi - kielivalikko/i,
+    case 'enOption':
+      return screen.getByRole('button', {
+        hidden: false,
+        name: /In English/i,
       });
     case 'signInButton':
-      return screen.getAllByRole('button', { name: /kirjaudu sisään/i });
-    case 'signOutLink':
-      return screen.getAllByRole('link', { name: /kirjaudu ulos/i });
+      return screen.getByRole('button', { name: 'Kirjaudu' });
+    case 'signInMenuButton':
+      return screen.getByRole('button', { name: /kirjaudu/i });
+    case 'signOutButton':
+      return screen.getByRole('button', { name: /kirjaudu ulos/i });
+    case 'svOption':
+      return screen.getByRole('button', {
+        hidden: false,
+        name: /På svenska/i,
+      });
   }
 };
 
 test('should route to home page by clicking application name', async () => {
-  const user = userEvent.setup();
-
-  singletonRouter.push({ pathname: '/registrations' });
-  renderComponent();
-  expect(mockRouter.asPath).toBe('/registrations');
-
-  const appName = getElements('appName')[0];
-  await user.click(appName);
-
-  expect(mockRouter.asPath).toBe('/');
-});
-
-test('should show mobile menu', async () => {
-  const user = userEvent.setup();
-  global.innerWidth = 500;
   renderComponent();
 
-  expect(document.querySelector('#hds-mobile-menu')).not.toBeInTheDocument();
-  const menuButton = getElement('menuButton');
-  await user.click(menuButton);
+  const appName = getElement('appName');
 
-  await waitFor(() =>
-    expect(document.querySelector('#hds-mobile-menu')).toBeInTheDocument()
-  );
+  expect(appName).toHaveAttribute('href', '/fi');
 });
 
 test('should change language', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  const languageSelector = getElements('languageSelector')[0];
-  await user.click(languageSelector);
-
   const enOption = getElement('enOption');
   await user.click(enOption);
   expect(mockRouter.locale).toBe('en');
-
-  await user.click(languageSelector);
 
   const svOption = getElement('svOption');
   await user.click(svOption);
@@ -123,8 +93,10 @@ test('should start login process', async () => {
   jest.spyOn(nextAuth, 'signIn').mockImplementation();
   renderComponent();
 
-  const signInButtons = getElements('signInButton');
-  await user.click(signInButtons[0]);
+  const signInButton = getElement('signInButton');
+  await user.click(signInButton);
+  const signInMenuButton = getElement('signInMenuButton');
+  await user.click(signInMenuButton);
 
   expect(nextAuth.signIn).toBeCalledWith('tunnistamo');
 });
@@ -134,7 +106,11 @@ test('should start logout process', async () => {
   jest.spyOn(nextAuth, 'signOut').mockImplementation();
 
   const username = 'Username';
-  const userData = fakeUser({ display_name: username });
+  const userFirstName = 'User';
+  const userData = fakeUser({
+    display_name: username,
+    first_name: userFirstName,
+  });
 
   const mocks = [
     rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
@@ -148,13 +124,13 @@ test('should start logout process', async () => {
 
   const userMenuButton = await screen.findByRole(
     'button',
-    { name: username },
+    { name: userFirstName },
     { timeout: 10000 }
   );
   await user.click(userMenuButton);
 
-  const signOutLinks = getElements('signOutLink');
-  await user.click(signOutLinks[0]);
+  const signOutButton = getElement('signOutButton');
+  await user.click(signOutButton);
 
   await waitFor(() => expect(nextAuth.signOut).toBeCalled());
 });

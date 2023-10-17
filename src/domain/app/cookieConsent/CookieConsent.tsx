@@ -6,8 +6,6 @@ import { PAGE_HEADER_ID } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 
-type SupportedLanguage = 'en' | 'fi' | 'sv';
-
 /* istanbul ignore next */
 const hostname =
   typeof window !== 'undefined'
@@ -15,19 +13,14 @@ const hostname =
     : new URL(process.env.NEXTAUTH_URL as string).hostname;
 
 const CookieConsent: FC = () => {
-  const { t } = useTranslation('common');
+  const { i18n, t } = useTranslation('common');
   const locale = useLocale();
 
-  const { languageOptions, changeLanguage } = useSelectLanguage();
+  const { changeLanguage } = useSelectLanguage();
 
   const onLanguageChange = async (lang: string) => {
-    const langOption = languageOptions.find(
-      (l) => l.value === (lang as SupportedLanguage)
-    );
-
-    if (langOption) {
-      changeLanguage(langOption)();
-    }
+    changeLanguage(lang);
+    i18n.changeLanguage(lang);
   };
 
   return (
