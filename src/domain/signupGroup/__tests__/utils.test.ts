@@ -576,23 +576,23 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
       reservation_code: 'xxx',
       signups: [
         {
-          city: 'Helsinki',
           id: '1',
-          membership_number: 'XYZ',
-          native_language: 'fi',
           notifications: NOTIFICATION_TYPE.EMAIL,
           responsible_for_group: true,
-          service_language: 'fi',
-          street_address: 'Address',
-          zipcode: '123456',
         },
       ],
     });
     expect(filteredPayload.extra_info).toBeUndefined();
+    expect(filteredPayload.signups[0].city).toBeUndefined();
     expect(filteredPayload.signups[0].email).toBeUndefined();
     expect(filteredPayload.signups[0].extra_info).toBeUndefined();
     expect(filteredPayload.signups[0].first_name).toBeUndefined();
     expect(filteredPayload.signups[0].last_name).toBeUndefined();
+    expect(filteredPayload.signups[0].membership_number).toBeUndefined();
+    expect(filteredPayload.signups[0].native_language).toBeUndefined();
     expect(filteredPayload.signups[0].phone_number).toBeUndefined();
+    expect(filteredPayload.signups[0].service_language).toBeUndefined();
+    expect(filteredPayload.signups[0].street_address).toBeUndefined();
+    expect(filteredPayload.signups[0].zipcode).toBeUndefined();
   });
 });

@@ -281,21 +281,21 @@ describe('omitSensitiveDataFromSignupPayload', () => {
       payload
     ) as SignupInput;
     expect(filteredPayload).toEqual({
-      city: 'Helsinki',
       id: '1',
-      membership_number: 'XYZ',
-      native_language: 'fi',
       notifications: NOTIFICATION_TYPE.EMAIL,
       responsible_for_group: true,
-      service_language: 'fi',
-      street_address: 'Address',
-      zipcode: '123456',
     });
+    expect(filteredPayload.city).toBeUndefined();
     expect(filteredPayload.extra_info).toBeUndefined();
     expect(filteredPayload.email).toBeUndefined();
     expect(filteredPayload.extra_info).toBeUndefined();
     expect(filteredPayload.first_name).toBeUndefined();
     expect(filteredPayload.last_name).toBeUndefined();
+    expect(filteredPayload.membership_number).toBeUndefined();
+    expect(filteredPayload.native_language).toBeUndefined();
     expect(filteredPayload.phone_number).toBeUndefined();
+    expect(filteredPayload.service_language).toBeUndefined();
+    expect(filteredPayload.street_address).toBeUndefined();
+    expect(filteredPayload.zipcode).toBeUndefined();
   });
 });

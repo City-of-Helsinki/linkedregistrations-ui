@@ -223,10 +223,16 @@ export const omitSensitiveDataFromSignupPayload = (
   payload: SignupInput | UpdateSignupMutationInput
 ) =>
   omit(payload, [
+    'city',
     'date_of_birth',
     'email',
     'extra_info',
     'first_name',
     'last_name',
+    'membership_number',
+    'native_language',
     'phone_number',
+    'service_language',
+    'street_address',
+    'zipcode',
   ]);
