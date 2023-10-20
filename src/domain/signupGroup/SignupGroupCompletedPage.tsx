@@ -17,19 +17,18 @@ import { SIGNUP_QUERY_PARAMS } from '../signup/constants';
 
 import ConfirmationMessage from './confirmationMessage/ConfirmationMessage';
 import useSignupGroupData from './hooks/useSignupGroupData';
-import { SignupGroup } from './types';
 import { isAnySignupInWaitingList } from './utils';
 
 type Props = {
   event: Event;
+  inWaitingList: boolean;
   registration: Registration;
-  signupGroup: SignupGroup;
 };
 
-const SignupGroupCompletedPage: React.FC<Props> = ({
+export const SignupCompletedPage: React.FC<Props> = ({
   event,
+  inWaitingList,
   registration,
-  signupGroup,
 }) => {
   const { query } = useRouter();
   const { [SIGNUP_QUERY_PARAMS.REDIRECT_URL]: redirectUrl } = query;
@@ -38,7 +37,6 @@ const SignupGroupCompletedPage: React.FC<Props> = ({
 
   const { name } = getEventFields(event, locale);
   const { confirmationMessage } = getRegistrationFields(registration, locale);
-  const inWaitingList = isAnySignupInWaitingList(signupGroup);
 
   React.useEffect(() => {
     if (typeof redirectUrl === 'string') {
@@ -88,10 +86,10 @@ const SignupGroupCompletedPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={isLoading || isLoadingSignupGroup}>
       {event && registration && signupGroup ? (
-        <SignupGroupCompletedPage
+        <SignupCompletedPage
           event={event}
+          inWaitingList={isAnySignupInWaitingList(signupGroup)}
           registration={registration}
-          signupGroup={signupGroup}
         />
       ) : (
         <NotFound />

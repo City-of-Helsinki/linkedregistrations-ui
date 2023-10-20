@@ -9,6 +9,7 @@ import {
   callDelete,
   callGet,
   callPatch,
+  callPost,
   callPut,
 } from '../app/axios/axiosClient';
 import { Registration } from '../registration/types';
@@ -21,6 +22,8 @@ import {
 
 import { ATTENDEE_STATUS, NOTIFICATION_TYPE } from './constants';
 import {
+  CreateSignupsMutationInput,
+  CreateSignupsResponse,
   PatchSignupMutationInput,
   Signup,
   SignupInput,
@@ -44,6 +47,25 @@ export const fetchSignup = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
+    throw Error(JSON.stringify((error as AxiosError).response?.data));
+  }
+};
+
+export const createSignups = async ({
+  input,
+  session,
+}: {
+  input: CreateSignupsMutationInput;
+  session: ExtendedSession | null;
+}): Promise<CreateSignupsResponse> => {
+  try {
+    const { data } = await callPost({
+      data: JSON.stringify(input),
+      session,
+      url: '/signup/',
+    });
+    return data;
+  } catch (error) {
     throw Error(JSON.stringify((error as AxiosError).response?.data));
   }
 };
@@ -183,6 +205,32 @@ export const getSignupPayload = ({
   };
 };
 
+export const getCreateSignupsPayload = ({
+  formValues,
+  registration,
+  reservationCode,
+}: {
+  formValues: SignupGroupFormFields;
+  registration: Registration;
+  reservationCode: string;
+}): CreateSignupsMutationInput => {
+  const { signups: signupsValues } = formValues;
+
+  const signups: SignupInput[] = signupsValues.map((signupData, index) =>
+    getSignupPayload({
+      formValues,
+      responsibleForGroup: index === 0,
+      signupData,
+    })
+  );
+
+  return {
+    registration: registration.id,
+    reservation_code: reservationCode,
+    signups,
+  };
+};
+
 export const getUpdateSignupPayload = ({
   formValues,
   id,
@@ -230,3 +278,10 @@ export const omitSensitiveDataFromSignupPayload = (
     'last_name',
     'phone_number',
   ]);
+
+export const omitSensitiveDataFromSignupsPayload = (
+  payload: CreateSignupsMutationInput
+) => ({
+  ...payload,
+  signups: payload.signups.map((s) => omitSensitiveDataFromSignupPayload(s)),
+});

@@ -7,12 +7,37 @@ import {
 import { ExtendedSession } from '../../types';
 
 import {
+  CreateSignupsMutationInput,
+  CreateSignupsResponse,
   DeleteSignupMutationInput,
   PatchSignupMutationInput,
   Signup,
   UpdateSignupMutationInput,
 } from './types';
-import { deleteSignup, patchSignup, updateSignup } from './utils';
+import {
+  createSignups,
+  deleteSignup,
+  patchSignup,
+  updateSignup,
+} from './utils';
+
+export const useCreateSignupsMutation = ({
+  options,
+  session,
+}: {
+  options?: UseMutationOptions<
+    CreateSignupsResponse,
+    Error,
+    CreateSignupsMutationInput
+  >;
+  session: ExtendedSession | null;
+}): UseMutationResult<
+  CreateSignupsResponse,
+  Error,
+  CreateSignupsMutationInput
+> => {
+  return useMutation((input) => createSignups({ input, session }), options);
+};
 
 export const useDeleteSignupMutation = ({
   options,

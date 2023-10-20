@@ -55,6 +55,22 @@ export type SignupsResponse = {
   meta: Meta;
 };
 
+export type SignupPeople = {
+  count: number;
+  people: Signup[];
+};
+
+export type CreateSignupsResponse = {
+  attending: SignupPeople;
+  waitlisted: SignupPeople;
+};
+
+export type CreateSignupsMutationInput = {
+  registration: string;
+  reservation_code: string;
+  signups: SignupInput[];
+};
+
 export type DeleteSignupMutationInput = {
   registrationId: string;
   signupId: string;

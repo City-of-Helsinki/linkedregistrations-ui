@@ -406,7 +406,8 @@ const SignupGroupForm: React.FC<Props> = ({
                       </div>
                     </FormGroup>
                     {/* Don't show group extra info field when editing a single signup */}
-                    {!signup && (
+                    {(!signup ||
+                      (!isEditingMode && values.signups.length > 1)) && (
                       <FormGroup>
                         <Field
                           name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}

@@ -22,7 +22,8 @@ import NotFound from '../../notFound/NotFound';
 import useEventAndRegistrationData from '../../registration/hooks/useEventAndRegistrationData';
 import { Registration } from '../../registration/types';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
-import { SIGNUP_QUERY_PARAMS } from '../../signup/constants';
+import { SIGNUP_ACTIONS, SIGNUP_QUERY_PARAMS } from '../../signup/constants';
+import useSignupActions from '../../signup/hooks/useSignupActions';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SignupServerErrorsProvider } from '../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import AuthenticationRequiredNotification from '../authenticationRequiredNotification/AuthenticationRequiredNotification';
@@ -55,7 +56,11 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     data: ExtendedSession | null;
   };
 
-  const { createSignupGroup, saving } = useSignupGroupActions({ registration });
+  const { createSignups, saving: savingSignup } = useSignupActions({
+    registration,
+  });
+  const { createSignupGroup, saving: savingSignupGroup } =
+    useSignupGroupActions({ registration });
 
   const reservationTimerCallbacksDisabled = useRef(false);
   const disableReservationTimerCallbacks = useCallback(() => {
@@ -65,13 +70,27 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
   const { t } = useTranslation(['summary']);
   const router = useRouter();
 
-  const goToSignupGroupCompletedPage = (signupGroupId: string) => {
+  const clearTimerAndStorage = () => {
     // Disable reservation timer callbacks
     // so user is not redirected to create signup page
     disableReservationTimerCallbacks();
 
     clearCreateSignupGroupFormData(registration.id);
     clearSeatsReservationData(registration.id);
+  };
+  const goToSignupCompletedPage = (signupId: string) => {
+    clearTimerAndStorage();
+
+    goToPage(
+      ROUTES.SIGNUP_COMPLETED.replace(
+        '[registrationId]',
+        registration.id
+      ).replace('[signupId]', signupId)
+    );
+  };
+
+  const goToSignupGroupCompletedPage = (signupGroupId: string) => {
+    clearTimerAndStorage();
 
     goToPage(
       ROUTES.SIGNUP_GROUP_COMPLETED.replace(
@@ -80,6 +99,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
       ).replace('[signupGroupId]', signupGroupId)
     );
   };
+
   const goToCreateSignupGroupPage = () => {
     goToPage(
       ROUTES.CREATE_SIGNUP_GROUP.replace(
@@ -139,14 +159,26 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                   abortEarly: true,
                 });
 
-                createSignupGroup(values, {
-                  onError: (error) =>
-                    showServerErrors(
-                      { error: JSON.parse(error.message) },
-                      'signup'
-                    ),
-                  onSuccess: (id) => goToSignupGroupCompletedPage(id as string),
-                });
+                if (values.signups.length == 1) {
+                  createSignups(values, {
+                    onError: (error) =>
+                      showServerErrors(
+                        { error: JSON.parse(error.message) },
+                        'signup'
+                      ),
+                    onSuccess: (id) => goToSignupCompletedPage(id as string),
+                  });
+                } else {
+                  createSignupGroup(values, {
+                    onError: (error) =>
+                      showServerErrors(
+                        { error: JSON.parse(error.message) },
+                        'signup'
+                      ),
+                    onSuccess: (id) =>
+                      goToSignupGroupCompletedPage(id as string),
+                  });
+                }
               } catch (e) {
                 goToCreateSignupGroupPage();
               }
@@ -195,9 +227,14 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                   onBack={goToCreateSignupGroupPage}
                   submitButtons={[
                     <Button
-                      disabled={Boolean(saving)}
+                      disabled={
+                        Boolean(savingSignup) || Boolean(savingSignupGroup)
+                      }
                       iconLeft={<IconPen aria-hidden={true} />}
-                      isLoading={saving == SIGNUP_GROUP_ACTIONS.CREATE}
+                      isLoading={
+                        savingSignup == SIGNUP_ACTIONS.CREATE ||
+                        savingSignupGroup == SIGNUP_GROUP_ACTIONS.CREATE
+                      }
                       loadingText={t('buttonSend')}
                       key="save"
                       onClick={handleSubmit}
