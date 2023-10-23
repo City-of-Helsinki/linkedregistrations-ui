@@ -55,15 +55,7 @@ export type SignupsResponse = {
   meta: Meta;
 };
 
-export type SignupPeople = {
-  count: number;
-  people: Signup[];
-};
-
-export type CreateSignupsResponse = {
-  attending: SignupPeople;
-  waitlisted: SignupPeople;
-};
+export type CreateSignupsResponse = Signup[];
 
 export type CreateSignupsMutationInput = {
   registration: string;

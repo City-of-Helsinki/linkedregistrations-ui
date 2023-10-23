@@ -106,10 +106,7 @@ const useSignupActions = ({
         });
       },
       onSuccess: (data) => {
-        const id = data.attending.people.length
-          ? data.attending.people[0].id
-          : data.waitlisted.people[0].id;
-
+        const id = data[0].id;
         cleanAfterUpdate(id, callbacks);
       },
     });
