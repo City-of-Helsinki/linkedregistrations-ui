@@ -1,4 +1,8 @@
 {
+  "actions": {
+    "viewAttendanceList": "Mark attendees",
+    "viewSignups": "Show participants"
+  },
   "appName": "Linked Registrations",
   "ariaLogo": "Service logo",
   "buttonActions": "Actions",

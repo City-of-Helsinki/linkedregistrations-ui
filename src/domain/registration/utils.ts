@@ -4,6 +4,7 @@ import isPast from 'date-fns/isPast';
 import isNil from 'lodash/isNil';
 import { TFunction } from 'next-i18next';
 
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { VALIDATION_MESSAGE_KEYS } from '../../constants';
 import { ExtendedSession, Language } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
@@ -13,7 +14,14 @@ import {
   getSeatsReservationData,
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
+import { User } from '../user/types';
 
+import {
+  REGISTRATION_ACTIONS,
+  REGISTRATION_ICONS,
+  REGISTRATION_LABEL_KEYS,
+} from './constants';
+import { checkCanUserDoRegistrationAction } from './permissions';
 import {
   Registration,
   RegistrationFields,
@@ -219,5 +227,32 @@ export const getRegistrationFields = (
     ),
     instructions: getLocalisedString(registration.instructions, locale),
     mandatoryFields: registration.mandatory_fields,
+  };
+};
+
+export const getRegistrationActionButtonProps = ({
+  action,
+  onClick,
+  registration,
+  t,
+  user,
+}: {
+  action: REGISTRATION_ACTIONS;
+  onClick: () => void;
+  registration?: Registration;
+  t: TFunction;
+  user?: User;
+}): MenuItemOptionProps => {
+  const canDoAction = checkCanUserDoRegistrationAction({
+    action,
+    registration,
+    user,
+  });
+
+  return {
+    disabled: !canDoAction,
+    icon: REGISTRATION_ICONS[action],
+    label: t(REGISTRATION_LABEL_KEYS[action]),
+    onClick,
   };
 };

@@ -3,6 +3,7 @@
 import { rest } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
+import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import { ExtendedSession } from '../../../types';
@@ -15,6 +16,7 @@ import {
   setQueryMocks,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PRESENCE_STATUS } from '../../signup/constants';
@@ -55,8 +57,25 @@ const pushAttendanceListRoute = () => {
 const renderComponent = (session: ExtendedSession | null = defaultSession) =>
   render(<AttendanceListPage />, { session });
 
-const getSearchInput = () =>
-  screen.getByRole('combobox', { name: 'Hae osallistujia' });
+const getElement = (key: 'menu' | 'searchInput' | 'toggle') => {
+  switch (key) {
+    case 'menu':
+      return screen.getByRole('region', { name: /valinnat/i });
+    case 'searchInput':
+      return screen.getByRole('combobox', { name: 'Hae osallistujia' });
+    case 'toggle':
+      return screen.getByRole('button', { name: /valinnat/i });
+  }
+};
+
+const openMenu = async () => {
+  const user = userEvent.setup();
+  const toggleButton = getElement('toggle');
+  await user.click(toggleButton);
+  const menu = getElement('menu');
+
+  return { menu, toggleButton };
+};
 
 const shouldShowNotFoundPage = async () => {
   await screen.findByRole('heading', {
@@ -107,7 +126,7 @@ test('should search attendees by name', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  const searchInput = getSearchInput();
+  const searchInput = getElement('searchInput');
   await user.type(searchInput, signUpName);
 
   screen.getByRole('checkbox', { name: signUpName });
@@ -125,7 +144,7 @@ test('should show no results text', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  const searchInput = getSearchInput();
+  const searchInput = getElement('searchInput');
   await user.type(searchInput, 'Name not found');
 
   await screen.findByText('Ei tuloksia');
@@ -220,4 +239,25 @@ test('should show not found page if registration does not exist', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await shouldShowNotFoundPage();
+});
+
+test('should route to signups page when clicking view participants button', async () => {
+  const user = userEvent.setup();
+
+  setQueryMocks(...defaultMocks);
+  pushAttendanceListRoute();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument(10000);
+  const { menu } = await openMenu();
+
+  const viewParticipantsButton = await within(menu).findByRole('button', {
+    name: 'Näytä ilmoittautuneet',
+  });
+
+  await user.click(viewParticipantsButton);
+
+  await waitFor(() =>
+    expect(mockRouter.asPath).toBe('/registration/registration:1/signup')
+  );
 });

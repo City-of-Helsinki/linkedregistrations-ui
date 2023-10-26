@@ -1,4 +1,8 @@
 {
+  "actions": {
+    "viewAttendanceList": "Märk de närvarande",
+    "viewSignups": "Visa deltagare"
+  },
   "appName": "Linked Registrations",
   "ariaLogo": "Tjänstens logo",
   "buttonActions": "Funktioner",

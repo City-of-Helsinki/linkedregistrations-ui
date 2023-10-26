@@ -1,4 +1,8 @@
 {
+  "actions": {
+    "viewAttendanceList": "Merkkaa läsnäolijat",
+    "viewSignups": "Näytä ilmoittautuneet"
+  },
   "appName": "Linked Registrations",
   "ariaLogo": "Palvelun logo",
   "buttonActions": "Valinnat",

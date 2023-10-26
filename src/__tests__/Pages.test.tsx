@@ -166,7 +166,7 @@ describe('AttendanceListPage', () => {
     render(<AttendanceListPage />);
     await loadingSpinnerIsNotInDocument(4000);
 
-    await isHeadingRendered(`Osallistujalista: ${eventName}`);
+    await isHeadingRendered(eventName);
   });
 
   it('should prefetch data', async () => {
