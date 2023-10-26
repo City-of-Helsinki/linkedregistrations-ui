@@ -35,6 +35,10 @@
   "frontPage": "Etusivu",
   "headerTitle": "Helsingin kaupunki",
   "helsinkiProfile": "Helsinki-profiili",
+  "insufficientPermissions": {
+    "text": "Sinulla ei ole oikeuksia tämän sisällön näkemiseen. Kirjaudu ulos ja kokeile toisella käyttäjätunnuksella.",
+    "title": "Riittämättömät käyttöoikeudet"
+  },
   "loading": "Ladataan...",
   "loadingFinished": "Lataaminen päättynyt",
   "logo": "Helsingin kaupunki - logo",

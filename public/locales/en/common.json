@@ -35,6 +35,10 @@
   "frontPage": "Frontpage",
   "headerTitle": "City of Helsinki",
   "helsinkiProfile": "Helsinki profile",
+  "insufficientPermissions": {
+    "text": "You do not have rights to view this content. Log out and try with another username.",
+    "title": "Strong identification is required"
+  },
   "loading": "Loading...",
   "loadingFinished": "Loading finished",
   "logo": "City of Helsinki - logo",

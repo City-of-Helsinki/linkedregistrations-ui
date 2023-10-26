@@ -35,6 +35,10 @@
   "frontPage": "Hemsida",
   "headerTitle": "Helsingfors Stad",
   "helsinkiProfile": "Helsingfors profil",
+  "insufficientPermissions": {
+    "text": "Du har inte rättigheter att se detta innehåll. Logga ut och försök med ett annat användarnamn.",
+    "title": "Otillräckliga behörigheter"
+  },
   "loading": "Laddar...",
   "loadingFinished": "Laddningen är klar",
   "logo": "Helsingfors stad - logo",

@@ -87,6 +87,16 @@ const shouldShowNotFoundPage = async () => {
   );
 };
 
+const shouldShowInsufficientPermissionsPage = async () => {
+  await screen.findByRole('heading', {
+    name: 'Riittämättömät käyttöoikeudet',
+  });
+
+  screen.getByText(
+    'Sinulla ei ole oikeuksia tämän sisällön näkemiseen. Kirjaudu ulos ja kokeile toisella käyttäjätunnuksella.'
+  );
+};
+
 const shouldShowSigninRequiredPage = async () => {
   await screen.findByRole('heading', { name: 'Kirjautuminen vaaditaan' });
 
@@ -216,7 +226,7 @@ test('should show strong identification required page if user is not strongly id
   await shouldShowStrongIdentificationRequiredPage();
 });
 
-test('should show not found page if has_registration_user_access is false', async () => {
+test('should insufficient permissions page if has_registration_user_access is false', async () => {
   setQueryMocks(
     ...[mockedUserResponse, mockedRegistrationWithoutUserAccessResponse]
   );
@@ -224,7 +234,7 @@ test('should show not found page if has_registration_user_access is false', asyn
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  await shouldShowNotFoundPage();
+  await shouldShowInsufficientPermissionsPage();
 });
 
 test('should show not found page if registration does not exist', async () => {
