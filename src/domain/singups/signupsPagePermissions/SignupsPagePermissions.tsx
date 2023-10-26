@@ -42,6 +42,7 @@ const SignupsPagePermissions: React.FC<PropsWithChildren<Props>> = ({
     if (!session) {
       return <SignInRequired />;
     }
+
     if (!registration || !event) {
       return <NotFound />;
     }

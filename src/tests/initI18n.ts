@@ -6,6 +6,7 @@ import attendanceList from '../../public/locales/fi/attendanceList.json';
 import common from '../../public/locales/fi/common.json';
 import reservation from '../../public/locales/fi/reservation.json';
 import signup from '../../public/locales/fi/signup.json';
+import signups from '../../public/locales/fi/signups.json';
 import summary from '../../public/locales/fi/summary.json';
 
 const translations = {
@@ -13,6 +14,7 @@ const translations = {
   common,
   reservation,
   signup,
+  signups,
   summary,
 };
 
