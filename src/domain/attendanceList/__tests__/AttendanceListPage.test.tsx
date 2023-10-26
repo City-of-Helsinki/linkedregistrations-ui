@@ -20,6 +20,12 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PRESENCE_STATUS } from '../../signup/constants';
+import {
+  shouldShowInsufficientPermissionsPage,
+  shouldShowNotFoundPage,
+  shouldShowSigninRequiredPage,
+  shouldShowStrongIdentificationRequiredPage,
+} from '../../singups/signupsTestUtils';
 import { mockedUserResponse, user } from '../../user/__mocks__/user';
 import { TEST_USER_ID } from '../../user/constants';
 import {
@@ -75,44 +81,6 @@ const openMenu = async () => {
   const menu = getElement('menu');
 
   return { menu, toggleButton };
-};
-
-const shouldShowNotFoundPage = async () => {
-  await screen.findByRole('heading', {
-    name: 'Valitettavasti etsimääsi sivua ei löydy',
-  });
-
-  screen.getByText(
-    'Hakemaasi sivua ei löytynyt. Yritä myöhemmin uudelleen. Jos ongelma jatkuu, ota meihin yhteyttä.'
-  );
-};
-
-const shouldShowInsufficientPermissionsPage = async () => {
-  await screen.findByRole('heading', {
-    name: 'Riittämättömät käyttöoikeudet',
-  });
-
-  screen.getByText(
-    'Sinulla ei ole oikeuksia tämän sisällön näkemiseen. Kirjaudu ulos ja kokeile toisella käyttäjätunnuksella.'
-  );
-};
-
-const shouldShowSigninRequiredPage = async () => {
-  await screen.findByRole('heading', { name: 'Kirjautuminen vaaditaan' });
-
-  screen.getByText(
-    'Sinun tulee olla kirjautunut tarkastellaksesi ilmoittautumisen tietoja.'
-  );
-};
-
-const shouldShowStrongIdentificationRequiredPage = async () => {
-  await screen.findByRole('heading', {
-    name: 'Vahva tunnistautuminen vaaditaan',
-  });
-
-  screen.getByText(
-    'Tämän sisällön näkeminen edellyttää vahvaa tunnistautumista. Kirjaudu ulos ja kokeile toista kirjautumistapaa.'
-  );
 };
 
 // Tests

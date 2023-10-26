@@ -100,5 +100,5 @@ export type ExtendedSSRConfig = SSRConfig & {
 };
 
 export type TranslationNamespaces = Array<
-  'attendanceList' | 'common' | 'reservation' | 'signup' | 'summary'
+  'attendanceList' | 'common' | 'reservation' | 'signup' | 'signups' | 'summary'
 >;

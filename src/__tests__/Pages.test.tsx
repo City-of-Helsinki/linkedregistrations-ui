@@ -33,6 +33,9 @@ import EditSignupPage, {
 import SignupCancelledPage, {
   getServerSideProps as getSignupCancelledPageServerSideProps,
 } from '../pages/registration/[registrationId]/signup/cancelled/index';
+import SignupsPage, {
+  getServerSideProps as getSignupsPageServerSideProps,
+} from '../pages/registration/[registrationId]/signup/index';
 import SignupGroupCompletedPage, {
   getServerSideProps as getSignupGroupCompletedPageServerSideProps,
 } from '../pages/registration/[registrationId]/signup-group/[signupGroupId]/completed';
@@ -171,6 +174,32 @@ describe('AttendanceListPage', () => {
 
   it('should prefetch data', async () => {
     const { props } = (await getAttendanceListPageServerSideProps({
+      locale: 'fi',
+      query: { registrationId: registration.id },
+    } as unknown as GetServerSidePropsContext)) as {
+      props: ExtendedSSRConfig;
+    };
+
+    isRegistrationInDehydratedState(props.dehydratedState);
+  });
+});
+
+describe('SignupsPage', () => {
+  it('should render heading', async () => {
+    setQueryMocks(mockedUserResponse, mockedRegistrationWithUserAccessResponse);
+    singletonRouter.push({
+      pathname: ROUTES.SIGNUPS,
+      query: { registrationId: registration.id },
+    });
+
+    render(<SignupsPage />);
+    await loadingSpinnerIsNotInDocument(4000);
+
+    await isHeadingRendered(eventName);
+  });
+
+  it('should prefetch data', async () => {
+    const { props } = (await getSignupsPageServerSideProps({
       locale: 'fi',
       query: { registrationId: registration.id },
     } as unknown as GetServerSidePropsContext)) as {
