@@ -1,8 +1,19 @@
 {
+  "attendeeStatus": {
+    "attending": "Deltar",
+    "waitlisted": "På väntelista"
+  },
   "pageTitle": "Anmälningar: {{name}}",
   "searchPanel": {
     "buttonSearch": "Filtrera",
     "labelSearch": "Filtrera registreringar",
     "placeholderSearch": "Filtrera registreringar"
+  },
+  "signupsTableCaption": "Deltagarna",
+  "signupsTableColumns": {
+    "email": "E-post",
+    "name": "Name",
+    "phone": "Telefonnummer",
+    "status": "Status"
   }
 }

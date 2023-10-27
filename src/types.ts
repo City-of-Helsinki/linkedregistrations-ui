@@ -3,6 +3,7 @@ import { DehydratedState } from '@tanstack/react-query';
 import { Session, User as NextAuthUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { SSRConfig } from 'next-i18next';
+import { MouseEvent } from 'react';
 
 export type Language = 'en' | 'fi' | 'sv';
 
@@ -102,3 +103,12 @@ export type ExtendedSSRConfig = SSRConfig & {
 export type TranslationNamespaces = Array<
   'attendanceList' | 'common' | 'reservation' | 'signup' | 'signups' | 'summary'
 >;
+
+export type CommonListProps = {
+  onPageChange: (
+    event: MouseEvent<HTMLAnchorElement> | MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
+  pageCount: number;
+  pageHref: (index: number) => string;
+};

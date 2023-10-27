@@ -1,16 +1,14 @@
 import classNames from 'classnames';
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import { stringOrNull } from '../../../domain/api/types';
 import Container from '../../../domain/app/layout/container/Container';
 
 import styles from './buttonPanel.module.scss';
 
 export interface ButtonPanelProps {
-  backButtonAriaLabel?: stringOrNull;
+  backButtonAriaLabel: string;
   onBack?: () => void;
   submitButtons?: React.ReactElement[];
   withOffset?: boolean;
@@ -25,7 +23,6 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   withOffset = true,
 }) => {
   const buttonPanel = React.useRef<HTMLDivElement>(null);
-  const { t } = useTranslation('common');
 
   /* istanbul ignore next */
   const onDocumentFocusin = (event: FocusEvent) => {
@@ -88,7 +85,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
                   type="button"
                   variant="secondary"
                 >
-                  {backButtonAriaLabel || t('buttonBack')}
+                  {backButtonAriaLabel}
                 </Button>
               )}
             </div>

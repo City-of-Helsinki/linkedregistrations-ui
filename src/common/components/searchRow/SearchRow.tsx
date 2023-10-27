@@ -57,4 +57,4 @@ const TextSearchColumn: FC<PropsWithChildren> = ({ children }) => {
   return <div className={styles.textSearchColumn}>{children}</div>;
 };
 
-export { ButtonColumn, SearchRow, TextSearchColumn };
+export { SearchRow };

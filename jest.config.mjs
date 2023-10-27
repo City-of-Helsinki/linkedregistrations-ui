@@ -24,6 +24,7 @@ const customJestConfig = {
     '<rootDir>/src/pages/healthz.ts',
     '<rootDir>/src/pages/readiness.ts',
     '<rootDir>/src/tests/',
+    '<rootDir>/src/common/components/menuDropdown/menu/Menu.tsx',
     '<rootDir>/src/utils/getPageHeaderHeight.ts',
     '<rootDir>/src/utils/getSessionAndUser.ts',
     '<rootDir>/src/utils/mockDataUtils.ts',

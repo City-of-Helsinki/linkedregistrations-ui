@@ -1,8 +1,19 @@
 {
+  "attendeeStatus": {
+    "attending": "Attending",
+    "waitlisted": "In waiting list"
+  },
   "pageTitle": "Signups: {{name}}",
   "searchPanel": {
     "buttonSearch": "Filter",
     "labelSearch": "Filter participants",
     "placeholderSearch": "Filter participants"
+  },
+  "signupsTableCaption": "Participants",
+  "signupsTableColumns": {
+    "email": "Email",
+    "name": "Name",
+    "phone": "Phone number",
+    "status": "Status"
   }
 }

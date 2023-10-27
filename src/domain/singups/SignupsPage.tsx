@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,11 @@ import styles from './signupsPage.module.scss';
 import SignupsPageMeta from './signupsPageMeta/SignupsPageMeta';
 import SignupsPagePermissions from './signupsPagePermissions/SignupsPagePermissions';
 
+// Lazy load SeatsCount to avoid conflict between client and server
+const SignupsTable = dynamic(() => import('./signupsTable/SignupsTable'), {
+  ssr: false,
+});
+
 interface AttendanceListPageProps {
   event: Event;
   registration: Registration;
@@ -42,10 +48,7 @@ const SignupsPage: React.FC<AttendanceListPageProps> = ({
 
   const goToAttendanceListPage = () => {
     router.push(
-      ROUTES.ATTENDANCE_LIST.replace(
-        '[registrationId]',
-        registration.id as string
-      )
+      ROUTES.ATTENDANCE_LIST.replace('[registrationId]', registration.id)
     );
   };
 
@@ -73,7 +76,10 @@ const SignupsPage: React.FC<AttendanceListPageProps> = ({
             title={name}
           />
           <SearchPanel />
-          {/* <AttendeeList registration={registration} /> */}
+          <SignupsTable
+            caption={t('signups:signupsTableCaption')}
+            registration={registration}
+          />
         </Container>
       </MainContent>
     </PageWrapper>
