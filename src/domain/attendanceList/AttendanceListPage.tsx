@@ -21,10 +21,10 @@ import useEventAndRegistrationData from '../registration/hooks/useEventAndRegist
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { Registration } from '../registration/types';
 import { getRegistrationActionButtonProps } from '../registration/utils';
+import styles from '../singups/signupsPage.module.scss';
 import SignupsPagePermissions from '../singups/signupsPagePermissions/SignupsPagePermissions';
 import useUser from '../user/hooks/useUser';
 
-import styles from './attendanceListPage.module.scss';
 import AttendanceListPageMeta from './attendanceListPageMeta/AttendanceListPageMeta';
 import AttendeeList from './attendeeList/AttendeeList';
 
