@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fakeSignup } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
 } from '../../signupGroup/constants';
-import { NOTIFICATION_TYPE, TEST_SIGNUP_ID } from '../constants';
+import {
+  ATTENDEE_STATUS,
+  NOTIFICATION_TYPE,
+  TEST_SIGNUP_ID,
+} from '../constants';
 import { SignupInput, SignupQueryVariables } from '../types';
 import {
   getSignupFields,
@@ -26,21 +31,53 @@ describe('signupPathBuilder function', () => {
 
 describe('getSignupFields function', () => {
   it('should return empty string for each field if value is null', () => {
-    const { firstName, fullName, lastName } = getSignupFields({
-      signup: fakeSignup({ first_name: null, last_name: null }),
+    const {
+      attendeeStatus,
+      email,
+      firstName,
+      fullName,
+      lastName,
+      phoneNumber,
+    } = getSignupFields({
+      signup: fakeSignup({
+        attendee_status: null as any,
+        email: null,
+        first_name: null,
+        last_name: null,
+        phone_number: null,
+      }),
     });
+    expect(attendeeStatus).toBe(ATTENDEE_STATUS.Attending);
+    expect(email).toBe('');
     expect(firstName).toBe('');
     expect(fullName).toBe('');
     expect(lastName).toBe('');
+    expect(phoneNumber).toBe('');
   });
 
   it('should return correct signup fields', () => {
-    const { firstName, fullName, lastName } = getSignupFields({
-      signup: fakeSignup({ first_name: 'Test', last_name: 'User' }),
+    const {
+      attendeeStatus,
+      email,
+      firstName,
+      fullName,
+      lastName,
+      phoneNumber,
+    } = getSignupFields({
+      signup: fakeSignup({
+        attendee_status: ATTENDEE_STATUS.Waitlisted,
+        email: 'test@email.com',
+        first_name: 'Test',
+        last_name: 'User',
+        phone_number: '+358 44 1234567',
+      }),
     });
+    expect(attendeeStatus).toBe(ATTENDEE_STATUS.Waitlisted);
+    expect(email).toBe('test@email.com');
     expect(firstName).toBe('Test');
     expect(fullName).toBe('Test User');
     expect(lastName).toBe('User');
+    expect(phoneNumber).toBe('+358 44 1234567');
   });
 });
 

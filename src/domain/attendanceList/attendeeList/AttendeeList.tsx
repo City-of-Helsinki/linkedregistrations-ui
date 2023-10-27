@@ -16,8 +16,6 @@ import { PatchSignupMutationInput, Signup } from '../../signup/types';
 import { getSignupFields } from '../../signup/utils';
 import SearchRow from '../searchRow/SearchRow';
 
-import styles from './attendeeList.module.scss';
-
 type Props = {
   registration: Registration;
 };
@@ -108,7 +106,6 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   return (
     <>
       <SearchRow
-        className={styles.searchRow}
         countText={t('attendanceList:count', {
           count: attendees.length,
         })}

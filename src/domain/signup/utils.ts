@@ -216,11 +216,15 @@ export const getSignupFields = ({
   const fullName = [firstName, lastName].filter(skipFalsyType).join(' ');
 
   return {
+    attendeeStatus: signup.attendee_status ?? ATTENDEE_STATUS.Attending,
+    email: signup.email ?? '',
     firstName,
     fullName,
     lastName,
+    phoneNumber: signup.phone_number ?? '',
   };
 };
+
 export const omitSensitiveDataFromSignupPayload = (
   payload: SignupInput | UpdateSignupMutationInput
 ) =>

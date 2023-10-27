@@ -3,3 +3,5 @@ export enum SIGNUPS_SEARCH_PARAMS {
   RETURN_PATH = 'returnPath',
   TEXT = 'text',
 }
+
+export const SIGNUPS_PAGE_SIZE = 10;

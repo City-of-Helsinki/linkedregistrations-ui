@@ -7,6 +7,7 @@ import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import { ExtendedSession } from '../../../types';
+import { fakeSignups } from '../../../utils/mockDataUtils';
 import { fakeAuthenticatedSession } from '../../../utils/mockSession';
 import {
   configure,
@@ -28,6 +29,7 @@ import { mockedUserResponse, user } from '../../user/__mocks__/user';
 import { TEST_USER_ID } from '../../user/constants';
 import SignupsPage from '../SignupsPage';
 import {
+  shouldShowInsufficientPermissionsPage,
   shouldShowNotFoundPage,
   shouldShowSigninRequiredPage,
   shouldShowStrongIdentificationRequiredPage,
@@ -43,6 +45,9 @@ const defaultSession = fakeAuthenticatedSession();
 (nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
 
 const defaultMocks = [
+  rest.get(`*/signup/`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(fakeSignups(0)))
+  ),
   mockedUserResponse,
   mockedRegistrationWithUserAccessResponse,
 ];
@@ -100,7 +105,7 @@ test('should show strong identification required page if user is not strongly id
   await shouldShowStrongIdentificationRequiredPage();
 });
 
-test('should show not found page if has_registration_user_access is false', async () => {
+test('should show insufficient permissions page if has_registration_user_access is false', async () => {
   setQueryMocks(
     ...[mockedUserResponse, mockedRegistrationWithoutUserAccessResponse]
   );
@@ -108,7 +113,7 @@ test('should show not found page if has_registration_user_access is false', asyn
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  await shouldShowNotFoundPage();
+  await shouldShowInsufficientPermissionsPage();
 });
 
 test('should show not found page if registration does not exist', async () => {

@@ -1,4 +1,5 @@
 import { stringOrNull } from '../api/types';
+import { ATTENDEE_STATUS } from '../signup/constants';
 import { Signup, SignupInput } from '../signup/types';
 
 import { SIGNUP_FIELDS, SIGNUP_GROUP_FIELDS } from './constants';
@@ -59,9 +60,12 @@ export type SignupGroupFormFields = {
 };
 
 export type SignupFields = {
+  attendeeStatus: ATTENDEE_STATUS;
+  email: string;
   firstName: string;
   fullName: string;
   lastName: string;
+  phoneNumber: string;
 };
 
 export type DeleteSignupGroupMutationInput = {

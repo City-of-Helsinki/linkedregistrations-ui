@@ -194,7 +194,7 @@ test('should show strong identification required page if user is not strongly id
   await shouldShowStrongIdentificationRequiredPage();
 });
 
-test('should insufficient permissions page if has_registration_user_access is false', async () => {
+test('should show insufficient permissions page if has_registration_user_access is false', async () => {
   setQueryMocks(
     ...[mockedUserResponse, mockedRegistrationWithoutUserAccessResponse]
   );

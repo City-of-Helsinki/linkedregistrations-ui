@@ -1,8 +1,19 @@
 {
+  "attendeeStatus": {
+    "attending": "Osallistuu",
+    "waitlisted": "Jonossa"
+  },
   "pageTitle": "Ilmoittautuneet: {{name}}",
   "searchPanel": {
     "buttonSearch": "Etsi osallistujia",
     "labelSearch": "Hae osallistujia",
     "placeholderSearch": "Hae osallistujia"
+  },
+  "signupsTableCaption": "Osallistujat",
+  "signupsTableColumns": {
+    "email": "Sähköposti",
+    "name": "Nimi",
+    "phone": "Puhelinnumero",
+    "status": "Status"
   }
 }
