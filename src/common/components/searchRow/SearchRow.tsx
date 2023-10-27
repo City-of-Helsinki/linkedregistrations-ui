@@ -1,43 +1,60 @@
-import classNames from 'classnames';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
+import Button from '../button/Button';
 import SearchInput from '../searchInput/SearchInput';
 
-import styles from './searchRow.module.scss';
+import styles from './searchPanel.module.scss';
 
-type SearchRowProps = {
-  className?: string;
-  countText: string;
-  onSearchChange: (value: string) => void;
-  onSearchSubmit: (value: string) => void;
+export type SearchRowProps = {
+  onSearch: () => void;
+  onSearchValueChange: (value: string) => void;
+  searchButtonAriaLabel: string;
+  searchButtonText: string;
+  searchInputClassName?: string;
   searchInputLabel: string;
-  searchValue: string;
+  searchInputPlaceholder: string;
+  searchInputValue: string;
 };
-/**
- * Component to set define layout for search input and search result count text
- */
+
 const SearchRow: FC<SearchRowProps> = ({
-  className,
-  countText,
-  onSearchChange,
-  onSearchSubmit,
+  onSearch,
+  onSearchValueChange,
+  searchButtonAriaLabel,
+  searchButtonText,
+  searchInputClassName,
   searchInputLabel,
-  searchValue,
+  searchInputPlaceholder,
+  searchInputValue,
 }) => {
   return (
-    <div className={classNames(styles.searchRow, className)}>
-      <span className={styles.count}>{countText}</span>
-      <SearchInput
-        className={styles.searchInput}
-        label={searchInputLabel}
-        hideLabel
-        onSubmit={onSearchSubmit}
-        onChange={onSearchChange}
-        placeholder={searchInputLabel}
-        value={searchValue}
-      />
+    <div className={styles.searchRow}>
+      <TextSearchColumn>
+        <SearchInput
+          className={searchInputClassName}
+          hideLabel
+          label={searchInputLabel}
+          onChange={onSearchValueChange}
+          onSubmit={onSearch}
+          placeholder={searchInputPlaceholder}
+          searchButtonAriaLabel={searchButtonAriaLabel}
+          value={searchInputValue}
+        />
+      </TextSearchColumn>
+      <ButtonColumn>
+        <Button fullWidth={true} onClick={onSearch} variant="secondary">
+          {searchButtonText}
+        </Button>
+      </ButtonColumn>
     </div>
   );
 };
 
-export default SearchRow;
+const ButtonColumn: FC<PropsWithChildren> = ({ children }) => {
+  return <div className={styles.buttonColumn}>{children}</div>;
+};
+
+const TextSearchColumn: FC<PropsWithChildren> = ({ children }) => {
+  return <div className={styles.textSearchColumn}>{children}</div>;
+};
+
+export { ButtonColumn, SearchRow, TextSearchColumn };

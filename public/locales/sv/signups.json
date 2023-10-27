@@ -1,3 +1,8 @@
 {
-  "pageTitle": "Anmälningar: {{name}}"
+  "pageTitle": "Anmälningar: {{name}}",
+  "searchPanel": {
+    "buttonSearch": "Filtrera",
+    "labelSearch": "Filtrera registreringar",
+    "placeholderSearch": "Filtrera registreringar"
+  }
 }

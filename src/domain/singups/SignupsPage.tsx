@@ -20,6 +20,7 @@ import { Registration } from '../registration/types';
 import { getRegistrationActionButtonProps } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 
+import SearchPanel from './searchPanel/SearchPanel';
 import styles from './signupsPage.module.scss';
 import SignupsPageMeta from './signupsPageMeta/SignupsPageMeta';
 import SignupsPagePermissions from './signupsPagePermissions/SignupsPagePermissions';
@@ -71,6 +72,7 @@ const SignupsPage: React.FC<AttendanceListPageProps> = ({
             editingInfo={<RegistrationInfo event={event} />}
             title={name}
           />
+          <SearchPanel />
           {/* <AttendeeList registration={registration} /> */}
         </Container>
       </MainContent>

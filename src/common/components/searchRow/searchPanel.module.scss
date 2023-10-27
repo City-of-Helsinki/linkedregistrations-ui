@@ -1,0 +1,21 @@
+@import '../../../styles/breakpoints.scss';
+@import '../../../styles/widths.scss';
+
+.searchRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-top: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+
+  @include medium-up {
+    display: flex;
+  }
+}
+
+.buttonColumn {
+  @include min-width-column(2);
+}
+
+.textSearchColumn {
+  flex: 1 1 0%;
+}

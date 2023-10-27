@@ -1,3 +1,8 @@
 {
-  "pageTitle": "Ilmoittautuneet: {{name}}"
+  "pageTitle": "Ilmoittautuneet: {{name}}",
+  "searchPanel": {
+    "buttonSearch": "Etsi osallistujia",
+    "labelSearch": "Hae osallistujia",
+    "placeholderSearch": "Hae osallistujia"
+  }
 }

@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
-import SearchRow from '../../../common/components/searchRow/SearchRow';
 import useHandleError from '../../../hooks/useHandleError';
 import { ExtendedSession } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -15,6 +14,7 @@ import { ATTENDEE_STATUS, PRESENCE_STATUS } from '../../signup/constants';
 import { usePatchSignupMutation } from '../../signup/mutation';
 import { PatchSignupMutationInput, Signup } from '../../signup/types';
 import { getSignupFields } from '../../signup/utils';
+import SearchRow from '../searchRow/SearchRow';
 
 import styles from './attendeeList.module.scss';
 
