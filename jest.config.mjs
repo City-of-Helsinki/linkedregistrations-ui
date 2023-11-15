@@ -16,6 +16,7 @@ const customJestConfig = {
     '!**/node_modules/**',
   ],
   coveragePathIgnorePatterns: [
+    '<rootDir>/src/middleware.ts',
     '<rootDir>/src/pages/404.tsx',
     '<rootDir>/src/pages/_app.tsx',
     '<rootDir>/src/pages/_document.tsx',
