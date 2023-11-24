@@ -1,6 +1,6 @@
 {
   "actions": {
-    "exportSignupsAsExcel": "Export particpants (Excel)",
+    "exportSignupsAsExcel": "Export participants (Excel)",
     "viewAttendanceList": "Mark attendees",
     "viewSignups": "Show participants"
   },
