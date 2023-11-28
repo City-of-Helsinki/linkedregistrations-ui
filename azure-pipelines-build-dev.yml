@@ -36,6 +36,7 @@ resources:
     - repository: linkedevents-pipelines
       type: git
       # Azure DevOps project/repository
+      ref: refs/heads/matomo-fix
       name: linkedevents/linkedevents-pipelines
 
 extends:
