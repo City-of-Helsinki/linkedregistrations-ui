@@ -1,11 +1,12 @@
 import { advanceTo, clear } from 'jest-date-mock';
+import snakeCase from 'lodash/snakeCase';
 import * as Yup from 'yup';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../../constants';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { Registration } from '../../registration/types';
-import { NOTIFICATIONS } from '../constants';
+import { CONTACT_PERSON_FIELDS, NOTIFICATIONS } from '../constants';
 import {
   ContactPersonFormFields,
   SignupFormFields,
@@ -72,10 +73,11 @@ const testSignupSchema = async (
 };
 
 const testContactPersonSchema = async (
+  registration: Registration,
   contactPerson: ContactPersonFormFields
 ) => {
   try {
-    await getContactPersonSchema().validate(contactPerson);
+    await getContactPersonSchema(registration).validate(contactPerson);
     return true;
   } catch (e) {
     return false;
@@ -278,26 +280,28 @@ describe('signupSchema function', () => {
   });
 });
 
-describe('getContactPersonSchema function', () => {
+describe('signupGroupSchema function', () => {
+  const registration = fakeRegistration();
   const validContactPerson: ContactPersonFormFields = {
     email: 'user@email.com',
     firstName: 'First name',
     id: null,
-    lastName: 'First name',
+    lastName: 'Last name',
     membershipNumber: '',
     nativeLanguage: 'fi',
     notifications: [NOTIFICATIONS.EMAIL],
     phoneNumber: '',
     serviceLanguage: 'fi',
   };
-
-  test('should return true if contact person data is valid', async () => {
-    expect(await testContactPersonSchema(validContactPerson)).toBe(true);
+  test('should return true if signup group data is valid', async () => {
+    expect(
+      await testContactPersonSchema(registration, validContactPerson)
+    ).toBe(true);
   });
 
   test('should return false if email is missing', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         email: '',
       })
@@ -306,7 +310,7 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if email is invalid', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         email: 'user@email.',
       })
@@ -315,7 +319,7 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if phone number is missing', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         phoneNumber: '',
         notifications: [NOTIFICATIONS.SMS],
@@ -325,7 +329,7 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if phone number is invalid', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         phoneNumber: 'xxx',
         notifications: [NOTIFICATIONS.SMS],
@@ -335,7 +339,7 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if notifications is empty array', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         notifications: [],
       })
@@ -344,7 +348,7 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if native language is empty', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         nativeLanguage: '',
       })
@@ -353,12 +357,34 @@ describe('getContactPersonSchema function', () => {
 
   test('should return false if service language is empty', async () => {
     expect(
-      await testContactPersonSchema({
+      await testContactPersonSchema(registration, {
         ...validContactPerson,
         serviceLanguage: '',
       })
     ).toBe(false);
   });
+
+  const mandatoryCases: [CONTACT_PERSON_FIELDS][] = [
+    [CONTACT_PERSON_FIELDS.FIRST_NAME],
+    [CONTACT_PERSON_FIELDS.LAST_NAME],
+    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER],
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER],
+  ];
+
+  it.each(mandatoryCases)(
+    'should return false if mandatory contact person field is missing, with args %p returns %p',
+    async (mandatoryField) => {
+      expect(
+        await testContactPersonSchema(
+          {
+            ...registration,
+            contact_person_mandatory_fields: [snakeCase(mandatoryField)],
+          },
+          { ...validContactPerson, [mandatoryField]: '' }
+        )
+      ).toBe(false);
+    }
+  );
 });
 
 describe('testSignupGroupSchema function', () => {

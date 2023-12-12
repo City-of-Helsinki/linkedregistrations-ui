@@ -18,6 +18,7 @@ import { ContactPersonInput, SignupInput } from '../../signup/types';
 import {
   CONTACT_PERSON_FIELDS,
   NOTIFICATIONS,
+  SIGNUP_FIELDS,
   SIGNUP_GROUP_FIELDS,
   SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
@@ -38,6 +39,7 @@ import {
   omitSensitiveDataFromSignupGroupPayload,
   isSignupFieldRequired,
   signupGroupPathBuilder,
+  isContactPersonFieldRequired,
 } from '../utils';
 
 describe('getSignupGroupPayload function', () => {
@@ -424,30 +426,11 @@ describe('getSignupGroupInitialValues function', () => {
 });
 
 describe('isSignupFieldRequired', () => {
-  const falseCases: [string[], CONTACT_PERSON_FIELDS | SIGNUP_GROUP_FIELDS][] =
-    [
-      [
-        [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        CONTACT_PERSON_FIELDS.EMAIL,
-      ],
-      [
-        [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        SIGNUP_GROUP_FIELDS.EXTRA_INFO,
-      ],
-      [
-        [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER,
-      ],
-      [
-        [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE,
-      ],
-      [
-        [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE,
-      ],
-      [['not-exist'], CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE],
-    ];
+  const falseCases: [string[], SIGNUP_FIELDS | SIGNUP_GROUP_FIELDS][] = [
+    [['first_name'], SIGNUP_FIELDS.CITY],
+    [['first_name'], SIGNUP_FIELDS.LAST_NAME],
+    [['first_name'], SIGNUP_GROUP_FIELDS.EXTRA_INFO],
+  ];
 
   it.each(falseCases)(
     'should return false if field is not mandatory with args %p, result %p',
@@ -457,11 +440,9 @@ describe('isSignupFieldRequired', () => {
       ).toBe(false)
   );
 
-  const trueCases: [string[], CONTACT_PERSON_FIELDS | SIGNUP_GROUP_FIELDS][] = [
-    [
-      [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-      CONTACT_PERSON_FIELDS.PHONE_NUMBER,
-    ],
+  const trueCases: [string[], SIGNUP_FIELDS | SIGNUP_GROUP_FIELDS][] = [
+    [['first_name'], SIGNUP_FIELDS.FIRST_NAME],
+    [['last_name'], SIGNUP_FIELDS.LAST_NAME],
   ];
 
   it.each(trueCases)(
@@ -469,6 +450,41 @@ describe('isSignupFieldRequired', () => {
     (mandatory_fields, field) =>
       expect(
         isSignupFieldRequired(fakeRegistration({ mandatory_fields }), field)
+      ).toBe(true)
+  );
+});
+
+describe('isContactPersonFieldRequired', () => {
+  const falseCases: [string[], CONTACT_PERSON_FIELDS][] = [
+    [['phone_number'], CONTACT_PERSON_FIELDS.FIRST_NAME],
+    [['phone_number'], CONTACT_PERSON_FIELDS.LAST_NAME],
+    [['phone_number'], CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER],
+  ];
+  it.each(falseCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (contactPersonMandatoryFields, field) =>
+      expect(
+        isContactPersonFieldRequired(
+          fakeRegistration({
+            contact_person_mandatory_fields: contactPersonMandatoryFields,
+          }),
+          field
+        )
+      ).toBe(false)
+  );
+  const trueCases: [string[], CONTACT_PERSON_FIELDS][] = [
+    [['phone_number'], CONTACT_PERSON_FIELDS.PHONE_NUMBER],
+  ];
+  it.each(trueCases)(
+    'should return true if field is mandatory with args %p, result %p',
+    (contactPersonMandatoryFields, field) =>
+      expect(
+        isContactPersonFieldRequired(
+          fakeRegistration({
+            contact_person_mandatory_fields: contactPersonMandatoryFields,
+          }),
+          field
+        )
       ).toBe(true)
   );
 });

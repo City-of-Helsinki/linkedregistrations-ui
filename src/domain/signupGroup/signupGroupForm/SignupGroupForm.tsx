@@ -53,7 +53,11 @@ import ParticipantAmountSelector from '../participantAmountSelector/ParticipantA
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields, SignupGroup, SignupGroupFormFields } from '../types';
-import { getContactPersonFieldName, isSignupFieldRequired } from '../utils';
+import {
+  getContactPersonFieldName,
+  isContactPersonFieldRequired,
+  isSignupFieldRequired,
+} from '../utils';
 import {
   getSignupGroupSchema,
   scrollToFirstError,
@@ -401,7 +405,7 @@ const SignupGroupForm: React.FC<Props> = ({
                             t(`contactPerson.placeholderPhoneNumber`)
                           )}
                           readOnly={readOnly}
-                          required={isSignupFieldRequired(
+                          required={isContactPersonFieldRequired(
                             registration,
                             CONTACT_PERSON_FIELDS.PHONE_NUMBER
                           )}
@@ -423,6 +427,10 @@ const SignupGroupForm: React.FC<Props> = ({
                             t(`contactPerson.placeholderFirstName`)
                           )}
                           readOnly={readOnly}
+                          required={isContactPersonFieldRequired(
+                            registration,
+                            CONTACT_PERSON_FIELDS.FIRST_NAME
+                          )}
                           title={titleCannotEditContactPerson}
                         />
                         <Field
@@ -436,6 +444,10 @@ const SignupGroupForm: React.FC<Props> = ({
                             t(`contactPerson.placeholderLastName`)
                           )}
                           readOnly={readOnly}
+                          required={isContactPersonFieldRequired(
+                            registration,
+                            CONTACT_PERSON_FIELDS.LAST_NAME
+                          )}
                           title={titleCannotEditContactPerson}
                         />
                       </div>
@@ -475,6 +487,10 @@ const SignupGroupForm: React.FC<Props> = ({
                             t(`contactPerson.placeholderMembershipNumber`)
                           )}
                           readOnly={readOnly}
+                          required={isContactPersonFieldRequired(
+                            registration,
+                            CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+                          )}
                           title={titleCannotEditContactPerson}
                         />
                       </div>

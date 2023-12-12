@@ -242,8 +242,16 @@ export const getNewSignups = ({
 
 export const isSignupFieldRequired = (
   registration: Registration,
-  fieldId: CONTACT_PERSON_FIELDS | SIGNUP_FIELDS | SIGNUP_GROUP_FIELDS
+  fieldId: SIGNUP_FIELDS | SIGNUP_GROUP_FIELDS
 ): boolean => registration.mandatory_fields.includes(snakeCase(fieldId));
+
+export const isContactPersonFieldRequired = (
+  registration: Registration,
+  fieldId: CONTACT_PERSON_FIELDS
+): boolean =>
+  Boolean(
+    registration.contact_person_mandatory_fields?.includes(snakeCase(fieldId))
+  );
 
 export const isAnySignupInWaitingList = (signupGroup: SignupGroup): boolean =>
   Boolean(

@@ -13,6 +13,7 @@ export type Registration = {
   audience_max_age: numberOrNull;
   audience_min_age: numberOrNull;
   confirmation_message: LocalisedObject;
+  contact_person_mandatory_fields: string[];
   created_by: stringOrNull;
   created_time: stringOrNull;
   current_attendee_count: number;

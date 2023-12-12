@@ -28,7 +28,11 @@ import {
   SIGNUP_GROUP_FORM_SELECT_FIELDS,
 } from './constants';
 import { SignupGroupFormFields } from './types';
-import { isDateOfBirthFieldRequired, isSignupFieldRequired } from './utils';
+import {
+  isContactPersonFieldRequired,
+  isDateOfBirthFieldRequired,
+  isSignupFieldRequired,
+} from './utils';
 
 export const isAboveMinAge = (
   dateStr: stringOrNull | undefined,
@@ -107,12 +111,17 @@ export const getSignupSchema = (registration: Registration) => {
   });
 };
 
-export const getContactPersonSchema = () => {
+export const getContactPersonSchema = (registration: Registration) => {
   return Yup.object().shape({
     [CONTACT_PERSON_FIELDS.EMAIL]: getStringSchema(true).email(
       VALIDATION_MESSAGE_KEYS.EMAIL
     ),
-    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(false)
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(
+      isContactPersonFieldRequired(
+        registration,
+        CONTACT_PERSON_FIELDS.PHONE_NUMBER
+      )
+    )
       .test(
         'isValidPhoneNumber',
         VALIDATION_MESSAGE_KEYS.PHONE,
@@ -125,12 +134,29 @@ export const getContactPersonSchema = () => {
             ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
             : schema
       ),
+    [CONTACT_PERSON_FIELDS.FIRST_NAME]: getStringSchema(
+      isContactPersonFieldRequired(
+        registration,
+        CONTACT_PERSON_FIELDS.FIRST_NAME
+      )
+    ),
+    [CONTACT_PERSON_FIELDS.LAST_NAME]: getStringSchema(
+      isContactPersonFieldRequired(
+        registration,
+        CONTACT_PERSON_FIELDS.LAST_NAME
+      )
+    ),
     [CONTACT_PERSON_FIELDS.NOTIFICATIONS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, (param) =>
         createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
       ),
-    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(false),
+    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
+      isContactPersonFieldRequired(
+        registration,
+        CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+      )
+    ),
     [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: getStringSchema(true),
     [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: getStringSchema(true),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(false),
@@ -146,7 +172,8 @@ export const getSignupGroupSchema = (
       getSignupSchema(registration)
     ),
     ...(validateContactPerson && {
-      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: getContactPersonSchema(),
+      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]:
+        getContactPersonSchema(registration),
     }),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)

@@ -4,9 +4,12 @@ export enum REGISTRATION_MANDATORY_FIELDS {
   CITY = 'city',
   FIRST_NAME = 'first_name',
   LAST_NAME = 'last_name',
-  PHONE_NUMBER = 'phone_number',
   STREET_ADDRESS = 'street_address',
   ZIPCODE = 'zipcode',
+}
+
+export enum CONTACT_PERSON_MANDATORY_FIELDS {
+  PHONE_NUMBER = 'phone_number',
 }
 
 export const TEST_REGISTRATION_ID = 'registration:1';
