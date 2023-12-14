@@ -35,6 +35,7 @@ resources:
     # Azure DevOps repository
     - repository: linkedevents-pipelines
       type: git
+      ref: refs/heads/registration-ui-hpa
       # Azure DevOps project/repository
       name: linkedevents/linkedevents-pipelines
   pipelines:
