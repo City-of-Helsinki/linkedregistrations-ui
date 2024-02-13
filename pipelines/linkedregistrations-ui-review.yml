@@ -39,6 +39,7 @@ resources:
     - repository: linkedevents-pipelines
       type: git
       ref: refs/heads/registration_e2e_test
+
       # Azure DevOps project/repository
       name: linkedevents/linkedevents-pipelines
 
