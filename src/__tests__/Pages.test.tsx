@@ -30,6 +30,9 @@ import { mockedUserResponse } from '../domain/user/__mocks__/user';
 import LogoutPage, {
   getServerSideProps as getLogoutPageServerSideProps,
 } from '../pages/logout';
+import PaymentCompletedPage, {
+  getServerSideProps as getPaymentCompletedPageServerSideProps,
+} from '../pages/payment/completed';
 import AttendanceListPage, {
   getServerSideProps as getAttendanceListPageServerSideProps,
 } from '../pages/registration/[registrationId]/attendance-list/index';
@@ -463,5 +466,23 @@ describe('LogoutPage', () => {
     };
 
     expect(props._nextI18Next?.ns).toEqual(['common']);
+  });
+});
+
+describe('PaymentCompletedPage', () => {
+  it('should render heading', async () => {
+    singletonRouter.push({ pathname: ROUTES.PAYMENT_COMPLETED });
+
+    render(<PaymentCompletedPage />);
+
+    await isHeadingRendered('Maksu on suoritettu onnistuneesti');
+  });
+
+  it('should get correct translations namespaces', async () => {
+    const { props } = (await getPaymentCompletedPageServerSideProps({
+      locale: 'fi',
+    } as GetServerSidePropsContext)) as { props: ExtendedSSRConfig };
+
+    expect(props._nextI18Next?.ns).toEqual(['common', 'paymentCompleted']);
   });
 });

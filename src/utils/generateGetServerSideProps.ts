@@ -2,7 +2,6 @@
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSideProps } from 'next';
 import { getServerSession, NextAuthOptions } from 'next-auth';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { RegistrationQueryVariables } from '../domain/registration/types';
 import { prefetchSignupQuery } from '../domain/signup/query';
@@ -14,6 +13,7 @@ import {
   TranslationNamespaces,
 } from '../types';
 
+import getServerSideTranslations from './getServerSideTranslations';
 import getStringValueFromQuery from './getStringValueFromQuery';
 import prefetchRegistrationAndEvent from './prefetchRegistrationAndEvent';
 
@@ -78,10 +78,10 @@ const generateGetServerSideProps = ({
 
     return {
       props: {
-        ...(await serverSideTranslations(
-          locale as string,
-          translationNamespaces
-        )),
+        ...(await getServerSideTranslations({
+          locale: locale as string,
+          translationNamespaces,
+        })),
         dehydratedState: dehydrate(queryClient),
         session,
       },

@@ -107,7 +107,13 @@ export type ExtendedSSRConfig = SSRConfig & {
 };
 
 export type TranslationNamespaces = Array<
-  'attendanceList' | 'common' | 'reservation' | 'signup' | 'signups' | 'summary'
+  | 'attendanceList'
+  | 'common'
+  | 'paymentCompleted'
+  | 'reservation'
+  | 'signup'
+  | 'signups'
+  | 'summary'
 >;
 
 export type CommonListProps = {
