@@ -109,6 +109,7 @@ export type ExtendedSSRConfig = SSRConfig & {
 export type TranslationNamespaces = Array<
   | 'attendanceList'
   | 'common'
+  | 'paymentCancelled'
   | 'paymentCompleted'
   | 'reservation'
   | 'signup'
