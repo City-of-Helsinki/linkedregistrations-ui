@@ -24,7 +24,10 @@ export const useCreateSeatsReservationMutation = ({
   >;
   session: ExtendedSession | null;
 }): UseMutationResult<SeatsReservation, Error, CreateSeatsReservationInput> =>
-  useMutation((input) => createSeatsReservation({ input, session }), options);
+  useMutation({
+    mutationFn: (input) => createSeatsReservation({ input, session }),
+    ...options,
+  });
 
 export const useUpdateSeatsReservationMutation = ({
   options,
@@ -37,4 +40,7 @@ export const useUpdateSeatsReservationMutation = ({
   >;
   session: ExtendedSession | null;
 }): UseMutationResult<SeatsReservation, Error, UpdateSeatsReservationInput> =>
-  useMutation((input) => updateSeatsReservation({ input, session }), options);
+  useMutation({
+    mutationFn: (input) => updateSeatsReservation({ input, session }),
+    ...options,
+  });

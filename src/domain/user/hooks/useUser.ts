@@ -15,11 +15,7 @@ const useUser = (): UserState => {
   const userId = session?.user?.id ?? '';
   const linkedEventsApiToken = session?.apiTokens?.linkedevents;
 
-  const {
-    data: user,
-    isFetching,
-    status,
-  } = useUserQuery({
+  const { data: user, isLoading } = useUserQuery({
     args: { username: userId },
     options: { enabled: Boolean(userId && linkedEventsApiToken) },
     session,
@@ -28,9 +24,9 @@ const useUser = (): UserState => {
   const state = useMemo(
     () => ({
       user,
-      loading: status === 'loading' && isFetching,
+      loading: isLoading,
     }),
-    [isFetching, status, user]
+    [isLoading, user]
   );
   return state;
 };
