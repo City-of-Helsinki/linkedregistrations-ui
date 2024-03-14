@@ -17,16 +17,10 @@ const useSignupGroupData = (): UseSignupGroupDataState => {
   const id = query.signupGroupId as string;
   const { data: session } = useSession() as { data: ExtendedSession | null };
 
-  const {
-    data: signupGroup,
-    isFetching,
-    status,
-  } = useSignupGroupQuery({
+  const { data: signupGroup, isLoading } = useSignupGroupQuery({
     args: { accessCode, id },
     session,
   });
-
-  const isLoading = status === 'loading' && isFetching;
 
   return { isLoading, signupGroup };
 };

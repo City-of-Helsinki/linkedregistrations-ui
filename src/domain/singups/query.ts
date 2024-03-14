@@ -19,9 +19,9 @@ export const useSignupsQuery = ({
   options?: Pick<UseQueryOptions, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<SignupsResponse> => {
-  return useQuery<SignupsResponse, Error>(
-    ['signups', args],
-    () => fetchSignups(args, session),
-    options
-  );
+  return useQuery<SignupsResponse, Error>({
+    queryKey: ['signups', args],
+    queryFn: () => fetchSignups(args, session),
+    ...options,
+  });
 };

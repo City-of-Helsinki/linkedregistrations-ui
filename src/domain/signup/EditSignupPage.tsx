@@ -63,18 +63,12 @@ const EditSignupPageWrapper: React.FC = () => {
   const { data: session } = useSession() as {
     data: ExtendedSession | null;
   };
-  const {
-    data: signupGroup,
-    isFetching: isFetchingSignupGroup,
-    status: signupGroupStatus,
-  } = useSignupGroupQuery({
-    args: { id: signup?.signup_group as string },
-    options: { enabled: !!signup?.signup_group },
-    session,
-  });
-
-  const isLoadingSignupGroup =
-    signupGroupStatus === 'loading' && isFetchingSignupGroup;
+  const { data: signupGroup, isLoading: isLoadingSignupGroup } =
+    useSignupGroupQuery({
+      args: { id: signup?.signup_group as string },
+      options: { enabled: !!signup?.signup_group },
+      session,
+    });
 
   if (!session) {
     return <SignInRequired />;

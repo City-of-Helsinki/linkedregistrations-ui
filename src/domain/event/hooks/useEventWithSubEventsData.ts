@@ -21,11 +21,7 @@ const useEventWithSubEventsData = ({
 }: UseEventWithSubEventsDataProps): UseEventWithSubEventsDataState => {
   const { data: session } = useSession() as { data: ExtendedSession | null };
 
-  const {
-    data: eventWithSubEvents,
-    isFetching: isFetchingEvent,
-    status: statusEvent,
-  } = useEventQuery({
+  const { data: eventWithSubEvents, isLoading } = useEventQuery({
     args: {
       id,
       include: EVENT_WITH_SUB_EVENTS_INCLUDES,
@@ -33,8 +29,6 @@ const useEventWithSubEventsData = ({
     options: { enabled: !!superEventType, retry: 0 },
     session,
   });
-
-  const isLoading = statusEvent === 'loading' && isFetchingEvent;
 
   return { eventWithSubEvents, isLoading };
 };

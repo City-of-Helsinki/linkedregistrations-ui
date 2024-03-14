@@ -19,9 +19,10 @@ export const fetchSignupGroupQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<SignupGroup> => {
-  return queryClient.fetchQuery(['signupGroup', args.id], () =>
-    fetchSignupGroup(args, session)
-  );
+  return queryClient.fetchQuery({
+    queryKey: ['signupGroup', args.id],
+    queryFn: () => fetchSignupGroup(args, session),
+  });
 };
 
 export const prefetchSignupGroupQuery = ({
@@ -33,9 +34,10 @@ export const prefetchSignupGroupQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<void> => {
-  return queryClient.prefetchQuery(['signupGroup', args.id], () =>
-    fetchSignupGroup(args, session)
-  );
+  return queryClient.prefetchQuery({
+    queryKey: ['signupGroup', args.id],
+    queryFn: () => fetchSignupGroup(args, session),
+  });
 };
 
 export const useSignupGroupQuery = ({
@@ -47,9 +49,9 @@ export const useSignupGroupQuery = ({
   options?: Pick<UseQueryOptions, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<SignupGroup> => {
-  return useQuery<SignupGroup, Error>(
-    ['signupGroup', args.id],
-    () => fetchSignupGroup(args, session),
-    options
-  );
+  return useQuery<SignupGroup, Error>({
+    queryKey: ['signupGroup', args.id],
+    queryFn: () => fetchSignupGroup(args, session),
+    ...options,
+  });
 };

@@ -4,7 +4,7 @@ import '../styles/main.scss';
 
 import { init } from '@socialgouv/matomo-next';
 import {
-  Hydrate,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
@@ -50,12 +50,12 @@ const MyApp = ({
     <NotificationsProvider>
       <SessionProvider session={session} refetchInterval={30}>
         <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
+          <HydrationBoundary state={pageProps.dehydratedState}>
             <CookieConsent />
             <PageLayout {...pageProps}>
               <Component {...pageProps} />
             </PageLayout>
-          </Hydrate>
+          </HydrationBoundary>
         </QueryClientProvider>
       </SessionProvider>
     </NotificationsProvider>

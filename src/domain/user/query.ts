@@ -19,9 +19,10 @@ export const fetchUserQuery = ({
   args: UserQueryVariables;
   session: ExtendedSession | null;
 }): Promise<User> => {
-  return queryClient.fetchQuery(['user', args.username], () =>
-    fetchUser(args, session)
-  );
+  return queryClient.fetchQuery({
+    queryKey: ['user', args.username],
+    queryFn: () => fetchUser(args, session),
+  });
 };
 
 export const useUserQuery = ({
@@ -33,9 +34,9 @@ export const useUserQuery = ({
   options?: Pick<UseQueryOptions, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<User> => {
-  return useQuery<User, Error>(
-    ['user', args.username],
-    () => fetchUser(args, session),
-    options
-  );
+  return useQuery<User, Error>({
+    queryKey: ['user', args.username],
+    queryFn: () => fetchUser(args, session),
+    ...options,
+  });
 };

@@ -24,11 +24,7 @@ const useEventAndRegistrationData = ({
   const { query } = router;
   const { data: session } = useSession() as { data: ExtendedSession | null };
 
-  const {
-    data: registration,
-    isFetching: isFetchingRegistration,
-    status: statusRegistration,
-  } = useRegistrationQuery({
+  const { data: registration, isLoading } = useRegistrationQuery({
     args: {
       id: query.registrationId as string,
       include: REGISTRATION_INCLUDES,
@@ -37,8 +33,6 @@ const useEventAndRegistrationData = ({
     options: { enabled: !!query.registrationId, retry: 0 },
     session,
   });
-
-  const isLoading = statusRegistration === 'loading' && isFetchingRegistration;
 
   return { event: registration?.event, isLoading, registration };
 };

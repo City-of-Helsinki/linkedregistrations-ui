@@ -19,9 +19,10 @@ export const fetchSignupQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<Signup> => {
-  return queryClient.fetchQuery(['signup', args.id], () =>
-    fetchSignup(args, session)
-  );
+  return queryClient.fetchQuery({
+    queryKey: ['signup', args.id],
+    queryFn: () => fetchSignup(args, session),
+  });
 };
 
 export const prefetchSignupQuery = ({
@@ -33,9 +34,10 @@ export const prefetchSignupQuery = ({
   queryClient: QueryClient;
   session: ExtendedSession | null;
 }): Promise<void> => {
-  return queryClient.prefetchQuery(['signup', args.id], () =>
-    fetchSignup(args, session)
-  );
+  return queryClient.prefetchQuery({
+    queryKey: ['signup', args.id],
+    queryFn: () => fetchSignup(args, session),
+  });
 };
 
 export const useSignupQuery = ({
@@ -47,9 +49,9 @@ export const useSignupQuery = ({
   options?: Pick<UseQueryOptions, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Signup> => {
-  return useQuery<Signup, Error>(
-    ['signup', args.id],
-    () => fetchSignup(args, session),
-    options
-  );
+  return useQuery<Signup, Error>({
+    queryKey: ['signup', args.id],
+    queryFn: () => fetchSignup(args, session),
+    ...options,
+  });
 };

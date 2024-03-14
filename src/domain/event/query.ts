@@ -18,9 +18,9 @@ export const useEventQuery = ({
   options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Event> => {
-  return useQuery<Event, Error>(
-    ['event', args.id],
-    () => fetchEvent(args, session),
-    options
-  );
+  return useQuery<Event, Error>({
+    queryKey: ['event', args.id],
+    queryFn: () => fetchEvent(args, session),
+    ...options,
+  });
 };

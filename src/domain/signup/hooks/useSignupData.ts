@@ -27,15 +27,9 @@ const useSignupData = ({
 
   const {
     data: signup,
-    isFetching,
+    isLoading,
     refetch,
-    status,
-  } = useSignupQuery({
-    args: { id, accessCode },
-    session,
-  });
-
-  const isLoading = status === 'loading' && isFetching;
+  } = useSignupQuery({ args: { id, accessCode }, session });
 
   return { isLoading, refetch, signup };
 };
