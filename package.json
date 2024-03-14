@@ -22,7 +22,7 @@
     "@types/react-scroll": "^1.8.10",
     "axios": "^1.6.7",
     "axios-logger": "^2.8.0",
-    "classnames": "^2.3.2",
+    "classnames": "^2.5.1",
     "date-fns-tz": "^2.0.0",
     "formik": "^2.4.5",
     "hds-core": "^3.6.0",
