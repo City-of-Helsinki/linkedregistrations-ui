@@ -23,7 +23,7 @@
     "axios": "^1.6.7",
     "axios-logger": "^2.8.0",
     "classnames": "^2.5.1",
-    "date-fns-tz": "^2.0.0",
+    "date-fns-tz": "^2.0.1",
     "formik": "^2.4.5",
     "hds-core": "^3.6.0",
     "hds-design-tokens": "^3.6.0",
