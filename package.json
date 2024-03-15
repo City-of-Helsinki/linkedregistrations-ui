@@ -73,6 +73,7 @@
   },
   "resolutions": {
     "follow-redirects": "1.15.6",
+    "jose": "4.15.5",
     "npmlog": "^7.0.0",
     "semver": "7.5.4"
   },
