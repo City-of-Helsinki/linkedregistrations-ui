@@ -68,7 +68,7 @@
     "next-router-mock": "^0.9.9",
     "prettier": "^3.2.5",
     "snyk": "^1.1220.0",
-    "typescript": "5.2.2",
+    "typescript": "5.4.2",
     "waait": "^1.0.5"
   },
   "resolutions": {
