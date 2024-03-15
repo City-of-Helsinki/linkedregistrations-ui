@@ -72,6 +72,7 @@
     "waait": "^1.0.5"
   },
   "resolutions": {
+    "follow-redirects": "1.15.6",
     "npmlog": "^7.0.0",
     "semver": "7.5.4"
   },
