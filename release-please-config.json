@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "5cb00c5f35c8a42786ec1dfb576f7a5b0c44d4af",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "linkedregistrations-ui"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
