@@ -139,11 +139,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   const { text, page } = getSignupsSearchInitialValues(router.query);
 
-  const {
-    data: signupsData,
-    status,
-    isFetching,
-  } = useSignupsQuery({
+  const { data: signupsData, isLoading } = useSignupsQuery({
     args: {
       attendeeStatus: ATTENDEE_STATUS.Attending,
       registration: [registration.id],
@@ -153,7 +149,6 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     },
     session,
   });
-  const isLoading = status === 'loading' && isFetching;
 
   const signups = (signupsData?.data ?? []).filter(skipFalsyType);
 

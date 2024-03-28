@@ -19,9 +19,10 @@ export const fetchRegistrationQuery = ({
   args: RegistrationQueryVariables;
   session: ExtendedSession | null;
 }): Promise<Registration> => {
-  return queryClient.fetchQuery(['registration', args.id], () =>
-    fetchRegistration(args, session)
-  );
+  return queryClient.fetchQuery({
+    queryKey: ['registration', args.id],
+    queryFn: () => fetchRegistration(args, session),
+  });
 };
 
 export const prefetchRegistrationQuery = ({
@@ -33,9 +34,10 @@ export const prefetchRegistrationQuery = ({
   args: RegistrationQueryVariables;
   session: ExtendedSession | null;
 }): Promise<void> => {
-  return queryClient.prefetchQuery(['registration', args.id], () =>
-    fetchRegistration(args, session)
-  );
+  return queryClient.prefetchQuery({
+    queryKey: ['registration', args.id],
+    queryFn: () => fetchRegistration(args, session),
+  });
 };
 
 export const useRegistrationQuery = ({
@@ -47,9 +49,9 @@ export const useRegistrationQuery = ({
   options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Registration> => {
-  return useQuery<Registration, Error>(
-    ['registration', args.id],
-    () => fetchRegistration(args, session),
-    options
-  );
+  return useQuery<Registration, Error>({
+    queryKey: ['registration', args.id],
+    queryFn: () => fetchRegistration(args, session),
+    ...options,
+  });
 };

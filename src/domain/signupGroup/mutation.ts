@@ -33,7 +33,10 @@ export const useCreateSignupGroupMutation = ({
   Error,
   CreateSignupGroupMutationInput
 > => {
-  return useMutation((input) => createSignupGroup({ input, session }), options);
+  return useMutation({
+    mutationFn: (input) => createSignupGroup({ input, session }),
+    ...options,
+  });
 };
 
 export const useDeleteSignupGroupMutation = ({
@@ -43,14 +46,14 @@ export const useDeleteSignupGroupMutation = ({
   options?: UseMutationOptions<null, Error, DeleteSignupGroupMutationInput>;
   session: ExtendedSession | null;
 }): UseMutationResult<null, Error, DeleteSignupGroupMutationInput> => {
-  return useMutation(
-    (input) =>
+  return useMutation({
+    mutationFn: (input) =>
       deleteSignupGroup({
         input,
         session,
       }),
-    options
-  );
+    ...options,
+  });
 };
 
 export const useUpdateSignupGroupMutation = ({
@@ -68,12 +71,12 @@ export const useUpdateSignupGroupMutation = ({
   Error,
   UpdateSignupGroupMutationInput
 > => {
-  return useMutation(
-    (input) =>
+  return useMutation({
+    mutationFn: (input) =>
       updateSignupGroup({
         input,
         session,
       }),
-    options
-  );
+    ...options,
+  });
 };

@@ -47,13 +47,6 @@ const customRender: CustomRender = (
 ) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
-    logger: {
-      log: console.log,
-      warn: console.warn,
-      // ✅ no more errors on the console for tests
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
-    },
   });
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {

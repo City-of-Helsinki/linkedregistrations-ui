@@ -11,7 +11,8 @@ export const useLanguagesQuery = (
 ): UseQueryResult<LanguagesResponse> => {
   const { data: session } = useSession() as { data: ExtendedSession | null };
 
-  return useQuery<LanguagesResponse, Error>([languagesPathBuilder(args)], () =>
-    fetchLanguages(args, session)
-  );
+  return useQuery<LanguagesResponse, Error>({
+    queryKey: [languagesPathBuilder(args)],
+    queryFn: () => fetchLanguages(args, session),
+  });
 };
