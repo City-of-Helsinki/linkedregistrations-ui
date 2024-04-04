@@ -1,39 +1,62 @@
 import classNames from 'classnames';
-import {
-  SearchInput as HdsSearchInput,
-  SearchInputProps as HdsSearchInputProps,
-} from 'hds-react';
+import { IconSearch, TextInputProps } from 'hds-react';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { useId } from 'react';
+
+import TextInput from '../textInput/TextInput';
 
 import styles from './searchInput.module.scss';
 
 export type SearchInputProps = {
+  clearButtonAriaLabel?: string;
   hideLabel?: boolean;
-} & HdsSearchInputProps<unknown>;
+  onChange: (text: string) => void;
+  onSubmit: (text: string) => void;
+  searchButtonAriaLabel?: string;
+  value: string;
+} & Omit<TextInputProps, 'id' | 'onChange' | 'onSubmit'>;
 
-/**
- * Search input uses HDS SearchInput component as a base.
- * This components sets default values for clearButtonAriaLabel and searchButtonAriaLabel
- * and have property to hide label
- */
 const SearchInput: React.FC<SearchInputProps> = ({
   className,
   clearButtonAriaLabel,
   hideLabel,
+  onChange,
+  onSubmit,
   searchButtonAriaLabel,
+  value,
   ...rest
 }) => {
   const { t } = useTranslation('common');
+  const id = useId();
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    onChange(event.target.value);
+  };
+  const doSearch = () => {
+    onSubmit(value);
+  };
+
+  const onInputKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      doSearch();
+    }
+  };
 
   return (
-    <HdsSearchInput
+    <TextInput
       {...rest}
+      buttonAriaLabel={searchButtonAriaLabel ?? t('common:search')}
+      buttonIcon={<IconSearch aria-hidden />}
       className={classNames(className, {
         [styles.hideLabel]: hideLabel,
       })}
+      clearButton={true}
       clearButtonAriaLabel={clearButtonAriaLabel ?? t('common:clear')}
-      searchButtonAriaLabel={searchButtonAriaLabel ?? t('common:search')}
+      id={id}
+      onButtonClick={doSearch}
+      onChange={handleChange}
+      onKeyUp={onInputKeyUp}
+      value={value}
     />
   );
 };

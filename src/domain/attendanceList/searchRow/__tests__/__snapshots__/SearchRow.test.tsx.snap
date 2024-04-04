@@ -11,45 +11,57 @@ exports[`should render component 1`] = `
       100 items
     </span>
     <div
-      class="SearchInput-module_root__sMwrY searchInput hideLabel"
+      class="TextInput-module_root__2CMNr text-input_hds-text-input__2LODq searchInput hideLabel"
     >
       <label
         class="FieldLabel-module_label__1zrXK "
-        for="downshift-0-input"
-        id="downshift-1-label"
+        for=":r0:"
       >
         Search
       </label>
       <div
-        class="SearchInput-module_wrapper__114JK"
+        class="TextInput-module_inputWrapper__3Rvel text-input_hds-text-input__input-wrapper__1OqYG"
       >
         <input
-          aria-autocomplete="list"
-          aria-controls="downshift-1-menu"
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="downshift-1-label"
-          aria-owns="downshift-1-menu"
-          autocomplete="off"
-          class="SearchInput-module_input__Addns"
-          enterkeyhint="search"
-          id="downshift-0-input"
+          class="TextInput-module_input__1BlHi text-input_hds-text-input__input__GJm5C TextInput-module_hasButton__2KCM1 TextInput-module_hasClearButton__3-tBe text-input_hds-text-input__input-clear__17qr1"
+          id=":r0:"
           placeholder="Search"
-          role="combobox"
+          type="text"
           value=""
         />
         <div
-          class="SearchInput-module_buttons__2O_2t search-input_hds-search-input__buttons__3PawT"
+          class="TextInput-module_buttonWrapper___filA text-input_hds-text-input__buttons__1RMzT"
         >
           <button
+            aria-label="Tyhjennä"
+            class="TextInput-module_button__1ySMX text-input_hds-text-input__button__1Fh0I TextInput-module_clearButton__bfCLI text-input_hds-text-input__button-clear__2ED7z"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              aria-label="cross-circle"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              role="img"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM15 7.5L16.5 9L13.5 12L16.5 15L15 16.5L12 13.5L9 16.5L7.5 15L10.5 12L7.5 9L9 7.5L12 10.5L15 7.5Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
             aria-label="Etsi"
-            class="SearchInput-module_button__z7NIp search-input_hds-search-input__button__1-cj-"
+            class="TextInput-module_button__1ySMX text-input_hds-text-input__button__1Fh0I"
             type="button"
           >
             <svg
               aria-hidden="true"
               aria-label="search"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik SearchInput-module_searchIcon__l1_S4"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -63,13 +75,6 @@ exports[`should render component 1`] = `
             </svg>
           </button>
         </div>
-        <ul
-          aria-labelledby="downshift-1-label"
-          class="SearchInput-module_menu__2P8CO"
-          id="downshift-1-menu"
-          role="listbox"
-          style="max-height: 416px;"
-        />
       </div>
     </div>
   </div>

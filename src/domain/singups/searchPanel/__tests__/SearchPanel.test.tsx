@@ -20,14 +20,8 @@ jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 configure({ defaultHidden: true });
 
-const getElement = (key: 'searchInput') => {
-  switch (key) {
-    case 'searchInput':
-      return screen.getByRole('combobox', {
-        name: /hae osallistujia/i,
-      });
-  }
-};
+const getSearchInput = () =>
+  screen.getByRole('textbox', { name: /hae osallistujia/i });
 
 const pushSignupsRoute = (query?: NextParsedUrlQuery) => {
   singletonRouter.push({
@@ -43,7 +37,7 @@ test('should initialize search panel input', async () => {
   pushSignupsRoute({ text: searchValue });
   renderComponent();
 
-  const searchInput = getElement('searchInput');
+  const searchInput = getSearchInput();
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
 });
 
@@ -55,7 +49,7 @@ test('should search signups with correct search params', async () => {
   renderComponent();
 
   // Text filtering
-  const searchInput = getElement('searchInput');
+  const searchInput = getSearchInput();
   fireEvent.change(searchInput, { target: { value: values.text } });
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 

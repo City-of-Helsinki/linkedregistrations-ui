@@ -15,7 +15,7 @@ export const getSignupsPageElement = (
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'searchInput':
-      return screen.getByRole('combobox', { name: 'Hae osallistujia' });
+      return screen.getByRole('textbox', { name: 'Hae osallistujia' });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
   }
