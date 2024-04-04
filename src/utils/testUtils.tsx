@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-console */
@@ -19,6 +20,7 @@ import { SessionProvider } from 'next-auth/react';
 import React, { useMemo } from 'react';
 import wait from 'waait';
 
+import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { NotificationsProvider } from '../common/components/notificationsContext/NotificationsContext';
 import { registration } from '../domain/registration/__mocks__/registration';
@@ -61,16 +63,18 @@ const customRender: CustomRender = (
     );
 
     return (
-      <NotificationsProvider>
-        <RouterContext.Provider value={value}>
-          <SessionProvider session={session}>
-            {/* @ts-ignore */}
-            <QueryClientProvider client={queryClient}>
-              {children as React.ReactElement}
-            </QueryClientProvider>
-          </SessionProvider>
-        </RouterContext.Provider>
-      </NotificationsProvider>
+      <AccessibilityNotificationProvider>
+        <NotificationsProvider>
+          <RouterContext.Provider value={value}>
+            <SessionProvider session={session}>
+              {/* @ts-ignore */}
+              <QueryClientProvider client={queryClient}>
+                {children as React.ReactElement}
+              </QueryClientProvider>
+            </SessionProvider>
+          </RouterContext.Provider>
+        </NotificationsProvider>
+      </AccessibilityNotificationProvider>
     );
   };
 

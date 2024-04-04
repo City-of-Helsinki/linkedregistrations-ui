@@ -110,6 +110,13 @@
     "text": "Tämän sisällön näkeminen edellyttää vahvaa tunnistautumista. Kirjaudu ulos ja kokeile toista kirjautumistapaa.",
     "title": "Vahva tunnistautuminen vaaditaan"
   },
+  "table": {
+    "accessibility": {
+      "noResultsFound": "Hakusi ei tuottanut yhtään tuloksia.",
+      "resultsFoundText": "{{count}} hakutulos löytynyt",
+      "resultsFoundText_other": "{{count}} hakutulosta löytynyt"
+    }
+  },
   "titleServerErrorSummary": "Lomakkeella on seuraavat virheet",
   "total": "Yhteensä",
   "validation": {

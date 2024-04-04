@@ -110,6 +110,13 @@
     "text": "Att se detta innehåll kräver stark identifiering. Logga ut och prova en annan inloggningsmetod.",
     "title": "Stark identifiering krävs"
   },
+  "table": {
+    "accessibility": {
+      "noResultsFound": "Din sökning gav inga resultat.",
+      "resultsFoundText": "{{count}} sökresultat hittades",
+      "resultsFoundText_other": "{{count}} sökresultat hittades"
+    }
+  },
   "titleServerErrorSummary": "Formuläret innehåller följande fel",
   "total": "Totalt",
   "validation": {

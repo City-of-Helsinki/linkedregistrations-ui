@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import useHandleError from '../../../hooks/useHandleError';
 import { ExtendedSession } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -106,9 +107,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
 
   return (
     <>
+      <SearchStatus count={filteredAttendees.length} loading={false} />
       <SearchRow
         countText={t('attendanceList:count', {
-          count: attendees.length,
+          count: filteredAttendees.length,
         })}
         onSearchSubmit={
           /* istanbul ignore next */

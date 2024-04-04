@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import 'hds-core/lib/base.min.css';
 import '../styles/main.scss';
@@ -14,6 +15,7 @@ import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation, SSRConfig } from 'next-i18next';
 import React, { useEffect } from 'react';
 
+import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { NotificationsProvider } from '../common/components/notificationsContext/NotificationsContext';
 import CookieConsent from '../domain/app/cookieConsent/CookieConsent';
 import PageLayout from '../domain/app/layout/pageLayout/PageLayout';
@@ -47,18 +49,20 @@ const MyApp = ({
   }, []);
 
   return (
-    <NotificationsProvider>
-      <SessionProvider session={session} refetchInterval={30}>
-        <QueryClientProvider client={queryClient}>
-          <HydrationBoundary state={pageProps.dehydratedState}>
-            <CookieConsent />
-            <PageLayout {...pageProps}>
-              <Component {...pageProps} />
-            </PageLayout>
-          </HydrationBoundary>
-        </QueryClientProvider>
-      </SessionProvider>
-    </NotificationsProvider>
+    <AccessibilityNotificationProvider>
+      <NotificationsProvider>
+        <SessionProvider session={session} refetchInterval={30}>
+          <QueryClientProvider client={queryClient}>
+            <HydrationBoundary state={pageProps.dehydratedState}>
+              <CookieConsent />
+              <PageLayout {...pageProps}>
+                <Component {...pageProps} />
+              </PageLayout>
+            </HydrationBoundary>
+          </QueryClientProvider>
+        </SessionProvider>
+      </NotificationsProvider>
+    </AccessibilityNotificationProvider>
   );
 };
 
