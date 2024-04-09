@@ -9,6 +9,12 @@
   "buttonActions": "Actions",
   "buttonBack": "Back",
   "cancel": "Undo",
+  "checkboxGroup": {
+    "accessibility": {
+      "hideOptionsNotification": "Some options hidden from the list",
+      "showAllOptionsNotification": "More options added to the list"
+    }
+  },
   "clear": "Clear",
   "close": "Close",
   "cookieConsent": {

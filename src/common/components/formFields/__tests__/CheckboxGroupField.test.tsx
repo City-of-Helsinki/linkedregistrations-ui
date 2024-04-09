@@ -44,10 +44,18 @@ test('should toggle visible options', async () => {
   });
 
   await user.click(screen.getByRole('button', { name: /näytä lisää/i }));
-
   restOptions.forEach(({ label }) => {
     screen.getByLabelText(label);
   });
+  expect(
+    await screen.findByText('Lisää vaihtoehtoja lisätty listaukseen')
+  ).toBeInTheDocument();
+
+  await user.click(screen.getByRole('button', { name: /näytä vähemmän/i }));
+  expect(screen.queryByLabelText(restOptions[0].label)).not.toBeInTheDocument();
+  expect(
+    await screen.findByText('Osa vaihtoehdoista piilotettu listauksesta')
+  ).toBeInTheDocument();
 });
 
 test('should show label with required indicator', async () => {

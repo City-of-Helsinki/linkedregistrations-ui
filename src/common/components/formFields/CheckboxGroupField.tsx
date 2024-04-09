@@ -4,6 +4,7 @@ import { IconAngleDown, IconAngleUp } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
+import useAccessibilityNotification from '../../../hooks/useAccessibilityNotification';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
@@ -47,6 +48,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   const { t } = useTranslation('common');
   const locale = useLocale();
   const [showAll, setShowAll] = React.useState(false);
+  const { setAccessibilityText } = useAccessibilityNotification();
 
   const visibleOptions = [...options].slice(
     0,
@@ -54,7 +56,14 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   );
 
   const toggleShowAll = () => {
-    setShowAll(!showAll);
+    setAccessibilityText(
+      t(
+        showAll
+          ? 'common:checkboxGroup.accessibility.hideOptionsNotification'
+          : 'common:checkboxGroup.accessibility.showAllOptionsNotification'
+      )
+    );
+    setShowAll((o) => !o);
   };
 
   const handleBlur = () => {

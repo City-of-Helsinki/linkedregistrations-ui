@@ -9,6 +9,12 @@
   "buttonActions": "Funktioner",
   "buttonBack": "Tillbaka",
   "cancel": "Ångra",
+  "checkboxGroup": {
+    "accessibility": {
+      "hideOptionsNotification": "Vissa alternativ dolda från listan",
+      "showAllOptionsNotification": "Fler alternativ har lagts till på listan"
+    }
+  },
   "clear": "Klar",
   "close": "Stäng",
   "cookieConsent": {

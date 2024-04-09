@@ -9,6 +9,12 @@
   "buttonActions": "Valinnat",
   "buttonBack": "Takaisin",
   "cancel": "Peruuta",
+  "checkboxGroup": {
+    "accessibility": {
+      "hideOptionsNotification": "Osa vaihtoehdoista piilotettu listauksesta",
+      "showAllOptionsNotification": "Lisää vaihtoehtoja lisätty listaukseen"
+    }
+  },
   "clear": "Tyhjennä",
   "close": "Sulje",
   "cookieConsent": {
