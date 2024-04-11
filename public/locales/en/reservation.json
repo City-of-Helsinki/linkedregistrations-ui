@@ -1,7 +1,20 @@
 {
+  "hour": "{{count}} hour",
+  "hour_other": "{{count}} hours",
+  "minute": "{{count}} minute",
+  "minute_other": "{{count}} minutes",
   "reservationTimeExpiredModal": {
     "buttonTryAgain": "Try Again",
     "text": "Unfortunately, the Reservation time has expired.",
     "title": "Time’s Up."
-  }
+  },
+  "reservationTimeExpiringModal": {
+    "buttonClose": "Close",
+    "text": "The reservation is about to expire in {{count}} seconds",
+    "text_other": "The reservation is about to expire in {{count}} seconds",
+    "title": "The reservation period is ending"
+  },
+  "second": "{{count}} second",
+  "second_other": "{{count}} seconds",
+  "timeLeft": "Time left to register"
 }

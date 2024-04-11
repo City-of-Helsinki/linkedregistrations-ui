@@ -1,7 +1,20 @@
 {
+  "hour": "{{count}} tunti",
+  "hour_other": "{{count}} tuntia",
+  "minute": "{{count}} minuutti",
+  "minute_other": "{{count}} minuuttia",
   "reservationTimeExpiredModal": {
     "buttonTryAgain": "Yritä uudelleen",
     "text": "Valitettavasti varausaika on umpeutunut.",
     "title": "Varausaika on täynnä."
-  }
+  },
+  "reservationTimeExpiringModal": {
+    "buttonClose": "Sulje",
+    "text": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+    "text_other": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+    "title": "Varauksen aika on päättymässä"
+  },
+  "second": "{{count}} sekunti",
+  "second_other": "{{count}} sekuntia",
+  "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon"
 }

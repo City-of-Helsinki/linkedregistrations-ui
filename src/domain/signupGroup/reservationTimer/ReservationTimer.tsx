@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
+import { useAccessibilityNotificationContext } from '../../../common/components/accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import { ROUTES } from '../../app/routes/constants';
 import { Registration } from '../../registration/types';
 import {
@@ -18,13 +19,22 @@ import useSeatsReservationActions from '../../signup/hooks/useSeatsReservationAc
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { clearCreateSignupGroupFormData } from '../../signupGroup/utils';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
+import ReservationTimeExpiringModal from '../modals/reservationTimeExpiringModal/ReservationTimeExpiringModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields } from '../types';
 
-const getTimeStr = (timeLeft: number) => {
+const EXPIRING_THRESHOLD = 60;
+
+const getTimeParts = (timeLeft: number) => {
   const hours = Math.floor(timeLeft / 3600);
   const minutes = Math.floor(timeLeft / 60) % 60;
   const seconds = timeLeft % 60;
+
+  return { hours, minutes, seconds };
+};
+
+const getTimeStr = (timeLeft: number) => {
+  const { hours, minutes, seconds } = getTimeParts(timeLeft);
 
   return [
     hours,
@@ -53,8 +63,10 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   setSignups,
   signups,
 }) => {
+  const isExpiringModalAlreadyDisplayed = useRef(false);
   const router = useRouter();
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation('reservation');
+  const { setAccessibilityText } = useAccessibilityNotificationContext();
 
   const creatingReservationStarted = useRef(false);
   const timerEnabled = useRef(false);
@@ -67,7 +79,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     setSignups,
     signups,
   });
-  const { openModal, setOpenModal } = useSignupGroupFormContext();
+  const { closeModal, openModal, setOpenModal } = useSignupGroupFormContext();
   const { setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
 
@@ -98,6 +110,19 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     }
   };
 
+  const setTimeLeftAndNotify = (newTimeLeft: number) => {
+    setTimeLeft(newTimeLeft);
+    const { hours, minutes, seconds } = getTimeParts(newTimeLeft);
+    setAccessibilityText(
+      [
+        `${t('reservation:timeLeft')}:`,
+        t('reservation:hour', { count: hours }),
+        t('reservation:minute', { count: minutes }),
+        t('reservation:second', { count: seconds }),
+      ].join(' ')
+    );
+  };
+
   React.useEffect(() => {
     const data = getSeatsReservationData(registrationId);
 
@@ -119,7 +144,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
           onSuccess: (seatsReservation) => {
             enableTimer();
             if (seatsReservation) {
-              setTimeLeft(getRegistrationTimeLeft(seatsReservation));
+              setTimeLeftAndNotify(getRegistrationTimeLeft(seatsReservation));
             }
           },
         });
@@ -128,7 +153,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       }
     } else if (data) {
       enableTimer();
-      setTimeLeft(getRegistrationTimeLeft(data));
+      setTimeLeftAndNotify(getRegistrationTimeLeft(data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -138,7 +163,8 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       /* istanbul ignore else */
       if (timerEnabled.current) {
         const data = getSeatsReservationData(registrationId);
-        setTimeLeft(getRegistrationTimeLeft(data));
+        const newTimeLeft = getRegistrationTimeLeft(data);
+        setTimeLeft(newTimeLeft);
 
         /* istanbul ignore else */
         if (!callbacksDisabled) {
@@ -152,6 +178,17 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
             // Show modal only if user is authenticated
             if (session) {
               setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
+            }
+          } else if (
+            !isExpiringModalAlreadyDisplayed.current &&
+            newTimeLeft <= EXPIRING_THRESHOLD
+          ) {
+            const session = await getSession();
+
+            // Show modal only if user is authenticated
+            if (session) {
+              setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
+              isExpiringModalAlreadyDisplayed.current = true;
             }
           }
         }
@@ -173,13 +210,18 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
 
   return (
     <>
+      <ReservationTimeExpiringModal
+        isOpen={openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRING}
+        onClose={closeModal}
+        timeLeft={timeLeft}
+      />
       <ReservationTimeExpiredModal
         isOpen={openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRED}
         onTryAgain={handleTryAgain}
       />
 
       <div>
-        {t('timeLeft')}{' '}
+        {t('reservation:timeLeft')}{' '}
         <strong>{timeLeft !== null && getTimeStr(timeLeft)}</strong>
       </div>
     </>

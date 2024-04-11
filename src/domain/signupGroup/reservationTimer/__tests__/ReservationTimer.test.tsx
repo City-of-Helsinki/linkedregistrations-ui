@@ -117,6 +117,28 @@ test('should show modal if reserved seats are in waiting list', async () => {
   await waitFor(() => expect(modal).not.toBeInTheDocument());
 });
 
+test('should display reservation expiring modal if there is less than 60 seconds left', async () => {
+  const user = userEvent.setup();
+
+  setSignupGroupFormSessionStorageValues({
+    registrationId: registration.id,
+    seatsReservation: getMockedSeatsReservationData(59),
+  });
+
+  setQueryMocks(mockedUserResponse);
+  renderComponent();
+
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Varauksen aika on päättymässä' },
+    { timeout: 5000 }
+  );
+  const closeButton = within(modal).getByRole('button', { name: 'Sulje' });
+  await user.click(closeButton);
+
+  await waitFor(() => expect(modal).not.toBeInTheDocument());
+});
+
 test('should route to create signup group page if reservation is expired', async () => {
   const user = userEvent.setup();
 
