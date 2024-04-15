@@ -118,7 +118,6 @@ test('should validate signup group form and focus invalid field', async () => {
   const contactPersonPhoneInput = getSignupFormElement(
     'contactPersonPhoneInput'
   );
-  const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
   const serviceLanguageButton = getSignupFormElement('serviceLanguageButton');
   const acceptCheckbox = getSignupFormElement('acceptCheckbox');
   const submitButton = getSignupFormElement('submitButton');
@@ -160,14 +159,6 @@ test('should validate signup group form and focus invalid field', async () => {
 
   await user.type(emailInput, signupValues.email);
   await user.type(contactPersonPhoneInput, signupValues.phoneNumber);
-  await user.click(submitButton);
-  await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
-
-  await user.click(nativeLanguageButton);
-  const nativeLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  await user.click(nativeLanguageOption);
   await user.click(submitButton);
   await waitFor(() => expect(serviceLanguageButton).toHaveFocus());
 

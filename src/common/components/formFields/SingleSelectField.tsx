@@ -29,7 +29,7 @@ const SingleSelectField: React.FC<Props> = ({
     // to an infinite loop when changing value
     setTimeout(() => {
       onChange({
-        target: { id: name, value: selected.value },
+        target: { id: name, value: selected?.value },
       });
     }, 5);
   };

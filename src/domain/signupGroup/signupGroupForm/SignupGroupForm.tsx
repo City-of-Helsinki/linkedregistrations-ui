@@ -491,6 +491,7 @@ const SignupGroupForm: React.FC<Props> = ({
                     <FormGroup>
                       <div className={styles.nativeLanguageRow}>
                         <Field
+                          clearable
                           component={SingleSelectField}
                           name={getContactPersonFieldName(
                             CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE
@@ -505,7 +506,6 @@ const SignupGroupForm: React.FC<Props> = ({
                           placeholder={getPlaceholder(
                             t(`contactPerson.placeholderNativeLanguage`)
                           )}
-                          required
                           title={titleCannotEditContactPerson}
                         />
                         <Field
