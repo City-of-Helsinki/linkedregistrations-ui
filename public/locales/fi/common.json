@@ -145,6 +145,7 @@
       "charsLeft_other": "{{count}} merkkiä jäljellä",
       "date": "Tämän kentän on oltava kelvollinen päivämäärä",
       "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
+      "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
       "phone": "Tämän kentän on oltava kelvollinen puhelinnumero",
       "required": "Tämä kenttä on pakollinen",
       "zip": "Tämän kentän on oltava kelvollinen postinumero"

@@ -145,6 +145,7 @@
       "charsLeft_other": "{{count}} tecken kvar",
       "date": "Detta fält måste vara ett giltigt datum",
       "email": "Detta fält måste vara en giltig e-postmeddelande",
+      "max": "Detta fält kan vara upp till {{max}} tecken långt",
       "phone": "Detta fält måste vara en giltig telefonnummer",
       "required": "Detta fält krävs",
       "zip": "Detta fält måste vara en giltig postnummer"

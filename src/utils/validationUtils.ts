@@ -1,6 +1,12 @@
 import { TFunction } from 'next-i18next';
 
+import { VALIDATION_MESSAGE_KEYS } from '../constants';
 import { Error } from '../types';
+
+const createMaxErrorMessage = (
+  message: { max: number },
+  key: string
+): Record<string, unknown> => ({ ...message, key });
 
 export const createMinErrorMessage = (
   message: { min: number },
@@ -11,6 +17,11 @@ export const createMinErrorMessage = (
     key,
   };
 };
+
+export const createStringMaxErrorMessage = (message: {
+  max: number;
+}): Record<string, unknown> =>
+  createMaxErrorMessage(message, VALIDATION_MESSAGE_KEYS.STRING_MAX);
 
 export const isValidPhoneNumber = (phone: string): boolean =>
   /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{3,4}( ?-?\d{3})?/.test(phone);

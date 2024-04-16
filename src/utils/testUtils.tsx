@@ -142,6 +142,14 @@ type CustomRenderResult = RenderResult;
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
+const mockNumberString = (size: number): string =>
+  [...Array(size)]
+    .map(() => Math.floor(Math.random() * 10).toString())
+    .join('');
+
+const mockString = (size: number): string =>
+  [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
+
 const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
   waitFor(
     () => {
@@ -151,7 +159,13 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
   );
 
 // eslint-disable-next-line import/export
-export { actWait, customRender as render, loadingSpinnerIsNotInDocument };
+export {
+  actWait,
+  customRender as render,
+  loadingSpinnerIsNotInDocument,
+  mockNumberString,
+  mockString,
+};
 
 // re-export everything
 // eslint-disable-next-line import/export

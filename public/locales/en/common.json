@@ -144,6 +144,7 @@
       "charsLeft_other": "{{count}} characters left",
       "date": "This field must be a valid date",
       "email": "This field must be a valid email",
+      "max": "This field can be up to {{max}} characters long",
       "phone": "This field must be a valid phone number",
       "required": "This field is required",
       "zip": "This field must be a valid postcode"

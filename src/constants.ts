@@ -17,6 +17,7 @@ export enum VALIDATION_MESSAGE_KEYS {
   EMAIL = 'validation.string.email',
   PHONE = 'validation.string.phone',
   SIGNUP_USER_CONSENT = 'validation.signupUserConsent',
+  STRING_MAX = 'validation.string.max',
   STRING_REQUIRED = 'validation.string.required',
   ZIP = 'validation.string.zip',
 }
