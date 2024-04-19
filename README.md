@@ -111,6 +111,13 @@ e.g. https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/22/signu
 
 This parameter can be used to redirect user automatically to selected url after successful signup. It's important to include also protocol to the url.
 
+## Commit message format
+
+New commit messages must adhere to the [Conventional Commits](https://www.conventionalcommits.org/)
+specification, and line length is limited to 72 characters.
+
+[`commitlint`](https://github.com/conventional-changelog/commitlint) checks new commit messages for the correct format.
+
 ## Available Scripts
 
 In the project directory, you can run:
