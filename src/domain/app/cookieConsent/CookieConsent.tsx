@@ -18,16 +18,21 @@ const CookieConsent: FC = () => {
 
   const { changeLanguage } = useSelectLanguage();
 
-  const onLanguageChange = async (lang: string) => {
+  const onLanguageChange = (lang: string) => {
     changeLanguage(lang);
     i18n.changeLanguage(lang);
   };
 
+  // TODO: remove this when HDS CookieModal handles this itself
+  // istanbul ignore next
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
   return (
     <CookieModal
-      cookieDomain={hostname}
       contentSource={{
-        siteName: t('cookieConsent.siteName') as string,
+        siteName: t('cookieConsent.siteName'),
         currentLanguage: locale,
         requiredCookies: {
           groups: [
@@ -41,11 +46,9 @@ const CookieConsent: FC = () => {
                 {
                   id: 'signupForm',
                   hostName: hostname,
-                  name: t('cookieConsent.signupForm.name') as string,
-                  description: t(
-                    'cookieConsent.signupForm.description'
-                  ) as string,
-                  expiration: t('cookieConsent.expiration.session') as string,
+                  name: t('cookieConsent.signupForm.name'),
+                  description: t('cookieConsent.signupForm.description'),
+                  expiration: t('cookieConsent.expiration.session'),
                 },
               ],
             },
