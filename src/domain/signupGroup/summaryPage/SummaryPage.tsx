@@ -89,7 +89,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
   };
 
   const goToPaymentPage = (payment: Payment) => {
-    window.open(payment.logged_in_checkout_url, '_self', 'noopener,noreferrer');
+    window.open(payment.checkout_url, '_self', 'noopener,noreferrer');
   };
   const goToSignupCompletedPage = (signupId: string) => {
     clearTimerAndStorage();
