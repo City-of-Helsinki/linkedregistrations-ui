@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import classNames from 'classnames';
 import { ErrorMessage, FieldProps } from 'formik';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import useAccessibilityNotification from '../../../hooks/useAccessibilityNotification';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
+import { useAccessibilityNotificationContext } from '../accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
 import { RequiredIndicator } from '../requiredIndicator/RequiredIndicator';
@@ -48,7 +49,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   const { t } = useTranslation('common');
   const locale = useLocale();
   const [showAll, setShowAll] = React.useState(false);
-  const { setAccessibilityText } = useAccessibilityNotification();
+  const { setAccessibilityText } = useAccessibilityNotificationContext();
 
   const visibleOptions = [...options].slice(
     0,
