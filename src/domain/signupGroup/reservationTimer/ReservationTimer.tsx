@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useAccessibilityNotificationContext } from '../../../common/components/accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import { ROUTES } from '../../app/routes/constants';
 import { Registration } from '../../registration/types';
+import { SeatsReservation } from '../../reserveSeats/types';
 import {
   clearSeatsReservationData,
   getRegistrationTimeLeft,
@@ -159,41 +160,42 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   }, []);
 
   React.useEffect(() => {
+    const isReservationExpired = (reservation: SeatsReservation | null) =>
+      !reservation || isSeatsReservationExpired(reservation);
+
+    const isReservationExpiring = (timeLeft: number) =>
+      !isExpiringModalAlreadyDisplayed.current &&
+      timeLeft <= EXPIRING_THRESHOLD;
+
     const clearDataIfReservationExpired = async () => {
       /* istanbul ignore else */
-      if (timerEnabled.current) {
+      if (timerEnabled.current && !callbacksDisabled) {
+        const session = await getSession();
         const data = getSeatsReservationData(registrationId);
         const newTimeLeft = getRegistrationTimeLeft(data);
-        setTimeLeft(newTimeLeft);
 
-        /* istanbul ignore else */
-        if (!callbacksDisabled) {
-          if (!data || isSeatsReservationExpired(data)) {
-            disableCallbacks();
+        if (isReservationExpired(data)) {
+          disableCallbacks();
 
-            clearCreateSignupGroupFormData(registrationId);
-            clearSeatsReservationData(registrationId);
-            const session = await getSession();
+          clearCreateSignupGroupFormData(registrationId);
+          clearSeatsReservationData(registrationId);
 
-            // Show modal only if user is authenticated
-            if (session) {
-              setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
-            }
-          } else if (
-            !isExpiringModalAlreadyDisplayed.current &&
-            newTimeLeft <= EXPIRING_THRESHOLD
-          ) {
-            const session = await getSession();
-
-            // Show modal only if user is authenticated
-            if (session) {
-              setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
-              isExpiringModalAlreadyDisplayed.current = true;
-            }
+          // Show modal only if user is authenticated
+          if (session) {
+            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
+          }
+        } else if (isReservationExpiring(newTimeLeft)) {
+          // Show modal only if user is authenticated
+          if (session) {
+            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
+            isExpiringModalAlreadyDisplayed.current = true;
           }
         }
+
+        setTimeLeft(newTimeLeft);
       }
     };
+
     const interval = setInterval(() => {
       clearDataIfReservationExpired();
     }, 1000);
