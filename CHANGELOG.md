@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.7.0...linkedregistrations-ui-v0.7.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* Fix node version in dockerfile production stage ([ea9426f](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/ea9426f5a857cf1e579a8d6e0277a83942fe38b1))
+
 ## [0.7.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.6.0...linkedregistrations-ui-v0.7.0) (2024-04-26)
 
 
