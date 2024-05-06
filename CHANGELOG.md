@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.7.1...linkedregistrations-ui-v0.8.0) (2024-05-06)
+
+
+### Features
+
+* Add commit lint to the project ([fd39cae](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/fd39caeaf33c668b2378a8d7ee6ea98abf36bb4c))
+
+
+### Bug Fixes
+
+* Validate max lengths of signup fields ([45356b0](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/45356b0211c43d394d84d7c087934773d6a82b87))
+
 ## [0.7.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.7.0...linkedregistrations-ui-v0.7.1) (2024-04-29)
 
 
