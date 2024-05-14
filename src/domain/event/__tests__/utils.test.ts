@@ -11,8 +11,9 @@ import {
 } from '../../../utils/mockDataUtils';
 import { imagesResponse } from '../../image/__mocks__/image';
 import { event } from '../__mocks__/event';
-import { TEST_EVENT_ID } from '../constants';
+import { SuperEventType, TEST_EVENT_ID } from '../constants';
 import {
+  createEventIcsFile,
   downloadEventIcsFile,
   getEventAttributes,
   getEventFields,
@@ -175,6 +176,71 @@ describe('getEventAttributes', () => {
   });
 });
 
+describe('createEventIcsFile', () => {
+  const commonEventOverrides = {
+    id: TEST_EVENT_ID,
+    location: fakePlace({
+      address_locality: fakeLocalisedObject('Helsinki'),
+      name: fakeLocalisedObject('Location name'),
+      street_address: fakeLocalisedObject('Street address'),
+    }),
+    name: fakeLocalisedObject('name'),
+    short_description: fakeLocalisedObject('description'),
+  };
+
+  const commonEventFileValues = {
+    description: 'description',
+    end: [2020, 7, 13, 5, 51],
+    location: 'Location name, Street address, Helsinki',
+    start: [2020, 7, 13, 5, 51],
+  };
+
+  it('should create ics file for single event', async () => {
+    const createEvents = jest.spyOn(ics, 'createEvents');
+
+    await createEventIcsFile({
+      event: fakeEvent(commonEventOverrides),
+      filename: '',
+      locale: 'fi',
+    });
+
+    expect(createEvents).toHaveBeenCalledWith(
+      [{ ...commonEventFileValues, title: 'name' }],
+      expect.anything()
+    );
+  });
+
+  it('should create ics file for recurring event', async () => {
+    const createEvents = jest.spyOn(ics, 'createEvents');
+
+    await createEventIcsFile({
+      event: fakeEvent({
+        super_event_type: SuperEventType.Recurring,
+        sub_events: [
+          fakeEvent({
+            ...commonEventOverrides,
+            name: fakeLocalisedObject('sub-event 1'),
+          }),
+          fakeEvent({
+            ...commonEventOverrides,
+            name: fakeLocalisedObject('sub-event 2'),
+          }),
+        ],
+      }),
+      filename: '',
+      locale: 'fi',
+    });
+
+    expect(createEvents).toHaveBeenCalledWith(
+      [
+        { ...commonEventFileValues, title: 'sub-event 1' },
+        { ...commonEventFileValues, title: 'sub-event 2' },
+      ],
+      expect.anything()
+    );
+  });
+});
+
 describe('downloadEventIcsFile', () => {
   it('should download the file successfully', async () => {
     const link = { click: jest.fn() } as any;
@@ -198,7 +264,7 @@ describe('downloadEventIcsFile', () => {
 
   it('should call addNotification if ics createEvent fails', async () => {
     jest
-      .spyOn(ics, 'createEvent')
+      .spyOn(ics, 'createEvents')
       .mockImplementation(((_: any, callback: ics.NodeCallback) =>
         callback(new Error('error'), '')) as any);
     const addNotification = jest.fn();

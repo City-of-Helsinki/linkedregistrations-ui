@@ -1,10 +1,17 @@
-import { ButtonProps, ButtonVariant, IconCalendar } from 'hds-react';
+import {
+  ButtonProps,
+  ButtonVariant,
+  IconCalendar,
+  LoadingSpinner,
+} from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import { FC, MouseEventHandler } from 'react';
 
 import Button from '../../../common/components/button/Button';
 import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import useLocale from '../../../hooks/useLocale';
+import { SuperEventType } from '../constants';
+import useEventWithSubEventsData from '../hooks/useEventWithSubEventsData';
 import { Event } from '../types';
 import { downloadEventIcsFile } from '../utils';
 
@@ -14,6 +21,7 @@ export type EventCalendarButtonProps = {
 } & Omit<ButtonProps, 'children' | 'onClick'>;
 
 const EventCalendarButton: FC<EventCalendarButtonProps> = ({
+  disabled,
   event,
   onClick,
   variant = 'secondary',
@@ -23,18 +31,43 @@ const EventCalendarButton: FC<EventCalendarButtonProps> = ({
   const { t } = useTranslation('common');
   const { addNotification } = useNotificationsContext();
 
+  const { eventWithSubEvents, isLoading: isLoadingEvent } =
+    useEventWithSubEventsData({
+      id: event.id,
+      superEventType: event.super_event_type,
+    });
+
   const handleClick: MouseEventHandler<HTMLButtonElement> = (ev) => {
     if (onClick) {
       onClick(ev);
     } else {
-      downloadEventIcsFile({ addNotification, event, locale, t });
+      downloadEventIcsFile({
+        addNotification,
+        event:
+          event.super_event_type === SuperEventType.Recurring
+            ? (eventWithSubEvents as Event)
+            : event,
+        locale,
+        t,
+      });
     }
   };
 
   return (
     <Button
       {...rest}
-      iconLeft={<IconCalendar aria-hidden />}
+      disabled={
+        // istanbul ignore next
+        isLoadingEvent ?? disabled
+      }
+      iconLeft={
+        isLoadingEvent ? (
+          <LoadingSpinner small />
+        ) : (
+          <IconCalendar aria-hidden={true} />
+        )
+      }
+      loadingText={t('common:eventCalendarButton.label')}
       onClick={handleClick}
       variant={variant as Exclude<ButtonVariant, 'supplementary'>}
     >

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { DateArray, DateTime, EventAttributes, createEvent } from 'ics';
+import { DateArray, DateTime, EventAttributes, createEvents } from 'ics';
 import { TFunction } from 'next-i18next';
 
 import { AddNotificationFn } from '../../common/components/notificationsContext/NotificationsContext';
@@ -9,6 +9,7 @@ import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
 import { callGet } from '../app/axios/axiosClient';
 import { getPlaceFields } from '../place/utils';
 
+import { SuperEventType } from './constants';
 import { Event, EventFields, EventQueryVariables } from './types';
 
 export const getEventFields = (event: Event, locale: Language): EventFields => {
@@ -82,6 +83,31 @@ export const getEventAttributes = ({
   return eventAttributes;
 };
 
+export const createEventIcsFile = async ({
+  event,
+  filename,
+  locale,
+}: {
+  event: Event;
+  filename: string;
+  locale: Language;
+}): Promise<File> =>
+  new Promise((resolve, reject) => {
+    createEvents(
+      event.super_event_type === SuperEventType.Recurring
+        ? event.sub_events.map((subEvent) =>
+            getEventAttributes({ event: subEvent, locale })
+          )
+        : [getEventAttributes({ event, locale })],
+      (error, value) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(new File([value], filename, { type: 'text/calendar' }));
+      }
+    );
+  });
+
 export const downloadEventIcsFile = async ({
   addNotification,
   event,
@@ -95,13 +121,11 @@ export const downloadEventIcsFile = async ({
 }) => {
   try {
     const filename = `event_${event.id}.ics`;
-    const file: File = await new Promise((resolve, reject) => {
-      createEvent(getEventAttributes({ event, locale }), (error, value) => {
-        if (error) {
-          reject(error);
-        }
-        resolve(new File([value], filename, { type: 'text/calendar' }));
-      });
+
+    const file: File = await createEventIcsFile({
+      event,
+      filename,
+      locale,
     });
 
     const href = URL.createObjectURL(file);
