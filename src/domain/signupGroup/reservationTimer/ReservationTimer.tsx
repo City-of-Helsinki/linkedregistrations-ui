@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import pick from 'lodash/pick';
 import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -65,6 +65,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   signups,
 }) => {
   const isExpiringModalAlreadyDisplayed = useRef(false);
+  const { data: session } = useSession();
   const router = useRouter();
   const { t } = useTranslation('reservation');
   const { setAccessibilityText } = useAccessibilityNotificationContext();
@@ -149,7 +150,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
             }
           },
         });
-      } else if (!data) {
+      } else {
         onDataNotFound && onDataNotFound();
       }
     } else if (data) {
@@ -170,7 +171,6 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     const clearDataIfReservationExpired = async () => {
       /* istanbul ignore else */
       if (timerEnabled.current && !callbacksDisabled) {
-        const session = await getSession();
         const data = getSeatsReservationData(registrationId);
         const newTimeLeft = getRegistrationTimeLeft(data);
 
@@ -205,6 +205,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     callbacksDisabled,
     disableCallbacks,
     registrationId,
+    session,
     setOpenModal,
     setTimeLeft,
     timeLeft,
