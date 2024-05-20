@@ -1,3 +1,4 @@
+import mapValues from 'lodash/mapValues';
 import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, {
   Account,
@@ -146,7 +147,7 @@ export const jwtCallback = async (params: {
 
   if (refreshedToken?.error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return undefined as any;
+    return null as any;
   }
 
   return refreshedToken;
@@ -163,7 +164,12 @@ export const sessionCallback = (params: {
 
   const { user, apiTokens, idToken } = token;
 
-  return { ...session, apiTokens, idToken, user };
+  return {
+    ...session,
+    apiTokens,
+    idToken,
+    user: mapValues(user, (value) => value ?? null) as OidcUser,
+  };
 };
 
 export const redirectCallback = async ({

@@ -199,7 +199,7 @@ describe('jwtCallback function', () => {
     expect(jwt).toEqual(token);
   });
 
-  test('should return undefined if refreshing token fails', async () => {
+  test('should return null if refreshing token fails', async () => {
     advanceTo('2023-01-01');
 
     jest
@@ -210,7 +210,7 @@ describe('jwtCallback function', () => {
       token: { ...token, accessTokenExpires: 1662531200000 },
     });
 
-    expect(jwt).toEqual(undefined);
+    expect(jwt).toEqual(null);
   });
 
   test('should refresh api token', async () => {
