@@ -3,6 +3,7 @@ import { mockConfig } from '../mockNextJsConfig';
 
 const publicRuntimeConfig = {
   linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
+  webStoreApiBaseUrl: 'https://payment-test.com/v1',
 };
 
 describe('getPublicRuntimeConfig function', () => {
@@ -13,6 +14,7 @@ describe('getPublicRuntimeConfig function', () => {
 
   const cases: [Record<string, string>][] = [
     [{ ...publicRuntimeConfig, linkedEventsApiBaseUrl: '' }],
+    [{ ...publicRuntimeConfig, webStoreApiBaseUrl: '' }],
   ];
 
   it.each(cases)(

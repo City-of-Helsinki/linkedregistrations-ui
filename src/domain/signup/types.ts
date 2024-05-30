@@ -1,5 +1,4 @@
 import { Meta, stringOrNull } from '../api/types';
-import { Payment } from '../payment/types';
 import { PriceGroupDense } from '../priceGroup/types';
 
 import {
@@ -53,6 +52,19 @@ export type ContactPerson = {
   service_language?: stringOrNull;
 };
 
+export type SignupPayment = {
+  amount: string;
+  checkout_url: string;
+  created_by?: stringOrNull;
+  created_time: stringOrNull;
+  external_order_id: string;
+  id: number;
+  last_modified_by?: stringOrNull;
+  last_modified_time: stringOrNull;
+  logged_in_checkout_url: string;
+  status: string;
+};
+
 export type SignupPriceGroup = {
   id: number;
   price_group: PriceGroupDense;
@@ -78,7 +90,7 @@ export type Signup = {
   last_modified_by: stringOrNull;
   last_modified_time: stringOrNull;
   last_name?: stringOrNull;
-  payment: Payment | null;
+  payment: SignupPayment | null;
   phone_number: stringOrNull;
   presence_status?: PRESENCE_STATUS;
   price_group: SignupPriceGroup | null;

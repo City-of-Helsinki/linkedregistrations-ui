@@ -23,7 +23,7 @@ test('should return event', async () => {
   await waitFor(() => expect(result.current.data).toEqual(event));
 });
 
-test('should return service languages', async () => {
+test('should return error for the failing event query', async () => {
   console.error = jest.fn();
   const error = { errorMessage: 'Failed to fetch event' };
   setQueryMocks(

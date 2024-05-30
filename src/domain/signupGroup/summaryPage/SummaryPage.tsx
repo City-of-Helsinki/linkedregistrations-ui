@@ -20,7 +20,6 @@ import MainContent from '../../app/layout/mainContent/MainContent';
 import { ROUTES } from '../../app/routes/constants';
 import { Event } from '../../event/types';
 import NotFound from '../../notFound/NotFound';
-import { Payment } from '../../payment/types';
 import useEventAndRegistrationData from '../../registration/hooks/useEventAndRegistrationData';
 import { Registration } from '../../registration/types';
 import { isSignupEnded } from '../../registration/utils';
@@ -29,6 +28,7 @@ import { SIGNUP_ACTIONS, SIGNUP_QUERY_PARAMS } from '../../signup/constants';
 import useSignupActions from '../../signup/hooks/useSignupActions';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SignupServerErrorsProvider } from '../../signup/signupServerErrorsContext/SignupServerErrorsContext';
+import { SignupPayment } from '../../signup/types';
 import AuthenticationRequiredNotification from '../authenticationRequiredNotification/AuthenticationRequiredNotification';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import Divider from '../divider/Divider';
@@ -88,7 +88,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     clearSeatsReservationData(registration.id);
   };
 
-  const goToPaymentPage = (payment: Payment) => {
+  const goToPaymentPage = (payment: SignupPayment) => {
     window.open(payment.checkout_url, '_self', 'noopener,noreferrer');
   };
   const goToSignupCompletedPage = (signupId: string) => {

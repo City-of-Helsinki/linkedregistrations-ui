@@ -12,7 +12,10 @@ export const mockConfig = (
 
 export const mockDefaultConfig = () => {
   mockConfig(
-    { linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1' },
+    {
+      linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
+      webStoreApiBaseUrl: 'https://payment-test.com/v1',
+    },
     {
       env: 'development',
       oidcIssuer: 'https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus',

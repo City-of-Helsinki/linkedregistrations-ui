@@ -11,7 +11,7 @@ import React from 'react';
 import { ExtendedSession } from '../../../../types';
 import formatDate from '../../../../utils/formatDate';
 import {
-  fakePayment,
+  fakeSignupPayment,
   fakeSignup,
   fakeSignupGroup,
   getMockedSeatsReservationData,
@@ -59,7 +59,7 @@ beforeEach(() => {
 const signup = fakeSignup({ id: TEST_SIGNUP_ID });
 const signupWithPayment = fakeSignup({
   id: TEST_SIGNUP_ID,
-  payment: fakePayment({ logged_in_checkout_url: 'https://payment.com' }),
+  payment: fakeSignupPayment({ logged_in_checkout_url: 'https://payment.com' }),
 });
 
 const signupGroup = fakeSignupGroup({
@@ -70,7 +70,7 @@ const signupGroup = fakeSignupGroup({
 const signupGroupWithPayment = fakeSignupGroup({
   id: TEST_SIGNUP_GROUP_ID,
   signups: [signup, fakeSignup()],
-  payment: fakePayment({ logged_in_checkout_url: 'https://payment.com' }),
+  payment: fakeSignupPayment({ logged_in_checkout_url: 'https://payment.com' }),
 });
 
 const signupValues = {

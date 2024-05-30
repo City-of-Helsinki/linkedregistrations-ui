@@ -8,6 +8,20 @@ const { i18n } = require('./next-i18next.config');
 const moduleExports = {
   i18n,
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/payment/cancelled',
+        destination: '/failure',
+        permanent: true,
+      },
+      {
+        source: '/payment/completed',
+        destination: '/success',
+        permanent: true,
+      },
+    ];
+  },
   swcMinify: true,
   sassOptions: {
     includePaths: ['src/styles'],
@@ -19,6 +33,7 @@ const moduleExports = {
   },
   publicRuntimeConfig: {
     linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
+    webStoreApiBaseUrl: process.env.NEXT_PUBLIC_WEB_STORE_API_BASE_URL,
   },
   serverRuntimeConfig: {
     env: process.env.NEXT_ENV,

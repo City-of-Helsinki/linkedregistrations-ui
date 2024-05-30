@@ -31,7 +31,6 @@ const customJestConfig = {
     '<rootDir>/src/utils/mockSession.ts',
     '<rootDir>/src/utils/testUtils.ts',
     'constants.ts',
-    'query.ts',
     'types.ts',
   ],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],

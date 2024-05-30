@@ -1,12 +1,12 @@
 import { OptionType } from '../../types';
 import { stringOrNull } from '../api/types';
-import { Payment } from '../payment/types';
 import { ATTENDEE_STATUS } from '../signup/constants';
 import {
   ContactPerson,
   ContactPersonInput,
   Signup,
   SignupInput,
+  SignupPayment,
 } from '../signup/types';
 
 import {
@@ -43,7 +43,7 @@ export type UpdateSignupGroupMutationInput = Omit<
 export type CreateOrUpdateSignupGroupResponse = {
   extra_info: string;
   id: string;
-  payment: Payment | null;
+  payment: SignupPayment | null;
   registration: string;
   signups: Signup[];
 };
@@ -58,7 +58,7 @@ export type SignupGroup = {
   is_created_by_current_user: boolean;
   last_modified_by: stringOrNull;
   last_modified_time: stringOrNull;
-  payment: Payment | null;
+  payment: SignupPayment | null;
   registration: string;
   signups: Signup[];
 };

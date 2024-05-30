@@ -96,6 +96,7 @@ Use .env.local for development.
 | NEXTAUTH_URL                              | Canonical url of the site used by next-auth                                                                                |
 | NEXT_ENV                                  | 'development' or 'production'                                                                                              |
 | NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED | Flag to enable Tapla integration. Default is false                                                                         |
+| NEXT_PUBLIC_WEB_STORE_API_BASE_URL        | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
 
 ## Url parameters
 

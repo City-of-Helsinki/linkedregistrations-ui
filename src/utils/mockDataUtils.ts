@@ -16,7 +16,6 @@ import { Event, Offer } from '../domain/event/types';
 import { Image, ImagesResponse } from '../domain/image/types';
 import { Keyword, KeywordsResponse } from '../domain/keyword/types';
 import { LanguagesResponse, LELanguage } from '../domain/language/types';
-import { Payment } from '../domain/payment/types';
 import { Place } from '../domain/place/types';
 import {
   PriceGroupDense,
@@ -36,6 +35,7 @@ import {
 import {
   ContactPerson,
   Signup,
+  SignupPayment,
   SignupPriceGroup,
   SignupsResponse,
 } from '../domain/signup/types';
@@ -413,11 +413,13 @@ export const fakeSignupGroup = (
   );
 };
 
-export const fakePayment = (overrides?: Partial<Payment>): Payment => {
+export const fakeSignupPayment = (
+  overrides?: Partial<SignupPayment>
+): SignupPayment => {
   const id = overrides?.id || faker.number.int();
   const order_id = faker.string.uuid();
 
-  return merge<Payment, typeof overrides>(
+  return merge<SignupPayment, typeof overrides>(
     {
       id,
       amount: '12.00',

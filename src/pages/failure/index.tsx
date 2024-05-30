@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 
-import PaymentCancelledPage from '../../../domain/payment/PaymentCancelledPage';
-import getServerSideTranslations from '../../../utils/getServerSideTranslations';
+import PaymentCancelledPage from '../../domain/payment/PaymentCancelledPage';
+import getServerSideTranslations from '../../utils/getServerSideTranslations';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
   props: {
@@ -12,6 +12,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
     })),
   },
 });
+
 const PaymentCancelled = (): React.ReactElement => {
   return <PaymentCancelledPage />;
 };

@@ -67,6 +67,7 @@ describe('useUpdateSignupMutation', () => {
     );
     result.current.mutate({
       id: TEST_SIGNUP_ID,
+      phone_number: '',
       registration: TEST_REGISTRATION_ID,
       user_consent: true,
     });
@@ -90,6 +91,7 @@ describe('useUpdateSignupMutation', () => {
     );
     result.current.mutate({
       id: TEST_SIGNUP_ID,
+      phone_number: '',
       registration: TEST_REGISTRATION_ID,
       user_consent: true,
     });

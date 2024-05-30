@@ -13,6 +13,7 @@ import { ROUTES } from '../domain/app/routes/constants';
 import { mockedRegistrationWithUserAccessResponse } from '../domain/attendanceList/__mocks__/attendanceListPage';
 import { eventName } from '../domain/event/__mocks__/event';
 import { mockedLanguagesResponses } from '../domain/language/__mocks__/languages';
+import { TEST_ORDER_ID } from '../domain/order/constants';
 import { registration } from '../domain/registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import { signup } from '../domain/signup/__mocks__/signup';
@@ -27,15 +28,13 @@ import {
 } from '../domain/signupGroup/constants';
 import { SignupGroupFormFields } from '../domain/signupGroup/types';
 import { mockedUserResponse } from '../domain/user/__mocks__/user';
+import { TEST_USER_ID } from '../domain/user/constants';
+import PaymentCancelledPage, {
+  getServerSideProps as getPaymentCancelledPageServerSideProps,
+} from '../pages/failure';
 import LogoutPage, {
   getServerSideProps as getLogoutPageServerSideProps,
 } from '../pages/logout';
-import PaymentCancelledPage, {
-  getServerSideProps as getPaymentCancelledPageServerSideProps,
-} from '../pages/payment/cancelled';
-import PaymentCompletedPage, {
-  getServerSideProps as getPaymentCompletedPageServerSideProps,
-} from '../pages/payment/completed';
 import AttendanceListPage, {
   getServerSideProps as getAttendanceListPageServerSideProps,
 } from '../pages/registration/[registrationId]/attendance-list/index';
@@ -66,6 +65,9 @@ import CreateSignupGroupPage, {
 import SummaryPage, {
   getServerSideProps as getSummaryPageServerSideProps,
 } from '../pages/registration/[registrationId]/signup-group/create/summary/index';
+import PaymentCompletedPage, {
+  getServerSideProps as getPaymentCompletedPageServerSideProps,
+} from '../pages/success';
 import { ExtendedSSRConfig } from '../types';
 import formatDate from '../utils/formatDate';
 import {
@@ -73,6 +75,10 @@ import {
   setSignupGroupFormSessionStorageValues,
 } from '../utils/mockDataUtils';
 import { mockDefaultConfig } from '../utils/mockNextJsConfig';
+import {
+  fakeWebStoreOrder,
+  fakeWebStorePayment,
+} from '../utils/mockWebStoreDataUtils';
 import {
   loadingSpinnerIsNotInDocument,
   render,
@@ -89,9 +95,38 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
+const order = fakeWebStoreOrder();
+const payment = fakeWebStorePayment();
+
 const isHeadingRendered = async (heading: string | RegExp) => {
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: heading }, { timeout: 5000 });
+};
+
+const isWebStoreOrderInDehydratedState = (dehydratedState: DehydratedState) => {
+  expect(dehydratedState.queries).toEqual(
+    expect.arrayContaining([
+      {
+        queryHash: `["order","${TEST_ORDER_ID}"]`,
+        queryKey: ['order', TEST_ORDER_ID],
+        state: expect.objectContaining({ data: order }),
+      },
+    ])
+  );
+};
+
+const isWebStorePaymentInDehydratedState = (
+  dehydratedState: DehydratedState
+) => {
+  expect(dehydratedState.queries).toEqual(
+    expect.arrayContaining([
+      {
+        queryHash: `["payment","${TEST_ORDER_ID}"]`,
+        queryKey: ['payment', TEST_ORDER_ID],
+        state: expect.objectContaining({ data: payment }),
+      },
+    ])
+  );
 };
 
 const isRegistrationInDehydratedState = (dehydratedState: DehydratedState) => {
@@ -164,6 +199,12 @@ const signupGroupValues: SignupGroupFormFields = {
 const mocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
+  rest.get(`*/order/${TEST_ORDER_ID}`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(order))
+  ),
+  rest.get(`*/payment/${TEST_ORDER_ID}`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(payment))
+  ),
   rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(registration))
   ),
@@ -492,7 +533,10 @@ describe('PaymentCancelledPage', () => {
 
 describe('PaymentCompletedPage', () => {
   it('should render heading', async () => {
-    singletonRouter.push({ pathname: ROUTES.PAYMENT_COMPLETED });
+    singletonRouter.push({
+      pathname: ROUTES.PAYMENT_SUCCESS,
+      query: { orderId: TEST_ORDER_ID, user: TEST_USER_ID },
+    });
 
     render(<PaymentCompletedPage />);
 
@@ -502,8 +546,23 @@ describe('PaymentCompletedPage', () => {
   it('should get correct translations namespaces', async () => {
     const { props } = (await getPaymentCompletedPageServerSideProps({
       locale: 'fi',
-    } as GetServerSidePropsContext)) as { props: ExtendedSSRConfig };
+      query: { orderId: TEST_ORDER_ID, user: TEST_USER_ID },
+    } as unknown as GetServerSidePropsContext)) as {
+      props: ExtendedSSRConfig;
+    };
 
     expect(props._nextI18Next?.ns).toEqual(['common', 'paymentCompleted']);
+  });
+
+  it('should prefetch data', async () => {
+    const { props } = (await getPaymentCompletedPageServerSideProps({
+      locale: 'fi',
+      query: { orderId: TEST_ORDER_ID, user: TEST_USER_ID },
+    } as unknown as GetServerSidePropsContext)) as {
+      props: ExtendedSSRConfig;
+    };
+
+    isWebStoreOrderInDehydratedState(props.dehydratedState);
+    isWebStorePaymentInDehydratedState(props.dehydratedState);
   });
 });

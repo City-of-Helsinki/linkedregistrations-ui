@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, {
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import * as AxiosLogger from 'axios-logger';
 
 import { ExtendedSession } from '../../../types';
@@ -20,6 +16,7 @@ const getAxiosClient = () => {
 };
 
 const axiosClient = getAxiosClient();
+
 /* istanbul ignore next */
 if (!isTestEnv) {
   const loggerConfig = {
@@ -30,10 +27,7 @@ if (!isTestEnv) {
   // Add a request interceptor
   axiosClient.interceptors.request.use((request) => {
     return typeof window === 'undefined'
-      ? (AxiosLogger.requestLogger(
-          request,
-          loggerConfig
-        ) as InternalAxiosRequestConfig)
+      ? AxiosLogger.requestLogger(request, loggerConfig)
       : request;
   });
 
