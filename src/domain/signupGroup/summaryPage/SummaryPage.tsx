@@ -15,6 +15,7 @@ import Notification from '../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES } from '../../../constants';
 import { ExtendedSession } from '../../../types';
+import { stringOrNull } from '../../api/types';
 import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import { ROUTES } from '../../app/routes/constants';
@@ -43,6 +44,7 @@ import { SignupGroupFormFields } from '../types';
 import {
   clearCreateSignupGroupFormData,
   getSignupGroupDefaultInitialValues,
+  getWebStoreUrl,
   shouldCreatePayment,
 } from '../utils';
 import { getSignupGroupSchema } from '../validation';
@@ -88,9 +90,19 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
     clearSeatsReservationData(registration.id);
   };
 
-  const goToPaymentPage = (payment: SignupPayment) => {
-    window.open(payment.checkout_url, '_self', 'noopener,noreferrer');
+  const goToPaymentPage = (
+    payment: SignupPayment,
+    serviceLang: stringOrNull | undefined
+  ) => {
+    clearTimerAndStorage();
+
+    window.open(
+      getWebStoreUrl(payment.checkout_url, serviceLang),
+      '_self',
+      'noopener,noreferrer'
+    );
   };
+
   const goToSignupCompletedPage = (signupId: string) => {
     clearTimerAndStorage();
 
@@ -144,7 +156,10 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
       onSuccess: (response) => {
         if (response) {
           if (response[0].payment) {
-            goToPaymentPage(response[0].payment);
+            goToPaymentPage(
+              response[0].payment,
+              response[0].contact_person?.service_language
+            );
           } else {
             goToSignupCompletedPage(response[0].id);
           }
@@ -160,7 +175,10 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
       onSuccess: (response) => {
         if (response) {
           if (response.payment) {
-            goToPaymentPage(response.payment);
+            goToPaymentPage(
+              response.payment,
+              response.signups[0]?.contact_person?.service_language
+            );
           } else {
             goToSignupGroupCompletedPage(response.id);
           }

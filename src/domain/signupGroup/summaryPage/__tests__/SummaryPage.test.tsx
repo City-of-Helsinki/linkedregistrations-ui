@@ -192,7 +192,7 @@ const testMovingToPaymentSite = async () => {
 
   await waitFor(() =>
     expect(window.open).toBeCalledWith(
-      'https://payment.com',
+      'https://payment.com/',
       '_self',
       'noopener,noreferrer'
     )

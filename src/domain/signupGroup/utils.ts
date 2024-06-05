@@ -8,7 +8,9 @@ import { ExtendedSession, Language } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import skipFalsyType from '../../utils/skipFalsyType';
+import { stringOrNull } from '../api/types';
 import {
   callDelete,
   callGet,
@@ -409,3 +411,30 @@ export const shouldCreatePayment = (
 export const canEditSignupGroup = (signupGroup: SignupGroup) =>
   signupGroup.is_created_by_current_user ||
   signupGroup.has_contact_person_access;
+
+export const getWebStoreLang = (
+  serviceLanguage: stringOrNull = ''
+): string | null => {
+  if (['en', 'sv'].includes(serviceLanguage ?? '')) {
+    return serviceLanguage;
+  }
+  // Tapla uses fi as default language. Return null to not set lang
+  // attribute to web store url.
+  // Default language is used in that case.
+  return null;
+};
+
+export const getWebStoreUrl = (
+  url: string,
+  serviceLanguage: stringOrNull = ''
+) => {
+  const lang = getWebStoreLang(serviceLanguage);
+  const urlObj = new URL(url);
+  const search = replaceParamsToQueryString(
+    urlObj.search,
+    { lang },
+    (param) => param.value
+  );
+  urlObj.search = search;
+  return urlObj.toString();
+};

@@ -49,6 +49,8 @@ import {
   calculateTotalPrice,
   shouldCreatePayment,
   canEditSignupGroup,
+  getWebStoreLang,
+  getWebStoreUrl,
 } from '../utils';
 
 describe('canEditSignupGroup function', () => {
@@ -852,6 +854,37 @@ describe('shouldCreatePayment', () => {
     (signups, createPayment) => {
       expect(shouldCreatePayment(priceGroupOptions, signups)).toEqual(
         createPayment
+      );
+    }
+  );
+});
+
+describe('getWebStoreLang', () => {
+  it.each([
+    ['fi', null],
+    ['fr', null],
+    ['en', 'en'],
+    ['sv', 'sv'],
+  ])(
+    'should return correct lang value to web store url',
+    (serviceLanguage, expectedValue) => {
+      expect(getWebStoreLang(serviceLanguage)).toEqual(expectedValue);
+    }
+  );
+});
+
+describe('getWebStoreUrl', () => {
+  const checkoutUrl = 'https://test.com/1?user=2';
+  it.each([
+    ['fi', 'https://test.com/1?user=2'],
+    ['fr', 'https://test.com/1?user=2'],
+    ['en', 'https://test.com/1?user=2&lang=en'],
+    ['sv', 'https://test.com/1?user=2&lang=sv'],
+  ])(
+    'should return correct web store url',
+    (serviceLanguage, expectedValue) => {
+      expect(getWebStoreUrl(checkoutUrl, serviceLanguage)).toEqual(
+        expectedValue
       );
     }
   );
