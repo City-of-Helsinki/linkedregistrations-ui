@@ -89,6 +89,8 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
   };
 
   const goToPaymentPage = (payment: SignupPayment) => {
+    clearTimerAndStorage();
+
     window.open(payment.checkout_url, '_self', 'noopener,noreferrer');
   };
   const goToSignupCompletedPage = (signupId: string) => {

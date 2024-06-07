@@ -8,6 +8,7 @@ import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import React from 'react';
 
+import { FORM_NAMES, RESERVATION_NAMES } from '../../../../constants';
 import { ExtendedSession } from '../../../../types';
 import formatDate from '../../../../utils/formatDate';
 import {
@@ -180,7 +181,38 @@ const getPaymentButton = () => {
   return screen.getByRole('button', { name: /siirry maksamaan/i });
 };
 
-const testMovingToPaymentSite = async () => {
+const expectSessionStorageToBeCleared = (registrationId: string) => {
+  expect(sessionStorage.removeItem).toHaveBeenCalledWith(
+    `${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registrationId}`
+  );
+  expect(sessionStorage.removeItem).toHaveBeenCalledWith(
+    `${RESERVATION_NAMES.SIGNUP_RESERVATION}-${registrationId}`
+  );
+};
+
+const testMovingToSignupCompletedSite = async ({
+  expectedRoute,
+  registrationId,
+}: {
+  expectedRoute: string;
+  registrationId: string;
+}) => {
+  const user = userEvent.setup();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const submitButton = getSubmitButton();
+  await user.click(submitButton);
+
+  await waitFor(() => expect(mockRouter.asPath).toBe(expectedRoute));
+  expectSessionStorageToBeCleared(registrationId);
+};
+
+const testMovingToPaymentSite = async ({
+  registrationId,
+}: {
+  registrationId: string;
+}) => {
   const user = userEvent.setup();
 
   renderComponent();
@@ -197,6 +229,7 @@ const testMovingToPaymentSite = async () => {
       'noopener,noreferrer'
     )
   );
+  expectSessionStorageToBeCleared(registrationId);
 };
 
 test('should route back to signup form if reservation data is missing', async () => {
@@ -247,7 +280,6 @@ test('should route back to signup form after clicking submit button if there are
 });
 
 test('should route to signup completed page', async () => {
-  const user = userEvent.setup();
   setQueryMocks(
     ...defaultMocks,
     rest.post(`*/signup/`, (req, res, ctx) =>
@@ -264,16 +296,10 @@ test('should route to signup completed page', async () => {
   pushSummaryPageRoute(registration.id);
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const submitButton = getSubmitButton();
-  await user.click(submitButton);
-
-  await waitFor(() =>
-    expect(mockRouter.asPath).toBe(
-      `/registration/${registration.id}/signup/${TEST_SIGNUP_ID}/completed`
-    )
-  );
+  await testMovingToSignupCompletedSite({
+    expectedRoute: `/registration/${registration.id}/signup/${TEST_SIGNUP_ID}/completed`,
+    registrationId: registration.id,
+  });
 });
 
 test('should route to payment service after creating chargeable signup', async () => {
@@ -296,7 +322,9 @@ test('should route to payment service after creating chargeable signup', async (
   });
 
   pushSummaryPageRoute(registrationWithPriceGroup.id);
-  await testMovingToPaymentSite();
+  await testMovingToPaymentSite({
+    registrationId: registrationWithPriceGroup.id,
+  });
 });
 
 test('should show server errors when creating signup request fails', async () => {
@@ -329,7 +357,6 @@ test('should show server errors when creating signup request fails', async () =>
 });
 
 test('should route to signup group completed page', async () => {
-  const user = userEvent.setup();
   setQueryMocks(
     ...defaultMocks,
     rest.post(`*/signup_group/`, (req, res, ctx) =>
@@ -346,16 +373,10 @@ test('should route to signup group completed page', async () => {
   pushSummaryPageRoute(registration.id);
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const submitButton = getSubmitButton();
-  await user.click(submitButton);
-
-  await waitFor(() =>
-    expect(mockRouter.asPath).toBe(
-      `/registration/${registration.id}/signup-group/${TEST_SIGNUP_GROUP_ID}/completed`
-    )
-  );
+  await testMovingToSignupCompletedSite({
+    expectedRoute: `/registration/${registration.id}/signup-group/${TEST_SIGNUP_GROUP_ID}/completed`,
+    registrationId: registration.id,
+  });
 });
 
 test('should route to payment service after creating chargeable signup group', async () => {
@@ -378,7 +399,9 @@ test('should route to payment service after creating chargeable signup group', a
   });
 
   pushSummaryPageRoute(registrationWithPriceGroup.id);
-  await testMovingToPaymentSite();
+  await testMovingToPaymentSite({
+    registrationId: registrationWithPriceGroup.id,
+  });
 });
 
 test('should show server errors when creating signup group request fails', async () => {
