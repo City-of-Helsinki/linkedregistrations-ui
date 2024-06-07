@@ -841,14 +841,14 @@ describe('shouldCreatePayment', () => {
     [[freeSignup], false],
     [[freeSignupInWaitingList], false],
     [[chargeableSignup, chargeableSignup], true],
-    [[chargeableSignup, chargeableSignupInWaitingList], false],
+    [[chargeableSignup, chargeableSignupInWaitingList], true],
     [[chargeableSignup, freeSignup], true],
-    [[chargeableSignup, freeSignupInWaitingList], false],
+    [[chargeableSignup, freeSignupInWaitingList], true],
     [[chargeableSignupInWaitingList, freeSignup], false],
     [[chargeableSignupInWaitingList, freeSignupInWaitingList], false],
     [[freeSignup, freeSignupInWaitingList], false],
   ])(
-    'should return true if any signup is chargeable and all signups are attending',
+    'should return true if any chargeable signup is attending',
     (signups, createPayment) => {
       expect(shouldCreatePayment(priceGroupOptions, signups)).toEqual(
         createPayment

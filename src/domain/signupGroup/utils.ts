@@ -403,8 +403,10 @@ export const shouldCreatePayment = (
   signups: SignupFormFields[]
 ) =>
   featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-  calculateTotalPrice(priceGroupOptions, signups) > 0 &&
-  signups.every((su) => !su.inWaitingList);
+  calculateTotalPrice(
+    priceGroupOptions,
+    signups.filter((su) => !su.inWaitingList)
+  ) > 0;
 
 export const canEditSignupGroup = (signupGroup: SignupGroup) =>
   signupGroup.is_created_by_current_user ||
