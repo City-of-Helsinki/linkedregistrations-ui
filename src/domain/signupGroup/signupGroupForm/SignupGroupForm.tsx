@@ -100,7 +100,7 @@ const SignupGroupForm: React.FC<Props> = ({
     mode === 'update-signup' || mode === 'update-signup-group';
   const allowToEdit = useMemo((): boolean => {
     if (mode === 'update-signup') {
-      return Boolean(signup && canEditSignup(signup));
+      return Boolean(signup && canEditSignup(signup, signupGroup));
     } else if (mode === 'update-signup-group') {
       return Boolean(signupGroup && canEditSignupGroup(signupGroup));
     }

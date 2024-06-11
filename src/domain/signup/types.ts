@@ -65,6 +65,20 @@ export type SignupPayment = {
   status: string;
 };
 
+export type SignupPaymentCancellation = {
+  created_time: string;
+  id: number;
+  payment: number;
+};
+
+export type SignupPaymentRefund = {
+  amount: string;
+  created_time: string;
+  external_refund_id: string;
+  id: number;
+  payment: number;
+};
+
 export type SignupPriceGroup = {
   id: number;
   price_group: PriceGroupDense;
@@ -91,6 +105,8 @@ export type Signup = {
   last_modified_time: stringOrNull;
   last_name?: stringOrNull;
   payment: SignupPayment | null;
+  payment_cancellation: SignupPaymentCancellation | null;
+  payment_refund: SignupPaymentRefund | null;
   phone_number: stringOrNull;
   presence_status?: PRESENCE_STATUS;
   price_group: SignupPriceGroup | null;

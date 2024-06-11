@@ -339,5 +339,12 @@ export const omitSensitiveDataFromSignupsPayload = (
   signups: payload.signups.map((s) => omitSensitiveDataFromSignupPayload(s)),
 });
 
-export const canEditSignup = (signup: Signup): boolean =>
-  signup.has_contact_person_access || signup.is_created_by_current_user;
+export const canEditSignup = (
+  signup: Signup,
+  signupGroup?: SignupGroup
+): boolean =>
+  (signup.has_contact_person_access || signup.is_created_by_current_user) &&
+  !signup.payment_cancellation &&
+  !signup.payment_refund &&
+  !signupGroup?.payment_cancellation &&
+  !signupGroup?.payment_refund;

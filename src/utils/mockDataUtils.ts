@@ -36,6 +36,8 @@ import {
   ContactPerson,
   Signup,
   SignupPayment,
+  SignupPaymentCancellation,
+  SignupPaymentRefund,
   SignupPriceGroup,
   SignupsResponse,
 } from '../domain/signup/types';
@@ -376,6 +378,8 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       last_modified_time: null,
       last_name: faker.person.lastName(),
       payment: null,
+      payment_cancellation: null,
+      payment_refund: null,
       phone_number: null,
       presence_status: PRESENCE_STATUS.NotPresent,
       price_group: null,
@@ -406,6 +410,8 @@ export const fakeSignupGroup = (
       last_modified_by: null,
       last_modified_time: null,
       payment: null,
+      payment_cancellation: null,
+      payment_refund: null,
       registration: TEST_REGISTRATION_ID,
       signups: [],
     },
@@ -431,6 +437,34 @@ export const fakeSignupPayment = (
       last_modified_time: null,
       logged_in_checkout_url: 'https://payment.com',
       status: 'created',
+    },
+    overrides
+  );
+};
+
+export const fakeSignupPaymentCancellation = (
+  overrides?: Partial<SignupPaymentCancellation>
+): SignupPaymentCancellation => {
+  return merge<SignupPaymentCancellation, typeof overrides>(
+    {
+      created_time: '',
+      id: faker.number.int(),
+      payment: faker.number.int(),
+    },
+    overrides
+  );
+};
+
+export const fakeSignupPaymentRefund = (
+  overrides?: Partial<SignupPaymentRefund>
+): SignupPaymentRefund => {
+  return merge<SignupPaymentRefund, typeof overrides>(
+    {
+      amount: '1.00',
+      created_time: '',
+      external_refund_id: '1',
+      id: faker.number.int(),
+      payment: faker.number.int(),
     },
     overrides
   );

@@ -7,6 +7,8 @@ import {
   Signup,
   SignupInput,
   SignupPayment,
+  SignupPaymentCancellation,
+  SignupPaymentRefund,
 } from '../signup/types';
 
 import {
@@ -59,6 +61,8 @@ export type SignupGroup = {
   last_modified_by: stringOrNull;
   last_modified_time: stringOrNull;
   payment: SignupPayment | null;
+  payment_cancellation: SignupPaymentCancellation | null;
+  payment_refund: SignupPaymentRefund | null;
   registration: string;
   signups: Signup[];
 };

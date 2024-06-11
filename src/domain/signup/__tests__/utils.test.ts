@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { fakeSignup, fakeSignupPriceGroup } from '../../../utils/mockDataUtils';
+import {
+  fakeSignup,
+  fakeSignupGroup,
+  fakeSignupPaymentCancellation,
+  fakeSignupPaymentRefund,
+  fakeSignupPriceGroup,
+} from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
   TEST_SIGNUP_GROUP_ID,
 } from '../../signupGroup/constants';
+import { SignupGroup } from '../../signupGroup/types';
 import {
   NOTIFICATION_TYPE,
   TEST_CONTACT_PERSON_ID,
@@ -22,12 +29,13 @@ import {
 } from '../utils';
 
 describe('canEditSignup function', () => {
-  const cases: [Signup, boolean][] = [
+  const cases: [Signup, SignupGroup | undefined, boolean][] = [
     [
       fakeSignup({
         has_contact_person_access: false,
         is_created_by_current_user: false,
       }),
+      undefined,
       false,
     ],
     [
@@ -35,6 +43,7 @@ describe('canEditSignup function', () => {
         has_contact_person_access: true,
         is_created_by_current_user: false,
       }),
+      undefined,
       true,
     ],
     [
@@ -42,6 +51,7 @@ describe('canEditSignup function', () => {
         has_contact_person_access: false,
         is_created_by_current_user: true,
       }),
+      undefined,
       true,
     ],
     [
@@ -49,14 +59,53 @@ describe('canEditSignup function', () => {
         has_contact_person_access: true,
         is_created_by_current_user: true,
       }),
+      undefined,
       true,
+    ],
+    [
+      fakeSignup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      undefined,
+      false,
+    ],
+    [
+      fakeSignup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      undefined,
+      false,
+    ],
+    [
+      fakeSignup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+      }),
+      fakeSignupGroup({
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      false,
+    ],
+    [
+      fakeSignup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+      }),
+      fakeSignupGroup({
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      false,
     ],
   ];
 
   it.each(cases)(
     'should return true if signup can be edited',
-    (signup, expectedResult) =>
-      expect(canEditSignup(signup)).toBe(expectedResult)
+    (signup, signupGroup, expectedResult) =>
+      expect(canEditSignup(signup, signupGroup)).toBe(expectedResult)
   );
 });
 

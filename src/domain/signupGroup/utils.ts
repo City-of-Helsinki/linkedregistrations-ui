@@ -409,5 +409,10 @@ export const shouldCreatePayment = (
   ) > 0;
 
 export const canEditSignupGroup = (signupGroup: SignupGroup) =>
-  signupGroup.is_created_by_current_user ||
-  signupGroup.has_contact_person_access;
+  (signupGroup.is_created_by_current_user ||
+    signupGroup.has_contact_person_access) &&
+  !signupGroup.payment_cancellation &&
+  !signupGroup.payment_refund &&
+  !signupGroup.signups?.some(
+    (signup) => signup.payment_cancellation || signup.payment_refund
+  );

@@ -48,6 +48,7 @@ const EditSignupPage: React.FC<Props> = ({
         mode="update-signup"
         registration={registration}
         signup={signup}
+        signupGroup={signupGroup}
       />
     </MainContent>
   );

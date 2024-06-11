@@ -4,6 +4,8 @@ import {
   fakeRegistrationPriceGroup,
   fakeSignup,
   fakeSignupGroup,
+  fakeSignupPaymentCancellation,
+  fakeSignupPaymentRefund,
   fakeSignupPriceGroup,
 } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
@@ -80,6 +82,48 @@ describe('canEditSignupGroup function', () => {
         is_created_by_current_user: true,
       }),
       true,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        signups: [fakeSignup()],
+      }),
+      true,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        signups: [
+          fakeSignup({ payment_cancellation: fakeSignupPaymentCancellation() }),
+        ],
+      }),
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+        signups: [fakeSignup({ payment_refund: fakeSignupPaymentRefund() })],
+      }),
+      false,
     ],
   ];
 
