@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.8.0...linkedregistrations-ui-v0.9.0) (2024-06-12)
+
+
+### Features
+
+* Add all sub events to the ics file ([5fa95fe](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5fa95fed7f50e679182a1c89bc683856373e428f))
+* Check order and payment from tapla api ([ef389cc](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/ef389cc8b4e4278eaa24c5215db3aef8c2b73330))
+
+
+### Bug Fixes
+
+* Avoid renewing session every second ([0790f15](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0790f15660b09e21a03ff63477e601b8678dbd05))
+* Clear session storage before moving to Talpa ([2f12707](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/2f1270765f0cec92636a5e17654bdaf641729dd9))
+* Create payment if any of the chargeable signups is attending ([2d67dab](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/2d67dabe93d6cb52a164ae12fe44c8edd88844ff))
+* Replace undefined with null in user data ([dabd64a](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/dabd64aced65cc08ec9fefbbc04b2f6c8a9c4226))
+
 ## [0.8.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.7.1...linkedregistrations-ui-v0.8.0) (2024-05-06)
 
 
