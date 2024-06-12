@@ -42,10 +42,10 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
       {!session && (
         <Container withOffset>
           <FormContainer>
-            {<AuthenticationRequiredNotification />}
+            <AuthenticationRequiredNotification />
+            <RegistrationWarning registration={registration} />
             <EventInfo event={event} registration={registration} />
             <Divider />
-            <RegistrationWarning registration={registration} />
           </FormContainer>
         </Container>
       )}

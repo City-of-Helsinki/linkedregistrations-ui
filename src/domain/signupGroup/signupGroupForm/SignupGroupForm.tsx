@@ -328,9 +328,9 @@ const SignupGroupForm: React.FC<Props> = ({
               )}
               <Container withOffset>
                 <FormContainer>
+                  <RegistrationWarning registration={registration} />
                   <EventInfo event={event} registration={registration} />
                   <ServerErrorSummary errors={serverErrorItems} />
-                  <RegistrationWarning registration={registration} />
 
                   {!isEditingMode && (
                     <>
