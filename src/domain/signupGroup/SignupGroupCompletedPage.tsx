@@ -34,7 +34,7 @@ export const SignupCompletedPage: React.FC<Props> = ({
 }) => {
   const { query } = useRouter();
   const { [SIGNUP_QUERY_PARAMS.REDIRECT_URL]: redirectUrl } = query;
-  const { t } = useTranslation(['signup']);
+  const { t } = useTranslation(['common', 'signup']);
   const locale = useLocale();
 
   const { name } = getEventFields(event, locale);
@@ -52,13 +52,13 @@ export const SignupCompletedPage: React.FC<Props> = ({
   return (
     <MainContent>
       <Head>
-        <title>{t('completedPage.title')}</title>
+        <title>{t('signup:completedPage.title')}</title>
       </Head>
-      <SuccessTemplate title={t('completedPage.title')}>
+      <SuccessTemplate title={t('signup:completedPage.title')}>
         <p>
           {inWaitingList
-            ? t('completedPage.textWaitingList', { name })
-            : t('completedPage.text', { name })}
+            ? t('signup:completedPage.textWaitingList', { name })
+            : t('signup:completedPage.text', { name })}
         </p>
         {confirmationMessage && (
           <ConfirmationMessage registration={registration} />
@@ -66,16 +66,20 @@ export const SignupCompletedPage: React.FC<Props> = ({
         {redirectUrl && (
           <>
             <br></br>
-            <p>{t('completedPage.redirectInfo1')}</p>
+            <p>{t('signup:completedPage.redirectInfo1')}</p>
             <p
               dangerouslySetInnerHTML={{
-                __html: t('completedPage.redirectInfo2', {
+                __html: t('signup:completedPage.redirectInfo2', {
                   url: redirectUrl,
                 }),
               }}
             />
           </>
         )}
+
+        <p>
+          <strong>{t('common:rememberToLogoutText')}</strong>
+        </p>
 
         <EventCalendarButton
           className={styles.eventCalendarButton}

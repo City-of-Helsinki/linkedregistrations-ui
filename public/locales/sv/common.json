@@ -80,6 +80,7 @@
     "plusStepButtonAriaLabel": "Öka"
   },
   "openInNewTab": "(öppnas i en ny flik)",
+  "rememberToLogoutText": "Kom ihåg att logga ut och stänga alla webbläsarfönster som är relaterade till tjänsten.",
   "search": "Sök",
   "serverError": {
     "emailMustBeUnique": "E-post har redan registrering.",

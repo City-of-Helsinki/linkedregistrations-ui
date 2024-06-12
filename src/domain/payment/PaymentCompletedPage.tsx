@@ -12,7 +12,7 @@ import { useWebStoreOrderQuery } from '../order/query';
 import { useWebStorePaymentQuery } from './query';
 
 const PaymentCompletedPage: FC = () => {
-  const { t } = useTranslation('paymentCompleted');
+  const { t } = useTranslation(['common', 'paymentCompleted']);
 
   return (
     <MainContent>
@@ -21,6 +21,9 @@ const PaymentCompletedPage: FC = () => {
       </Head>
       <SuccessTemplate title={t('paymentCompleted:title')}>
         <p>{t('paymentCompleted:text')}</p>
+        <p>
+          <strong>{t('common:rememberToLogoutText')}</strong>
+        </p>
       </SuccessTemplate>
     </MainContent>
   );

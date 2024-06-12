@@ -80,6 +80,7 @@
     "plusStepButtonAriaLabel": "Lisää"
   },
   "openInNewTab": "(avataan uudessa välilehdessä)",
+  "rememberToLogoutText": "Muista kirjautua ulos ja sulkea kaikki palveluun liittyvät selainikkunat.",
   "search": "Etsi",
   "serverError": {
     "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",

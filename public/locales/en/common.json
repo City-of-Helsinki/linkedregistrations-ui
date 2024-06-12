@@ -79,6 +79,7 @@
     "plusStepButtonAriaLabel": "Increase"
   },
   "openInNewTab": "(will open in a new tab)",
+  "rememberToLogoutText": "Remember to log out and close all browser windows related to the service.",
   "search": "Search",
   "serverError": {
     "emailMustBeUnique": "Email already has registration.",
