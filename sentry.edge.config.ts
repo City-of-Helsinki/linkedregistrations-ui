@@ -4,8 +4,16 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs';
+
+import {
+  beforeSend,
+  beforeSendTransaction,
+} from './src/domain/app/sentry/utils';
+
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
+    beforeSend,
+    beforeSendTransaction,
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
 

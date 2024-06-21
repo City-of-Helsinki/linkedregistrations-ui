@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { reportError } from '../domain/app/sentry/utils';
+import { cleanSensitiveData, reportError } from '../domain/app/sentry/utils';
 import useUser from '../domain/user/hooks/useUser';
 import { MutationCallbacks } from '../types';
 
@@ -49,7 +49,7 @@ function useHandleError<PayloadType, ObjectType>(): UseHandleErrorState<
     reportError({
       data: {
         error,
-        payloadAsString: payload && JSON.stringify(payload),
+        payloadAsString: payload && JSON.stringify(cleanSensitiveData(payload)),
         object,
         user: user?.username,
       },
