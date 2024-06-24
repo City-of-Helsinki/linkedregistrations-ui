@@ -11,9 +11,15 @@ import {
 } from '../../../utils/mockDataUtils';
 import { imagesResponse } from '../../image/__mocks__/image';
 import { event } from '../__mocks__/event';
-import { SuperEventType, TEST_EVENT_ID } from '../constants';
+import {
+  EventStatus,
+  PublicationStatus,
+  SuperEventType,
+  TEST_EVENT_ID,
+} from '../constants';
 import {
   createEventIcsFile,
+  getCalendarEvents,
   downloadEventIcsFile,
   getEventAttributes,
   getEventFields,
@@ -173,6 +179,63 @@ describe('getEventAttributes', () => {
       start: [2023, 12, 5, 0, 0],
       title: 'Event name',
     });
+  });
+});
+
+describe('getCalendarEvents', () => {
+  it('should get calendar events for a single event', () => {
+    const event = fakeEvent({ super_event_type: null });
+    expect(getCalendarEvents(event)).toEqual([event]);
+  });
+
+  it('should get calendar events for a recurring event', () => {
+    // Deleted event should not be included
+    const subEvent1 = fakeEvent({ deleted: true, id: 'deleted' });
+    // Cancelled event should not be included
+    const subEvent2 = fakeEvent({
+      deleted: false,
+      event_status: EventStatus.EventCancelled,
+      id: 'cancelled',
+    });
+    // Postponed event should not be included
+    const subEvent3 = fakeEvent({
+      deleted: false,
+      event_status: EventStatus.EventPostponed,
+      id: 'postponed',
+    });
+    // Draft event should not be included
+    const subEvent4 = fakeEvent({
+      deleted: false,
+      event_status: EventStatus.EventScheduled,
+      publication_status: PublicationStatus.Draft,
+      id: 'draft',
+    });
+    const subEvent5 = fakeEvent({
+      deleted: false,
+      event_status: EventStatus.EventScheduled,
+      publication_status: PublicationStatus.Public,
+      id: 'scheduled',
+    });
+    const subEvent6 = fakeEvent({
+      deleted: false,
+      event_status: EventStatus.EventRescheduled,
+      publication_status: PublicationStatus.Public,
+      id: 'rescheduled',
+    });
+
+    const event = fakeEvent({
+      super_event_type: SuperEventType.Recurring,
+      sub_events: [
+        subEvent1,
+        subEvent2,
+        subEvent3,
+        subEvent4,
+        subEvent5,
+        subEvent6,
+      ],
+    });
+
+    expect(getCalendarEvents(event)).toEqual([subEvent5, subEvent6]);
   });
 });
 

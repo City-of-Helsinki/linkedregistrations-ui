@@ -85,7 +85,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       created_time: null,
       data_source: 'hel',
       date_published: null,
-      deleted: null,
+      deleted: false,
       description: fakeLocalisedObject(),
       end_time: null,
       enrolment_end_time: null,

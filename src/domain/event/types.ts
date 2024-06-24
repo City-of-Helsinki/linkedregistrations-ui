@@ -45,7 +45,7 @@ export type Event = {
   custom_data: stringOrNull;
   data_source: stringOrNull;
   date_published: stringOrNull;
-  deleted: stringOrNull;
+  deleted: boolean;
   description: LocalisedObject;
   end_time: stringOrNull;
   enrolment_end_time: stringOrNull;

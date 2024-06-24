@@ -9,7 +9,7 @@ import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
 import { callGet } from '../app/axios/axiosClient';
 import { getPlaceFields } from '../place/utils';
 
-import { SuperEventType } from './constants';
+import { EventStatus, PublicationStatus, SuperEventType } from './constants';
 import { Event, EventFields, EventQueryVariables } from './types';
 
 export const getEventFields = (event: Event, locale: Language): EventFields => {
@@ -83,6 +83,20 @@ export const getEventAttributes = ({
   return eventAttributes;
 };
 
+export const getCalendarEvents = (event: Event): Event[] => {
+  if (event.super_event_type === SuperEventType.Recurring) {
+    return event.sub_events.filter(
+      (subEvent) =>
+        !subEvent.deleted &&
+        [EventStatus.EventRescheduled, EventStatus.EventScheduled].includes(
+          subEvent.event_status
+        ) &&
+        subEvent.publication_status === PublicationStatus.Public
+    );
+  }
+  return [event];
+};
+
 export const createEventIcsFile = async ({
   event,
   filename,
@@ -94,11 +108,9 @@ export const createEventIcsFile = async ({
 }): Promise<File> =>
   new Promise((resolve, reject) => {
     createEvents(
-      event.super_event_type === SuperEventType.Recurring
-        ? event.sub_events.map((subEvent) =>
-            getEventAttributes({ event: subEvent, locale })
-          )
-        : [getEventAttributes({ event, locale })],
+      getCalendarEvents(event).map((eventItem) =>
+        getEventAttributes({ event: eventItem, locale })
+      ),
       (error, value) => {
         if (error) {
           reject(error);
