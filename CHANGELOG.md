@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.9.0...linkedregistrations-ui-v0.10.0) (2024-06-24)
+
+
+### Features
+
+* Prevent to edit/delete if there is payment cancellation/refund ([4e17f6a](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4e17f6a66940a9935dc1d9becaa14bd76a031158))
+* Remind user to log out ([6f5fe53](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6f5fe53447a75bc305415b059bb1ff4545e77ea4))
+
+
+### Bug Fixes
+
+* Include only published and scheduled events in ics file ([16b81b1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/16b81b1d3eca4f31e038b9fd0154ff1676b134bf))
+* Move registration warning to the above of event info ([f6abe04](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/f6abe046c791f7b22a9f4ea096b7cf13f3ebaea3))
+
 ## [0.9.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.8.0...linkedregistrations-ui-v0.9.0) (2024-06-12)
 
 
