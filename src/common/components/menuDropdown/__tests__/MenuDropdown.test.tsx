@@ -18,6 +18,10 @@ import { MenuItemOptionProps } from '../types';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 const items: MenuItemOptionProps[] = [1, 2, 3, 4].map((item) => ({
   icon: <IconPen />,
   onClick: jest.fn(),
@@ -115,6 +119,22 @@ test('calls onClick callback correctly', async () => {
   for (const [index, item] of items.entries()) {
     await user.click(getItemAtIndex(index));
     expect(item.onClick).toHaveBeenCalled();
+  }
+});
+
+test('should not call onClick of disabled item', async () => {
+  const user = userEvent.setup();
+  const { getItemAtIndex } = renderMenuDropdown({
+    items: items.map((item) => ({ ...item, disabled: true })),
+  });
+
+  await openMenu();
+
+  for (const [index, item] of items.entries()) {
+    const el = getItemAtIndex(index);
+    expect(el).toBeDisabled();
+    await user.click(el);
+    expect(item.onClick).not.toHaveBeenCalled();
   }
 });
 

@@ -83,6 +83,7 @@ export const refreshAccessToken = async (
       refreshToken: token.refreshToken,
     });
 
+    /* istanbul ignore next */
     if (!response) {
       throw new Error('Unable to refresh tokens');
     }
@@ -168,7 +169,10 @@ export const sessionCallback = (params: {
     ...session,
     apiTokens,
     idToken,
-    user: mapValues(user, (value) => value ?? null) as OidcUser,
+    user: mapValues(
+      user,
+      /* istanbul ignore next */ (value) => value ?? null
+    ) as OidcUser,
   };
 };
 

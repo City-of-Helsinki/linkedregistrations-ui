@@ -564,7 +564,7 @@ const SignupGroupForm: React.FC<Props> = ({
                       </div>
                     </FormGroup>
                     {/* Don't show group extra info field when editing a single signup */}
-                    {(!signup ||
+                    {((!signup && !!signupGroup) ||
                       (!isEditingMode && values.signups.length > 1)) && (
                       <FormGroup>
                         <Field

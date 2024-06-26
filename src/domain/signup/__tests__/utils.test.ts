@@ -19,6 +19,7 @@ import {
 } from '../../signupGroup/constants';
 import { SignupGroup } from '../../signupGroup/types';
 import {
+  ATTENDEE_STATUS,
   NOTIFICATION_TYPE,
   TEST_CONTACT_PERSON_ID,
   TEST_SIGNUP_ID,
@@ -341,6 +342,7 @@ describe('signupPathBuilder function', () => {
 describe('getSignupFields function', () => {
   it('should return default values if value is not set', () => {
     const {
+      attendeeStatus,
       contactPersonEmail,
       contactPersonPhoneNumber,
       firstName,
@@ -348,6 +350,7 @@ describe('getSignupFields function', () => {
       phoneNumber,
     } = getSignupFields({
       signup: fakeSignup({
+        attendee_status: null as unknown as undefined,
         contact_person: {
           email: null,
           first_name: null,
@@ -362,6 +365,7 @@ describe('getSignupFields function', () => {
       }),
     });
 
+    expect(attendeeStatus).toBe(ATTENDEE_STATUS.Attending);
     expect(contactPersonEmail).toBe('');
     expect(contactPersonPhoneNumber).toBe('');
     expect(firstName).toBe('');
@@ -402,69 +406,62 @@ describe('getSignupFields function', () => {
 
 describe('getSignupGroupInitialValuesFromSignup function', () => {
   it('should return default values if value is not set', () => {
-    const {
-      contactPerson: {
-        email,
-        firstName: contactPersonFirstName,
-        lastName: contactPersonLastName,
-        membershipNumber,
-        nativeLanguage,
-        notifications,
-        phoneNumber,
-        serviceLanguage,
-      },
-      extraInfo,
-      signups,
-    } = getSignupGroupInitialValuesFromSignup(
-      fakeSignup({
-        city: null,
-        contact_person: {
-          email: null,
+    expect(
+      getSignupGroupInitialValuesFromSignup(
+        fakeSignup({
+          city: null,
+          contact_person: {
+            email: null,
+            first_name: null,
+            id: null as any,
+            last_name: null,
+            membership_number: null,
+            native_language: null,
+            notifications: NOTIFICATION_TYPE.EMAIL,
+            phone_number: null,
+            service_language: null,
+          },
+          date_of_birth: null,
+          extra_info: null,
           first_name: null,
-          id: TEST_CONTACT_PERSON_ID,
+          id: TEST_SIGNUP_ID,
           last_name: null,
-          membership_number: null,
-          native_language: null,
-          notifications: NOTIFICATION_TYPE.EMAIL,
           phone_number: null,
-          service_language: null,
-        },
-        date_of_birth: null,
-        extra_info: null,
-        first_name: null,
-        id: TEST_SIGNUP_ID,
-        last_name: null,
-        phone_number: null,
-        price_group: null,
-        street_address: null,
-        zipcode: null,
-      })
-    );
-
-    expect(signups).toEqual([
-      {
-        city: '',
-        dateOfBirth: '',
-        extraInfo: '',
+          price_group: null,
+          street_address: null,
+          zipcode: null,
+        })
+      )
+    ).toEqual({
+      contactPerson: {
+        email: '',
         firstName: '',
-        id: TEST_SIGNUP_ID,
-        inWaitingList: false,
+        id: null,
         lastName: '',
+        membershipNumber: '',
+        nativeLanguage: '',
+        notifications: ['email'],
         phoneNumber: '',
-        priceGroup: '',
-        streetAddress: '',
-        zipcode: '',
+        serviceLanguage: '',
       },
-    ]);
-    expect(email).toBe('');
-    expect(contactPersonFirstName).toBe('');
-    expect(contactPersonLastName).toBe('');
-    expect(extraInfo).toBe('');
-    expect(membershipNumber).toBe('');
-    expect(nativeLanguage).toBe('');
-    expect(notifications).toEqual([NOTIFICATIONS.EMAIL]);
-    expect(phoneNumber).toBe('');
-    expect(serviceLanguage).toBe('');
+      extraInfo: '',
+      signups: [
+        {
+          city: '',
+          dateOfBirth: '',
+          extraInfo: '',
+          firstName: '',
+          id: 'signup:1',
+          inWaitingList: false,
+          lastName: '',
+          phoneNumber: '',
+          priceGroup: '',
+          streetAddress: '',
+          zipcode: '',
+        },
+      ],
+      userConsent: false,
+    });
   });
 
   it('should return signup group initial values', () => {

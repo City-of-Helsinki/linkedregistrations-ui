@@ -19,7 +19,6 @@ export const getSignupFormElement = (
     | 'membershipNumberInput'
     | 'nativeLanguageButton'
     | 'participantAmountInput'
-    | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
@@ -57,8 +56,6 @@ export const getSignupFormElement = (
       return screen.getByRole('spinbutton', {
         name: /ilmoittautujien määrä \*/i,
       });
-    case 'phoneCheckbox':
-      return screen.getByLabelText(/tekstiviestillä/i);
     case 'phoneInput':
       return screen.getAllByLabelText(/puhelinnumero/i)[0];
     case 'serviceLanguageButton':

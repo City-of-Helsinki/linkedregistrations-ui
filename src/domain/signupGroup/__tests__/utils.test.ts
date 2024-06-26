@@ -1006,9 +1006,7 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
       ],
     };
 
-    const filteredPayload = omitSensitiveDataFromSignupGroupPayload(
-      payload
-    ) as CreateSignupGroupMutationInput;
+    const filteredPayload = omitSensitiveDataFromSignupGroupPayload(payload);
     expect(filteredPayload).toEqual({
       contact_person: {
         id: TEST_CONTACT_PERSON_ID,
@@ -1040,6 +1038,14 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
     expect(signup.last_name).toBeUndefined();
     expect(signup.street_address).toBeUndefined();
     expect(signup.zipcode).toBeUndefined();
+
+    // Set contactPerson to undefined if it's not defined
+    expect(
+      omitSensitiveDataFromSignupGroupPayload({
+        ...payload,
+        contact_person: undefined,
+      })
+    ).toEqual(expect.objectContaining({ contact_person: undefined }));
   });
 });
 

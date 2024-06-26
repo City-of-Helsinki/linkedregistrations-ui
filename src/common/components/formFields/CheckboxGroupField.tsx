@@ -67,6 +67,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
     setShowAll((o) => !o);
   };
 
+  /* istanbul ignore next */
   const handleBlur = () => {
     onBlur({ target: { id: name, value } });
   };

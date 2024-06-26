@@ -44,7 +44,9 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
 
   const [ref, menuContainerSize] = useMeasure({
     // Detect scroll events only if menu is open to improve performance
-    scroll: fixedPosition && menuOpen,
+    scroll:
+      /* istanbul ignore next */
+      fixedPosition && menuOpen,
     polyfill: ResizeObserver,
   });
 

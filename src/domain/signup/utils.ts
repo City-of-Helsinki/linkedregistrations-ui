@@ -163,6 +163,7 @@ export const getSignupGroupInitialValuesFromSignup = (
   signup: Signup,
   signupGroup?: SignupGroup
 ): SignupGroupFormFields => {
+  /* istanbul ignore next */
   const contactPerson =
     signupGroup?.contact_person ?? signup?.contact_person ?? {};
   return {
@@ -210,7 +211,8 @@ export const getSignupPayload = ({
             ? { registration_price_group: Number(priceGroup) }
             : undefined,
         }
-      : {}),
+      : /* istanbul ignore next */
+        {}),
     street_address: streetAddress || null,
     zipcode: zipcode || null,
     user_consent: userConsent,

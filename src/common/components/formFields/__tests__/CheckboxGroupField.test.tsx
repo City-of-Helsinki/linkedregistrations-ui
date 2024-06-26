@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { Field, Formik } from 'formik';
 import range from 'lodash/range';
 import React from 'react';
@@ -7,9 +8,15 @@ import CheckboxGroupField, {
   CheckboxGroupFieldProps,
 } from '../CheckboxGroupField';
 
-const renderComponent = (props?: Partial<CheckboxGroupFieldProps>) =>
+const renderComponent = ({
+  props,
+  initialValues = { fieldName: [] },
+}: {
+  props?: Partial<CheckboxGroupFieldProps>;
+  initialValues?: Record<string, unknown>;
+}) =>
   render(
-    <Formik initialValues={{ fieldName: '' }} onSubmit={() => undefined}>
+    <Formik initialValues={initialValues} onSubmit={() => undefined}>
       {() => (
         <Field
           name="fieldName"
@@ -31,7 +38,7 @@ test('should toggle visible options', async () => {
     value: index.toString(),
   }));
 
-  renderComponent({ options, visibleOptionAmount });
+  renderComponent({ props: { options, visibleOptionAmount } });
   const defaultOptions = options.slice(0, visibleOptionAmount);
   const restOptions = options.slice(visibleOptionAmount);
 
@@ -58,9 +65,26 @@ test('should toggle visible options', async () => {
   ).toBeInTheDocument();
 });
 
+test('should disable checked options if less than min option is checked', async () => {
+  const optionAmount = 5;
+  const options = range(1, optionAmount).map((index) => ({
+    label: `Option ${index}`,
+    value: index.toString(),
+  }));
+
+  renderComponent({
+    initialValues: { fieldName: [options[0].value] },
+    props: { options, min: 1 },
+  });
+
+  const checkbox = screen.getByRole('checkbox', { name: options[0].label });
+  expect(checkbox).toBeChecked();
+  expect(checkbox).toBeDisabled();
+});
+
 test('should show label with required indicator', async () => {
   const label = 'Label';
-  renderComponent({ label, required: true });
+  renderComponent({ props: { label, required: true } });
 
   screen.getByRole('group', { name: label });
   screen.getByText('*');
@@ -68,7 +92,7 @@ test('should show label with required indicator', async () => {
 
 test('should show label without required indicator', async () => {
   const label = 'Label';
-  renderComponent({ label, required: false });
+  renderComponent({ props: { label, required: false } });
 
   screen.getByRole('group', { name: label });
   expect(screen.queryByText('*')).not.toBeInTheDocument();

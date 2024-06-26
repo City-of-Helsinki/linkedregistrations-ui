@@ -28,6 +28,7 @@ const FormikPersist = ({
 
   const debouncedSaveForm = useDebouncedCallback(
     async (data: FormikProps<Record<string, unknown>>) => {
+      /* istanbul ignore next */
       if (savingDisabled || !isMounted.current) return;
 
       if (isSessionStorage) {

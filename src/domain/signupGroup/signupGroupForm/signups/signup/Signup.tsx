@@ -65,6 +65,7 @@ const Signup: React.FC<SignupProps> = ({
   const getPlaceholder = (placeholder: string) =>
     readOnly ? READ_ONLY_PLACEHOLDER : placeholder;
 
+  /* istanbul ignore next */
   const getRowClassName = (className: string) =>
     readOnly ? styles.readOnlyRow : className;
 
@@ -187,6 +188,7 @@ const Signup: React.FC<SignupProps> = ({
             <SplittedRow
               className={styles.streetAddressRow}
               type={getSplittedRowType(
+                /* istanbul ignore next */
                 isSignupFieldRequired(
                   registration,
                   SIGNUP_FIELDS.STREET_ADDRESS

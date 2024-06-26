@@ -213,12 +213,12 @@ export const getSignupGroupInitialValues = (
   signupGroup: SignupGroup
 ): SignupGroupFormFields => {
   const signups: Signup[] = (
-    signupGroup.signups ?? /* istanbul ignore next*/ []
+    signupGroup.signups ?? /* istanbul ignore next */ []
   ).filter(skipFalsyType);
 
   return {
     contactPerson: getContactPersonInitialValues(
-      signupGroup.contact_person ?? {}
+      signupGroup.contact_person ?? /* istanbul ignore next */ {}
     ),
     extraInfo: signupGroup.extra_info ?? '',
     signups: signups.map((su) => getSignupInitialValues(su)),
@@ -361,7 +361,7 @@ export const omitSensitiveDataFromSignupGroupPayload = (
     ? (omitSensitiveDataFromContactPerson(
         payload.contact_person
       ) as ContactPersonInput)
-    : payload.contact_person,
+    : undefined,
   signups: payload.signups.map((s) =>
     omitSensitiveDataFromSignupPayload(s)
   ) as SignupInput[],

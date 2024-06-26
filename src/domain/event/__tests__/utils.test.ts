@@ -17,10 +17,12 @@ import {
   SuperEventType,
   TEST_EVENT_ID,
 } from '../constants';
+import { EventQueryVariables } from '../types';
 import {
   createEventIcsFile,
   getCalendarEvents,
   downloadEventIcsFile,
+  eventPathBuilder,
   getEventAttributes,
   getEventFields,
   getEventLocationText,
@@ -361,6 +363,24 @@ describe('isEventStarted', () => {
     async (event, expectedResult) => {
       advanceTo('2024-05-01');
       expect(isEventStarted(event)).toBe(expectedResult);
+    }
+  );
+});
+
+describe('userPathBuilder function', () => {
+  const testCases: [Partial<EventQueryVariables>, string][] = [
+    [{}, '/event/123/?nocache=true'],
+    [{ nocache: true }, '/event/123/?nocache=true'],
+    [{ nocache: false }, '/event/123/'],
+    [
+      { include: ['item:1', 'item:2'] },
+      '/event/123/?include=item:1,item:2&nocache=true',
+    ],
+  ];
+  it.each(testCases)(
+    'should create correct path for user request',
+    (query, expectedPath) => {
+      expect(eventPathBuilder({ ...query, id: '123' })).toBe(expectedPath);
     }
   );
 });

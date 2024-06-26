@@ -89,68 +89,46 @@ describe('getApiTokensRequest function', () => {
 });
 
 describe('getUserFirstName function', () => {
-  it('should return correct user first name', () => {
-    const session = fakeAuthenticatedSession({
-      user: fakeOidcUser({
-        email: 'test@email.com',
-        given_name: 'User',
-        name: 'User name',
-      }),
-    });
-    expect(getUserFirstName({ session })).toBe('User');
-    expect(
-      getUserFirstName({
-        session: {
-          ...session,
-          user: { ...(session.user as OidcUser), given_name: '' },
-        },
-      })
-    ).toBe('User name');
-    expect(
-      getUserFirstName({
-        session: {
-          ...session,
-          user: { ...(session.user as OidcUser), given_name: '', name: '' },
-        },
-      })
-    ).toBe('test@email.com');
-    expect(
-      getUserFirstName({
-        session: {
-          ...session,
-          user: {
-            ...(session.user as OidcUser),
-            given_name: '',
-            name: '',
-            email: '',
-          },
-        },
-      })
-    ).toBe('');
+  const commonUser = fakeOidcUser({
+    email: 'test@email.com',
+    given_name: 'User',
+    name: 'User name',
   });
+  const testCases: [OidcUser | undefined, string][] = [
+    [commonUser, 'User'],
+    [{ ...commonUser, given_name: '' }, 'User name'],
+    [{ ...commonUser, given_name: '', name: '' }, 'test@email.com'],
+    [{ ...commonUser, email: '', given_name: '', name: '' }, ''],
+    [null as unknown as undefined, ''],
+  ];
+
+  it.each(testCases)(
+    'should return correct user first name, %o -> %s',
+    (user, expectedName) => {
+      const session = fakeAuthenticatedSession({ user });
+      expect(getUserFirstName({ session })).toBe(expectedName);
+    }
+  );
 });
 
 describe('getUserName function', () => {
-  it('should return correct userame', () => {
-    const session = fakeAuthenticatedSession({
-      user: fakeOidcUser({ email: 'test@email.com', name: 'User name' }),
-    });
-    expect(getUserName({ session })).toBe('User name');
-    expect(
-      getUserName({
-        session: {
-          ...session,
-          user: { ...(session.user as OidcUser), name: '' },
-        },
-      })
-    ).toBe('test@email.com');
-    expect(
-      getUserName({
-        session: {
-          ...session,
-          user: { ...(session.user as OidcUser), name: '', email: '' },
-        },
-      })
-    ).toBe('');
+  const commonUser = fakeOidcUser({
+    email: 'test@email.com',
+    given_name: 'User',
+    name: 'User name',
   });
+  const testCases: [OidcUser | undefined, string][] = [
+    [commonUser, 'User name'],
+    [{ ...commonUser, name: '' }, 'test@email.com'],
+    [{ ...commonUser, email: '', name: '' }, ''],
+    [null as unknown as undefined, ''],
+  ];
+
+  it.each(testCases)(
+    'should return correct username, %o -> %s',
+    (user, expectedName) => {
+      const session = fakeAuthenticatedSession({ user });
+      expect(getUserName({ session })).toBe(expectedName);
+    }
+  );
 });

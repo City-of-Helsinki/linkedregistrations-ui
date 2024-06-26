@@ -85,6 +85,22 @@ test('should shown name in accordion label', async () => {
   ).toBeInTheDocument();
 });
 
+test('should not show in waiting list text if signup is not in waiting list', async () => {
+  renderComponent({
+    signup: { ...SIGNUP_INITIAL_VALUES, inWaitingList: false },
+  });
+
+  expect(screen.queryByText('Jonopaikka')).not.toBeInTheDocument();
+});
+
+test('should show in waiting list text if signup is in waiting list', async () => {
+  renderComponent({
+    signup: { ...SIGNUP_INITIAL_VALUES, inWaitingList: true },
+  });
+
+  expect(screen.getByText('Jonopaikka')).toBeInTheDocument();
+});
+
 test('should show price group name in the accordion label', async () => {
   renderComponent({
     registration: registrationWithPriceGroup,
