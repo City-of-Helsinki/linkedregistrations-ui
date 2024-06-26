@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { TFunction } from 'i18next';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import snakeCase from 'lodash/snakeCase';
@@ -15,6 +16,8 @@ import {
   callPost,
   callPut,
 } from '../app/axios/axiosClient';
+import { Event } from '../event/types';
+import { isEventStarted } from '../event/utils';
 import { Registration } from '../registration/types';
 import { SeatsReservation } from '../reserveSeats/types';
 import { ATTENDEE_STATUS, NOTIFICATION_TYPE } from '../signup/constants';
@@ -416,3 +419,63 @@ export const canEditSignupGroup = (signupGroup: SignupGroup) =>
   !signupGroup.signups?.some(
     (signup) => signup.payment_cancellation || signup.payment_refund
   );
+
+export const canCancelSignupGroup = ({
+  event,
+  signupGroup,
+}: {
+  event: Event;
+  signupGroup: SignupGroup;
+}): boolean =>
+  Boolean(canEditSignupGroup(signupGroup) && !isEventStarted(event));
+
+export const getEditSignupGroupWarning = ({
+  signupGroup,
+  t,
+}: {
+  signupGroup: SignupGroup;
+  t: TFunction;
+}): string => {
+  if (
+    !(
+      signupGroup.has_contact_person_access ||
+      signupGroup.is_created_by_current_user
+    )
+  ) {
+    return t('signup:warnings.insufficientPermissions');
+  }
+  if (
+    signupGroup.payment_cancellation ||
+    signupGroup.signups?.some((signup) => signup.payment_cancellation)
+  ) {
+    return t('signup:warnings.hasPaymentCancellation');
+  }
+  if (
+    signupGroup.payment_refund ||
+    signupGroup.signups?.some((signup) => signup.payment_refund)
+  ) {
+    return t('signup:warnings.hasPaymentRefund');
+  }
+
+  return '';
+};
+
+export const getCancelSignupGroupWarning = ({
+  event,
+  signupGroup,
+  t,
+}: {
+  event: Event;
+  signupGroup: SignupGroup;
+  t: TFunction;
+}): string => {
+  const editWarning = getEditSignupGroupWarning({ signupGroup, t });
+  if (editWarning) {
+    return editWarning;
+  }
+  if (isEventStarted(event)) {
+    return t('signup:warnings.eventStarted');
+  }
+
+  return '';
+};

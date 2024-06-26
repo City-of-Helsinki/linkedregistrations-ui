@@ -123,6 +123,10 @@
     "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
     "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
     "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.",
-    "closedWithEnrolmentTime": "Ilmoittautuminen tähän tapahtumaan avautuu {{openingDate}} klo {{openingTime}}."
+    "closedWithEnrolmentTime": "Ilmoittautuminen tähän tapahtumaan avautuu {{openingDate}} klo {{openingTime}}.",
+    "eventStarted": "Tapahtuman on jo alkanut eikä ilmoittautumista voi perua.",
+    "hasPaymentCancellation": "Ilmoittautumisen maksua perutaan eikä sitä voi muokata.",
+    "hasPaymentRefund": "Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.",
+    "insufficientPermissions": "Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja."
   }
 }

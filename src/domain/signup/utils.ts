@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
 import { ExtendedSession } from '../../types';
@@ -14,6 +15,8 @@ import {
   callPost,
   callPut,
 } from '../app/axios/axiosClient';
+import { Event } from '../event/types';
+import { isEventStarted } from '../event/utils';
 import { Registration } from '../registration/types';
 import {
   DeleteSignupGroupMutationInput,
@@ -348,3 +351,60 @@ export const canEditSignup = (
   !signup.payment_refund &&
   !signupGroup?.payment_cancellation &&
   !signupGroup?.payment_refund;
+
+export const canCancelSignup = ({
+  event,
+  signup,
+  signupGroup,
+}: {
+  event: Event;
+  signup: Signup;
+  signupGroup?: SignupGroup;
+}): boolean =>
+  Boolean(canEditSignup(signup, signupGroup) && !isEventStarted(event));
+
+export const getEditSignupWarning = ({
+  signup,
+  signupGroup,
+  t,
+}: {
+  signup: Signup;
+  signupGroup?: SignupGroup;
+  t: TFunction;
+}): string => {
+  if (
+    !(signup.has_contact_person_access || signup.is_created_by_current_user)
+  ) {
+    return t('signup:warnings.insufficientPermissions');
+  }
+  if (signup.payment_cancellation || signupGroup?.payment_cancellation) {
+    return t('signup:warnings.hasPaymentCancellation');
+  }
+  if (signup.payment_refund || signupGroup?.payment_refund) {
+    return t('signup:warnings.hasPaymentRefund');
+  }
+
+  return '';
+};
+
+export const getCancelSignupWarning = ({
+  event,
+  signup,
+  signupGroup,
+  t,
+}: {
+  event: Event;
+  signup: Signup;
+  signupGroup?: SignupGroup;
+  t: TFunction;
+}): string => {
+  const editWarning = getEditSignupWarning({ signup, signupGroup, t });
+  if (editWarning) {
+    return editWarning;
+  }
+  if (isEventStarted(event)) {
+    return t('signup:warnings.eventStarted');
+  }
+
+  return '';
+};

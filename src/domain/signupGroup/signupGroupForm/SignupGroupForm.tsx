@@ -37,7 +37,12 @@ import useSignupActions from '../../signup/hooks/useSignupActions';
 import ConfirmDeleteSignupModal from '../../signup/modals/confirmDeleteSignupModal/ConfirmDeleteSignupModal';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { Signup } from '../../signup/types';
-import { canEditSignup } from '../../signup/utils';
+import {
+  canCancelSignup,
+  canEditSignup,
+  getCancelSignupWarning,
+  getEditSignupWarning,
+} from '../../signup/utils';
 import ButtonWrapper from '../buttonWrapper/ButtonWrapper';
 import {
   CONTACT_PERSON_FIELDS,
@@ -56,8 +61,11 @@ import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields, SignupGroup, SignupGroupFormFields } from '../types';
 import {
+  canCancelSignupGroup,
   canEditSignupGroup,
+  getCancelSignupGroupWarning,
   getContactPersonFieldName,
+  getEditSignupGroupWarning,
   isSignupFieldRequired,
   shouldCreatePayment,
 } from '../utils';
@@ -96,20 +104,47 @@ const SignupGroupForm: React.FC<Props> = ({
   signup,
   signupGroup,
 }) => {
+  const { t } = useTranslation(['signup', 'common']);
+
   const isEditingMode =
     mode === 'update-signup' || mode === 'update-signup-group';
-  const allowToEdit = useMemo((): boolean => {
-    if (mode === 'update-signup') {
-      return Boolean(signup && canEditSignup(signup, signupGroup));
-    } else if (mode === 'update-signup-group') {
-      return Boolean(signupGroup && canEditSignupGroup(signupGroup));
-    }
-    return true;
-  }, [mode, signup, signupGroup]);
+  const { allowToEdit, allowToCancel, cancelWarning, editWarning } =
+    useMemo((): {
+      allowToCancel: boolean;
+      allowToEdit: boolean;
+      cancelWarning: string;
+      editWarning: string;
+    } => {
+      if (mode === 'update-signup' && signup) {
+        return {
+          allowToCancel: canCancelSignup({ event, signup, signupGroup }),
+          allowToEdit: canEditSignup(signup, signupGroup),
+          cancelWarning: getCancelSignupWarning({
+            event,
+            signup,
+            signupGroup,
+            t,
+          }),
+          editWarning: getEditSignupWarning({ signup, signupGroup, t }),
+        };
+      } else if (mode === 'update-signup-group' && signupGroup) {
+        return {
+          allowToCancel: canCancelSignupGroup({ event, signupGroup }),
+          allowToEdit: canEditSignupGroup(signupGroup),
+          cancelWarning: getCancelSignupGroupWarning({ event, signupGroup, t }),
+          editWarning: getEditSignupGroupWarning({ signupGroup, t }),
+        };
+      }
+      return {
+        allowToCancel: false,
+        allowToEdit: true,
+        cancelWarning: '',
+        editWarning: '',
+      };
+    }, [event, mode, signup, signupGroup, t]);
 
   const readOnly = !allowToEdit;
 
-  const { t } = useTranslation(['signup', 'common']);
   const titleCannotEditContactPerson = contactPersonFieldsDisabled
     ? t('signup:titleCannotEditContactPerson')
     : undefined;
@@ -587,8 +622,11 @@ const SignupGroupForm: React.FC<Props> = ({
 
               {isEditingMode && (
                 <EditButtonPanel
+                  allowToCancel={allowToCancel}
                   allowToEdit={allowToEdit}
+                  cancelWarning={cancelWarning}
                   disabled={formDisabled || readOnly}
+                  editWarning={editWarning}
                   onCancel={() => setOpenModal(SIGNUP_MODALS.DELETE)}
                   onUpdate={handleSubmit}
                   savingSignup={savingSignup}

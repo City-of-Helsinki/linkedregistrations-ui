@@ -29,7 +29,7 @@ export const eventOverrides = {
   offers: fakeOffers(1, [
     { is_free: false, price: fakeLocalisedObject('Event price') },
   ]),
-  start_time: new Date().toISOString(),
+  start_time: addDays(new Date(), 1).toISOString(),
 };
 
 export const locationText = [locationName, streetAddress, addressLocality].join(

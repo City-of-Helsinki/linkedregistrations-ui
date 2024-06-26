@@ -2,6 +2,7 @@ import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 
 import {
+  fakeEvent,
   fakeRegistration,
   fakeRegistrationPriceGroup,
 } from '../../../utils/mockDataUtils';
@@ -65,5 +66,15 @@ const registrationWithPriceGroup = fakeRegistration({
     }),
   ],
 });
+const registrationWithOnGoingEvent = fakeRegistration({
+  event: fakeEvent({
+    start_time: subDays(new Date(), 1).toISOString(),
+  }),
+});
 
-export { registration, registrationWithPriceGroup, registrationOverrides };
+export {
+  registration,
+  registrationWithOnGoingEvent,
+  registrationWithPriceGroup,
+  registrationOverrides,
+};

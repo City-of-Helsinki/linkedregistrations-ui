@@ -24,6 +24,7 @@ import {
   getEventAttributes,
   getEventFields,
   getEventLocationText,
+  isEventStarted,
 } from '../utils';
 
 afterEach(() => {
@@ -344,4 +345,22 @@ describe('downloadEventIcsFile', () => {
       type: 'error',
     });
   });
+});
+
+describe('isEventStarted', () => {
+  it.each([
+    [fakeEvent({ start_time: null }), false],
+    [fakeEvent({ start_time: '2023-05-01' }), true],
+    [fakeEvent({ start_time: '2024-04-01' }), true],
+    [fakeEvent({ start_time: '2024-04-30' }), true],
+    [fakeEvent({ start_time: '2025-05-01' }), false],
+    [fakeEvent({ start_time: '2024-06-01' }), false],
+    [fakeEvent({ start_time: '2024-05-02' }), false],
+  ])(
+    'should return true if event is not started',
+    async (event, expectedResult) => {
+      advanceTo('2024-05-01');
+      expect(isEventStarted(event)).toBe(expectedResult);
+    }
+  );
 });

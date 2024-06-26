@@ -1,5 +1,9 @@
+import i18n from 'i18next';
+import { advanceTo, clear } from 'jest-date-mock';
+
 import {
   fakeContactPerson,
+  fakeEvent,
   fakeRegistration,
   fakeRegistrationPriceGroup,
   fakeSignup,
@@ -8,6 +12,7 @@ import {
   fakeSignupPaymentRefund,
   fakeSignupPriceGroup,
 } from '../../../utils/mockDataUtils';
+import { Event } from '../../event/types';
 import { registration } from '../../registration/__mocks__/registration';
 import {
   REGISTRATION_MANDATORY_FIELDS,
@@ -51,7 +56,19 @@ import {
   calculateTotalPrice,
   shouldCreatePayment,
   canEditSignupGroup,
+  canCancelSignupGroup,
+  getEditSignupGroupWarning,
+  getCancelSignupGroupWarning,
 } from '../utils';
+
+const editableSignupGroupOverride = {
+  has_contact_person_access: true,
+  is_created_by_current_user: true,
+};
+
+afterEach(() => {
+  clear();
+});
 
 describe('canEditSignupGroup function', () => {
   const cases: [SignupGroup, boolean][] = [
@@ -85,32 +102,28 @@ describe('canEditSignupGroup function', () => {
     ],
     [
       fakeSignupGroup({
-        has_contact_person_access: true,
-        is_created_by_current_user: true,
+        ...editableSignupGroupOverride,
         payment_cancellation: fakeSignupPaymentCancellation(),
       }),
       false,
     ],
     [
       fakeSignupGroup({
-        has_contact_person_access: true,
-        is_created_by_current_user: true,
+        ...editableSignupGroupOverride,
         payment_refund: fakeSignupPaymentRefund(),
       }),
       false,
     ],
     [
       fakeSignupGroup({
-        has_contact_person_access: true,
-        is_created_by_current_user: true,
+        ...editableSignupGroupOverride,
         signups: [fakeSignup()],
       }),
       true,
     ],
     [
       fakeSignupGroup({
-        has_contact_person_access: true,
-        is_created_by_current_user: true,
+        ...editableSignupGroupOverride,
         signups: [
           fakeSignup({ payment_cancellation: fakeSignupPaymentCancellation() }),
         ],
@@ -119,8 +132,7 @@ describe('canEditSignupGroup function', () => {
     ],
     [
       fakeSignupGroup({
-        has_contact_person_access: true,
-        is_created_by_current_user: true,
+        ...editableSignupGroupOverride,
         signups: [fakeSignup({ payment_refund: fakeSignupPaymentRefund() })],
       }),
       false,
@@ -131,6 +143,224 @@ describe('canEditSignupGroup function', () => {
     'should return true if signup group can be edited',
     (signupGroup, expectedResult) =>
       expect(canEditSignupGroup(signupGroup)).toBe(expectedResult)
+  );
+});
+
+describe('getEditSignupGroupWarning function', () => {
+  const cases: [SignupGroup, string][] = [
+    [fakeSignupGroup(editableSignupGroupOverride), ''],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: false,
+        is_created_by_current_user: false,
+      }),
+      'Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [
+          fakeSignup({ payment_cancellation: fakeSignupPaymentCancellation() }),
+        ],
+      }),
+      'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [fakeSignup({ payment_refund: fakeSignupPaymentRefund() })],
+      }),
+      'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+    ],
+  ];
+
+  it.each(cases)(
+    'should return correct edit signup group warning',
+    (signupGroup, expectedWarning) =>
+      expect(
+        getEditSignupGroupWarning({ signupGroup, t: i18n.t.bind(i18n) })
+      ).toBe(expectedWarning)
+  );
+});
+
+describe('canCancelSignupGroup function', () => {
+  const editableEvent = fakeEvent({ start_time: '2024-06-24' });
+  const cases: [SignupGroup, Event, boolean][] = [
+    [
+      fakeSignupGroup({
+        has_contact_person_access: false,
+        is_created_by_current_user: false,
+      }),
+      editableEvent,
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: false,
+      }),
+      editableEvent,
+      true,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: false,
+        is_created_by_current_user: true,
+      }),
+      editableEvent,
+      true,
+    ],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: true,
+        is_created_by_current_user: true,
+      }),
+      editableEvent,
+      true,
+    ],
+    [fakeSignupGroup(editableSignupGroupOverride), editableEvent, true],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      editableEvent,
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      editableEvent,
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [fakeSignup()],
+      }),
+      editableEvent,
+      true,
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [
+          fakeSignup({ payment_cancellation: fakeSignupPaymentCancellation() }),
+        ],
+      }),
+      editableEvent,
+      false,
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [fakeSignup({ payment_refund: fakeSignupPaymentRefund() })],
+      }),
+      editableEvent,
+      false,
+    ],
+    [
+      fakeSignupGroup(editableSignupGroupOverride),
+      fakeEvent({ start_time: '2024-01-01' }),
+      false,
+    ],
+  ];
+
+  it.each(cases)(
+    'should return true if signup group can be cancelled',
+    (signupGroup, event, expectedResult) => {
+      advanceTo('2024-06-01');
+      expect(canCancelSignupGroup({ event, signupGroup })).toBe(expectedResult);
+    }
+  );
+});
+
+describe('getCancelSignupGroupWarning function', () => {
+  const editableEvent = fakeEvent({ start_time: '2024-06-24' });
+  const cases: [SignupGroup, Event, string][] = [
+    [fakeSignupGroup(editableSignupGroupOverride), editableEvent, ''],
+    [
+      fakeSignupGroup({
+        has_contact_person_access: false,
+        is_created_by_current_user: false,
+      }),
+      editableEvent,
+      'Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_cancellation: fakeSignupPaymentCancellation(),
+      }),
+      editableEvent,
+      'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        payment_refund: fakeSignupPaymentRefund(),
+      }),
+      editableEvent,
+      'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [
+          fakeSignup({ payment_cancellation: fakeSignupPaymentCancellation() }),
+        ],
+      }),
+      editableEvent,
+      'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup({
+        ...editableSignupGroupOverride,
+        signups: [fakeSignup({ payment_refund: fakeSignupPaymentRefund() })],
+      }),
+      editableEvent,
+      'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+    ],
+    [
+      fakeSignupGroup(editableSignupGroupOverride),
+      fakeEvent({ start_time: '2024-01-01' }),
+      'Tapahtuman on jo alkanut eikä ilmoittautumista voi perua.',
+    ],
+    [
+      fakeSignupGroup(editableSignupGroupOverride),
+      fakeEvent({ start_time: null }),
+      '',
+    ],
+  ];
+
+  it.each(cases)(
+    'should return correct cancel signup group warning',
+    (signupGroup, event, expectedWarning) => {
+      advanceTo('2024-06-01');
+      expect(
+        getCancelSignupGroupWarning({
+          event,
+          signupGroup,
+          t: i18n.t.bind(i18n),
+        })
+      ).toBe(expectedWarning);
+    }
   );
 });
 

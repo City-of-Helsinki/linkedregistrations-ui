@@ -124,6 +124,10 @@
     "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
     "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
     "closed": "Registration for this event is currently closed. Please try again later.",
-    "closedWithEnrolmentTime": "Registration for this event opens on {{openingDate}} at {{openingTime}}."
+    "closedWithEnrolmentTime": "Registration for this event opens on {{openingDate}} at {{openingTime}}.",
+    "eventStarted": "The event has already started and registration cannot be cancelled.",
+    "hasPaymentCancellation": "The payment is being cancelled and cannot be modified.",
+    "hasPaymentRefund": "The payment is being refunded and cannot be modified.",
+    "insufficientPermissions": "You do not have the right to edit registration details."
   }
 }

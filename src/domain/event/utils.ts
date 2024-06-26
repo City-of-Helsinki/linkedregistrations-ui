@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import isPast from 'date-fns/isPast';
 import { DateArray, DateTime, EventAttributes, createEvents } from 'ics';
 import { TFunction } from 'next-i18next';
 
@@ -186,4 +187,9 @@ export const eventPathBuilder = ({
   const query = queryBuilder(variableToKeyItems);
 
   return `/event/${id}/${query}`;
+};
+
+export const isEventStarted = (event: Event): boolean => {
+  const startTime = event.start_time ? new Date(event.start_time) : null;
+  return startTime ? isPast(startTime) : false;
 };

@@ -23,7 +23,10 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { mockedLanguagesResponses } from '../../language/__mocks__/languages';
-import { registration } from '../../registration/__mocks__/registration';
+import {
+  registration,
+  registrationWithOnGoingEvent,
+} from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { signupGroup } from '../../signupGroup/__mocks__/signupGroup';
 import {
@@ -81,12 +84,13 @@ const mockedSignupGroupResponse = rest.get(
   (req, res, ctx) => res(ctx.status(200), ctx.json(signupGroup))
 );
 
-const defaultMocks = [
+const commonMocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
-  mockedRegistrationResponse,
   mockedSignupResponse,
 ];
+
+const defaultMocks = [...commonMocks, mockedRegistrationResponse];
 
 const pushEditSignupRoute = (
   registrationId: string,
@@ -129,6 +133,21 @@ test('should cancel signup', async () => {
       `/fi/registration/${TEST_REGISTRATION_ID}/signup/cancelled`
     )
   );
+});
+
+test('should disable cancel button if event is already started', async () => {
+  const mockedRegistrationWithOnGoingEventResponse = rest.get(
+    `*/registration/${TEST_REGISTRATION_ID}/`,
+    (req, res, ctx) =>
+      res(ctx.status(200), ctx.json(registrationWithOnGoingEvent))
+  );
+  setQueryMocks(...commonMocks, mockedRegistrationWithOnGoingEventResponse);
+  pushEditSignupRoute(TEST_REGISTRATION_ID);
+  renderComponent();
+
+  await findFirstNameInputs();
+  const cancelButton = await getSignupFormElement('cancelButton');
+  expect(cancelButton).toBeDisabled();
 });
 
 test('should show error message when cancelling signup fails', async () => {

@@ -8,8 +8,11 @@ import { SIGNUPS_SEARCH_PARAMS } from '../../singups/constants';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 
 type EditButtonPanelProps = {
+  allowToCancel: boolean;
   allowToEdit: boolean;
+  cancelWarning: string;
   disabled: boolean;
+  editWarning: string;
   onCancel: () => void;
   onUpdate: () => void;
   savingSignup: SIGNUP_ACTIONS | null;
@@ -17,7 +20,10 @@ type EditButtonPanelProps = {
 };
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
+  allowToCancel,
   allowToEdit,
+  cancelWarning,
+  editWarning,
   disabled,
   onCancel,
   onUpdate,
@@ -50,38 +56,38 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onBack={
         router.query[SIGNUPS_SEARCH_PARAMS.RETURN_PATH] ? handleBack : undefined
       }
-      submitButtons={
-        allowToEdit
-          ? [
-              <Button
-                key="cancel"
-                iconLeft={<IconCross aria-hidden={true} />}
-                onClick={onCancel}
-                variant="danger"
-              >
-                {t('buttonCancel')}
-              </Button>,
-              <Button
-                key="update"
-                disabled={Boolean(
-                  disabled ||
-                    savingSignup === SIGNUP_ACTIONS.UPDATE ||
-                    savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
-                )}
-                iconLeft={<IconPen aria-hidden={true} />}
-                isLoading={
-                  savingSignup === SIGNUP_ACTIONS.UPDATE ||
-                  savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
-                }
-                loadingText={t('buttonUpdate')}
-                onClick={onUpdate}
-                variant="primary"
-              >
-                {t('buttonUpdate')}
-              </Button>,
-            ]
-          : []
-      }
+      submitButtons={[
+        <Button
+          key="cancel"
+          disabled={!allowToCancel}
+          iconLeft={<IconCross aria-hidden={true} />}
+          onClick={onCancel}
+          title={cancelWarning}
+          variant="danger"
+        >
+          {t('buttonCancel')}
+        </Button>,
+        <Button
+          key="update"
+          disabled={Boolean(
+            disabled ||
+              !allowToEdit ||
+              savingSignup === SIGNUP_ACTIONS.UPDATE ||
+              savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
+          )}
+          iconLeft={<IconPen aria-hidden={true} />}
+          isLoading={
+            savingSignup === SIGNUP_ACTIONS.UPDATE ||
+            savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
+          }
+          loadingText={t('buttonUpdate')}
+          onClick={onUpdate}
+          title={editWarning}
+          variant="primary"
+        >
+          {t('buttonUpdate')}
+        </Button>,
+      ]}
     ></ButtonPanel>
   );
 };

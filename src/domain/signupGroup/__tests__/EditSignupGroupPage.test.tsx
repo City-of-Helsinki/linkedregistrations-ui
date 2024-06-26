@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import '@testing-library/jest-dom';
 import { axe } from 'jest-axe';
 import { rest } from 'msw';
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
@@ -22,7 +23,10 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { mockedLanguagesResponses } from '../../language/__mocks__/languages';
-import { registration } from '../../registration/__mocks__/registration';
+import {
+  registration,
+  registrationWithOnGoingEvent,
+} from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { SIGNUPS_SEARCH_PARAMS } from '../../singups/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -31,6 +35,7 @@ import { TEST_SIGNUP_GROUP_ID } from '../constants';
 import EditSignupGroupPage from '../EditSignupGroupPage';
 import {
   findFirstNameInputs,
+  getSignupFormElement,
   shouldRenderSignupFormFields,
   shouldRenderSignupFormReadOnlyFields,
   tryToCancel,
@@ -72,12 +77,13 @@ const mockedSignupGroupNotCreatedByUserResponse = rest.get(
     )
 );
 
-const defaultMocks = [
+const commonMocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
-  mockedRegistrationResponse,
   mockedSignupsGroupResponse,
 ];
+
+const defaultMocks = [...commonMocks, mockedRegistrationResponse];
 
 const pushEditSignupGroupRoute = (
   registrationId: string,
@@ -120,6 +126,21 @@ test('should cancel signup group', async () => {
       `/fi/registration/${TEST_REGISTRATION_ID}/signup-group/cancelled`
     )
   );
+});
+
+test('should disable cancel button if event is already started', async () => {
+  const mockedRegistrationWithOnGoingEventResponse = rest.get(
+    `*/registration/${TEST_REGISTRATION_ID}/`,
+    (req, res, ctx) =>
+      res(ctx.status(200), ctx.json(registrationWithOnGoingEvent))
+  );
+  setQueryMocks(...commonMocks, mockedRegistrationWithOnGoingEventResponse);
+  pushEditSignupGroupRoute(TEST_REGISTRATION_ID);
+  renderComponent();
+
+  await findFirstNameInputs();
+  const cancelButton = await getSignupFormElement('cancelButton');
+  expect(cancelButton).toBeDisabled();
 });
 
 test('should show error message when cancelling signup group fails', async () => {
