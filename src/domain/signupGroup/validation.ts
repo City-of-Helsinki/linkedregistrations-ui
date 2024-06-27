@@ -29,6 +29,7 @@ import {
   NOTIFICATIONS,
   SIGNUP_FIELDS,
   SIGNUP_GROUP_FIELDS,
+  SIGNUP_GROUP_FORM_CHECKBOX_GROUP_FIELDS,
   SIGNUP_GROUP_FORM_SELECT_FIELDS,
   SIGNUP_TEXT_FIELD_MAX_LENGTH,
 } from './constants';
@@ -290,23 +291,22 @@ export const showErrors = ({
   }
 };
 
-const getFocusableFieldId = (
+type FieldList = Array<string | RegExp>;
+
+const isInFieldList = (fieldList: FieldList, fieldName: string): boolean =>
+  Boolean(fieldList.find((field) => new RegExp(field).test(fieldName)));
+
+export const getFocusableFieldId = (
   fieldName: string
 ): {
   fieldId: string;
   fieldType: 'default' | 'checkboxGroup' | 'select';
 } => {
   // For the select elements, focus the toggle button
-  if (
-    SIGNUP_GROUP_FORM_SELECT_FIELDS.find((item) =>
-      new RegExp(item).test(fieldName)
-    )
-  ) {
+  if (isInFieldList(SIGNUP_GROUP_FORM_SELECT_FIELDS, fieldName)) {
     return { fieldId: `${fieldName}-toggle-button`, fieldType: 'select' };
-  } else if (
-    fieldName ===
-    `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NOTIFICATIONS}`
-  ) {
+  }
+  if (isInFieldList(SIGNUP_GROUP_FORM_CHECKBOX_GROUP_FIELDS, fieldName)) {
     return { fieldId: fieldName, fieldType: 'checkboxGroup' };
   }
   return { fieldId: fieldName, fieldType: 'default' };

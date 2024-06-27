@@ -11,7 +11,12 @@ import { mockNumberString, mockString } from '../../../utils/testUtils';
 import { stringOrNull } from '../../api/types';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { Registration } from '../../registration/types';
-import { NOTIFICATIONS } from '../constants';
+import {
+  CONTACT_PERSON_FIELDS,
+  NOTIFICATIONS,
+  SIGNUP_FIELDS,
+  SIGNUP_GROUP_FIELDS,
+} from '../constants';
 import {
   ContactPersonFormFields,
   SignupFormFields,
@@ -19,6 +24,7 @@ import {
 } from '../types';
 import {
   getContactPersonSchema,
+  getFocusableFieldId,
   getSignupGroupSchema,
   getSignupSchema,
   isAboveMinAge,
@@ -546,5 +552,47 @@ describe('testSignupGroupSchema function', () => {
         },
       })
     ).toBe(false);
+  });
+});
+
+describe('getFocusableFieldId function', () => {
+  it.each([
+    [
+      `${SIGNUP_GROUP_FIELDS.SIGNUPS}[0].${SIGNUP_FIELDS.PRICE_GROUP}`,
+      {
+        fieldId: 'signups[0].priceGroup-toggle-button',
+        fieldType: 'select',
+      },
+    ],
+    [
+      `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE}`,
+      {
+        fieldId: 'contactPerson.nativeLanguage-toggle-button',
+        fieldType: 'select',
+      },
+    ],
+    [
+      `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE}`,
+      {
+        fieldId: 'contactPerson.serviceLanguage-toggle-button',
+        fieldType: 'select',
+      },
+    ],
+    [
+      `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NOTIFICATIONS}`,
+      {
+        fieldId: 'contactPerson.notifications',
+        fieldType: 'checkboxGroup',
+      },
+    ],
+    [
+      SIGNUP_GROUP_FIELDS.EXTRA_INFO,
+      {
+        fieldId: 'extraInfo',
+        fieldType: 'default',
+      },
+    ],
+  ])('should get correct field id and type', (fieldName, expectedIdAndType) => {
+    expect(getFocusableFieldId(fieldName)).toEqual(expectedIdAndType);
   });
 });
