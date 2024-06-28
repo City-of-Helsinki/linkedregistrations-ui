@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.11.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.10.0...linkedregistrations-ui-v0.11.0) (2024-06-28)
+
+
+### Features
+
+* Improve test coverage ([5b926aa](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5b926aaa5fd0d1032750d34a617a1d7312d22124))
+* Prevent to delete signup after event start_time ([b3fa4db](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b3fa4dbdb6c30acf2766e02535f6fb87118fa27c))
+* Scrub sensitive data from Sentry requests ([9500b7b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/9500b7ba8528b494efd3dbc4b000758b955445ab))
+* Simplify getFocusableFieldId function ([5576d16](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5576d1633edaf6f314ac18b577db33bb53ce6dc5))
+
 ## [0.10.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.9.0...linkedregistrations-ui-v0.10.0) (2024-06-24)
 
 
