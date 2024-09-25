@@ -72,7 +72,7 @@ const MAX_CLEAN_DEPTH = 3;
 
 export const cleanSensitiveData = (data: Record<string, unknown>, depth: number = 0) => {
   if (depth > MAX_CLEAN_DEPTH) {
-    return "[Object]";
+    return {};
   };
   Object.entries(data).forEach(([key, value]) => {
     if (
