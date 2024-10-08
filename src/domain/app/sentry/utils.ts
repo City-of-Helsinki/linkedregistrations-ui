@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { ErrorEvent, TransactionEvent } from '@sentry/types';
+import { normalize } from '@sentry/utils';
 import isObject from 'lodash/isObject';
 import snakeCase from 'lodash/snakeCase';
 
@@ -69,24 +70,26 @@ const SENTRY_DENYLIST = [
 ];
 
 export const cleanSensitiveData = (data: Record<string, unknown>) => {
-  Object.entries(data).forEach(([key, value]) => {
+  const normalized = normalize(data);
+
+  Object.entries(normalized).forEach(([key, value]) => {
     if (
       SENTRY_DENYLIST.includes(key) ||
       SENTRY_DENYLIST.includes(snakeCase(key))
     ) {
-      delete data[key];
+      delete normalized[key];
     } else if (Array.isArray(value)) {
-      data[key] = value.map((item) =>
+      normalized[key] = value.map((item) =>
         isObject(item)
           ? cleanSensitiveData(item as Record<string, unknown>)
           : item
       );
     } else if (isObject(value)) {
-      data[key] = cleanSensitiveData(value as Record<string, unknown>);
+      normalized[key] = cleanSensitiveData(value as Record<string, unknown>);
     }
   });
 
-  return data;
+  return normalized;
 };
 
 export const beforeSend = (event: ErrorEvent): ErrorEvent =>
