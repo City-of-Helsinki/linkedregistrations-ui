@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.0...linkedregistrations-ui-v1.0.1) (2024-10-08)
+
+
+### Bug Fixes
+
+* Sentry clean normalized data LINK-2186 ([34a96d8](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/34a96d88dfd60c0cd95f7a735c2cce7cda4a2039))
+
 ## [1.0.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v0.10.0...linkedregistrations-ui-v1.0.0) (2024-10-08)
 
 
