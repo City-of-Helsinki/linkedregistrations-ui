@@ -16,6 +16,7 @@
     }
   },
   "clear": "Clear",
+  "clearAllSelections": "Clear all selections",
   "close": "Close",
   "cookieConsent": {
     "expiration": {

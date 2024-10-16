@@ -542,6 +542,7 @@ const SignupGroupForm: React.FC<Props> = ({
                             t(`contactPerson.placeholderNativeLanguage`)
                           )}
                           title={titleCannotEditContactPerson}
+                          clearButtonAriaLabel={t('common:clearAllSelections')}
                         />
                         <Field
                           component={SingleSelectField}
