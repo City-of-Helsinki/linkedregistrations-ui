@@ -16,6 +16,7 @@
     }
   },
   "clear": "Klar",
+  "clearAllSelections": "Ta bort alla val",
   "close": "Stäng",
   "cookieConsent": {
     "expiration": {
