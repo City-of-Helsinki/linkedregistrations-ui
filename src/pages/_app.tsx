@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import 'hds-core/lib/base.min.css';
 import '../styles/main.scss';
 
 import { init } from '@socialgouv/matomo-next';
