@@ -1,3 +1,7 @@
+@import 'hds-core/lib/base.css';
+/* Imports hds design tokens as CSS variables */
+@import 'hds-design-tokens/lib/all.min.css';
+@import './vendor/normalize';
 @import 'fonts';
 
 html,
@@ -9,6 +13,7 @@ body {
 
   padding: 0;
   margin: 0;
+  font-size: var(--fontsize-body-m);
 }
 
 * {
