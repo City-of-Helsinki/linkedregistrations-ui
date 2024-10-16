@@ -9,6 +9,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation, SSRConfig } from 'next-i18next';
@@ -48,20 +49,25 @@ const MyApp = ({
   }, []);
 
   return (
-    <AccessibilityNotificationProvider>
-      <NotificationsProvider>
-        <SessionProvider session={session} refetchInterval={30}>
-          <QueryClientProvider client={queryClient}>
-            <HydrationBoundary state={pageProps.dehydratedState}>
-              <CookieConsent />
-              <PageLayout {...pageProps}>
-                <Component {...pageProps} />
-              </PageLayout>
-            </HydrationBoundary>
-          </QueryClientProvider>
-        </SessionProvider>
-      </NotificationsProvider>
-    </AccessibilityNotificationProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <AccessibilityNotificationProvider>
+        <NotificationsProvider>
+          <SessionProvider session={session} refetchInterval={30}>
+            <QueryClientProvider client={queryClient}>
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <CookieConsent />
+                <PageLayout {...pageProps}>
+                  <Component {...pageProps} />
+                </PageLayout>
+              </HydrationBoundary>
+            </QueryClientProvider>
+          </SessionProvider>
+        </NotificationsProvider>
+      </AccessibilityNotificationProvider>
+    </>
   );
 };
 
