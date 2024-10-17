@@ -1,7 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import React, { FC } from 'react';
 
-import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import TextArea from '../../../../common/components/textArea/TextArea';
 import skipFalsyType from '../../../../utils/skipFalsyType';
@@ -40,7 +39,9 @@ const ContactPersonInfo: FC<Props> = ({
     <div>
       <h2>{t('contactPerson.titleContactPersonInfo')}</h2>
       <Divider />
-      <Fieldset heading={t(`contactPerson.titleContactInfo`)}>
+
+      <FormGroup>
+        <h3>{t(`contactPerson.titleContactInfo`)}</h3>
         <FormGroup>
           <div className={styles.emailRow}>
             <ReadOnlyTextInput
@@ -69,21 +70,21 @@ const ContactPersonInfo: FC<Props> = ({
             />
           </div>
         </FormGroup>
-      </Fieldset>
+      </FormGroup>
 
-      <Fieldset heading={t(`contactPerson.titleNotifications`)}>
-        <FormGroup>
-          <ReadOnlyTextInput
-            id={CONTACT_PERSON_FIELDS.NOTIFICATIONS}
-            label={t(`contactPerson.labelNotifications`)}
-            value={getFieldText(
-              getNotificationsText(contactPerson.notifications)
-            )}
-          />
-        </FormGroup>
-      </Fieldset>
+      <FormGroup>
+        <h3>{t(`contactPerson.titleNotifications`)}</h3>
+        <ReadOnlyTextInput
+          id={CONTACT_PERSON_FIELDS.NOTIFICATIONS}
+          label={t(`contactPerson.labelNotifications`)}
+          value={getFieldText(
+            getNotificationsText(contactPerson.notifications)
+          )}
+        />
+      </FormGroup>
 
-      <Fieldset heading={t(`contactPerson.titleAdditionalInfo`)}>
+      <FormGroup>
+        <h3>{t(`contactPerson.titleAdditionalInfo`)}</h3>
         <FormGroup>
           <div className={styles.membershipNumberRow}>
             <ReadOnlyTextInput
@@ -118,7 +119,7 @@ const ContactPersonInfo: FC<Props> = ({
           readOnly
           value={getFieldText(extraInfo)}
         />
-      </Fieldset>
+      </FormGroup>
     </div>
   );
 };

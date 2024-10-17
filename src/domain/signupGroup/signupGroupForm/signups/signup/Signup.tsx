@@ -1,9 +1,10 @@
 import { Field } from 'formik';
-import { Fieldset, IconTrash } from 'hds-react';
+import { IconTrash } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React, { useMemo } from 'react';
 
 import Accordion from '../../../../../common/components/accordion/Accordion';
+import Fieldset from '../../../../../common/components/fieldset/Fieldset';
 import DateInputField from '../../../../../common/components/formFields/DateInputField';
 import SingleSelectField from '../../../../../common/components/formFields/SingleSelectField';
 import TextAreaField from '../../../../../common/components/formFields/TextAreaField';
