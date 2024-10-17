@@ -486,24 +486,25 @@ const SignupGroupForm: React.FC<Props> = ({
                     </FormGroup>
                   </Fieldset>
 
-                  <Fieldset heading={t(`contactPerson.titleNotifications`)}>
-                    <FormGroup>
-                      <Field
-                        name={getContactPersonFieldName(
-                          CONTACT_PERSON_FIELDS.NOTIFICATIONS
-                        )}
-                        className={styles.notifications}
-                        component={CheckboxGroupField}
-                        disabled={true}
-                        label={getPlaceholder(
-                          t(`contactPerson.titleNotifications`)
-                        )}
-                        options={notificationOptions}
-                        required
-                        title={titleCannotEditContactPerson}
-                      />
-                    </FormGroup>
-                  </Fieldset>
+                  <FormGroup>
+                    <h3 className={styles.formGroupTitle}>
+                      {t(`contactPerson.titleNotifications`)}
+                    </h3>
+                    <Field
+                      name={getContactPersonFieldName(
+                        CONTACT_PERSON_FIELDS.NOTIFICATIONS
+                      )}
+                      className={styles.notifications}
+                      component={CheckboxGroupField}
+                      disabled={true}
+                      label={getPlaceholder(
+                        t(`contactPerson.titleNotifications`)
+                      )}
+                      options={notificationOptions}
+                      required
+                      title={titleCannotEditContactPerson}
+                    />
+                  </FormGroup>
 
                   <Fieldset heading={t(`contactPerson.titleAdditionalInfo`)}>
                     <FormGroup>
