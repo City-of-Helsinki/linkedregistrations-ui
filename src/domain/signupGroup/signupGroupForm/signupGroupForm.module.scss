@@ -18,6 +18,11 @@
   margin-bottom: calc(0px - var(--spacing-xs));
 }
 
+.formGroupTitle {
+  font-size: var(--fontsize-body-l);
+  margin-bottom: var(--spacing-s);
+}
+
 .notifications {
   margin-top: var(--spacing-m);
 }
