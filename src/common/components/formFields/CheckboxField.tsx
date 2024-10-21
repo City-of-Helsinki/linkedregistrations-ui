@@ -1,12 +1,10 @@
-import { ErrorMessage, FieldProps } from 'formik';
+import { FieldProps, useField } from 'formik';
 import { CheckboxProps } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import useLocale from '../../../hooks/useLocale';
+import { getErrorText } from '../../../utils/validationUtils';
 import Checkbox from '../checkbox/Checkbox';
-
-import styles from './checkboxGroupField.module.scss';
 
 type Props = FieldProps & CheckboxProps;
 
@@ -15,8 +13,10 @@ const CheckboxField: React.FC<Props> = ({
   label,
   ...rest
 }) => {
-  const locale = useLocale();
   const { t } = useTranslation('common');
+  const [, { touched, error }] = useField(name);
+
+  const errorText = getErrorText(error, touched, t);
 
   return (
     <div>
@@ -28,11 +28,9 @@ const CheckboxField: React.FC<Props> = ({
         checked={value}
         value={value}
         label={label}
+        errorText={errorText}
+        aria-invalid={!!error}
       />
-      {/* Add key to for error message to be updated when UI language changes */}
-      <ErrorMessage key={locale} name={name}>
-        {(error) => <div className={styles.errorText}>{t(error)}</div>}
-      </ErrorMessage>
     </div>
   );
 };
