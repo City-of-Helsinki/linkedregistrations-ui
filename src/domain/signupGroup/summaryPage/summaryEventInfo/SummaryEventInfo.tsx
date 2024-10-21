@@ -1,5 +1,5 @@
 import { IconLocation, IconTicket, IconUser } from 'hds-react';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import TextWithIcon from '../../../../common/components/textWithIcon/TextWithIcon';
 import useLocale from '../../../../hooks/useLocale';
@@ -19,6 +19,7 @@ type EventInfoProps = {
 
 const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
   const locale = useLocale();
+  const headingRef = useRef<HTMLDivElement>(null);
   const { event } = registration;
   const { endTime, freeEvent, name, offers, startTime } = getEventFields(
     event,
@@ -31,10 +32,18 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
 
   const locationText = getEventLocationText({ event, locale });
 
+  useEffect(() => {
+    if (headingRef.current) {
+      headingRef.current.focus();
+    }
+  }, [headingRef]);
+
   return (
     <div className={styles.summaryEventInfo}>
       <div className={styles.nameRow}>
-        <h1>{name}</h1>
+        <h1 tabIndex={-1} ref={headingRef}>
+          {name}
+        </h1>
       </div>
       <div className={styles.dateRow}>
         {(endTime || startTime) && (
