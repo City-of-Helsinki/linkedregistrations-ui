@@ -50,7 +50,7 @@ const Header: React.FC = () => {
 
   return (
     <HdsHeader
-      className={styles.header}
+      className={styles.navigation}
       id={PAGE_HEADER_ID}
       defaultLanguage={locale}
       onDidChangeLanguage={changeLanguage}
@@ -69,6 +69,8 @@ const Header: React.FC = () => {
         logo={<Logo src={logoSrcFromLanguage(locale)} alt={t('logo')} />}
         logoAriaLabel={t('ariaLogo')}
         logoHref={`/${locale}`}
+        menuButtonAriaLabel={t('navigation.menuToggleAriaLabel')}
+        menuButtonLabel={t('navigation.menuToggleAriaLabel')}
       >
         <HdsHeader.LanguageSelector
           ariaLabel={t('navigation.ariaLanguageSelection')}
@@ -83,6 +85,7 @@ const Header: React.FC = () => {
             fixedRightPosition
             icon={<IconUser />}
             id="action-bar-login"
+            className={styles.loginMenu}
           >
             <ActionBarDropdownHeader title={t('helsinkiProfile')} />
             <ActionBarDropdownDivider />

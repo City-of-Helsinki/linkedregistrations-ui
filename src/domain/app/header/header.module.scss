@@ -1,40 +1,36 @@
 @import '../../../styles/breakpoints.scss';
 
-.header {
+.navigation {
   --actionbar-background-color: var(--color-coat-of-arms) !important;
-  --header-focus-outline-color: var(--color-white) !important;
-  --nav-background-color: var(--color-coat-of-arms) !important;
+  --header-background-color: var(--color-white) !important;
   --header-color: var(--color-white) !important;
-
-  @include medium-down {
-    --lang-selector-item-font-color: var(--color-black-90) !important;
-    --header-focus-outline-color: var(--color-coat-of-arms) !important;
-  }
+  --nav-background-color: var(--color-white) !important;
+  --color-focus-outline: var(--color-coat-of-arms) !important;
+  --nav-link-hover-color: var(--color-coat-of-arms) !important;
 
   z-index: var(--header-z-index);
   left: 0;
   position: sticky !important;
   top: 0;
 
-  a,
-  button,
-  input,
-  * {
-    border-radius: 0px;
+  @include medium-up {
+    .loginMenu {
+      h3 {
+        color: var(--color-black-90) !important;
+      }
+    }
   }
 
-  > a:first-child {
-    z-index: calc(var(--header-z-index) + 1) !important;
-  }
-}
-
-.actionBar {
   @include medium-down {
-    --header-focus-outline-color: var(--color-white) !important;
-  }
-}
+    --lang-selector-item-font-color: var(--color-black-90) !important;
+    --nav-link-font-color: var(--color-black-90) !important;
 
-.signInButton,
-.signOutButton {
-  font-weight: 500;
+    .loginMenu {
+      button,
+      span,
+      svg {
+        color: var(--color-black-90) !important;
+      }
+    }
+  }
 }
