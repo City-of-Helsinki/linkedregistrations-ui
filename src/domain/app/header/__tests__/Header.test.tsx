@@ -59,7 +59,7 @@ const getElement = (
     case 'signInButton':
       return screen.getByRole('button', { name: 'Kirjaudu' });
     case 'signInMenuButton':
-      return screen.getByRole('button', { name: /kirjaudu/i });
+      return screen.getByRole('button', { name: /kirjaudu sisään/i });
     case 'signOutButton':
       return screen.getByRole('button', { name: /kirjaudu ulos/i });
     case 'svOption':
