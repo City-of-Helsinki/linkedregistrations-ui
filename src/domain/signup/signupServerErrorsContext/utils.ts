@@ -100,17 +100,22 @@ export const parseSignupGroupServerErrors = ({
   function parseSignupServerError(error: LEServerError): ServerErrorItem[] {
     /* istanbul ignore else */
     if (Array.isArray(error)) {
-      return Object.entries(error[0]).reduce(
-        (previous: ServerErrorItem[], [key, e]) => [
-          ...previous,
-          {
-            label: parseServerErrorLabel({
-              key,
-              parseFn: parseSignupGroupServerErrorLabel,
-            }),
-            message: parseServerErrorMessage({ error: e as string[], t }),
-          },
-        ],
+      return Object.entries(error).reduce(
+        (previous: ServerErrorItem[], [, e]) => {
+          return [
+            ...previous,
+            ...Object.entries(e).map(([key, item]) => ({
+              label: parseServerErrorLabel({
+                key,
+                parseFn: parseSignupGroupServerErrorLabel,
+              }),
+              message: parseServerErrorMessage({
+                error: item as string[],
+                t,
+              }),
+            })),
+          ];
+        },
         []
       );
     } else {
@@ -132,7 +137,23 @@ export const parseSignupGroupServerErrors = ({
       return t(`signup:label${pascalCase(key)}`);
     }
 
-    return t(`signup:signup.label${pascalCase(key)}`);
+    if (
+      [
+        'city',
+        'date_of_birth',
+        'extra_info',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'price_group',
+        'zip_code',
+        'street_address',
+      ].includes(key)
+    ) {
+      return t(`signup:signup.label${pascalCase(key)}`);
+    }
+
+    return '';
   }
 };
 

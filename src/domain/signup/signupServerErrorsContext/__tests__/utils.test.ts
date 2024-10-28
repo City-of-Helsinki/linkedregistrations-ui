@@ -18,7 +18,7 @@ describe('parseSignupGroupServerErrors', () => {
         {
           city: ['Tämän kentän arvo ei voi olla "null".'],
           detail: 'The participant is too old.',
-          firstName: ['The name must be specified.'],
+          first_name: ['The name must be specified.'],
           non_field_errors: [
             'Kenttien email, registration tulee muodostaa uniikki joukko.',
             'Kenttien phone_number, registration tulee muodostaa uniikki joukko.',
@@ -56,8 +56,8 @@ describe('parseSignupGroupServerErrors', () => {
 
   it('should return server error items when result is array', () => {
     const error = [
-      { firstName: ['The name must be specified.'] },
-      { lastName: ['The name must be specified.'] },
+      { first_name: ['The name must be specified.'] },
+      { last_name: ['The name must be specified.'] },
     ];
 
     expect(
