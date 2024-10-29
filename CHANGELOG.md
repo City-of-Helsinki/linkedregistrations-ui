@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.1...linkedregistrations-ui-v1.0.2) (2024-10-29)
+
+
+### Bug Fixes
+
+* A11y make buttonPanel non sticky LINK-2148 ([613de17](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/613de175277c23f46563fbd2a6e817065e37e221))
+* A11y signup language aria-label LINK-2154 ([20389e2](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/20389e284944f689224a50d53abcac4a3681530d))
+
 ## [1.0.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.0...linkedregistrations-ui-v1.0.1) (2024-10-08)
 
 
