@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.2...linkedregistrations-ui-v1.0.3) (2024-10-29)
+
+
+### Bug Fixes
+
+* A11y checkboxField error message LINK-2155 ([0ed786d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0ed786dd82d62e1f7c2c2913baca44e191676ad6))
+* A11y heading levels LINK-2150 LINK-2157 ([638a0da](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/638a0da5ac78ae433af728342f9e2a7f69ca35fb))
+* Normalize font sizes LINK-2149 ([4ebbf81](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4ebbf8149adbce52103e1005076af7ff19a420b5))
+* Set meta viewport LINK-2149 ([8b4e4b6](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/8b4e4b606ee517ba3af02b3cf7ce7739dcace4c5))
+* SingleSelect remove deprecated selection status LINK-2153 ([c1a3fbe](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c1a3fbe9732fe5b328d738cfa934499580e45221))
+
 ## [1.0.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.1...linkedregistrations-ui-v1.0.2) (2024-10-29)
 
 
