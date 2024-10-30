@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.3...linkedregistrations-ui-v1.0.4) (2024-10-30)
+
+
+### Bug Fixes
+
+* Signup error handling enhancements LINK-2158 ([2b0e1d9](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/2b0e1d95bd9359c7c6a32c5a527645bc86dfe5e8))
+* Signup summary focus on heading LINK-2156 ([3fbaa8c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/3fbaa8c73c0828654f28e7e792f10ac754cc7aaa))
+
+
+### Dependencies
+
+* Upgrade hds to 3.10.1 LINK-1755 ([e6a3aa0](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e6a3aa020e4bbf592da4930c508921e9759e8bb2))
+
 ## [1.0.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.2...linkedregistrations-ui-v1.0.3) (2024-10-29)
 
 
