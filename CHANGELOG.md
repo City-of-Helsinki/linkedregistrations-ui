@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.4...linkedregistrations-ui-v1.0.5) (2024-12-11)
+
+
+### Dependencies
+
+* Bump axios from 1.6.8 to 1.7.4 ([#173](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/173)) ([cfcc6f1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/cfcc6f1a692dc064c2ece439d715e076ff771555))
+* Bump next from 14.1.3 to 14.2.10 ([#174](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/174)) ([042efd1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/042efd14b29329579d5dc0f1900476d4f2d36c91))
+
 ## [1.0.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.3...linkedregistrations-ui-v1.0.4) (2024-10-30)
 
 
