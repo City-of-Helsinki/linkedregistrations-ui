@@ -84,6 +84,7 @@
   },
   "notificationSignupUpdated": "Deltagarinformation har sparad",
   "notificationSignupGroupUpdated": "Deltagarinformation har sparad",
+  "participantAmountAddendum": "Du kan ange en eller flera deltagare, tryck på uppdateringsknappen för att lägga till fler personer. Varje deltagare måste ha sina egna fält för grundläggande information i formuläret.",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Stänga",
     "text": "Du kommer att få ett separat bekräftelsemeddelande om din anmälan till din e-post, om en plats blir ledig för dig.",

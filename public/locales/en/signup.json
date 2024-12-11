@@ -84,6 +84,7 @@
   },
   "notificationSignupUpdated": "The signup has been saved",
   "notificationSignupGroupUpdated": "The signup group has been saved",
+  "participantAmountAddendum": "You can enter one or more participants, press the update button to add more people. Each participant must have his/her own basic information fields on the form.",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Close",
     "text": "You will receive a separate confirmation message about your registration to your e-mail if a place becomes available for you.",

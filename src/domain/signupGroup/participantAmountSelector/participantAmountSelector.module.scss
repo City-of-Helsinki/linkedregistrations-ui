@@ -19,3 +19,11 @@
     }
   }
 }
+.participantAmountAddendum {
+  color: var(--color-black-60);
+  display: block;
+  font-size: var(--fontsize-body-m);
+  line-height: var(--lineheight-l);
+  margin-top: var(--spacing-3-xs);
+  white-space: pre-line;
+}

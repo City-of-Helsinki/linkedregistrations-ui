@@ -84,6 +84,7 @@
   },
   "notificationSignupUpdated": "Osallistujan tiedot on tallennettu",
   "notificationSignupGroupUpdated": "Osallistujien tiedot on tallennettu",
+  "participantAmountAddendum": "Osallistujia voidaan ilmoittaa yksi tai useampi, paina päivitä-painiketta lisätessäsi useamman henkilön. Jokaisella osallistujalla tulee lomakkeella olla omat Ilmoittautujan perustiedot -kentät.",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Sulje",
     "text": "Mikäli sinulle vapautuu paikka, saat ilmoittautumisestasi erillisen vahvistusviestin sähköpostiisi.",

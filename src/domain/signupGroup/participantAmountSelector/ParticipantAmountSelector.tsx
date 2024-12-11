@@ -136,6 +136,9 @@ const ParticipantAmountSelector: React.FC<Props> = ({
           </Button>
         </div>
       </div>
+      <div className={styles.participantAmountAddendum} >
+        {t('participantAmountAddendum')}
+      </div>
     </>
   );
 };
