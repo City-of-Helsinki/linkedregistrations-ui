@@ -10,6 +10,7 @@
   "completedPage": {
     "redirectInfo1": "You will be automatically redirected to the service provider's page.",
     "redirectInfo2": "If the redirect does not work, you can access the page <a href=\"{{url}}\">here</a>.",
+    "suggestScreencap": "Due to email forwarding problems, please take a screenshot of this page in case you do not receive a confirmation email.",
     "text": "You have signed up to our event {{name}} - welcome!",
     "textWaitingList": "You have signed up for the {{name}} reserve place. If a place becomes available for you, you will receive a separate confirmation message to your e-mail about your registration.",
     "title": "Thank you for signing up!"

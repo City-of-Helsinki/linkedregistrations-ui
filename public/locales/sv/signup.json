@@ -10,6 +10,7 @@
   "completedPage": {
     "redirectInfo1": "Du kommer automatiskt att omdirigeras till tjänsteleverantörens sida.",
     "redirectInfo2": "Om omdirigeringen inte fungerar kan du komma åt sidan <a href=\"{{url}}\">här</a>.",
+    "suggestScreencap": "På grund av problem med vidarebefordran av e-post ber vi dig ta en skärmdump av denna sida om du inte får ett bekräftelsemeddelande.",
     "text": "Du har registrerat dig för vårt evenemang {{name}} - välkommen!",
     "textWaitingList": "Du har registrerat dig för {{name}} reservplats. Om en plats blir ledig för dig får du ett separat bekräftelsemeddelande till din e-post om din anmälan.",
     "title": "Tack för din registrering!"

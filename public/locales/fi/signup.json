@@ -10,6 +10,7 @@
   "completedPage": {
     "redirectInfo1": "Sinut ohjataan automaattisesti palveluntarjoajan sivulle.",
     "redirectInfo2": "Jos uudelleenohjaus ei toimi, pääset sivulle <a href=\"{{url}}\">tästä</a>.",
+    "suggestScreencap": "Sähköpostien välitysongelmien vuoksi, otathan itsellesi kuvakaappauksen talteen tästä sivusta, jos et saakaan vahvistusviestiä sähköpostiin.",
     "text": "Olet ilmoittanut tapahtumaamme {{name}} – sydämellisesti tervetuloa!",
     "textWaitingList": "Olet ilmoittautunut tapahtuman {{name}} jonoon. Mikäli sinulle vapautuu paikka, saat ilmoittautumisestasi erillisen vahvistusviestin sähköpostiisi.",
     "title": "Kiitos ilmoittautumisestasi!"
