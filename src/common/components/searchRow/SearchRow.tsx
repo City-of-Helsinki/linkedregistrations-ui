@@ -1,3 +1,4 @@
+import { ButtonVariant } from 'hds-react';
 import { FC, PropsWithChildren } from 'react';
 
 import Button from '../button/Button';
@@ -41,7 +42,11 @@ const SearchRow: FC<SearchRowProps> = ({
         />
       </TextSearchColumn>
       <ButtonColumn>
-        <Button fullWidth={true} onClick={onSearch} variant="secondary">
+        <Button
+          fullWidth={true}
+          onClick={onSearch}
+          variant={ButtonVariant.Secondary}
+        >
           {searchButtonText}
         </Button>
       </ButtonColumn>

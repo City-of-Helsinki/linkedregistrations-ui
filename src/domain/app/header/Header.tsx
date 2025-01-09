@@ -3,6 +3,7 @@ import {
   IconCross,
   IconSignin,
   IconSignout,
+  IconSize,
   IconUser,
   Logo,
   logoFiDark,
@@ -91,7 +92,7 @@ const Header: React.FC = () => {
             <ActionBarDropdownDivider />
             <ActionBarDropdowButton
               className={styles.signInButton}
-              iconRight={<IconSignin size="m" aria-hidden />}
+              iconRight={<IconSignin size={IconSize.Medium} aria-hidden />}
               onClick={handleSignIn}
             >
               {t('common:signIn')}
@@ -112,7 +113,7 @@ const Header: React.FC = () => {
             <ActionBarDropdownDivider />
             <ActionBarDropdowButton
               className={styles.signOutButton}
-              iconRight={<IconSignout size="m" aria-hidden />}
+              iconRight={<IconSignout size={IconSize.Medium} aria-hidden />}
               onClick={handleSignOut}
             >
               {t('common:signOut')}

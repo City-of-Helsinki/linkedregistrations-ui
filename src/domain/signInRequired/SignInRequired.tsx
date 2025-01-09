@@ -1,3 +1,4 @@
+import { ButtonVariant } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -35,7 +36,7 @@ const SignInRequired: React.FC<Props> = (props) => {
                 fullWidth={true}
                 onClick={handleSignIn}
                 type="button"
-                variant="primary"
+                variant={ButtonVariant.Primary}
               >
                 {t('signIn')}
               </Button>

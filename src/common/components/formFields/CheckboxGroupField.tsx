@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import classNames from 'classnames';
 import { ErrorMessage, FieldProps } from 'formik';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { ButtonVariant, IconAngleDown, IconAngleUp } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -114,9 +114,9 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
       {visibleOptionAmount && options.length > visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button
-            iconLeft={showAll ? <IconAngleUp /> : <IconAngleDown />}
+            iconStart={showAll ? <IconAngleUp /> : <IconAngleDown />}
             onClick={toggleShowAll}
-            variant="supplementary"
+            variant={ButtonVariant.Supplementary}
           >
             {showAll ? t('showLess') : t('showMore')}
           </Button>

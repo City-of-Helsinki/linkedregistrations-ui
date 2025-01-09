@@ -1,3 +1,4 @@
+import { ButtonVariant } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -22,7 +23,7 @@ const AuthenticationRequiredNotification: React.FC = () => {
         className={styles.button}
         onClick={handleSignIn}
         type="button"
-        variant="primary"
+        variant={ButtonVariant.Primary}
       >
         {t('signIn')}
       </Button>
