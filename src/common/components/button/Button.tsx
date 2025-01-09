@@ -2,10 +2,10 @@ import { Button as BaseButton, ButtonProps, ButtonVariant } from 'hds-react';
 import React from 'react';
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', ...rest }, ref) => {
+  ({ className, variant = ButtonVariant.Primary, ...rest }, ref) => {
     return (
       <BaseButton
-        variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+        variant={variant as Exclude<ButtonVariant, ButtonVariant.Supplementary>}
         className={className}
         ref={ref}
         {...rest}
