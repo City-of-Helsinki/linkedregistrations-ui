@@ -1,4 +1,4 @@
-import { Button, IconCross, IconPen } from 'hds-react';
+import { Button, ButtonVariant, IconCross, IconPen } from 'hds-react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -60,10 +60,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
         <Button
           key="cancel"
           disabled={!allowToCancel}
-          iconLeft={<IconCross aria-hidden={true} />}
+          iconStart={<IconCross aria-hidden={true} />}
           onClick={onCancel}
           title={cancelWarning}
-          variant="danger"
+          variant={ButtonVariant.Danger}
         >
           {t('buttonCancel')}
         </Button>,
@@ -75,15 +75,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               savingSignup === SIGNUP_ACTIONS.UPDATE ||
               savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
           )}
-          iconLeft={<IconPen aria-hidden={true} />}
-          isLoading={
-            savingSignup === SIGNUP_ACTIONS.UPDATE ||
-            savingSignupGroup === SIGNUP_GROUP_ACTIONS.UPDATE
-          }
-          loadingText={t('buttonUpdate')}
+          iconStart={<IconPen aria-hidden={true} />}
           onClick={onUpdate}
           title={editWarning}
-          variant="primary"
+          variant={ButtonVariant.Clear}
         >
           {t('buttonUpdate')}
         </Button>,

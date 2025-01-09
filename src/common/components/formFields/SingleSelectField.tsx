@@ -1,17 +1,16 @@
 import { FieldProps, useField } from 'formik';
-import { SingleSelectProps } from 'hds-react';
+import { Option, SelectProps } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
 import SingleSelect from '../singleSelect/SingleSelect';
 
-type Props = SingleSelectProps<OptionType> & FieldProps;
+type Props = SelectProps & FieldProps;
 
 const SingleSelectField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
-  helper,
+  texts,
   options,
   ...rest
 }) => {
@@ -24,15 +23,24 @@ const SingleSelectField: React.FC<Props> = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType) => {
+  const handleChange = (_selectedOptions: Option[], clickedOption: Option) => {
     // Set timeout to prevent Android devices to end up
     // to an infinite loop when changing value
     setTimeout(() => {
       onChange({
-        target: { id: name, value: selected?.value },
+        target: { id: name, value: clickedOption?.value },
       });
     }, 5);
+
+    return {
+      invalid: false,
+    };
   };
+
+  const selected = options?.find(
+    (option): option is Option =>
+      typeof option !== 'string' && option.value === value
+  );
 
   return (
     <SingleSelect
@@ -42,13 +50,9 @@ const SingleSelectField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       options={options}
-      value={
-        options.find((option) => option.value === value) ??
-        (null as unknown as undefined)
-      }
-      helper={helper}
-      error={errorText}
+      value={selected?.value}
       invalid={!!errorText}
+      texts={{ ...texts, error: errorText }}
     />
   );
 };

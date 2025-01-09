@@ -125,10 +125,12 @@ const Signup: React.FC<SignupProps> = ({
                 name={getFieldName(signupPath, SIGNUP_FIELDS.PRICE_GROUP)}
                 component={SingleSelectField}
                 disabled={formDisabled || isEditingMode}
-                label={t('signup.labelPriceGroup')}
                 options={priceGroupOptions}
-                placeholder={t('signup.placeholderPriceGroup')}
                 required={!!priceGroupOptions?.length}
+                texts={{
+                  label: t('signup.labelPriceGroup'),
+                  placeholder: t('signup.placeholderPriceGroup'),
+                }}
               />
             </div>
           </FormGroup>

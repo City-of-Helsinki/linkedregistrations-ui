@@ -1,4 +1,12 @@
+import path from 'path';
+
 import { defineConfig } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
+
+export const E2E_TESTS_ENV_URL =
+  process.env.E2E_TESTS_ENV_URL ?? 'https://linkedregistrations.dev.hel.ninja/';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -20,9 +28,7 @@ export default defineConfig({
   use: {
     actionTimeout: 30 * 1000,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL:
-      process.env.E2E_TESTS_ENV_URL ??
-      'https://linkedregistrations.dev.hel.ninja/',
+    baseURL: E2E_TESTS_ENV_URL,
     ignoreHTTPSErrors: true,
     screenshot: {
       fullPage: true,

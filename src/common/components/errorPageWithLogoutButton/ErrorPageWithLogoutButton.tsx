@@ -1,3 +1,4 @@
+import { ButtonVariant } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -31,7 +32,7 @@ const ErrorPageWithLogoutButton: React.FC<Props> = ({ text, title }) => {
                 fullWidth={true}
                 onClick={handleSignOut}
                 type="button"
-                variant="primary"
+                variant={ButtonVariant.Primary}
               >
                 {t('signOut')}
               </Button>
