@@ -3,17 +3,17 @@ import { FC, PropsWithChildren } from 'react';
 
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
-import styles from './comboboxLoadingSpinner.module.scss';
+import styles from './selectLoadingSpinner.module.scss';
 
-export type ComboboxLoadingSpinnerProps = {
+export type SelectLoadingSpinnerProps = {
   isLoading?: boolean;
 };
 
-const ComboboxLoadingSpinner: FC<
-  PropsWithChildren<ComboboxLoadingSpinnerProps>
+const SelectLoadingSpinner: FC<
+  PropsWithChildren<SelectLoadingSpinnerProps>
 > = ({ children, isLoading }) => {
   return (
-    <div className={styles.comboboxLoadingSpinner}>
+    <div className={styles.selectLoadingSpinner}>
       {children}
       {isLoading && (
         <div className={classNames(styles.loadingSpinnerWrapper)}>
@@ -28,4 +28,4 @@ const ComboboxLoadingSpinner: FC<
   );
 };
 
-export default ComboboxLoadingSpinner;
+export default SelectLoadingSpinner;

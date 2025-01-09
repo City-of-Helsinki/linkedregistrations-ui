@@ -1,15 +1,14 @@
 import classNames from 'classnames';
-import { Select, SingleSelectProps as HdsSingleSelectProps } from 'hds-react';
+import { Select, SelectProps } from 'hds-react';
 import React from 'react';
 
-import { OptionType } from '../../../types';
-import ComboboxLoadingSpinner, {
-  ComboboxLoadingSpinnerProps,
-} from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from '../select/select.module.scss';
+import SelectLoadingSpinner, {
+  SelectLoadingSpinnerProps,
+} from '../selectLoadingSpinner/SelectLoadingSpinner';
 
-export type SingleSelectProps = ComboboxLoadingSpinnerProps &
-  HdsSingleSelectProps<OptionType>;
+export type SingleSelectProps = SelectLoadingSpinnerProps &
+  SelectProps & { className?: string };
 
 const SingleSelect: React.FC<SingleSelectProps> = ({
   className,
@@ -17,9 +16,13 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
   ...rest
 }) => {
   return (
-    <ComboboxLoadingSpinner isLoading={isLoading}>
-      <Select {...rest} className={classNames(className, styles.select)} />
-    </ComboboxLoadingSpinner>
+    <SelectLoadingSpinner isLoading={isLoading}>
+      <Select
+        {...rest}
+        className={classNames(className, styles.select)}
+        children={undefined}
+      />
+    </SelectLoadingSpinner>
   );
 };
 
