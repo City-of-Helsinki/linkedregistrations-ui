@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import { Form, Formik } from 'formik';
-import { IconPen } from 'hds-react';
+import { ButtonVariant, IconPen } from 'hds-react';
 import pick from 'lodash/pick';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -25,13 +25,12 @@ import useEventAndRegistrationData from '../../registration/hooks/useEventAndReg
 import { Registration } from '../../registration/types';
 import { isSignupEnded } from '../../registration/utils';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
-import { SIGNUP_ACTIONS, SIGNUP_QUERY_PARAMS } from '../../signup/constants';
+import { SIGNUP_QUERY_PARAMS } from '../../signup/constants';
 import useSignupActions from '../../signup/hooks/useSignupActions';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SignupServerErrorsProvider } from '../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import { SignupPayment } from '../../signup/types';
 import AuthenticationRequiredNotification from '../authenticationRequiredNotification/AuthenticationRequiredNotification';
-import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import Divider from '../divider/Divider';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
@@ -270,14 +269,10 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                   submitButtons={[
                     <Button
                       disabled={Boolean(savingSignup || savingSignupGroup)}
-                      iconLeft={<IconPen aria-hidden={true} />}
-                      isLoading={
-                        savingSignup === SIGNUP_ACTIONS.CREATE ||
-                        savingSignupGroup === SIGNUP_GROUP_ACTIONS.CREATE
-                      }
-                      loadingText={sendButtonLabel}
+                      iconStart={<IconPen aria-hidden={true} />}
                       key="save"
                       onClick={handleSubmit}
+                      variant={ButtonVariant.Clear}
                     >
                       {sendButtonLabel}
                     </Button>,

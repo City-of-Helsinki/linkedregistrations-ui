@@ -33,7 +33,7 @@ const customJestConfig = {
     'constants.ts',
     'types.ts',
   ],
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts', 'fake-indexeddb/auto'],
   testEnvironment: 'jsdom',
   watchPlugins: [
     'jest-watch-typeahead/filename',

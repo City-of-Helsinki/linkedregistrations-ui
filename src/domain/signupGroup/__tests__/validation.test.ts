@@ -561,21 +561,21 @@ describe('getFocusableFieldId function', () => {
     [
       `${SIGNUP_GROUP_FIELDS.SIGNUPS}[0].${SIGNUP_FIELDS.PRICE_GROUP}`,
       {
-        fieldId: 'signups[0].priceGroup-toggle-button',
+        fieldId: 'signups[0].priceGroup-main-button',
         fieldType: 'select',
       },
     ],
     [
       `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE}`,
       {
-        fieldId: 'contactPerson.nativeLanguage-toggle-button',
+        fieldId: 'contactPerson.nativeLanguage-main-button',
         fieldType: 'select',
       },
     ],
     [
       `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE}`,
       {
-        fieldId: 'contactPerson.serviceLanguage-toggle-button',
+        fieldId: 'contactPerson.serviceLanguage-main-button',
         fieldType: 'select',
       },
     ],
