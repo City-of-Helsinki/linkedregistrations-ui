@@ -34,7 +34,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
 
   const attendees = orderBy(
     registration.signups as Signup[],
-    ['first_name', 'last_name'],
+    ['id'],
     ['asc', 'asc']
   ).filter((signup) => signup.attendee_status === ATTENDEE_STATUS.Attending);
 
