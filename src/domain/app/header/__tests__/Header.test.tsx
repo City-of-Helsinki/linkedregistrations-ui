@@ -1,6 +1,4 @@
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import i18n from 'i18next';
 import { rest } from 'msw';
 import * as nextAuth from 'next-auth/react';

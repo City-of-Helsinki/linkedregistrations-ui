@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-console */
+
 import { ParsedUrlQuery } from 'querystring';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -158,7 +157,6 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
     { timeout }
   );
 
-// eslint-disable-next-line import/export
 export {
   actWait,
   customRender as render,
@@ -168,6 +166,6 @@ export {
 };
 
 // re-export everything
-// eslint-disable-next-line import/export
+
 export * from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';

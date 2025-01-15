@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import * as AxiosLogger from 'axios-logger';
 

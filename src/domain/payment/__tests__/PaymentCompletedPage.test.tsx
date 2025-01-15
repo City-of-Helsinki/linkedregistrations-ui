@@ -1,5 +1,6 @@
-/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable max-len */
+
 import { rest } from 'msw';
 import singletonRouter from 'next/router';
 import React from 'react';

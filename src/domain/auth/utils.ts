@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios from 'axios';
 
 import { APITokens, ExtendedSession, RefreshTokenResponse } from '../../types';

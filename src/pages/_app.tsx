@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import '../styles/main.scss';
 
 import { init } from '@socialgouv/matomo-next';

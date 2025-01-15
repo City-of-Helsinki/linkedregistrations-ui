@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import '../tests/mockNextAuth';
 
