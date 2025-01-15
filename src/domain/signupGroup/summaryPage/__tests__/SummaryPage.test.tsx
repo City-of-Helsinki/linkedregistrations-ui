@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-len */
+
 import subDays from 'date-fns/subDays';
 import subYears from 'date-fns/subYears';
 import { rest } from 'msw';
@@ -44,7 +45,6 @@ import {
 import { SignupGroupFormFields } from '../../types';
 import SummaryPage from '../SummaryPage';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const defaultSession = fakeAuthenticatedSession();

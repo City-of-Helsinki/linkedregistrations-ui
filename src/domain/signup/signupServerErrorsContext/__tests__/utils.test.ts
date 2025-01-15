@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import i18n from 'i18next';
 
 import {

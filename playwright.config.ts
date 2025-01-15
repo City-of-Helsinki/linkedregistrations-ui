@@ -14,30 +14,32 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['junit', { outputFile: 'report/e2e-junit-results.xml' }],
-    ['html', { open: 'never', outputFolder: 'report/html' }]
+    ['html', { open: 'never', outputFolder: 'report/html' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     actionTimeout: 30 * 1000,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.E2E_TESTS_ENV_URL ?? "https://linkedregistrations.dev.hel.ninja/",
+    baseURL:
+      process.env.E2E_TESTS_ENV_URL ??
+      'https://linkedregistrations.dev.hel.ninja/',
     ignoreHTTPSErrors: true,
     screenshot: {
       fullPage: true,
-      mode: "only-on-failure"
+      mode: 'only-on-failure',
     },
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
 
     // https://playwright.dev/docs/videos
-    video: 'on-first-retry', 
-    contextOptions: {recordVideo: { dir: "./report/videos/"}}
+    video: 'on-first-retry',
+    contextOptions: { recordVideo: { dir: './report/videos/' } },
   },
 
   projects: [
     {
       name: 'logged-out',
       testMatch: [/pages/],
-    }
+    },
   ],
 });

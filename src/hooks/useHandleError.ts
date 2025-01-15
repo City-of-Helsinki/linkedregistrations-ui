@@ -13,7 +13,6 @@ type UseHandleErrorState<PayloadType, ObjectType> = {
     savingFinished,
   }: {
     callbacks?: MutationCallbacks<any>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
     object?: ObjectType;
@@ -36,7 +35,6 @@ function useHandleError<PayloadType, ObjectType>(): UseHandleErrorState<
     savingFinished,
   }: {
     callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
     object?: ObjectType;

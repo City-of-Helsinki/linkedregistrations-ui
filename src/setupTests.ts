@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import '@testing-library/jest-dom';
 import 'jest-localstorage-mock';
 import './tests/initI18n';
@@ -18,7 +18,7 @@ expect.extend(toHaveNoViolations);
 window.scrollTo = jest.fn();
 
 const originalWarn = console.warn.bind(console.warn);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 console.warn = (msg: any, ...optionalParams: any[]) => {
   const msgStr = msg.toString();
 
@@ -34,7 +34,7 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
 };
 
 const originalError = console.error.bind(console.error);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 console.error = (msg: any, ...optionalParams: any[]) => {
   const msgStr = msg.toString();
 

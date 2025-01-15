@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import { Form, Formik } from 'formik';
 import { IconPen } from 'hds-react';

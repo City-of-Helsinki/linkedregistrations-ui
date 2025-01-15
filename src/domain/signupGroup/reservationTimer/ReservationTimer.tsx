@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable max-len */
 import pick from 'lodash/pick';
 import { useRouter } from 'next/router';

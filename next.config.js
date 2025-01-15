@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
 
@@ -44,6 +42,9 @@ const moduleExports = {
     oidcLinkedEventsApiScope: process.env.OIDC_LINKED_EVENTS_API_SCOPE,
   },
   output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true
+  }
 };
 
 const sentryWebpackPluginOptions = {

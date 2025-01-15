@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable import/no-named-as-default-member */
+
 import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 import { rest } from 'msw';
