@@ -17,8 +17,8 @@
   },
   "labelExtraInfo": "Lisätietoa ilmoittautumisesta",
   "labelParticipantAmount": "Ilmoittautujien määrä",
-  "notificationLabel": "Lähetämme sinulle vielä erillisen vahvistusviestin, kun tapahtuman järjestäjä on käsitellyt ja vahvistanut ilmoittautumisesi.",
-  "notificationTitle": "Ilmoittautumisen vahvistaminen",
+  "notificationLabel": "Tarkista vielä ilmoittautumistiedot ja paina lähetä ilmoittautuminen-painiketta, lähettääksesi ilmoittautumislomakkeen.",
+  "notificationTitle": "Tarkista yhteenveto ja lähetä ilmoittautuminen",
   "pageTitle": "Ilmoittautumisen vahvistaminen",
   "signup": {
     "labelCity": "Kaupunki",
