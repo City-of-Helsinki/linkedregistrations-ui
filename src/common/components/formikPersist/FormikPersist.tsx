@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { FormikProps, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useDebouncedCallback } from 'use-debounce';

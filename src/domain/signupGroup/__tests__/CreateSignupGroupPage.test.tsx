@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import subDays from 'date-fns/subDays';
 import subYears from 'date-fns/subYears';
 import { axe } from 'jest-axe';

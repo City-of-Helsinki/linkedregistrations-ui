@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
 import { REGISTRATION_ACTIONS } from '../constants';
 import { checkCanUserDoRegistrationAction } from '../permissions';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { advanceTo, clear } from 'jest-date-mock';
 import * as Yup from 'yup';
 

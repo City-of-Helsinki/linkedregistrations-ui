@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { NextPage } from 'next';
 
 import CreateSignupGroupSummaryPage from '../../../../../../domain/signupGroup/summaryPage/SummaryPage';

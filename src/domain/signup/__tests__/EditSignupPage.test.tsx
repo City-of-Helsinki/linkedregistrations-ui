@@ -1,5 +1,6 @@
-/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable max-len */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { axe } from 'jest-axe';
 import { rest } from 'msw';

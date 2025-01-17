@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import React from 'react';

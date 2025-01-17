@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { NextPage } from 'next';
 
 import SignupsPageWrapper from '../../../../domain/singups/SignupsPage';

@@ -10,7 +10,6 @@ import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNav
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import Button from '../button/Button';
 
-// eslint-disable-next-line import/no-named-as-default
 import Menu, { MenuPosition } from './menu/Menu';
 import styles from './menuDropdown.module.scss';
 import { MenuItemOptionProps } from './types';

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { NextPage } from 'next';
 
 import EditSignupPage from '../../../../../../domain/signup/EditSignupPage';

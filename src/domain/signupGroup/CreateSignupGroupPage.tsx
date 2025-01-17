@@ -6,7 +6,6 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import { ExtendedSession } from '../../types';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
-// eslint-disable-next-line max-len
 import { Event } from '../event/types';
 import NotFound from '../notFound/NotFound';
 import useEventAndRegistrationData from '../registration/hooks/useEventAndRegistrationData';

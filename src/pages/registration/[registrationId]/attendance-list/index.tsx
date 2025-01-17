@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { NextPage } from 'next';
 
 import AttendanceListPageWrapper from '../../../../domain/attendanceList/AttendanceListPage';

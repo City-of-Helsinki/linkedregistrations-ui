@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-len */
+
 import { act, render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as nextAuth from 'next-auth/react';
