@@ -16,7 +16,7 @@
     "test:e2e:record": "npx playwright codegen https://linkedregistrations.dev.hel.ninja/"
   },
   "dependencies": {
-    "@sentry/nextjs": "^7.107.0",
+    "@sentry/nextjs": "7.120.3",
     "@socialgouv/matomo-next": "^1.8.1",
     "@tanstack/react-query": "^5.28.0",
     "@types/lodash": "^4.17.0",
