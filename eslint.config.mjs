@@ -4,6 +4,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import jestPlugin from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
 
 const tsConfig = tseslint.config({
@@ -28,6 +29,10 @@ const tsConfig = tseslint.config({
     '@stylistic/ts': stylisticTsPlugin,
     react: reactPlugin,
     'react-hooks': reactHooksPlugin,
+    jest: jestPlugin
+  },
+  languageOptions: {
+    globals: jestPlugin.environments.globals.globals
   },
   rules: {
     '@stylistic/ts/brace-style': [
