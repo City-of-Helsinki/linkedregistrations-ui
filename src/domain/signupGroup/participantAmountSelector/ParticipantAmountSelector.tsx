@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { useField } from 'formik';
+import { ButtonVariant } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 
@@ -130,13 +131,13 @@ const ParticipantAmountSelector: React.FC<Props> = ({
             disabled={disabled || !!attendeeCapacityError}
             onClick={handleUpdateClick}
             type="button"
-            variant="secondary"
+            variant={ButtonVariant.Secondary}
           >
             {t(`buttonUpdateParticipantAmount`)}
           </Button>
         </div>
       </div>
-      <div className={styles.participantAmountAddendum} >
+      <div className={styles.participantAmountAddendum}>
         {t('participantAmountAddendum')}
       </div>
     </>

@@ -3,6 +3,9 @@
 import '@testing-library/jest-dom';
 import 'jest-localstorage-mock';
 import './tests/initI18n';
+import { webcrypto } from 'crypto';
+import { TextEncoder } from 'node:util';
+
 import { toHaveNoViolations } from 'jest-axe';
 import { setConfig } from 'next/config';
 
@@ -46,6 +49,18 @@ console.error = (msg: any, ...optionalParams: any[]) => {
 
 beforeAll(() => {
   server.listen();
+
+  global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  }));
+
+  global.TextEncoder = TextEncoder;
+
+  Object.defineProperties(global, {
+    crypto: { value: webcrypto, writable: true },
+  });
 });
 
 afterEach(() => {
