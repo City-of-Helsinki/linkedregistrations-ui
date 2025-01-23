@@ -67,7 +67,9 @@ export const getSignupFormElement = (
     case 'updateButton':
       return screen.getByRole('button', { name: /tallenna/i });
     case 'updateParticipantAmountButton':
-      return screen.getByRole('button', { name: /päivitä/i });
+      return screen.getByRole('button', {
+        name: /tallenna ilmoittautujamäärä/i,
+      });
     case 'zipInput':
       return screen.getByLabelText(/postinumero/i);
   }

@@ -2,7 +2,7 @@
   "buttonCancel": "Cancel registration",
   "buttonGoToSummary": "Continue to registration",
   "buttonUpdate": "Save",
-  "buttonUpdateParticipantAmount": "Update",
+  "buttonUpdateParticipantAmount": "Save the number of registrations",
   "cancelledPage": {
     "text": "You have canceled your registration for our event {{name}}.",
     "title": "Your registration has been canceled"
@@ -85,7 +85,7 @@
   },
   "notificationSignupUpdated": "The signup has been saved",
   "notificationSignupGroupUpdated": "The signup group has been saved",
-  "participantAmountAddendum": "You can enter one or more participants, press the update button to add more people. Each participant must have his/her own basic information fields on the form.",
+  "participantAmountAddendum": "One or more participants can be registered, press the Save number of participants button to change the number of participants.",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Close",
     "text": "You will receive a separate confirmation message about your registration to your e-mail if a place becomes available for you.",

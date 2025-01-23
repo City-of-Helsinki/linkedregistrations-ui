@@ -2,7 +2,7 @@
   "buttonCancel": "Peruuta ilmoittautuminen",
   "buttonGoToSummary": "Jatka ilmoittautumiseen",
   "buttonUpdate": "Tallenna",
-  "buttonUpdateParticipantAmount": "Päivitä",
+  "buttonUpdateParticipantAmount": "Tallenna ilmoittautujamäärä",
   "cancelledPage": {
     "text": "Olet perunut ilmoittautumisesi tapahtumaamme {{name}}.",
     "title": "Ilmoittautumisesi on peruttu"
@@ -85,7 +85,7 @@
   },
   "notificationSignupUpdated": "Osallistujan tiedot on tallennettu",
   "notificationSignupGroupUpdated": "Osallistujien tiedot on tallennettu",
-  "participantAmountAddendum": "Osallistujia voidaan ilmoittaa yksi tai useampi, paina päivitä-painiketta lisätessäsi useamman henkilön. Jokaisella osallistujalla tulee lomakkeella olla omat Ilmoittautujan perustiedot -kentät.",
+  "participantAmountAddendum": "Osallistujia voidaan ilmoittaa yksi tai useampi, paina Tallenna ilmoittautujamäärä -painiketta muuttaessasi ilmoittautujien määrää.",
   "personsAddedToWaitingListModal": {
     "buttonClose": "Sulje",
     "text": "Mikäli sinulle vapautuu paikka, saat ilmoittautumisestasi erillisen vahvistusviestin sähköpostiisi.",

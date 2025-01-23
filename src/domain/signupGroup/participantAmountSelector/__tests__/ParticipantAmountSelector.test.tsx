@@ -53,7 +53,9 @@ const getElement = (
         name: /ilmoittautujien määrä \*/i,
       });
     case 'updateParticipantAmountButton':
-      return screen.getByRole('button', { name: /päivitä/i });
+      return screen.getByRole('button', {
+        name: /tallenna ilmoittautujamäärä/i,
+      });
   }
 };
 

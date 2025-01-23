@@ -53,6 +53,7 @@ interface ReservationTimerProps {
   registration: Registration;
   setSignups?: (value: SignupFormFields[]) => void;
   signups?: SignupFormFields[];
+  className?: string;
 }
 
 const ReservationTimer: React.FC<ReservationTimerProps> = ({
@@ -63,6 +64,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   registration,
   setSignups,
   signups,
+  className,
 }) => {
   const isExpiringModalAlreadyDisplayed = useRef(false);
   const { data: session } = useSession();
@@ -223,7 +225,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
         onTryAgain={handleTryAgain}
       />
 
-      <div>
+      <div className={className}>
         {t('reservation:timeLeft')}{' '}
         <strong>{timeLeft !== null && getTimeStr(timeLeft)}</strong>
       </div>
