@@ -17,8 +17,8 @@
   },
   "labelExtraInfo": "Additional registration information",
   "labelParticipantAmount": "Number of registrants",
-  "notificationLabel": "We will send you a separate confirmation message once the event organizer has processed and confirmed your registration.",
-  "notificationTitle": "Confirmation of registration",
+  "notificationLabel": "Check your registration details and press the submit registration button to send the registration form.",
+  "notificationTitle": "Check the summary and send your registration",
   "pageTitle": "Confirmation of registration",
   "signup": {
     "labelCity": "City",
