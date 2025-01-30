@@ -369,25 +369,26 @@ const SignupGroupForm: React.FC<Props> = ({
 
                   {!isEditingMode && (
                     <>
-                      {isRegistrationPossible(registration) && (
-                        <>
-                          <Divider />
-                          <ReservationTimer
-                            callbacksDisabled={
-                              reservationTimerCallbacksDisabled.current
-                            }
-                            disableCallbacks={disableReservationTimerCallbacks}
-                            initReservationData={true}
-                            registration={registration}
-                            setSignups={setSignups}
-                            signups={values.signups}
-                          />
-                        </>
-                      )}
                       <Divider />
                       <h2>{t('titleRegistration')}</h2>
 
-                      <AvailableSeatsText registration={registration} />
+                      <AvailableSeatsText
+                        className={styles.availableSeats}
+                        registration={registration}
+                      />
+                      {isRegistrationPossible(registration) && (
+                        <ReservationTimer
+                          className={styles.reservationTimer}
+                          callbacksDisabled={
+                            reservationTimerCallbacksDisabled.current
+                          }
+                          disableCallbacks={disableReservationTimerCallbacks}
+                          initReservationData={true}
+                          registration={registration}
+                          setSignups={setSignups}
+                          signups={values.signups}
+                        />
+                      )}
                       <ParticipantAmountSelector
                         disabled={formDisabled || readOnly}
                         registration={registration}

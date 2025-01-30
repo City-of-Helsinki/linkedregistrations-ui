@@ -18,8 +18,9 @@ const SeatsCount = dynamic(() => import('./SeatsCount'), { ssr: false });
 
 type Props = {
   registration: Registration;
+  className?: string;
 };
-const AvailableSeatsText: FC<Props> = ({ registration }) => {
+const AvailableSeatsText: FC<Props> = ({ registration, className }) => {
   const { t } = useTranslation(['signup']);
 
   const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
@@ -33,13 +34,13 @@ const AvailableSeatsText: FC<Props> = ({ registration }) => {
   return (
     <>
       {typeof freeAttendeeCapacity === 'number' && !attendeeCapacityUsed && (
-        <p>
+        <p className={className}>
           {t('freeAttendeeCapacity')}{' '}
           <SeatsCount seats={freeAttendeeCapacity + reservedSeats} />
         </p>
       )}
       {attendeeCapacityUsed && typeof freeWaitingListCapacity === 'number' && (
-        <p>
+        <p className={className}>
           {t('freeWaitingListCapacity')}{' '}
           <SeatsCount seats={freeWaitingListCapacity + reservedSeats} />
         </p>

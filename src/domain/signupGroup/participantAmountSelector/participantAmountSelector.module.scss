@@ -1,16 +1,20 @@
 @import '../../../styles/breakpoints.scss';
 
 .participantAmountSelector {
-  display: grid;
-  grid-gap: var(--spacing-m);
-  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: var(--spacing-xs);
 
   @include medium-up {
+    display: grid;
+    grid-gap: var(--spacing-m);
     grid-template-columns: 2fr 4fr;
   }
 
   .buttonWrapper {
-    padding-top: var(--label-height);
+    padding-top: var(--spacing-m);
+
+    @include medium-up {
+      padding-top: var(--label-height);
+    }
 
     button {
       @include small-down {
@@ -24,6 +28,6 @@
   display: block;
   font-size: var(--fontsize-body-m);
   line-height: var(--lineheight-l);
-  margin-top: var(--spacing-3-xs);
+  margin-top: var(--spacing-s);
   white-space: pre-line;
 }

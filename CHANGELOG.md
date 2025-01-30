@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.6...linkedregistrations-ui-v1.1.0) (2025-01-24)
+
+
+### Features
+
+* Partifipant selector text and styling changes LINK-2212 ([a790555](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a790555b3cfa9a6eeb54159ca8184dacce91256a))
+
+
+### Dependencies
+
+* Upgrade @sentry/nextjs to 7.120.3 LINK-2191 ([b6958c9](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b6958c902e776757818fb648a31fb00fe819593b))
+
+## [1.0.6](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.5...linkedregistrations-ui-v1.0.6) (2025-01-21)
+
+
+### Bug Fixes
+
+* Sort attendees by id (from oldest to newest) instead of name ([bc54a08](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/bc54a082e0d70a2c8521bda367befd4d54a5cfd8))
+
+
+### Dependencies
+
+* Bump next from 14.2.10 to 14.2.21 ([a3e43b8](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a3e43b81dbcef1158ab7f94157ee14e4f708734c))
+
 ## [1.0.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.4...linkedregistrations-ui-v1.0.5) (2024-12-13)
 
 
