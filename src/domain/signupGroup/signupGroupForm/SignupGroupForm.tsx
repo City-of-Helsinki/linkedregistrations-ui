@@ -538,13 +538,15 @@ const SignupGroupForm: React.FC<Props> = ({
                             contactPersonFieldsDisabled ||
                             readOnly
                           }
-                          label={t(`contactPerson.labelNativeLanguage`)}
                           options={languageOptions}
-                          placeholder={getPlaceholder(
-                            t(`contactPerson.placeholderNativeLanguage`)
-                          )}
-                          title={titleCannotEditContactPerson}
-                          clearButtonAriaLabel={t('common:clearAllSelections')}
+                          texts={{
+                            label: t(`contactPerson.labelNativeLanguage`),
+                            placeholder: getPlaceholder(
+                              t(`contactPerson.placeholderNativeLanguage`)
+                            ),
+                            clearButtonAriaLabel_one: t('common:clear'),
+                            assistive: titleCannotEditContactPerson,
+                          }}
                         />
                         <Field
                           component={SingleSelectField}
@@ -556,13 +558,16 @@ const SignupGroupForm: React.FC<Props> = ({
                             contactPersonFieldsDisabled ||
                             readOnly
                           }
-                          label={t(`contactPerson.labelServiceLanguage`)}
                           options={serviceLanguageOptions}
-                          placeholder={getPlaceholder(
-                            t(`contactPerson.placeholderServiceLanguage`)
-                          )}
                           required
-                          title={titleCannotEditContactPerson}
+                          texts={{
+                            label: t(`contactPerson.labelServiceLanguage`),
+                            placeholder: getPlaceholder(
+                              t(`contactPerson.placeholderServiceLanguage`)
+                            ),
+                            clearButtonAriaLabel_one: t('common:clear'),
+                            assistive: titleCannotEditContactPerson,
+                          }}
                         />
                       </div>
                     </FormGroup>
