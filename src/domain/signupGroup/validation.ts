@@ -304,7 +304,7 @@ export const getFocusableFieldId = (
 } => {
   // For the select elements, focus the toggle button
   if (isInFieldList(SIGNUP_GROUP_FORM_SELECT_FIELDS, fieldName)) {
-    return { fieldId: `${fieldName}-toggle-button`, fieldType: 'select' };
+    return { fieldId: `${fieldName}-main-button`, fieldType: 'select' };
   }
   if (isInFieldList(SIGNUP_GROUP_FORM_CHECKBOX_GROUP_FIELDS, fieldName)) {
     return { fieldId: fieldName, fieldType: 'checkboxGroup' };
