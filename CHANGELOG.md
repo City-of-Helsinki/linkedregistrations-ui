@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.0...linkedregistrations-ui-v1.1.1) (2025-02-14)
+
+
+### Dependencies
+
+* Bump braces from 3.0.2 to 3.0.3 ([#175](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/175)) ([a11cbe2](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a11cbe20f06f45ef3cbc26c552c37fb2cada7bf4))
+* Bump micromatch from 4.0.5 to 4.0.8 ([#176](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/176)) ([eb64763](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/eb647630614c47e99d42fbf0877155358d32d8f3))
+* Set cross-spawn 7.0.6 resolution ([8edb27f](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/8edb27f72584066a0fd125770203634bfa59b471))
+* Upgrade eslint to v9 LINK-2191 ([7c20618](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7c206182a86abcfc49031606652aef8dcb623b1a))
+
 ## [1.1.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.0.6...linkedregistrations-ui-v1.1.0) (2025-01-24)
 
 
