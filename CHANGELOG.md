@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.1...linkedregistrations-ui-v1.1.2) (2025-02-15)
+
+
+### Dependencies
+
+* Bump path-to-regexp from 6.2.1 to 6.3.0 ([#177](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/177)) ([78878cb](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/78878cb1d1ca906912db36cc02ff132098bde49c))
+* Bump ws from 8.16.0 to 8.18.0 ([#178](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/178)) ([00c53dc](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/00c53dc4f22a821fd35aba57d9d7b459f836c992))
+
 ## [1.1.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.0...linkedregistrations-ui-v1.1.1) (2025-02-14)
 
 
