@@ -4,14 +4,21 @@ import React from 'react';
 import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
 import ErrorPageMeta from '../../common/components/errrorPageMeta/ErrorPageMeta';
+import { LoginMethod } from '../../constants';
 import useSignIn from '../../hooks/useSignIn';
 import MainContent from '../app/layout/mainContent/MainContent';
 
 import styles from './signInRequired.module.scss';
 
-const SignInRequired: React.FC = () => {
+type Props = {
+  loginMethods?: LoginMethod[];
+};
+
+
+const SignInRequired: React.FC<Props> = (props) => {
   const { t } = useTranslation('common');
-  const { handleSignIn } = useSignIn();
+  const extraSignInParams = props.loginMethods ? { "login_methods": props.loginMethods.join(",") } : undefined;
+  const { handleSignIn } = useSignIn(extraSignInParams);
 
   return (
     <>

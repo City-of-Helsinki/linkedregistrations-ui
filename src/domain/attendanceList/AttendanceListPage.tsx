@@ -114,6 +114,7 @@ const AttendanceListPageWrapper: React.FC = () => {
       event={event}
       isLoadingData={isLoadingEventOrRegistration}
       registration={registration}
+      loginMethods={["suomi_fi"]}
     >
       <AttendanceListPage
         event={event as Event}

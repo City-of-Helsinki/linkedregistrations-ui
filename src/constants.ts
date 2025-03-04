@@ -47,3 +47,5 @@ export enum SPLITTED_ROW_TYPE {
 }
 
 export const DEFAULT_SPLITTED_ROW_TYPE = SPLITTED_ROW_TYPE.MEDIUM_MEDIUM;
+
+export type LoginMethod = "helsinki_tunnus" | "suomi_fi" | "helsinkiad";

@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { LoginMethod } from '../../../constants';
 import { ExtendedSession } from '../../../types';
 import { Event } from '../../event/types';
 import InsufficientPermissions from '../../insufficientPermissions/InsufficientPermissions';
@@ -16,12 +17,14 @@ type Props = {
   event?: Event;
   isLoadingData: boolean;
   registration?: Registration;
+  loginMethods?: LoginMethod[];
 };
 const SignupsPagePermissions: React.FC<PropsWithChildren<Props>> = ({
   children,
   event,
   isLoadingData,
   registration,
+  loginMethods,
 }) => {
   const { data: session } = useSession() as {
     data: ExtendedSession | null;
@@ -40,7 +43,7 @@ const SignupsPagePermissions: React.FC<PropsWithChildren<Props>> = ({
   const getPageComponent = () => {
     // Show sign in required page if user is not authenticated
     if (!session) {
-      return <SignInRequired />;
+      return <SignInRequired loginMethods={loginMethods} />;
     }
 
     if (!registration || !event) {

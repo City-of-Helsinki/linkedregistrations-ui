@@ -119,6 +119,7 @@ const SignupsPageWrapper: React.FC = () => {
       event={event}
       isLoadingData={isLoadingEventOrRegistration}
       registration={registration}
+      loginMethods={["helsinki_tunnus", "helsinkiad"]}
     >
       <SignupsPage
         event={event as Event}
