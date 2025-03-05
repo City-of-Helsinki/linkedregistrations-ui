@@ -9,6 +9,7 @@ import { useNotificationsContext } from '../../common/components/notificationsCo
 import PageWrapper from '../../common/components/pageWrapper/PageWrapper';
 import useLocale from '../../hooks/useLocale';
 import { ExtendedSession } from '../../types';
+import getPublicRuntimeConfig from "../../utils/getPublicRuntimeConfig";
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import TitleRow from '../app/layout/titleRow/TitleRow';
@@ -114,12 +115,14 @@ const SignupsPageWrapper: React.FC = () => {
     registration,
   } = useEventAndRegistrationData();
 
+  const { signupsLoginMethods } = getPublicRuntimeConfig();
+
   return (
     <SignupsPagePermissions
       event={event}
       isLoadingData={isLoadingEventOrRegistration}
       registration={registration}
-      loginMethods={["helsinki_tunnus", "helsinkiad"]}
+      loginMethods={signupsLoginMethods}
     >
       <SignupsPage
         event={event as Event}

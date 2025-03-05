@@ -4,12 +4,21 @@ import { mockConfig } from '../mockNextJsConfig';
 const publicRuntimeConfig = {
   linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
   webStoreApiBaseUrl: 'https://payment-test.com/v1',
+  attendanceListLoginMethods: 'suomi_fi',
+  signupsLoginMethods: 'helsinki_tunnus,helsinkiad',
+};
+
+const expectedPublicRuntimeConfig = {
+  linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
+  webStoreApiBaseUrl: 'https://payment-test.com/v1',
+  attendanceListLoginMethods: ['suomi_fi'],
+  signupsLoginMethods: ['helsinki_tunnus', 'helsinkiad'],
 };
 
 describe('getPublicRuntimeConfig function', () => {
   it('should return public runtime config', () => {
     mockConfig(publicRuntimeConfig, {});
-    expect(getPublicRuntimeConfig()).toEqual(publicRuntimeConfig);
+    expect(getPublicRuntimeConfig()).toEqual(expectedPublicRuntimeConfig);
   });
 
   const cases: [Record<string, string>][] = [

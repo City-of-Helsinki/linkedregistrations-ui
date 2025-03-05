@@ -32,6 +32,8 @@ const moduleExports = {
   publicRuntimeConfig: {
     linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
     webStoreApiBaseUrl: process.env.NEXT_PUBLIC_WEB_STORE_API_BASE_URL,
+    attendanceListLoginMethods: process.env.NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS,
+    signupsLoginMethods: process.env.NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS,
   },
   serverRuntimeConfig: {
     env: process.env.NEXT_ENV,

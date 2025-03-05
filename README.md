@@ -73,7 +73,7 @@ Use .env.local for development.
     cp .env.local.example .env.local
 
 | Name                                      | Description                                                                                                                |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | PORT                                      | Port where app is running. Default is 3001                                                                                 |
 | NEXT_PUBLIC_LINKED_EVENTS_URL             | linkedevents api base url                                                                                                  |
 | NEXT_PUBLIC_ENVIRONMENT                   | Environment used in Sentry. Use local for development                                                                      |
@@ -96,7 +96,9 @@ Use .env.local for development.
 | NEXTAUTH_URL                              | Canonical url of the site used by next-auth                                                                                |
 | NEXT_ENV                                  | 'development' or 'production'                                                                                              |
 | NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED | Flag to enable Tapla integration. Default is false                                                                         |
-| NEXT_PUBLIC_WEB_STORE_API_BASE_URL        | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
+| NEXT_PUBLIC_WEB_STORE_API_BASE_URL        | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
+| NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS | Login methods to use for attendance list viewing/editing. Default is suomi_fi                                              |
+| NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS         | Login methods to use for signup viewing/editing. Default is helsinki-tunnus and helsinkiad                                 |
 
 ## Url parameters
 

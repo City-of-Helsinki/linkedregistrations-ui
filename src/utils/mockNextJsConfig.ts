@@ -15,6 +15,8 @@ export const mockDefaultConfig = () => {
     {
       linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
       webStoreApiBaseUrl: 'https://payment-test.com/v1',
+      attendanceListLoginMethods: 'suomi_fi',
+      signupsLoginMethods: 'helsinki_tunnus,helsinkiad',
     },
     {
       env: 'development',
