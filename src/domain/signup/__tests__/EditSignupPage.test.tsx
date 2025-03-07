@@ -282,8 +282,9 @@ test('contact person fields should be disabled if signup has a signup group', as
   expect(firstNameInput).toBeDisabled();
   expect(lastNameInput).toBeDisabled();
   expect(membershipNumberInput).toBeDisabled();
-  expect(nativeLanguageButton).toBeDisabled();
-  expect(serviceLanguageButton).toBeDisabled();
+
+  expect(nativeLanguageButton.getAttribute('aria-disabled')).toEqual('true');
+  expect(serviceLanguageButton.getAttribute('aria-disabled')).toEqual('true');
 });
 
 test('should show error message when updating signup fails', async () => {

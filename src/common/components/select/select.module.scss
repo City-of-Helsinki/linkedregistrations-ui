@@ -1,5 +1,6 @@
-.combobox,
 .select {
+  max-width: 100% !important;
+
   > div > button > span {
     white-space: nowrap;
   }

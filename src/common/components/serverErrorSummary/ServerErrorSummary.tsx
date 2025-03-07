@@ -1,4 +1,4 @@
-import { ErrorSummary } from 'hds-react';
+import { ErrorSummary, ErrorSummarySize } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
@@ -35,7 +35,7 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
       <ErrorSummary
         className={styles.serverErrorSummary}
         label={t('common:titleServerErrorSummary')}
-        size="default"
+        size={ErrorSummarySize.Medium}
       >
         <ul>
           {errors.map(({ label, message }) => (

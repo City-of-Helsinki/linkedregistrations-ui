@@ -51,7 +51,7 @@ export const getSignupFormElement = (
     case 'membershipNumberInput':
       return screen.getByLabelText(/jäsenkortin numero/i);
     case 'nativeLanguageButton':
-      return screen.getByRole('button', { name: /äidinkieli/i });
+      return screen.getByRole('combobox', { name: /äidinkieli/i });
     case 'participantAmountInput':
       return screen.getByRole('spinbutton', {
         name: /ilmoittautujien määrä \*/i,
@@ -59,7 +59,7 @@ export const getSignupFormElement = (
     case 'phoneInput':
       return screen.getAllByLabelText(/puhelinnumero/i)[0];
     case 'serviceLanguageButton':
-      return screen.getByRole('button', { name: /asiointikieli/i });
+      return screen.getByRole('combobox', { name: /asiointikieli/i });
     case 'streetAddressInput':
       return screen.getByLabelText(/katuosoite/i);
     case 'submitButton':
@@ -113,8 +113,9 @@ export const shouldRenderSignupFormReadOnlyFields = async () => {
   expect(emailInput).toHaveAttribute('readOnly');
   expect(phoneInput).toHaveAttribute('readOnly');
   expect(membershipNumberInput).toHaveAttribute('readOnly');
-  expect(nativeLanguageButton).toBeDisabled();
-  expect(serviceLanguageButton).toBeDisabled();
+
+  expect(nativeLanguageButton.getAttribute('aria-disabled')).toEqual('true');
+  expect(serviceLanguageButton.getAttribute('aria-disabled')).toEqual('true');
 };
 
 export const tryToCancel = async () => {

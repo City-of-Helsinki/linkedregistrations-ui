@@ -1,4 +1,4 @@
-import { IconUser } from 'hds-react';
+import { IconSize, IconUser } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -46,7 +46,7 @@ const Signup: React.FC<SignupProps> = ({
     <div>
       <Divider />
       <div className={styles.iconRow}>
-        <IconUser aria-hidden className={styles.icon} size="m" />
+        <IconUser aria-hidden className={styles.icon} size={IconSize.Medium} />
         {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
           priceGroupText &&
           [priceGroupText, signup.inWaitingList ? ' — ' : ''].join('')}
