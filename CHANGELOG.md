@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.2...linkedregistrations-ui-v1.2.0) (2025-03-11)
+
+
+### Features
+
+* Add loginMethods to attendance list and signups pages ([6785c0a](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6785c0a2f5acae69b9d7ee85b236033f08bcb712))
+
+
+### Bug Fixes
+
+* Make loginMethods configurable via environment variables ([17d7172](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/17d71729c7d3542f6587407818eaf177fedaa9e4))
+
 ## [1.1.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.1...linkedregistrations-ui-v1.1.2) (2025-02-18)
 
 
