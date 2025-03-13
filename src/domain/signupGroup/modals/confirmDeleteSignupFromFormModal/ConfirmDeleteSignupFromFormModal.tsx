@@ -1,4 +1,10 @@
-import { Dialog, IconAlertCircle, IconCross } from 'hds-react';
+import {
+  ButtonPresetTheme,
+  ButtonVariant,
+  Dialog,
+  IconAlertCircle,
+  IconCross,
+} from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -47,7 +53,7 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
     >
       <Dialog.Header
         id={titleId}
-        iconLeft={<IconAlertCircle aria-hidden={true} />}
+        iconStart={<IconAlertCircle aria-hidden={true} />}
         title={t('signup:deleteSignupFromFormModal.title', {
           count: participantCount,
         })}
@@ -66,16 +72,10 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
       <Dialog.ActionButtons>
         <Button
           disabled={isSaving}
-          iconLeft={<IconCross aria-hidden={true} />}
-          isLoading={isSaving}
-          loadingText={
-            t('signup:deleteSignupFromFormModal.buttonDelete', {
-              count: participantCount,
-            }) as string
-          }
+          iconStart={<IconCross aria-hidden={true} />}
           onClick={handleDelete}
           type="button"
-          variant="danger"
+          variant={ButtonVariant.Clear}
         >
           {t('signup:deleteSignupFromFormModal.buttonDelete', {
             count: participantCount,
@@ -84,9 +84,9 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
         <Button
           disabled={isSaving}
           onClick={handleClose}
-          theme="black"
+          theme={ButtonPresetTheme.Black}
           type="button"
-          variant="secondary"
+          variant={ButtonVariant.Secondary}
         >
           {t('common:cancel')}
         </Button>

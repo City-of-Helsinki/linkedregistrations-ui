@@ -1,9 +1,4 @@
-import {
-  ButtonProps,
-  ButtonVariant,
-  IconCalendar,
-  LoadingSpinner,
-} from 'hds-react';
+import { ButtonProps, ButtonVariant, IconCalendar } from 'hds-react';
 import { useTranslation } from 'next-i18next';
 import { FC, MouseEventHandler } from 'react';
 
@@ -24,7 +19,6 @@ const EventCalendarButton: FC<EventCalendarButtonProps> = ({
   disabled,
   event,
   onClick,
-  variant = 'secondary',
   ...rest
 }) => {
   const locale = useLocale();
@@ -60,16 +54,9 @@ const EventCalendarButton: FC<EventCalendarButtonProps> = ({
         // istanbul ignore next
         isLoadingEvent ?? disabled
       }
-      iconLeft={
-        isLoadingEvent ? (
-          <LoadingSpinner small />
-        ) : (
-          <IconCalendar aria-hidden={true} />
-        )
-      }
-      loadingText={t('common:eventCalendarButton.label')}
+      iconStart={<IconCalendar aria-hidden={true} />}
       onClick={handleClick}
-      variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+      variant={ButtonVariant.Clear}
     >
       {t('common:eventCalendarButton.label')}
     </Button>

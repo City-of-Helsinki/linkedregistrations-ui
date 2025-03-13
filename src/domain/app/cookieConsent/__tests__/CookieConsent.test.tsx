@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable max-len */
-import i18n from 'i18next';
-import singletonRouter from 'next/router';
-import mockRouter from 'next-router-mock';
-import React from 'react';
 
+import { CookieConsentContextProvider } from 'hds-react';
+import i18n from 'i18next';
+import React from 'react';
+import { screen as shadowScreen } from 'shadow-dom-testing-library';
+
+import useCookieConsentSettings from '../../../../hooks/useCookieConsentSettings';
 import {
   configure,
   render,
-  screen,
   userEvent,
   waitFor,
   within,
@@ -25,28 +26,61 @@ const clearAllCookies = () =>
       c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   });
 
+const realDateNow = Date.now.bind(global.Date);
+
+beforeAll(() => {
+  const dateNowStub = jest.fn(() => 1530518207007);
+  global.Date.now = dateNowStub;
+});
+
 beforeEach(() => {
   jest.clearAllMocks();
+
   global.ResizeObserver = jest.fn().mockImplementation(() => ({
     observe: jest.fn(),
     unobserve: jest.fn(),
     disconnect: jest.fn(),
   }));
+
   clearAllCookies();
   i18n.changeLanguage('fi');
 });
 
-const renderApp = async () => render(<CookieConsent />);
+afterAll(() => {
+  global.Date.now = realDateNow;
+});
+
+const TestMockApp = () => {
+  const cookieConsentProps = useCookieConsentSettings();
+
+  return (
+    <CookieConsentContextProvider {...cookieConsentProps}>
+      <p data-testid="cookie-consent-context-is-ready">Context is ready</p>
+      <CookieConsent />
+    </CookieConsentContextProvider>
+  );
+};
+
+const renderApp = async () => render(<TestMockApp />);
 
 const acceptAllCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22city-of-helsinki-consent-version%22%3Atrue%2C%22matomo%22%3Atrue%7D';
+  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22essential%22%3A%7B%22checksum%22%3A%22b50db787%22%2C%22timestamp%22%3A1530518207007%7D%2C%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22signupForm%22%3A%7B%22checksum%22%3A%2272c3440b%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%2288facd92%22%2C%22timestamp%22%3A1530518207007%7D%2C%22statistics%22%3A%7B%22checksum%22%3A%22caa20391%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
 const acceptOnlyNecessaryCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22city-of-helsinki-consent-version%22%3Atrue%2C%22matomo%22%3Afalse%7D';
+  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22essential%22%3A%7B%22checksum%22%3A%22b50db787%22%2C%22timestamp%22%3A1530518207007%7D%2C%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22signupForm%22%3A%7B%22checksum%22%3A%2272c3440b%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%2288facd92%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
 
-const findCookieConsentModal = () => screen.findByTestId('cookie-consent');
+const findCookieConsentModal = async () => {
+  const regions = await shadowScreen.findAllByShadowRole('region');
+
+  const container = regions.find(
+    (region) => region.getAttribute('id') === 'hds-cc'
+  );
+
+  return container as HTMLElement;
+};
 
 const waitCookieConsentModalToBeVisible = async () => {
   const cookieConsentModal = await findCookieConsentModal();
+
   await within(cookieConsentModal).findByRole('heading', {
     name: 'Linked Registrations käyttää evästeitä',
   });
@@ -56,7 +90,7 @@ const waitCookieConsentModalToBeVisible = async () => {
 
 const waitCookieConsentModalToBeHidden = async () => {
   await waitFor(() =>
-    expect(screen.queryByTestId('cookie-consent')).not.toBeInTheDocument()
+    expect(shadowScreen.queryAllByRole('region')).toHaveLength(0)
   );
 };
 
@@ -104,39 +138,6 @@ it('should show cookie consent modal if consent is not saved to cookie', async (
   await waitCookieConsentModalToBeVisible();
 });
 
-it('should change cookie consent modal language', async () => {
-  const user = userEvent.setup();
-
-  singletonRouter.push({ pathname: '/registrations' });
-  renderApp();
-
-  const cookieConsentModal = await waitCookieConsentModalToBeVisible();
-  const languageSelector = await findCookieConsentModalElement(
-    cookieConsentModal,
-    'languageSelector'
-  );
-
-  const languageElements: {
-    locale: 'en' | 'fi' | 'sv';
-    optionKey: 'enOption' | 'fiOption' | 'svOption';
-  }[] = [
-    { locale: 'en', optionKey: 'enOption' },
-    { locale: 'fi', optionKey: 'fiOption' },
-    { locale: 'sv', optionKey: 'svOption' },
-  ];
-
-  for (const { locale, optionKey } of languageElements) {
-    await user.click(languageSelector);
-    const languageOption = await findCookieConsentModalElement(
-      cookieConsentModal,
-      optionKey
-    );
-    await user.click(languageOption);
-
-    expect(mockRouter.locale).toBe(locale);
-  }
-});
-
 it('should store consent to cookie when clicking accept all button', async () => {
   const user = userEvent.setup();
 
@@ -147,6 +148,7 @@ it('should store consent to cookie when clicking accept all button', async () =>
     cookieConsentModal,
     'acceptAllButton'
   );
+
   await user.click(acceptAllButton);
 
   expect(document.cookie).toEqual(expect.stringContaining(acceptAllCookieText));
@@ -159,6 +161,7 @@ it('should store consent to cookie when clicking accept only necessary button', 
   renderApp();
 
   const cookieConsentModal = await waitCookieConsentModalToBeVisible();
+
   const acceptOnlyNecessaryButton = await findCookieConsentModalElement(
     cookieConsentModal,
     'acceptOnlyNecessaryButton'
