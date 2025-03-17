@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.2.0...linkedregistrations-ui-v1.3.0) (2025-03-17)
+
+
+### Features
+
+* Upgrade node to v22 LINK-2217 ([f06d111](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/f06d11165e67ae3f481d32d210089b23c0245ab1))
+
 ## [1.2.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.1.2...linkedregistrations-ui-v1.2.0) (2025-03-11)
 
 
