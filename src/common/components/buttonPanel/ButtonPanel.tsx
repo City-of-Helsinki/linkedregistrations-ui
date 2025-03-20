@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconArrowLeft } from 'hds-react';
+import { ButtonVariant, IconArrowLeft } from 'hds-react';
 import React from 'react';
 
 import Button from '../../../common/components/button/Button';
@@ -79,11 +79,11 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
               {onBack && (
                 <Button
                   className={classNames(styles.backButton, styles.smallButton)}
-                  iconLeft={<IconArrowLeft aria-hidden />}
+                  iconStart={<IconArrowLeft aria-hidden />}
                   fullWidth={true}
                   onClick={onBack}
                   type="button"
-                  variant="secondary"
+                  variant={ButtonVariant.Secondary}
                 >
                   {backButtonAriaLabel}
                 </Button>

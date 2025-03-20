@@ -1,14 +1,13 @@
-import { expect, Page, test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Frontpage', () => {
-  let page: Page;
-
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage();
+  test.beforeEach(async ({ page }) => {
     await page.goto('/');
+
+    await page.getByRole('button', { name: 'Hyväksy kaikki evästeet' }).click();
   });
 
-  test('title', async () => {
+  test('title', async ({ page }) => {
     const pageTitle = await page.title();
     expect(pageTitle).toContain('Valitettavasti etsimääsi sivua ei löydy');
     // expect(pageTitle).toContain("Linked Registrations");
