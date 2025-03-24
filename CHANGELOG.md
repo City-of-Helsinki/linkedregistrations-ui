@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.1...linkedregistrations-ui-v1.3.2) (2025-03-24)
+
+
+### Dependencies
+
+* Bump next from 14.2.21 to 14.2.25 ([aa86dd0](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/aa86dd03bbf19e80697ddce4d02ed35b572bc090))
+
 ## [1.3.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.0...linkedregistrations-ui-v1.3.1) (2025-03-24)
 
 
