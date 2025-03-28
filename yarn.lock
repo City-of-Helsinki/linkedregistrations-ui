@@ -3031,6 +3031,11 @@ dot-prop@^5.1.0:
   dependencies:
     is-obj "^2.0.0"
 
+dotenv@^16.4.7:
+  version "16.4.7"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.7.tgz#0e20c5b82950140aa99be360a8a5f52335f53c26"
+  integrity sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==
+
 downshift@6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/downshift/-/downshift-6.0.6.tgz#82aee8e2e260d7ad99df8a0969bd002dd523abe8"
@@ -3650,6 +3655,11 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
+fake-indexeddb@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-6.0.0.tgz#3173d5ad141436dace95f8de6e9ecdc3d9787d5d"
+  integrity sha512-YEboHE5VfopUclOck7LncgIqskAqnv4q0EWbYCaxKKjAvO93c+TJIaBuGy8CBFdbg9nKdpN3AuPRwVBJ4k7NrQ==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
@@ -4158,20 +4168,20 @@ hasown@^2.0.0, hasown@^2.0.1, hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
-hds-core@3.10.1, hds-core@^3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.10.1.tgz#84fd3129adf52d5d9cf0ba126cfec7b1e98e2da6"
-  integrity sha512-UJKYX8ivRMWFiPmqMFN0wWnXI2qslhLA9bX8ap7caQ4icbeALfqgPtGcO9ccGghUExNXbt3s3JsDD+Tmkt4VLw==
+hds-core@4.2.0, hds-core@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-4.2.0.tgz#2b7bbd94b48a5246c1abdc109d0c4dfdbfed7f32"
+  integrity sha512-D9GqQ/CdIrJp2ypQRB2FEbkfT/D4s/ehjwSWVQ/7pc5bZ8plOEvUTaIf2Kfl46/7U8QrQ6+N9BUd8nSl9TE0hA==
 
-hds-design-tokens@^3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-3.10.1.tgz#b1f623d0d60f25a5487ab87957bbf98b4c92d827"
-  integrity sha512-v20N0GQFk6S/94LQnJofdEa/M1xP0lZXAfxFasGGYiMMx60wq9j/D12e8lBJ6BKvb2hLYNGL1KfT16Du5MigYQ==
+hds-design-tokens@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-4.2.0.tgz#ed750ca6cd4ea5c90f1034c7921b17f0ee0fa3f2"
+  integrity sha512-rcYFYkVdoThf53pQANnSrif+4y9IW19aSY5q60lf6odhOD24SjB5LKSaJJzd2HXdWQApd3QaIp5HTicSPDmaYQ==
 
-hds-react@^3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.10.1.tgz#f69d5909cf38816f278e38ec41656d4ae870c966"
-  integrity sha512-X8Zx5DfzWnB9Sb3AJFtusH/gSDSYtt6WgHFYcea+mTnS4Pf3ISAsey3nmczcL1vBS0eavACn4TVGfQ/X/gUIWA==
+hds-react@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-4.2.0.tgz#5d8318f5883ea528bc8c30163ccfa0593fa93393"
+  integrity sha512-Tj1TzAb2Ov+JO/WSllcEvD3vlxEkSjJznTBcF1ScrAV/ZNwPDsIix+cs7bVFY/uNB8Kl2qoESf9vcd88cN0HSQ==
   dependencies:
     "@apollo/client" "^3.10.1"
     "@babel/runtime" "7.17.9"
@@ -4189,8 +4199,7 @@ hds-react@^3.10.1:
     date-fns "2.16.1"
     downshift "6.0.6"
     graphql "^16.8.1"
-    hds-core "3.10.1"
-    http-status-typed "^1.0.1"
+    hds-core "4.2.0"
     jwt-decode "^3.1.2"
     kashe "1.0.4"
     lodash "^4.17.21"
@@ -4244,11 +4253,6 @@ http-proxy-agent@^5.0.0:
     "@tootallnate/once" "2"
     agent-base "6"
     debug "4"
-
-http-status-typed@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/http-status-typed/-/http-status-typed-1.0.1.tgz#25a8b08efb4dfc6711c0214b575adb4974616d1a"
-  integrity sha512-U8jF221dmNNZbdBiOoK2HduguCwparnsP0z11PQZaDtaHBHuxG3gCimxQi8Cfb8VECave4yoVbONSByQU6z0Ew==
 
 https-proxy-agent@^5.0.0, https-proxy-agent@^5.0.1:
   version "5.0.1"
@@ -6787,6 +6791,11 @@ set-proto@^1.0.0:
     dunder-proto "^1.0.1"
     es-errors "^1.3.0"
     es-object-atoms "^1.0.0"
+
+shadow-dom-testing-library@^1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/shadow-dom-testing-library/-/shadow-dom-testing-library-1.11.3.tgz#438c5d93ab092f10075a65906d79e73464066dad"
+  integrity sha512-+XWK0Ds5eoDmejMFQbyPt5xPaBCd/JodAaZTzRa4/sZMhcO/wokGKMHeQYA3eiiZvtHs0MoJzU0ttfrWtUvbQA==
 
 shebang-command@^2.0.0:
   version "2.0.0"
