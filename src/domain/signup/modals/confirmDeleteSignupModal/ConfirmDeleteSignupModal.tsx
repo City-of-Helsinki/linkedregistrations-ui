@@ -56,7 +56,7 @@ const ConfirmDeleteSignupModal: React.FC<ConfirmDeleteSignupModalProps> = ({
           disabled={isSaving}
           iconStart={<IconCross aria-hidden={true} />}
           onClick={onDelete}
-          variant={ButtonVariant.Clear}
+          variant={ButtonVariant.Danger}
         >
           {t('signup:deleteSignupModal.buttonCancel')}
         </Button>

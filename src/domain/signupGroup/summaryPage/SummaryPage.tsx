@@ -272,7 +272,7 @@ const SummaryPage: FC<SummaryPageProps> = ({ event, registration }) => {
                       iconStart={<IconPen aria-hidden={true} />}
                       key="save"
                       onClick={handleSubmit}
-                      variant={ButtonVariant.Clear}
+                      variant={ButtonVariant.Primary}
                     >
                       {sendButtonLabel}
                     </Button>,
