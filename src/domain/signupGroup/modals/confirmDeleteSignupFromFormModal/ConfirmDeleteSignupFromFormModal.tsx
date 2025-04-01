@@ -75,7 +75,7 @@ const ConfirmDeleteSignupFromFormModal: React.FC<
           iconStart={<IconCross aria-hidden={true} />}
           onClick={handleDelete}
           type="button"
-          variant={ButtonVariant.Clear}
+          variant={ButtonVariant.Danger}
         >
           {t('signup:deleteSignupFromFormModal.buttonDelete', {
             count: participantCount,

@@ -19,6 +19,7 @@ const EventCalendarButton: FC<EventCalendarButtonProps> = ({
   disabled,
   event,
   onClick,
+  variant = ButtonVariant.Secondary,
   ...rest
 }) => {
   const locale = useLocale();
@@ -56,7 +57,7 @@ const EventCalendarButton: FC<EventCalendarButtonProps> = ({
       }
       iconStart={<IconCalendar aria-hidden={true} />}
       onClick={handleClick}
-      variant={ButtonVariant.Clear}
+      variant={variant}
     >
       {t('common:eventCalendarButton.label')}
     </Button>

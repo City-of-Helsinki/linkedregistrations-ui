@@ -78,7 +78,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           iconStart={<IconPen aria-hidden={true} />}
           onClick={onUpdate}
           title={editWarning}
-          variant={ButtonVariant.Clear}
+          variant={ButtonVariant.Primary}
         >
           {t('buttonUpdate')}
         </Button>,
