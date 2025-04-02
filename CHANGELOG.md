@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.2...linkedregistrations-ui-v1.3.3) (2025-04-02)
+
+
+### Bug Fixes
+
+* Button variant fixes LINK-2152 ([6bf8673](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6bf8673345e7c94c926f2e873915f1fa38a1485e))
+
+
+### Dependencies
+
+* Implement hds 4.2.0 LINK-2152 ([4e5faf0](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4e5faf0ec06c8da0e776bc03ca4def5d383a9ca7))
+
 ## [1.3.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.1...linkedregistrations-ui-v1.3.2) (2025-03-24)
 
 
