@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
     beforeSend,
     beforeSendTransaction,
     normalizeDepth: 3,
-    integrations: [extraErrorDataIntegration({ depth: 3 })],
+    integrations: [extraErrorDataIntegration({ depth: 3 }), Sentry.replayIntegration()],
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     ignoreErrors: [
@@ -24,6 +24,9 @@ if (process.env.NODE_ENV === 'production') {
     ],
     // Adjust this value in production, or use tracesSampler for greater control
     tracesSampleRate: 1,
+
+    replaysSessionSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1.0,
 
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
     debug: false,
