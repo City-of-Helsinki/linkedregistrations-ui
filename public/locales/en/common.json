@@ -49,6 +49,15 @@
     "label": "Add to calendar",
     "failedToCreateFile": "Failed to create calendar file"
   },
+  "footer": {
+    "backToTopLabel": "Back to top",
+    "copyrightHolder": "City of Helsinki",
+    "copyrightText": "All rights reserved.",
+    "tabs": {
+      "accessibilityStatement": "Accessibility Statement",
+      "cookies": "Cookie settings"
+    }
+  },
   "frontPage": "Frontpage",
   "headerTitle": "City of Helsinki",
   "helsinkiProfile": "Helsinki profile",

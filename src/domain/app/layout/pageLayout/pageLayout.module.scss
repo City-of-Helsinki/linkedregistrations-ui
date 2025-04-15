@@ -12,7 +12,7 @@
 .pageBody {
   display: grid;
   background-color: var(--background-color-body);
-  padding: var(--padding-body);
+  padding: var(--spacing-l) var(--spacing-m) var(--spacing-5-xl);
 
   h1 {
     font-size: var(--fontsize-heading-l);
@@ -25,4 +25,8 @@
 
 .pageLayoutWithoutHeader {
   grid-template-rows: 1fr !important;
+}
+
+.pageLayoutWhiteBackground {
+  --background-color-body: var(--color-white);
 }
