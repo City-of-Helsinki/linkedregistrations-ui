@@ -28,6 +28,9 @@ import {
 import { SignupGroupFormFields } from '../domain/signupGroup/types';
 import { mockedUserResponse } from '../domain/user/__mocks__/user';
 import { TEST_USER_ID } from '../domain/user/constants';
+import CookiesPage, {
+  getServerSideProps as getCookiesPageServerSideProps,
+} from '../pages/cookies';
 import PaymentCancelledPage, {
   getServerSideProps as getPaymentCancelledPageServerSideProps,
 } from '../pages/failure';
@@ -504,6 +507,24 @@ describe('LogoutPage', () => {
     const { props } = (await getLogoutPageServerSideProps({
       locale: 'fi',
       query: { registrationId: registration.id },
+    } as unknown as GetServerSidePropsContext)) as {
+      props: ExtendedSSRConfig;
+    };
+
+    expect(props._nextI18Next?.ns).toEqual(['common']);
+  });
+});
+
+describe('Cookies', () => {
+  it('should render', () => {
+    singletonRouter.push({ pathname: ROUTES.COOKIES });
+
+    render(<CookiesPage />);
+  });
+
+  it('should get correct translations namespaces', async () => {
+    const { props } = (await getCookiesPageServerSideProps({
+      locale: 'fi',
     } as unknown as GetServerSidePropsContext)) as {
       props: ExtendedSSRConfig;
     };
