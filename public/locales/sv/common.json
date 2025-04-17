@@ -49,6 +49,15 @@
     "label": "Lägg till i kalendern",
     "failedToCreateFile": "Det gick inte att skapa kalenderfil"
   },
+  "footer": {
+    "backToTopLabel": "Tillbaka till toppen",
+    "copyrightHolder": "Helsingfors stad",
+    "copyrightText": "Alla rättigheter förbehållna.",
+    "tabs": {
+      "accessibilityStatement": "Tillgänglighetsutlåtande",
+      "cookies": "Cookie -inställningar"
+    }
+  },
   "frontPage": "Hemsida",
   "headerTitle": "Helsingfors Stad",
   "helsinkiProfile": "Helsingfors profil",

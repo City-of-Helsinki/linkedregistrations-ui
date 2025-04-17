@@ -49,6 +49,15 @@
     "label": "Lisää kalenteriin",
     "failedToCreateFile": "Kalenteritiedoston luominen epäonnistui."
   },
+  "footer": {
+    "backToTopLabel": "Palaa ylös",
+    "copyrightHolder": "Helsingin kaupunki",
+    "copyrightText": "Kaikki oikeudet pidätetään.",
+    "tabs": {
+      "accessibilityStatement": "Saavutettavuusseloste",
+      "cookies": "Evästeasetukset"
+    }
+  },
   "frontPage": "Etusivu",
   "headerTitle": "Helsingin kaupunki",
   "helsinkiProfile": "Helsinki-profiili",
@@ -71,7 +80,6 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön"
   },
