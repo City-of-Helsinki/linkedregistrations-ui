@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.4.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.3...linkedregistrations-ui-v1.4.0) (2025-04-25)
+
+
+### Features
+
+* Add cookies page LINK-2152 ([ed430a8](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/ed430a870ef942edab79b70a8a2ba3c76a74c4c7))
+
+
+### Bug Fixes
+
+* Fixing README and pipelines, added engines restriction ([#228](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/228)) ([a11d1c2](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a11d1c245a25c7a6fbf874bf8168a812e68ca0ed))
+
+
+### Dependencies
+
+* Bump next from 14.2.25 to 14.2.26 ([#225](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/225)) ([807c8c5](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/807c8c5697c3b73d2b21f5de76ff4c58cae167ed))
+
 ## [1.3.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.2...linkedregistrations-ui-v1.3.3) (2025-04-02)
 
 
