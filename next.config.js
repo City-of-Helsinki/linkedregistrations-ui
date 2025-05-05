@@ -41,29 +41,28 @@ const moduleExports = {
   output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true
-  }
+  },
+  experimental: {
+    instrumentationHook: true,
+  },
 };
 
-const sentryWebpackPluginOptions = {
+module.exports = withSentryConfig(moduleExports, {
   // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options
+  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
   // Suppresses source map uploading logs during build
   silent: true,
+
   url: process.env.SENTRY_URL,
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
-};
 
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions, {
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
-
-  // Transpiles SDK to be compatible with IE11 (increases bundle size)
-  transpileClientSDK: true,
 
   // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
   tunnelRoute: '/monitoring',

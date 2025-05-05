@@ -19,7 +19,7 @@ USER default
 
 RUN yarn --frozen-lockfile
 
-COPY .env* next-i18next.config.js next.config.js sentry.client.config.ts sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
+COPY .env* next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
 COPY /public/ /app/public
 COPY /src/ /app/src
 
@@ -49,6 +49,11 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # specified in pipelines/library files 
 ARG NEXT_PUBLIC_LINKED_EVENTS_URL
 ARG NEXT_PUBLIC_SENTRY_DSN
+ARG NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE
+ARG NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS
+ARG NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE
+ARG NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
+ARG NEXT_PUBLIC_SENTRY_RELEASE
 ARG SENTRY_AUTH_TOKEN
 ARG NEXT_PUBLIC_ENVIRONMENT
 ARG NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS
