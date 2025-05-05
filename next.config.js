@@ -24,11 +24,6 @@ const moduleExports = {
   sassOptions: {
     includePaths: ['src/styles'],
   },
-  sentry: {
-    hideSourceMaps: true,
-    disableServerWebpackPlugin: true,
-    disableClientWebpackPlugin: true,
-  },
   publicRuntimeConfig: {
     linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
     webStoreApiBaseUrl: process.env.NEXT_PUBLIC_WEB_STORE_API_BASE_URL,

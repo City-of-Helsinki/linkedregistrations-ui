@@ -1,8 +1,3 @@
-// This file configures the initialization of Sentry on the client.
-// The config you add here will be used whenever a users loads a page in their browser.
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/
-
-import { extraErrorDataIntegration } from '@sentry/integrations';
 import * as Sentry from '@sentry/nextjs';
 
 import {
@@ -15,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
     beforeSend,
     beforeSendTransaction,
     normalizeDepth: 3,
-    integrations: [extraErrorDataIntegration({ depth: 3 })],
+    integrations: [Sentry.extraErrorDataIntegration({ depth: 3 })],
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
     ignoreErrors: [
