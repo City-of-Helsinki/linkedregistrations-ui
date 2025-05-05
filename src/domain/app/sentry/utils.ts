@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { ErrorEvent, TransactionEvent } from '@sentry/types';
+import { ErrorEvent, TransactionEvent } from '@sentry/core';
 import { normalize } from '@sentry/utils';
 import isObject from 'lodash/isObject';
 import snakeCase from 'lodash/snakeCase';
