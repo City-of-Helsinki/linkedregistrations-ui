@@ -45,6 +45,7 @@ const moduleExports = {
   experimental: {
     instrumentationHook: true,
   },
+  staticPageGenerationTimeout: 300,
 };
 
 module.exports = withSentryConfig(moduleExports, {
