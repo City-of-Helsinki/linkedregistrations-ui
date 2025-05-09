@@ -72,34 +72,38 @@ Use .env.local for development.
 
     cp .env.local.example .env.local
 
-| Name                                      | Description                                                                                                                |
-|-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| PORT                                      | Port where app is running. Default is 3001                                                                                 |
-| NEXT_PUBLIC_LINKED_EVENTS_URL             | linkedevents api base url                                                                                                  |
-| NEXT_PUBLIC_ENVIRONMENT                   | Environment used in Sentry. Use local for development                                                                      |
-| NEXT_PUBLIC_SENTRY_DSN                    | Sentry DSN.                                                                                                                |
-| SENTRY_URL                                | Url of Sentry instance. Default is https://sentry.test.hel.ninja                                                           |
-| SENTRY_ORG                                | Sentry organization. Default is city-of-helsinki                                                                           |
-| SENTRY_PROJECT                            | Sentry project. Default is linkedregistrations-ui                                                                          |
-| SENTRY_AUTH_TOKEN                         | Sentry authentication token.                                                                                               |
-| OIDC_ISSUER                               | Keycloak SSO service base url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus                          |
-| OIDC_API_TOKENS_URL                       | Keycloak api tokens url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus/protocol/openid-connect/token/ |
-| OIDC_CLIENT_ID                            | Client id. Default is linkedregistrations-ui                                                                               |
-| OIDC_CLIENT_SECRET                        | Secret of the oidc client                                                                                                  |
-| OIDC_LINKED_EVENTS_API_SCOPE              | Linked Events API scope. Default is linkedevents-api                                                                       |
-| NEXT_PUBLIC_MATOMO_URL                    | Base url of the Matomo. Defualt is //matomo.hel.fi/                                                                        |
-| NEXT_PUBLIC_MATOMO_SITE_ID                | Site id in the Matomo. Default is 70                                                                                       |
-| NEXT_PUBLIC_MATOMO_JS_TRACKER_FILE        | JavaScript tracker file name. Default is matomo.js                                                                         |
-| NEXT_PUBLIC_MATOMO_PHP_TRACKER_FILE       | PHP tracker file name. Default is matomo.php                                                                               |
-| NEXT_PUBLIC_MATOMO_ENABLED                | Flag to enable matomo. Default is false.                                                                                   |
-| NEXTAUTH_SECRET                           | next-auth secret                                                                                                           |
-| NEXTAUTH_URL                              | Canonical url of the site used by next-auth                                                                                |
-| NEXT_ENV                                  | 'development' or 'production'                                                                                              |
-| NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED | Flag to enable Tapla integration. Default is false                                                                         |
-| NEXT_PUBLIC_WEB_STORE_API_BASE_URL        | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
-| NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS | Login methods to use for attendance list viewing/editing. Default is suomi_fi                                              |
-| NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS         | Login methods to use for signup viewing/editing. Default is helsinki-tunnus and helsinkiad                                 |
-
+| Name                                               | Description                                                                                                                |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| PORT                                               | Port where app is running. Default is 3001                                                                                 |
+| NEXT_PUBLIC_LINKED_EVENTS_URL                      | linkedevents api base url                                                                                                  |
+| NEXT_PUBLIC_ENVIRONMENT                            | Environment used in Sentry. Use local for development                                                                      |
+| NEXT_PUBLIC_SENTRY_DSN                             | Sentry DSN.                                                                                                                |
+| NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE              | Controls the traces sample rate for Sentry performance monitoring. Default is 0 (disabled).                                |
+| NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS       | Comma-separated list of URLs or patterns for trace propagation.                                                            |
+| NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE     | Controls the session sample rate for Sentry session replays. Default is 0 (disabled).                                      |
+| NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE    | Controls the sample rate for Sentry replays on errors. Default is 0 (disabled).                                            |
+| NEXT_PUBLIC_SENTRY_RELEASE                         | Sentry release version.                                                                                                    |
+| SENTRY_URL                                         | Url of Sentry instance. Default is https://sentry.test.hel.ninja                                                           |
+| SENTRY_ORG                                         | Sentry organization. Default is city-of-helsinki                                                                           |
+| SENTRY_PROJECT                                     | Sentry project. Default is linkedregistrations-ui                                                                          |
+| SENTRY_AUTH_TOKEN                                  | Sentry authentication token.                                                                                               |
+| OIDC_ISSUER                                        | Keycloak SSO service base url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus                          |
+| OIDC_API_TOKENS_URL                                | Keycloak api tokens url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus/protocol/openid-connect/token/ |
+| OIDC_CLIENT_ID                                     | Client id. Default is linkedregistrations-ui                                                                               |
+| OIDC_CLIENT_SECRET                                 | Secret of the oidc client                                                                                                  |
+| OIDC_LINKED_EVENTS_API_SCOPE                       | Linked Events API scope. Default is linkedevents-api                                                                       |
+| NEXT_PUBLIC_MATOMO_URL                             | Base url of the Matomo. Defualt is //matomo.hel.fi/                                                                        |
+| NEXT_PUBLIC_MATOMO_SITE_ID                         | Site id in the Matomo. Default is 70                                                                                       |
+| NEXT_PUBLIC_MATOMO_JS_TRACKER_FILE                 | JavaScript tracker file name. Default is matomo.js                                                                         |
+| NEXT_PUBLIC_MATOMO_PHP_TRACKER_FILE                | PHP tracker file name. Default is matomo.php                                                                               |
+| NEXT_PUBLIC_MATOMO_ENABLED                         | Flag to enable matomo. Default is false.                                                                                   |
+| NEXTAUTH_SECRET                                    | next-auth secret                                                                                                           |
+| NEXTAUTH_URL                                       | Canonical url of the site used by next-auth                                                                                |
+| NEXT_ENV                                           | 'development' or 'production'                                                                                              |
+| NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED          | Flag to enable Tapla integration. Default is false                                                                         |
+| NEXT_PUBLIC_WEB_STORE_API_BASE_URL                 | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
+| NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS          | Login methods to use for attendance list viewing/editing. Default is suomi_fi                                              |
+| NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS                  | Login methods to use for signup viewing/editing. Default is helsinki-tunnus and helsinkiad                                 |
 ## Url parameters
 
 There are some url parameters which can be used when using signup form in external service:
