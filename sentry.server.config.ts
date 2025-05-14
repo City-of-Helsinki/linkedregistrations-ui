@@ -5,7 +5,7 @@ import {
   beforeSendTransaction,
 } from './src/domain/app/sentry/utils';
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
     beforeSend,
     beforeSendTransaction,
