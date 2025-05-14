@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 
 import { beforeSend, beforeSendTransaction } from './domain/app/sentry/utils';
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
     beforeSend,
     beforeSendTransaction,
