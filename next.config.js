@@ -55,8 +55,6 @@ module.exports = withSentryConfig(moduleExports, {
   // Suppresses source map uploading logs during build
   silent: true,
 
-  url: process.env.SENTRY_URL,
-  org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
 
   // For all available options, see:

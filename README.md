@@ -83,8 +83,6 @@ Use .env.local for development.
 | NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE     | Controls the session sample rate for Sentry session replays. Default is 0 (disabled).                                      |
 | NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE    | Controls the sample rate for Sentry replays on errors. Default is 0 (disabled).                                            |
 | NEXT_PUBLIC_SENTRY_RELEASE                         | Sentry release version.                                                                                                    |
-| SENTRY_URL                                         | Url of Sentry instance. Default is https://sentry.test.hel.ninja                                                           |
-| SENTRY_ORG                                         | Sentry organization. Default is city-of-helsinki                                                                           |
 | SENTRY_PROJECT                                     | Sentry project. Default is linkedregistrations-ui                                                                          |
 | SENTRY_AUTH_TOKEN                                  | Sentry authentication token.                                                                                               |
 | OIDC_ISSUER                                        | Keycloak SSO service base url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus                          |
