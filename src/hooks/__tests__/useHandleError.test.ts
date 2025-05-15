@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Sentry from '@sentry/browser';
 import { act, renderHook } from '@testing-library/react';
 import { advanceTo, clear } from 'jest-date-mock';
@@ -16,7 +15,6 @@ afterEach(() => {
 describe('useHandleError', () => {
   it('should call savingFinished when handling error finished', async () => {
     advanceTo('2023-01-01');
-    (Sentry as any).captureException = jest.fn();
     const savingFinished = jest.fn();
     setQueryMocks(mockedUserResponse);
     const wrapper = getQueryWrapper(fakeAuthenticatedSession());

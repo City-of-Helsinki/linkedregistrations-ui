@@ -74,3 +74,12 @@ afterAll(() => {
 jest.setTimeout(1000000);
 
 process.env.NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED = 'true';
+
+// Mock Sentry
+jest.mock('@sentry/nextjs', () => ({
+  captureException: jest.fn(),
+  withSentryConfig: jest.fn((config) => config)
+}));
+jest.mock('@sentry/browser', () => ({
+  captureException: jest.fn(),
+}));
