@@ -38,7 +38,7 @@ FROM dependencies AS builder
 # ============================================================
 WORKDIR /app
 
-USER default
+USER default:root
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -54,7 +54,6 @@ ARG NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS
 ARG NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE
 ARG NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
 ARG NEXT_PUBLIC_SENTRY_RELEASE
-ARG SENTRY_AUTH_TOKEN
 ARG NEXT_PUBLIC_ENVIRONMENT
 ARG NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS
 ARG NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS
@@ -81,7 +80,10 @@ ARG NEXT_ENV
 ARG NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED
 ARG NEXT_PUBLIC_WEB_STORE_API_BASE_URL
 
-RUN yarn build
+# When building locally with Docker Compose, the auth token can be provided using SENTRY_AUTH_TOKEN environment variable.
+# Our AzDO pipeline uses /secrets/SENTRY_AUTH_TOKEN to pass the auth token so this works there too.
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_TOKEN \
+    SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" yarn build
 
 # ============================================================
 FROM registry.access.redhat.com/ubi9/nodejs-18 AS production
