@@ -84,7 +84,6 @@ Use .env.local for development.
 | NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE    | Controls the sample rate for Sentry replays on errors. Default is 0 (disabled).                                            |
 | NEXT_PUBLIC_SENTRY_RELEASE                         | Sentry release version.                                                                                                    |
 | SENTRY_PROJECT                                     | Sentry project. Default is linkedregistrations-ui                                                                          |
-| SENTRY_AUTH_TOKEN                                  | Sentry authentication token.                                                                                               |
 | OIDC_ISSUER                                        | Keycloak SSO service base url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus                          |
 | OIDC_API_TOKENS_URL                                | Keycloak api tokens url. Default is https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus/protocol/openid-connect/token/ |
 | OIDC_CLIENT_ID                                     | Client id. Default is linkedregistrations-ui                                                                               |

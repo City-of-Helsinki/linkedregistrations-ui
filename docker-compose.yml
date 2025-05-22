@@ -6,6 +6,8 @@ services:
     build:
       context: .
       target: ${DOCKER_TARGET:-development}
+      secrets:
+        - SENTRY_AUTH_TOKEN
     env_file:
       - .env
       - .env.local
@@ -13,6 +15,10 @@ services:
       - '${PORT}:${PORT}'
     volumes:
       - './src:/app/src'
+
+secrets:
+  SENTRY_AUTH_TOKEN:
+    environment: SENTRY_AUTH_TOKEN
 
 networks:
   default:
