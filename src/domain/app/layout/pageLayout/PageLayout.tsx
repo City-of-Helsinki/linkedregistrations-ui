@@ -49,7 +49,6 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
     <div
       className={classNames(styles.pageLayout, {
         [styles.pageLayoutWithoutHeader]: isIframe,
-        [styles.pageLayoutWhiteBackground]: isCookiesPage,
       })}
     >
       {!isIframe && <Header />}

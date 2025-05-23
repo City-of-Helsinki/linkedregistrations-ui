@@ -55,7 +55,8 @@
     "copyrightText": "All rights reserved.",
     "tabs": {
       "accessibilityStatement": "Accessibility Statement",
-      "cookies": "Cookie settings"
+      "cookies": "Cookie settings",
+      "dataProtection": "Data Protection"
     }
   },
   "frontPage": "Frontpage",
