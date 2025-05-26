@@ -14,12 +14,21 @@ const logoSrcFromLanguage = (lang: Language) => {
   return logoFi;
 };
 
+const DATA_PROTECTION_URL: { [key in Language]: string } = {
+  // eslint-disable-next-line max-len
+  fi: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+  // eslint-disable-next-line max-len
+  sv: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Hantering%20av%20anvandar-id.pdf',
+  // eslint-disable-next-line max-len
+  en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+};
+
 const Footer: React.FC = () => {
   const { t } = useTranslation('common');
   const locale = useLocale();
 
   return (
-    <HdsFooter className={styles.footer} korosType="calm" title={t('appName')}>
+    <HdsFooter className={styles.footer} title={t('appName')}>
       <HdsFooter.Base
         copyrightHolder={t('footer.copyrightHolder')}
         copyrightText={t('footer.copyrightText')}
@@ -33,6 +42,13 @@ const Footer: React.FC = () => {
         }
         logoHref="https://hel.fi"
       >
+        <HdsFooter.Link
+          href={DATA_PROTECTION_URL[locale]}
+          label={t('footer.tabs.dataProtection')}
+          external
+          target="_blank"
+        />
+
         <HdsFooter.Link
           href={`https://linkedevents.hel.fi/${locale}/accessibility-statement`}
           label={t('footer.tabs.accessibilityStatement')}

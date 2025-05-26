@@ -55,7 +55,8 @@
     "copyrightText": "Kaikki oikeudet pidätetään.",
     "tabs": {
       "accessibilityStatement": "Saavutettavuusseloste",
-      "cookies": "Evästeasetukset"
+      "cookies": "Evästeasetukset",
+      "dataProtection": "Tietosuoja"
     }
   },
   "frontPage": "Etusivu",

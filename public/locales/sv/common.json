@@ -55,7 +55,8 @@
     "copyrightText": "Alla rättigheter förbehållna.",
     "tabs": {
       "accessibilityStatement": "Tillgänglighetsutlåtande",
-      "cookies": "Cookie -inställningar"
+      "cookies": "Cookie -inställningar",
+      "dataProtection": "Dataskydd"
     }
   },
   "frontPage": "Hemsida",

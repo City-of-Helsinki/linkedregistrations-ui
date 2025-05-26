@@ -7,7 +7,6 @@ import React, { useEffect } from 'react';
 import { SIGNUP_QUERY_PARAMS } from '../../../signup/constants';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
-import { ROUTES } from '../../routes/constants';
 
 import styles from './pageLayout.module.scss';
 
@@ -22,10 +21,8 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
 }) => {
   const {
     query: { [SIGNUP_QUERY_PARAMS.IFRAME]: iframe },
-    pathname,
   } = useRouter();
   const isIframe = iframe === 'true';
-  const isCookiesPage = pathname === ROUTES.COOKIES;
 
   const statisticsConsent = useGroupConsent('statistics');
 
@@ -49,7 +46,6 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
     <div
       className={classNames(styles.pageLayout, {
         [styles.pageLayoutWithoutHeader]: isIframe,
-        [styles.pageLayoutWhiteBackground]: isCookiesPage,
       })}
     >
       {!isIframe && <Header />}
