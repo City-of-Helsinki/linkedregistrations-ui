@@ -12,7 +12,7 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
       Sentry.extraErrorDataIntegration({ depth: 3 }),
     ],
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-    environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
     release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',

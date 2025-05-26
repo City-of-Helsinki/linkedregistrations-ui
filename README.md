@@ -76,7 +76,7 @@ Use .env.local for development.
 |----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | PORT                                               | Port where app is running. Default is 3001                                                                                 |
 | NEXT_PUBLIC_LINKED_EVENTS_URL                      | linkedevents api base url                                                                                                  |
-| NEXT_PUBLIC_ENVIRONMENT                            | Environment used in Sentry. Use local for development                                                                      |
+| NEXT_PUBLIC_SENTRY_ENVIRONMENT                     | Environment used in Sentry. Default is local which should be used for local development.                                   |
 | NEXT_PUBLIC_SENTRY_DSN                             | Sentry DSN.                                                                                                                |
 | NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE              | Controls the traces sample rate for Sentry performance monitoring. Default is 0 (disabled).                                |
 | NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS       | Comma-separated list of URLs or patterns for trace propagation.                                                            |
