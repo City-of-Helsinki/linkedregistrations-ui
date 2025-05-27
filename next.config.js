@@ -53,7 +53,7 @@ module.exports = withSentryConfig(moduleExports, {
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
   // Suppresses source map uploading logs during build
-  silent: true,
+  silent: false,
 
   project: process.env.SENTRY_PROJECT,
 
