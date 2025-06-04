@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.4.0...linkedregistrations-ui-v1.5.0) (2025-06-04)
+
+
+### Features
+
+* Add support for Sentry tracing, replays and releases ([fa01cf3](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/fa01cf3a282283d1fdd47676ef2548b090403ed8))
+* Update footer and change background color LINK-2231 ([#230](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/230)) ([1d0c85c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/1d0c85cdd374135a44c051cc2b0ecd76f018dd90))
+
+
+### Dependencies
+
+* Bump Sentry SDK to v9 ([6d6c51b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6d6c51bdcf0e41de645e3b110bd6a50455fa15fd))
+
 ## [1.4.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.3.3...linkedregistrations-ui-v1.4.0) (2025-04-25)
 
 
