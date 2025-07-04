@@ -83,7 +83,7 @@
     "next-router-mock": "^0.9.12",
     "prettier": "^3.2.5",
     "shadow-dom-testing-library": "^1.11.3",
-    "snyk": "^1.1284.0",
+    "snyk": "^1.1297.3",
     "typescript": "5.4.2",
     "typescript-eslint": "^8.20.0",
     "waait": "^1.0.5"
