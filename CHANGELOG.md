@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.1...linkedregistrations-ui-v1.5.2) (2025-09-10)
+
+
+### Dependencies
+
+* Bump form-data from 4.0.0 to 4.0.4 ([#238](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/238)) ([6f53948](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6f53948f5c20457de193dfa7c5455bac4a57c5f7))
+* Bump next from 14.2.30 to 14.2.32 ([#240](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/240)) ([67e8d6b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/67e8d6b943f6ba5f78f9e88c8d7653e9e6e0fc57))
+
 ## [1.5.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.0...linkedregistrations-ui-v1.5.1) (2025-08-08)
 
 
