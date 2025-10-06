@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.3...linkedregistrations-ui-v1.5.4) (2025-10-06)
+
+
+### Bug Fixes
+
+* Stricter yarn configuration ([#243](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/243)) ([62925f6](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/62925f67afe0e6ae940b594a8ba9cb7c541169db))
+
 ## [1.5.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.2...linkedregistrations-ui-v1.5.3) (2025-09-15)
 
 
