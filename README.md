@@ -101,6 +101,9 @@ Use .env.local for development.
 | NEXT_PUBLIC_WEB_STORE_API_BASE_URL                 | Base url for the Tapla endpoints. Default is https://checkout-test-api.test.hel.ninja/v1                                   |
 | NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS          | Login methods to use for attendance list viewing/editing. Default is suomi_fi                                              |
 | NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS                  | Login methods to use for signup viewing/editing. Default is helsinki-tunnus and helsinkiad                                 |
+| NEXT_CSP_POLICY                                    | Content Security Policy header value. If not set, no CSP headers will be added.                                            |
+| NEXT_CSP_REPORT_ONLY                               | Set to 'false' to enforce CSP, otherwise defaults to report-only mode. Default is true.                                    |
+| NEXT_CSP_REPORTING_ENDPOINTS                       | Optional reporting endpoints for CSP violations.                                                                            |
 ## Url parameters
 
 There are some url parameters which can be used when using signup form in external service:
