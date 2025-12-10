@@ -25,7 +25,7 @@ const ConfirmDeleteSignupModal: React.FC<ConfirmDeleteSignupModalProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation(['signup', 'common']);
-  const openConfirmationButtonRef = React.useRef(null);
+  const openConfirmationButtonRef = React.useRef<HTMLElement>(null);
   const id = 'delete-signup-confirmation-dialog';
   const titleId = 'delete-signup-confirmation-dialog-title';
   const descriptionId = 'delete-signup-confirmation-dialog-description';
