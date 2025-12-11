@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.4...linkedregistrations-ui-v1.5.5) (2025-12-11)
+
+
+### Dependencies
+
+* Bump next-auth from 4.24.7 to 4.24.12 ([d64ae4c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/d64ae4c32dc612aefc992fab8990391a2c6f69ea))
+
 ## [1.5.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.3...linkedregistrations-ui-v1.5.4) (2025-10-06)
 
 
