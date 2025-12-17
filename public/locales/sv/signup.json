@@ -63,7 +63,11 @@
       "over": "Över {{min}} år",
       "under": "Under {{max}} år"
     },
-    "freeEvent": "Fri"
+    "freeEvent": "Fri",
+    "time": "Tid",
+    "location": "Plats",
+    "price": "Pris",
+    "ageLimit": "Åldersgräns"
   },
   "eventTimes": "Alla evenemangstider",
   "freeAttendeeCapacity": "Tillgängliga platser",

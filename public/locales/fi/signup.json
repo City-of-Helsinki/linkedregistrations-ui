@@ -63,7 +63,11 @@
       "over": "Yli {{min}} v",
       "under": "Alle {{max}} v"
     },
-    "freeEvent": "Maksuton"
+    "freeEvent": "Maksuton",
+    "time": "Aika",
+    "location": "Paikka",
+    "price": "Hinta",
+    "ageLimit": "Ikäraja"
   },
   "eventTimes": "Kaikki tapahtuma-ajat",
   "freeAttendeeCapacity": "Saatavilla olevia paikkoja",

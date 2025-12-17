@@ -63,7 +63,11 @@
       "over": "Over {{min}} yr.",
       "under": "Under {{max}} yr."
     },
-    "freeEvent": "Free"
+    "freeEvent": "Free",
+    "time": "Time",
+    "location": "Location",
+    "price": "Price",
+    "ageLimit": "Age limit"
   },
   "eventTimes": "All event times",
   "freeAttendeeCapacity": "Available seats",

@@ -1,5 +1,6 @@
 import { IconClock, IconLocation, IconTicket, IconUser, Tag } from 'hds-react';
 import capitalize from 'lodash/capitalize';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
@@ -41,6 +42,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
 
   const locationText = getEventLocationText({ event, locale });
 
+  const { t } = useTranslation('signup');
+
   return (
     <div className={styles.eventInfo}>
       <div
@@ -69,23 +72,43 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
         <div className={styles.dateRow}>
           {(endTime || startTime) && (
             <TextWithIcon
-              icon={<IconClock aria-hidden className={styles.icon} />}
+              icon={
+                <IconClock
+                  aria-label={t('event.time')}
+                  className={styles.icon}
+                />
+              }
               text={<DateText endTime={endTime} startTime={startTime} />}
             />
           )}
 
           <TextWithIcon
-            icon={<IconLocation aria-hidden className={styles.icon} />}
+            icon={
+              <IconLocation
+                aria-label={t('event.location')}
+                className={styles.icon}
+              />
+            }
             text={locationText}
           />
         </div>
         <div className={styles.ticketRow}>
           <TextWithIcon
-            icon={<IconTicket aria-hidden className={styles.icon} />}
+            icon={
+              <IconTicket
+                aria-label={t('event.price')}
+                className={styles.icon}
+              />
+            }
             text={<PriceText freeEvent={freeEvent} offers={offers} />}
           />
           <TextWithIcon
-            icon={<IconUser aria-hidden className={styles.icon} />}
+            icon={
+              <IconUser
+                aria-label={t('event.ageLimit')}
+                className={styles.icon}
+              />
+            }
             text={
               <AudienceAgeText
                 maxAge={audienceMaxAge}

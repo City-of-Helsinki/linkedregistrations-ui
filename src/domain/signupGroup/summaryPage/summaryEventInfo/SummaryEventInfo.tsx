@@ -1,4 +1,5 @@
 import { IconLocation, IconTicket, IconUser } from 'hds-react';
+import { useTranslation } from 'next-i18next';
 import React, { useEffect, useRef } from 'react';
 
 import TextWithIcon from '../../../../common/components/textWithIcon/TextWithIcon';
@@ -32,6 +33,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
 
   const locationText = getEventLocationText({ event, locale });
 
+  const { t } = useTranslation('signup');
+
   useEffect(() => {
     if (headingRef.current) {
       headingRef.current.focus();
@@ -53,19 +56,31 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
         )}
 
         <TextWithIcon
-          icon={<IconLocation aria-hidden className={styles.icon} />}
+          icon={
+            <IconLocation
+              aria-label={t('event.location')}
+              className={styles.icon}
+            />
+          }
           size="l"
           text={locationText}
         />
       </div>
       <div className={styles.ticketRow}>
         <TextWithIcon
-          icon={<IconTicket aria-hidden className={styles.icon} />}
+          icon={
+            <IconTicket aria-label={t('event.price')} className={styles.icon} />
+          }
           size="s"
           text={<PriceText freeEvent={freeEvent} offers={offers} />}
         />
         <TextWithIcon
-          icon={<IconUser aria-hidden className={styles.icon} />}
+          icon={
+            <IconUser
+              aria-label={t('event.ageLimit')}
+              className={styles.icon}
+            />
+          }
           size="s"
           text={
             <AudienceAgeText maxAge={audienceMaxAge} minAge={audienceMinAge} />
