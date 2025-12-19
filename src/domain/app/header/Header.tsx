@@ -74,7 +74,7 @@ const Header: React.FC = () => {
         menuButtonLabel={t('navigation.menuToggleAriaLabel')}
       >
         <HdsHeader.LanguageSelector
-          ariaLabel={t('navigation.ariaLanguageSelection')}
+          aria-label={t('navigation.ariaLanguageSelection')}
         />
 
         {/* Show login menu if user is not authenticated */}
