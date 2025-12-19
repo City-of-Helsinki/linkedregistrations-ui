@@ -59,6 +59,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
           icon={
             <IconLocation
               aria-label={t('event.location')}
+              aria-hidden={false}
               className={styles.icon}
             />
           }
@@ -69,7 +70,11 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
       <div className={styles.ticketRow}>
         <TextWithIcon
           icon={
-            <IconTicket aria-label={t('event.price')} className={styles.icon} />
+            <IconTicket
+              aria-label={t('event.price')}
+              aria-hidden={false}
+              className={styles.icon}
+            />
           }
           size="s"
           text={<PriceText freeEvent={freeEvent} offers={offers} />}
@@ -78,6 +83,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ registration }) => {
           icon={
             <IconUser
               aria-label={t('event.ageLimit')}
+              aria-hidden={false}
               className={styles.icon}
             />
           }

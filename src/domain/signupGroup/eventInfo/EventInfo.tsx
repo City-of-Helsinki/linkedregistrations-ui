@@ -75,6 +75,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
               icon={
                 <IconClock
                   aria-label={t('event.time')}
+                  aria-hidden={false}
                   className={styles.icon}
                 />
               }
@@ -86,6 +87,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
             icon={
               <IconLocation
                 aria-label={t('event.location')}
+                aria-hidden={false}
                 className={styles.icon}
               />
             }
@@ -97,6 +99,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
             icon={
               <IconTicket
                 aria-label={t('event.price')}
+                aria-hidden={false}
                 className={styles.icon}
               />
             }
@@ -106,6 +109,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event, registration }) => {
             icon={
               <IconUser
                 aria-label={t('event.ageLimit')}
+                aria-hidden={false}
                 className={styles.icon}
               />
             }
