@@ -80,6 +80,8 @@ ARG NEXT_ENV
 ARG NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED
 ARG NEXT_PUBLIC_WEB_STORE_API_BASE_URL
 
+ARG NEXT_PUBLIC_USE_IMAGE_PROXY
+
 # When building locally with Docker Compose, the auth token can be provided using SENTRY_AUTH_TOKEN environment variable.
 # Our AzDO pipeline uses /secrets/SENTRY_AUTH_TOKEN to pass the auth token so this works there too.
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_TOKEN \

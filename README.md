@@ -104,6 +104,7 @@ Use .env.local for development.
 | NEXT_CSP_POLICY                                    | Content Security Policy header value. If not set, no CSP headers will be added.                                            |
 | NEXT_CSP_REPORT_ONLY                               | Set to 'false' to enforce CSP, otherwise defaults to report-only mode. Default is true.                                    |
 | NEXT_CSP_REPORTING_ENDPOINTS                       | Optional reporting endpoints for CSP violations.                                                                            |
+| NEXT_PUBLIC_USE_IMAGE_PROXY                        | Enable image proxy to return proxied URLs for CSP compliance. Default is false.                                            |
 ## Url parameters
 
 There are some url parameters which can be used when using signup form in external service:
