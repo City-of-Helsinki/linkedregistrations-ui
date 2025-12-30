@@ -50,8 +50,11 @@ export const registrationPathBuilder = ({
   ...args
 }: RegistrationQueryVariables): string => {
   const { id, include } = args;
+  const USE_IMAGE_PROXY = process.env.NEXT_PUBLIC_USE_IMAGE_PROXY === 'true';
+  
   const variableToKeyItems: VariableToKeyItem[] = [
     { key: 'include', value: include },
+    { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
   ];
 
   if (nocache) {

@@ -617,6 +617,34 @@ describe('registrationPathBuilder function', () => {
   );
 });
 
+describe('registrationPathBuilder with NEXT_PUBLIC_USE_IMAGE_PROXY environment variable', () => {
+  const originalEnv = process.env;
+
+  afterEach(() => {
+    process.env = originalEnv;
+  });
+
+  const cases: [string | undefined, string][] = [
+    ['true', '/registration/hel:123/?include=include1&use_image_proxy=true&nocache=true'],
+    ['false', '/registration/hel:123/?include=include1&nocache=true'],
+    [undefined, '/registration/hel:123/?include=include1&nocache=true'],
+  ];
+
+  it.each(cases)(
+    'should respect NEXT_PUBLIC_USE_IMAGE_PROXY environment variable with value %p, result %p',
+    (useImageProxyValue, expectedPath) => {
+      process.env = {
+        ...originalEnv,
+        NEXT_PUBLIC_USE_IMAGE_PROXY: useImageProxyValue,
+      };
+
+      expect(
+        registrationPathBuilder({ id: 'hel:123', include: ['include1'] })
+      ).toBe(expectedPath);
+    }
+  );
+});
+
 describe('exportSignupsAsExcel function', () => {
   const registration = fakeRegistration({ id: TEST_REGISTRATION_ID });
 
