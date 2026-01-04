@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.6](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.5...linkedregistrations-ui-v1.5.6) (2026-01-04)
+
+
+### Bug Fixes
+
+* Icon accessibility issue LINK-2151 ([#250](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/250)) ([aa1fade](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/aa1fade3b2db62e5f37816ebf043e834d4f6c7d7))
+
+
+### Dependencies
+
+* Bump @babel/runtime from 7.24.4 to 7.28.4 ([3cfce3d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/3cfce3d0864bf6c74830e7a0e6c226ab2cb555bd))
+* Bump next from 15.5.7 to 15.5.9 ([446cb79](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/446cb79bbfa4dbf2008db6b09b1ab50d462c783a))
+
 ## [1.5.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.4...linkedregistrations-ui-v1.5.5) (2025-12-11)
 
 
