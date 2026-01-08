@@ -17,7 +17,7 @@ RUN chown -R default:root /app
 
 USER default
 
-RUN yarn --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 COPY .env* next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
 COPY /public/ /app/public
