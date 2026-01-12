@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.6.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.5...linkedregistrations-ui-v1.6.0) (2026-01-12)
+
+
+### Features
+
+* Generate sourcemaps Ref: LINK-2476 ([2a79a57](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/2a79a572d2888f3b9c331ea13c26a764b1f3e742))
+* Yarn install hardening RATY-280 ([89f3553](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/89f355356a6d4bdc44fca134591661a9d67b5d40))
+
+
+### Bug Fixes
+
+* Icon accessibility issue LINK-2151 ([#250](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/250)) ([aa1fade](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/aa1fade3b2db62e5f37816ebf043e834d4f6c7d7))
+* Refactor pipelines ([#251](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/251)) ([6b9c862](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6b9c8625bb7776f90c21b70ea4099e849bcb7268))
+
+
+### Dependencies
+
+* Bump @babel/runtime from 7.24.4 to 7.28.4 ([3cfce3d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/3cfce3d0864bf6c74830e7a0e6c226ab2cb555bd))
+* Bump next from 15.5.7 to 15.5.9 ([446cb79](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/446cb79bbfa4dbf2008db6b09b1ab50d462c783a))
+
 ## [1.5.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.4...linkedregistrations-ui-v1.5.5) (2025-12-11)
 
 
