@@ -46,6 +46,7 @@ const moduleExports = {
     instrumentationHook: true,
   },
   staticPageGenerationTimeout: 300,
+  productionBrowserSourceMaps: true
 };
 
 module.exports = withSentryConfig(moduleExports, {
@@ -60,8 +61,10 @@ module.exports = withSentryConfig(moduleExports, {
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
+  // Disable sourcemap uploading to Sentry
+  sourcemaps: {
+    disable: true,
+  },
 
   // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
   tunnelRoute: '/monitoring',
