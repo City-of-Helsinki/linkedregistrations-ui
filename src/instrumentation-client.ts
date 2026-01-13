@@ -10,6 +10,12 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
     integrations: [
       Sentry.replayIntegration(),
       Sentry.extraErrorDataIntegration({ depth: 3 }),
+      Sentry.thirdPartyErrorFilterIntegration({
+        filterKeys: process.env.SENTRY_PROJECT
+          ? [process.env.SENTRY_PROJECT]
+          : [],
+        behaviour: 'drop-error-if-contains-third-party-frames',
+      }),
     ],
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
