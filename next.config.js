@@ -27,7 +27,8 @@ const moduleExports = {
   publicRuntimeConfig: {
     linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
     webStoreApiBaseUrl: process.env.NEXT_PUBLIC_WEB_STORE_API_BASE_URL,
-    attendanceListLoginMethods: process.env.NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS,
+    attendanceListLoginMethods:
+      process.env.NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS,
     signupsLoginMethods: process.env.NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS,
   },
   serverRuntimeConfig: {
@@ -40,13 +41,13 @@ const moduleExports = {
   },
   output: 'standalone',
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   experimental: {
     instrumentationHook: true,
   },
   staticPageGenerationTimeout: 300,
-  productionBrowserSourceMaps: true
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = withSentryConfig(moduleExports, {
@@ -57,6 +58,9 @@ module.exports = withSentryConfig(moduleExports, {
   silent: false,
 
   project: process.env.SENTRY_PROJECT,
+  unstable_sentryWebpackPluginOptions: {
+    applicationKey: process.env.SENTRY_PROJECT,
+  },
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
