@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.6.0...linkedregistrations-ui-v1.7.0) (2026-01-19)
+
+
+### Features
+
+* Add Sentry third-party error filter integration ([e6afd17](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e6afd179534808b0f92a9e133a303711ee123686))
+
 ## [1.6.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.5...linkedregistrations-ui-v1.6.0) (2026-01-12)
 
 
