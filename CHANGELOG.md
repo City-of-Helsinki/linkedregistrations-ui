@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.6.0...linkedregistrations-ui-v1.7.0) (2026-01-28)
+
+
+### Features
+
+* Add Sentry third-party error filter integration ([e6afd17](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e6afd179534808b0f92a9e133a303711ee123686))
+* Implement use_image_proxy ([3852975](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/3852975acee0bd6588302f90bbbc30211c8f006a))
+* Support CSP ([f49cd67](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/f49cd67832a888fbc6e8747fef2d940f3be15458))
+
+
+### Dependencies
+
+* Bump lodash from 4.17.21 to 4.17.23 ([99839ae](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/99839aeb5ba5b11a970ab3c93c0ac5c44073a373))
+* Bump lodash-es from 4.17.21 to 4.17.23 ([0d9ae31](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0d9ae313e2127d94b964207b74deb3d48148dda7))
+
 ## [1.6.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.5.5...linkedregistrations-ui-v1.6.0) (2026-01-12)
 
 
