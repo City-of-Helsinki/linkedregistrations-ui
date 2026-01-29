@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.7.0...linkedregistrations-ui-v1.7.1) (2026-01-29)
+
+
+### Dependencies
+
+* Update nextjs deps and hds ([264a998](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/264a998499f72813895d56055f2df38732e8f88c))
+
 ## [1.7.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.6.0...linkedregistrations-ui-v1.7.0) (2026-01-28)
 
 
