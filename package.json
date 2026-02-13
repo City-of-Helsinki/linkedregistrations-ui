@@ -88,13 +88,6 @@
     "typescript-eslint": "^8.20.0",
     "waait": "^1.0.5"
   },
-  "resolutions": {
-    "cross-spawn": "7.0.6",
-    "follow-redirects": "1.15.6",
-    "jose": "4.15.5",
-    "npmlog": "^7.0.0",
-    "semver": "7.5.4"
-  },
   "jest-junit": {
     "outputDirectory": ".",
     "outputName": "jest-report.xml",
