@@ -2,6 +2,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const { i18n } = require('./next-i18next.config');
+const packageJson = require('./package.json');
 
 const moduleExports = {
   i18n,
@@ -38,6 +39,9 @@ const moduleExports = {
     oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
     oidcIssuer: process.env.OIDC_ISSUER,
     oidcLinkedEventsApiScope: process.env.OIDC_LINKED_EVENTS_API_SCOPE,
+  },
+  env: {
+    APP_VERSION: packageJson.version
   },
   output: 'standalone',
   eslint: {
