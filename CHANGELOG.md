@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.7.1...linkedregistrations-ui-v1.8.0) (2026-02-25)
+
+
+### Features
+
+* Readiness endpoint KEH-228 ([919f3cf](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/919f3cfb6b511b02d73545b1f470a11b8386c0cc))
+
+
+### Dependencies
+
+* Bump axios from 1.12.0 to 1.13.5 ([75b03d2](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/75b03d265324f49e2bbd62f5ea0f314bc1db8e74))
+
 ## [1.7.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.7.0...linkedregistrations-ui-v1.7.1) (2026-01-29)
 
 
