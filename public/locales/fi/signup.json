@@ -82,7 +82,7 @@
   "labelParticipantAmount": "Ilmoittautujien määrä",
   "labelRegistration": "Ilmoittautuminen",
   "labelUserConsent": "Hyväksyn tietojen jakamisen tapahtuman järjestäjän kanssa. Helsingin kaupunki ei käytä lomakkeella annettuja tietoja markkinointiin. <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Tietosuojaseloste {{openInNewTab}}\">Tietosuojaseloste</a>",
-  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked%20Registration%20tietosuojaseloste.pdf",
+  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-ja-Linked-Registration-Tietosuojaseloste.pdf",
   "notifications": {
     "email": "Sähköpostilla",
     "sms": "Tekstiviestillä"

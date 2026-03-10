@@ -82,7 +82,7 @@
   "labelParticipantAmount": "Antal registrerade",
   "labelRegistration": "Registrering",
   "labelUserConsent": "Jag godkänner att dela information med evenemangsarrangören. Helsingfors stad använder inte informationen du tillhandahåller för marknadsföringsändamål. <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Registerbeskrivningen {{openInNewTab}}\">Registerbeskrivningen</a>",
-  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked%20Registration%20tietosuojaseloste.pdf",
+  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-och-Linked-Registration-Integritetspolicy.pdf",
   "notifications": {
     "email": "Via e-post",
     "sms": "Med sms"
