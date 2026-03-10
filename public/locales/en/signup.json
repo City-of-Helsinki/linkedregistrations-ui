@@ -82,7 +82,7 @@
   "labelParticipantAmount": "Number of registrants",
   "labelRegistration": "Registration",
   "labelUserConsent": "I agree to share information with the event organizer. The City of Helsinki does not use the information you provide for marketing purposes. <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Data protection notice {{openInNewTab}}\">Data protection notice</a>",
-  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked%20Registration%20tietosuojaseloste.pdf",
+  "linkDataProtectionNotice": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-and-Linked-Registration-Privacy-policy.pdf",
   "notifications": {
     "email": "By email",
     "sms": "By text message"
