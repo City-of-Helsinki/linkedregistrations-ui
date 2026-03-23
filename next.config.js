@@ -21,7 +21,6 @@ const moduleExports = {
       },
     ];
   },
-  swcMinify: true,
   sassOptions: {
     includePaths: ['src/styles'],
   },
@@ -46,9 +45,6 @@ const moduleExports = {
   output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  experimental: {
-    instrumentationHook: true,
   },
   staticPageGenerationTimeout: 300,
   productionBrowserSourceMaps: true,
