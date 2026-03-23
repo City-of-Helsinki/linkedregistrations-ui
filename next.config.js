@@ -62,8 +62,17 @@ module.exports = withSentryConfig(moduleExports, {
   silent: false,
 
   project: process.env.SENTRY_PROJECT,
-  unstable_sentryWebpackPluginOptions: {
-    applicationKey: process.env.SENTRY_PROJECT,
+  webpack: {
+    unstable_sentryWebpackPluginOptions: {
+      applicationKey: process.env.SENTRY_PROJECT,
+    },
+    treeshake: {
+      // Automatically tree-shake Sentry logger statements to reduce bundle size
+      removeDebugLogging: true
+    },
+    reactComponentAnnotation: {
+      enabled: true,
+    },
   },
 
   // For all available options, see:
@@ -76,11 +85,4 @@ module.exports = withSentryConfig(moduleExports, {
 
   // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
   tunnelRoute: '/monitoring',
-
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  reactComponentAnnotation: {
-    enabled: true,
-  },
 });
