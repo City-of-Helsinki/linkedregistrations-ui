@@ -7,6 +7,7 @@ import {
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
+import { HELSINKI_TIME_ZONE } from '../constants';
 import { dateOrNull } from '../domain/api/types';
 import { Language } from '../types';
 
@@ -25,22 +26,21 @@ const getDateRangeStr = ({
   language: Language;
   start: dateOrNull;
 }): string => {
-  const timeZone = 'Europe/Helsinki';
   const dateFormat = 'd.M.yyyy';
   const timeFormat = getTimeFormat(language);
 
   if (!end && !start) return '';
 
   if (end && !start) {
-    const endDate = utcToZonedTime(end, timeZone);
+    const endDate = utcToZonedTime(end, HELSINKI_TIME_ZONE);
     const dateStr = formatDate(endDate, dateFormat, language);
     const timeStr = formatDate(endDate, timeFormat, language);
 
     return `– ${[dateStr, timeStr].join(', ')}`;
   }
 
-  const startDate = utcToZonedTime(start as Date, timeZone);
-  const nextDay = utcToZonedTime(addDays(startDate, 1), timeZone);
+  const startDate = utcToZonedTime(start as Date, HELSINKI_TIME_ZONE);
+  const nextDay = utcToZonedTime(addDays(startDate, 1), HELSINKI_TIME_ZONE);
   nextDay.setHours(5, 0, 0, 0);
 
   if (!end) {
@@ -49,7 +49,7 @@ const getDateRangeStr = ({
 
     return `${[dateStr, timeStr].join(', ')} –`;
   } else {
-    const endDate = utcToZonedTime(end, timeZone);
+    const endDate = utcToZonedTime(end, HELSINKI_TIME_ZONE);
 
     if (isSameDay(startDate, endDate) || isBefore(endDate, nextDay)) {
       const dateStr = formatDate(startDate, dateFormat, language);

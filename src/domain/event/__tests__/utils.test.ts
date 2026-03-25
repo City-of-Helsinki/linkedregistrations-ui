@@ -27,6 +27,7 @@ import {
   getEventFields,
   getEventLocationText,
   isEventStarted,
+  isPaidEventCancellationDeadlinePassed,
 } from '../utils';
 
 afterEach(() => {
@@ -365,6 +366,64 @@ describe('isEventStarted', () => {
       expect(isEventStarted(event)).toBe(expectedResult);
     }
   );
+});
+
+describe('isPaidEventCancellationDeadlinePassed', () => {
+  it('should return false for free events', () => {
+    const result = isPaidEventCancellationDeadlinePassed({
+      event: fakeEvent({
+        offers: fakeOffers(1, [{ is_free: true }]),
+        start_time: '2026-02-02T12:00:00Z',
+      }),
+      now: new Date('2026-01-27T00:00:00Z'),
+    });
+
+    expect(result).toBe(false);
+  });
+
+  it('should allow cancellation until 23:59:59 on the cutoff day in Helsinki time', () => {
+    const paidEvent = fakeEvent({
+      offers: fakeOffers(1, [{ is_free: false }]),
+      // Event starts on 2.2.2026 at 14:00 in Helsinki time (UTC+2 => 12:00Z)
+      start_time: '2026-02-02T12:00:00Z',
+    });
+
+    const allowed = isPaidEventCancellationDeadlinePassed({
+      event: paidEvent,
+      // 26.1.2026 23:59:59 in Helsinki time (UTC+2 => 21:59:59Z)
+      now: new Date('2026-01-26T21:59:59Z'),
+    });
+    const blocked = isPaidEventCancellationDeadlinePassed({
+      event: paidEvent,
+      // 27.1.2026 00:00:00 in Helsinki time (UTC+2 => 22:00:00Z)
+      now: new Date('2026-01-26T22:00:00Z'),
+    });
+
+    expect(allowed).toBe(false);
+    expect(blocked).toBe(true);
+  });
+
+  it('should keep cutoff at Helsinki midnight across spring DST transition', () => {
+    const paidEvent = fakeEvent({
+      offers: fakeOffers(1, [{ is_free: false }]),
+      // Event starts on 1.4.2026 at 14:00 in Helsinki time (UTC+3 => 11:00Z)
+      start_time: '2026-04-01T11:00:00Z',
+    });
+
+    const allowed = isPaidEventCancellationDeadlinePassed({
+      event: paidEvent,
+      // 25.3.2026 23:59:59 in Helsinki time (UTC+2 => 21:59:59Z)
+      now: new Date('2026-03-25T21:59:59Z'),
+    });
+    const blocked = isPaidEventCancellationDeadlinePassed({
+      event: paidEvent,
+      // 26.3.2026 00:00:00 in Helsinki time (UTC+2 => 22:00:00Z)
+      now: new Date('2026-03-25T22:00:00Z'),
+    });
+
+    expect(allowed).toBe(false);
+    expect(blocked).toBe(true);
+  });
 });
 
 describe('userPathBuilder function', () => {

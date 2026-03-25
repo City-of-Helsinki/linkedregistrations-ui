@@ -1,9 +1,12 @@
 import { AxiosError } from 'axios';
+import isAfter from 'date-fns/isAfter';
 import isPast from 'date-fns/isPast';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { DateArray, DateTime, EventAttributes, createEvents } from 'ics';
 import { TFunction } from 'next-i18next';
 
 import { AddNotificationFn } from '../../common/components/notificationsContext/NotificationsContext';
+import { HELSINKI_TIME_ZONE } from '../../constants';
 import { ExtendedSession, Language } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
@@ -12,6 +15,28 @@ import { getPlaceFields } from '../place/utils';
 
 import { EventStatus, PublicationStatus, SuperEventType } from './constants';
 import { Event, EventFields, EventQueryVariables } from './types';
+
+export const PAID_EVENT_CANCELLATION_DEADLINE_DAYS = 7;
+
+const getHelsinkiStartOfDayFromDateString = (dateString: string): Date =>
+  zonedTimeToUtc(`${dateString}T00:00:00`, HELSINKI_TIME_ZONE);
+
+const getHelsinkiStartOfDay = (date: Date): Date =>
+  getHelsinkiStartOfDayFromDateString(
+    formatInTimeZone(date, HELSINKI_TIME_ZONE, 'yyyy-MM-dd')
+  );
+
+// Use UTC date arithmetic on yyyy-mm-dd to avoid runtime TZ and DST drift.
+const subtractDaysFromDateString = (
+  dateString: string,
+  days: number
+): string => {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  date.setUTCDate(date.getUTCDate() - days);
+
+  return date.toISOString().slice(0, 10);
+};
 
 export const getEventFields = (event: Event, locale: Language): EventFields => {
   return {
@@ -192,4 +217,35 @@ export const eventPathBuilder = ({
 export const isEventStarted = (event: Event): boolean => {
   const startTime = event.start_time ? new Date(event.start_time) : null;
   return startTime ? isPast(startTime) : false;
+};
+
+const isPaidEvent = (event: Event): boolean =>
+  event.offers.some((offer) => !!offer && offer.is_free === false);
+
+export const isPaidEventCancellationDeadlinePassed = ({
+  event,
+  now = new Date(),
+}: {
+  event: Event;
+  now?: Date;
+}): boolean => {
+  if (!event.start_time || !isPaidEvent(event)) {
+    return false;
+  }
+
+  const eventStartDateInHelsinki = formatInTimeZone(
+    new Date(event.start_time),
+    HELSINKI_TIME_ZONE,
+    'yyyy-MM-dd'
+  );
+  const latestCancellationDateInHelsinki = subtractDaysFromDateString(
+    eventStartDateInHelsinki,
+    PAID_EVENT_CANCELLATION_DEADLINE_DAYS
+  );
+  const latestCancellationDay = getHelsinkiStartOfDayFromDateString(
+    latestCancellationDateInHelsinki
+  );
+
+  // Cancellation is allowed for the full cutoff day and disabled starting next day.
+  return isAfter(getHelsinkiStartOfDay(now), latestCancellationDay);
 };

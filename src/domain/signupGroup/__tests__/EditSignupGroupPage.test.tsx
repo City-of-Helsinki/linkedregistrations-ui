@@ -10,6 +10,7 @@ import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import { ExtendedSession } from '../../../types';
+import { fakeOffers } from '../../../utils/mockDataUtils';
 import { fakeAuthenticatedSession } from '../../../utils/mockSession';
 import {
   actWait,
@@ -62,7 +63,17 @@ test.skip('page is accessible', async () => {
 
 const mockedRegistrationResponse = rest.get(
   `*/registration/${TEST_REGISTRATION_ID}/`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(registration))
+  (req, res, ctx) =>
+    res(
+      ctx.status(200),
+      ctx.json({
+        ...registration,
+        event: {
+          ...registration.event,
+          offers: fakeOffers(1, [{ is_free: true }]),
+        },
+      })
+    )
 );
 const mockedSignupsGroupResponse = rest.get(
   `*/signup_group/*`,

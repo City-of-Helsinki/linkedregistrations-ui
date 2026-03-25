@@ -134,6 +134,7 @@
     "eventStarted": "The event has already started and registration cannot be cancelled.",
     "hasPaymentCancellation": "The payment is being cancelled and cannot be modified.",
     "hasPaymentRefund": "The payment is being refunded and cannot be modified.",
-    "insufficientPermissions": "You do not have the right to edit registration details."
+    "insufficientPermissions": "You do not have the right to edit registration details.",
+    "paidEventCancellationDeadlinePassed": "Registration for a paid event can be cancelled no later than {{days}} days before the event starts."
   }
 }

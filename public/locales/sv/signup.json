@@ -133,6 +133,7 @@
     "eventStarted": "Evenemanget har redan börjat och registreringen kan inte avbrytas.",
     "hasPaymentCancellation": "Anmälningsavgiften annulleras och kan inte ändras.",
     "hasPaymentRefund": "Anmälningsavgiften återbetalas och kan inte ändras.",
-    "insufficientPermissions": "Du har inte rätt att ändra dina registreringsuppgifter."
+    "insufficientPermissions": "Du har inte rätt att ändra dina registreringsuppgifter.",
+    "paidEventCancellationDeadlinePassed": "Anmälan till ett avgiftsbelagt evenemang kan avbokas senast {{days}} dagar före evenemangets start."
   }
 }

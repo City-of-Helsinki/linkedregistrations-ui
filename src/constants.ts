@@ -27,6 +27,7 @@ export const MAIN_CONTENT_ID = 'maincontent';
 
 export const DATE_FORMAT = 'd.M.yyyy';
 export const TIME_FORMAT = 'HH.mm';
+export const HELSINKI_TIME_ZONE = 'Europe/Helsinki';
 
 export enum RESERVATION_NAMES {
   SIGNUP_RESERVATION = 'signup-reservation',
@@ -48,16 +49,20 @@ export enum SPLITTED_ROW_TYPE {
 
 export const DEFAULT_SPLITTED_ROW_TYPE = SPLITTED_ROW_TYPE.MEDIUM_MEDIUM;
 
-export type LoginMethod = "helsinki_tunnus" | "suomi_fi" | "helsinkiad";
+export type LoginMethod = 'helsinki_tunnus' | 'suomi_fi' | 'helsinkiad';
 
 export const parseLoginMethods = (value: string): LoginMethod[] => {
-  const validMethods: LoginMethod[] = ["helsinki_tunnus", "suomi_fi", "helsinkiad"];
+  const validMethods: LoginMethod[] = [
+    'helsinki_tunnus',
+    'suomi_fi',
+    'helsinkiad',
+  ];
 
-  return value.split(',').map(i => {
+  return value.split(',').map((i) => {
     const trimmed = i.trim();
     if (!validMethods.includes(trimmed as LoginMethod)) {
       throw new Error(`Invalid login method: ${trimmed}`);
     }
     return trimmed as LoginMethod;
-  })
-}
+  });
+};

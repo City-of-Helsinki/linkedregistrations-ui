@@ -16,7 +16,11 @@ import {
   callPut,
 } from '../app/axios/axiosClient';
 import { Event } from '../event/types';
-import { isEventStarted } from '../event/utils';
+import {
+  isEventStarted,
+  isPaidEventCancellationDeadlinePassed,
+  PAID_EVENT_CANCELLATION_DEADLINE_DAYS,
+} from '../event/utils';
 import { Registration } from '../registration/types';
 import {
   DeleteSignupGroupMutationInput,
@@ -363,7 +367,11 @@ export const canCancelSignup = ({
   signup: Signup;
   signupGroup?: SignupGroup;
 }): boolean =>
-  Boolean(canEditSignup(signup, signupGroup) && !isEventStarted(event));
+  Boolean(
+    canEditSignup(signup, signupGroup) &&
+      !isEventStarted(event) &&
+      !isPaidEventCancellationDeadlinePassed({ event })
+  );
 
 export const getEditSignupWarning = ({
   signup,
@@ -406,6 +414,11 @@ export const getCancelSignupWarning = ({
   }
   if (isEventStarted(event)) {
     return t('signup:warnings.eventStarted');
+  }
+  if (isPaidEventCancellationDeadlinePassed({ event })) {
+    return t('signup:warnings.paidEventCancellationDeadlinePassed', {
+      days: PAID_EVENT_CANCELLATION_DEADLINE_DAYS,
+    });
   }
 
   return '';
