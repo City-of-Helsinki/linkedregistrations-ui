@@ -133,6 +133,7 @@
     "eventStarted": "Tapahtuman on jo alkanut eikä ilmoittautumista voi perua.",
     "hasPaymentCancellation": "Ilmoittautumisen maksua perutaan eikä sitä voi muokata.",
     "hasPaymentRefund": "Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.",
-    "insufficientPermissions": "Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja."
+    "insufficientPermissions": "Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja.",
+    "paidEventCancellationDeadlinePassed": "Maksullisen tapahtuman ilmoittautumisen voi perua viimeistään {{days}} päivää ennen tapahtuman alkua."
   }
 }

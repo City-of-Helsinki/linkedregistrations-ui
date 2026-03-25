@@ -4,6 +4,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 
 import {
   fakeEvent,
+  fakeOffers,
   fakeSignup,
   fakeSignupGroup,
   fakeSignupPaymentCancellation,
@@ -106,13 +107,13 @@ describe('canEditSignup function', () => {
   ];
 
   it.each(cases)(
-    'should return true if signup can be edited',
+    'should return whether signup can be edited',
     (signup, signupGroup, expectedResult) =>
       expect(canEditSignup(signup, signupGroup)).toBe(expectedResult)
   );
 });
 
-describe('canEditSignup function', () => {
+describe('getEditSignupWarning function', () => {
   const cases: [Signup, SignupGroup | undefined, string][] = [
     [fakeSignup(editableSignupOverride), undefined, ''],
     [
@@ -164,9 +165,9 @@ describe('canEditSignup function', () => {
   );
 });
 
-describe('canECancelSignup function', () => {
+describe('canCancelSignup function', () => {
   const editableEvent = fakeEvent({ start_time: '2024-06-24' });
-  const cases: [Signup, SignupGroup | undefined, Event, boolean][] = [
+  const cases: [Signup, SignupGroup | undefined, Event, boolean, string][] = [
     [
       fakeSignup({
         has_contact_person_access: false,
@@ -175,6 +176,7 @@ describe('canECancelSignup function', () => {
       undefined,
       editableEvent,
       false,
+      '2024-06-01',
     ],
     [
       fakeSignup({
@@ -184,6 +186,7 @@ describe('canECancelSignup function', () => {
       undefined,
       editableEvent,
       true,
+      '2024-06-01',
     ],
     [
       fakeSignup({
@@ -193,8 +196,15 @@ describe('canECancelSignup function', () => {
       undefined,
       editableEvent,
       true,
+      '2024-06-01',
     ],
-    [fakeSignup(editableSignupOverride), undefined, editableEvent, true],
+    [
+      fakeSignup(editableSignupOverride),
+      undefined,
+      editableEvent,
+      true,
+      '2024-06-01',
+    ],
     [
       fakeSignup({
         ...editableSignupOverride,
@@ -203,6 +213,7 @@ describe('canECancelSignup function', () => {
       undefined,
       editableEvent,
       false,
+      '2024-06-01',
     ],
     [
       fakeSignup({
@@ -212,6 +223,7 @@ describe('canECancelSignup function', () => {
       undefined,
       editableEvent,
       false,
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
@@ -220,6 +232,7 @@ describe('canECancelSignup function', () => {
       }),
       editableEvent,
       false,
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
@@ -228,19 +241,41 @@ describe('canECancelSignup function', () => {
       }),
       editableEvent,
       false,
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
       undefined,
       fakeEvent({ start_time: '2024-01-01' }),
       false,
+      '2024-06-01',
+    ],
+    [
+      fakeSignup(editableSignupOverride),
+      undefined,
+      fakeEvent({
+        offers: fakeOffers(1, [{ is_free: false }]),
+        start_time: '2026-02-01T10:00:00Z',
+      }),
+      true,
+      '2026-01-25T21:59:00Z',
+    ],
+    [
+      fakeSignup(editableSignupOverride),
+      undefined,
+      fakeEvent({
+        offers: fakeOffers(1, [{ is_free: false }]),
+        start_time: '2026-02-01T10:00:00Z',
+      }),
+      false,
+      '2026-01-25T22:00:00Z',
     ],
   ];
 
   it.each(cases)(
-    'should return true if signup can be cancelled',
-    (signup, signupGroup, event, expectedResult) => {
-      advanceTo('2024-06-01');
+    'should return whether signup can be cancelled',
+    (signup, signupGroup, event, expectedResult, now) => {
+      advanceTo(now);
       expect(canCancelSignup({ event, signup, signupGroup })).toBe(
         expectedResult
       );
@@ -248,10 +283,16 @@ describe('canECancelSignup function', () => {
   );
 });
 
-describe('canEditSignup function', () => {
+describe('getCancelSignupWarning function', () => {
   const editableEvent = fakeEvent({ start_time: '2024-06-24' });
-  const cases: [Signup, SignupGroup | undefined, Event, string][] = [
-    [fakeSignup(editableSignupOverride), undefined, editableEvent, ''],
+  const cases: [Signup, SignupGroup | undefined, Event, string, string][] = [
+    [
+      fakeSignup(editableSignupOverride),
+      undefined,
+      editableEvent,
+      '',
+      '2024-06-01',
+    ],
     [
       fakeSignup({
         has_contact_person_access: false,
@@ -260,6 +301,7 @@ describe('canEditSignup function', () => {
       undefined,
       editableEvent,
       'Sinulla ei ole oikeuksia muokata ilmoittautumisen tietoja.',
+      '2024-06-01',
     ],
     [
       fakeSignup({
@@ -269,6 +311,7 @@ describe('canEditSignup function', () => {
       undefined,
       editableEvent,
       'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+      '2024-06-01',
     ],
     [
       fakeSignup({
@@ -278,6 +321,7 @@ describe('canEditSignup function', () => {
       undefined,
       editableEvent,
       'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
@@ -286,6 +330,7 @@ describe('canEditSignup function', () => {
       }),
       editableEvent,
       'Ilmoittautumisen maksua perutaan eikä sitä voi muokata.',
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
@@ -294,25 +339,38 @@ describe('canEditSignup function', () => {
       }),
       editableEvent,
       'Ilmoittautumisen maksua hyvitetään eikä sitä voi muokata.',
+      '2024-06-01',
     ],
     [
       fakeSignup(editableSignupOverride),
       undefined,
       fakeEvent({ start_time: '2024-01-01' }),
       'Tapahtuman on jo alkanut eikä ilmoittautumista voi perua.',
+      '2024-06-01',
+    ],
+    [
+      fakeSignup(editableSignupOverride),
+      undefined,
+      fakeEvent({
+        offers: fakeOffers(1, [{ is_free: false }]),
+        start_time: '2026-02-01T10:00:00Z',
+      }),
+      'Maksullisen tapahtuman ilmoittautumisen voi perua viimeistään 7 päivää ennen tapahtuman alkua.',
+      '2026-01-25T22:00:00Z',
     ],
     [
       fakeSignup(editableSignupOverride),
       undefined,
       fakeEvent({ start_time: null }),
       '',
+      '2024-06-01',
     ],
   ];
 
   it.each(cases)(
     'should return correct cancel signup warning',
-    (signup, signupGroup, event, expectedResult) => {
-      advanceTo('2024-06-01');
+    (signup, signupGroup, event, expectedWarning, now) => {
+      advanceTo(now);
       expect(
         getCancelSignupWarning({
           event,
@@ -320,7 +378,7 @@ describe('canEditSignup function', () => {
           signupGroup,
           t: i18n.t.bind(i18n),
         })
-      ).toBe(expectedResult);
+      ).toBe(expectedWarning);
     }
   );
 });
