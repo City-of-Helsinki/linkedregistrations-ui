@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.8.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.8.0...linkedregistrations-ui-v1.8.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* Updated data protection urls ([b1186ee](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b1186eeadd1182a2a4294e430084550b017c2c8f))
+
+
+### Dependencies
+
+* Bump eslint and plugins Refs: RATY-299 ([7d4aa29](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7d4aa29ba62faa844467989a387510830ac8a99a))
+* Bump flatted from 3.3.1 to 3.4.2 ([7d87847](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7d878473cb55c048295e6cb1a12889fce8f57864))
+* Bump immutable from 4.3.5 to 4.3.8 ([ab1d6da](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/ab1d6daeb0edea65da5c94191c96a0dad2bb1726))
+* Bump next from 15.5.11 to 15.5.14 ([cdc987b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/cdc987b03023a7c3f5e28ce40332fc84b6210530))
+* Bump rollup from 4.57.0 to 4.59.0 ([6a52e48](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6a52e4871477d4044e6fe7232802a37b7e377ee2))
+* Migrate @sentry/next to 10.45.0 Refs: RATY-299 ([4573764](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4573764a22763fbbcdbc112029a02a804f5e73c2))
+
 ## [1.8.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.7.1...linkedregistrations-ui-v1.8.0) (2026-02-25)
 
 
