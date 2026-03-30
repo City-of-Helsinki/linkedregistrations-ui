@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.8.1...linkedregistrations-ui-v1.9.0) (2026-03-30)
+
+
+### Features
+
+* Implement cancellation deadline for paid events ([e3292ad](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e3292ad5014efaaf4e0e5b73cb9e82368030bcf0))
+
 ## [1.8.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.8.0...linkedregistrations-ui-v1.8.1) (2026-03-26)
 
 
