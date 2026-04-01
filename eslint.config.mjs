@@ -1,17 +1,20 @@
 import eslint from '@eslint/js';
-import stylisticTsPlugin from '@stylistic/eslint-plugin-ts';
+import stylisticPlugin from '@stylistic/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
-import reactPlugin from 'eslint-plugin-react';
+import importPlugin from 'eslint-plugin-import-x';
+import eslintReact from "@eslint-react/eslint-plugin";
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import jestPlugin from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
+import nextPlugin from '@next/eslint-plugin-next'
 
-const tsConfig = tseslint.config({
+export default defineConfig({
   files: ['src/**/*.{ts,tsx}'],
   ignores: ['.next'],
   extends: [
     eslint.configs.recommended,
+    nextPlugin.configs.recommended,
     tseslint.configs.recommended,
     importPlugin.flatConfigs.recommended,
     eslintConfigPrettier,
@@ -20,22 +23,25 @@ const tsConfig = tseslint.config({
     react: {
       version: 'detect',
     },
-    'import/resolver': {
-      typescript: true,
+    'import-x/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
       node: true,
     },
   },
   plugins: {
-    '@stylistic/ts': stylisticTsPlugin,
-    react: reactPlugin,
+    '@stylistic': stylisticPlugin,
+    'react': eslintReact,
     'react-hooks': reactHooksPlugin,
-    jest: jestPlugin
+    'jest': jestPlugin
   },
   languageOptions: {
     globals: jestPlugin.environments.globals.globals
   },
   rules: {
-    '@stylistic/ts/brace-style': [
+    '@stylistic/brace-style': [
       'error',
       '1tbs',
       {
@@ -43,18 +49,11 @@ const tsConfig = tseslint.config({
       },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@stylistic/ts/func-call-spacing': ['error'],
     '@typescript-eslint/member-ordering': ['warn'],
     '@typescript-eslint/no-require-imports': ['error'],
-    'react/no-unused-prop-types': [
-      'warn',
-      {
-        skipShapeProps: true,
-      },
-    ],
     'react-hooks/exhaustive-deps': 'warn',
     'array-bracket-spacing': ['warn', 'never'],
-    'import/order': [
+    'import-x/order': [
       'error',
       {
         groups: [
@@ -70,7 +69,7 @@ const tsConfig = tseslint.config({
         },
       },
     ],
-    'import/no-duplicates': 0,
+    'import-x/no-duplicates': 0,
     'max-len': [
       'warn',
       {
@@ -80,7 +79,6 @@ const tsConfig = tseslint.config({
     'no-console': 'warn',
     'no-plusplus': 'error',
     'object-curly-spacing': ['warn', 'always'],
+    'preserve-caught-error': 0
   },
 });
-
-export default tsConfig;
