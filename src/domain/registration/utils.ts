@@ -51,7 +51,7 @@ export const registrationPathBuilder = ({
 }: RegistrationQueryVariables): string => {
   const { id, include } = args;
   const USE_IMAGE_PROXY = process.env.NEXT_PUBLIC_USE_IMAGE_PROXY === 'true';
-  
+
   const variableToKeyItems: VariableToKeyItem[] = [
     { key: 'include', value: include },
     { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
@@ -309,7 +309,7 @@ export const exportSignupsAsExcel = async ({
   } catch (error) {
     if (error instanceof AxiosError) {
       const { response } = error;
-      let errorMessage = '';
+      let errorMessage: string;
       switch (response?.status) {
         case 401:
           errorMessage = t('common:errors.authorizationRequired');
