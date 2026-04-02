@@ -88,7 +88,7 @@ import {
   setQueryMocks,
 } from '../utils/testUtils';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 beforeEach(() => {
   mockDefaultConfig();

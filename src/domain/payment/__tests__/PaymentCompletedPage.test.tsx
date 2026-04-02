@@ -15,7 +15,7 @@ import { TEST_ORDER_ID } from '../../order/constants';
 import { TEST_USER_ID } from '../../user/constants';
 import PaymentCompletedPage from '../PaymentCompletedPage';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const renderComponent = () => render(<PaymentCompletedPage />);
 

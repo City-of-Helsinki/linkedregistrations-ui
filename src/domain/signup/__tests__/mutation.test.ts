@@ -30,7 +30,7 @@ describe('usePatchSignup', () => {
 
   it('should get error when mutation fails', async () => {
     // eslint-disable-next-line no-console
-    console.error = jest.fn();
+    console.error = vi.fn();
     const error = { errorMessage: 'Failed to patch signup presence status' };
     const wrapper = getQueryWrapper();
     setQueryMocks(
@@ -77,7 +77,7 @@ describe('useUpdateSignupMutation', () => {
 
   it('should get error when mutation fails', async () => {
     // eslint-disable-next-line no-console
-    console.error = jest.fn();
+    console.error = vi.fn();
     const error = { errorMessage: 'Failed to update signup' };
     const wrapper = getQueryWrapper();
     setQueryMocks(

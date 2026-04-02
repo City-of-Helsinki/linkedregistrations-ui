@@ -43,7 +43,7 @@ const defaultProps: SignupProps = {
   formDisabled: false,
   index: 0,
   isEditingMode: false,
-  onDelete: jest.fn(),
+  onDelete: vi.fn(),
   registration,
   showDelete: false,
   signup: SIGNUP_INITIAL_VALUES,
@@ -52,7 +52,7 @@ const defaultProps: SignupProps = {
 
 const renderComponent = (props?: Partial<SignupProps>) =>
   render(
-    <Formik initialValues={[]} onSubmit={jest.fn()}>
+    <Formik initialValues={[]} onSubmit={vi.fn()}>
       <SignupGroupFormProvider
         registration={props?.registration ?? defaultProps.registration}
       >

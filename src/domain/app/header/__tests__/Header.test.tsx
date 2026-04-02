@@ -24,10 +24,10 @@ import Header from '../Header';
 
 configure({ defaultHidden: true });
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 beforeEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
   mockRouter.setCurrentUrl('');
   i18n.changeLanguage('fi');
 });
@@ -91,7 +91,8 @@ test('should change language', async () => {
 
 test('should start login process', async () => {
   const user = userEvent.setup();
-  jest.spyOn(nextAuth, 'signIn').mockImplementation();
+  vi.spyOn(nextAuth, 'signIn');
+
   renderComponent();
 
   const signInButton = getElement('signInButton');
@@ -106,10 +107,7 @@ test('should start login process', async () => {
 
 test('should start logout process', async () => {
   const user = userEvent.setup();
-  jest
-    .spyOn(nextAuth, 'signOut')
-    .mockImplementation()
-    .mockResolvedValue({ url: 'https://test.com' });
+  vi.spyOn(nextAuth, 'signOut').mockResolvedValue({ url: 'https://test.com' });
 
   const userFirstName = 'User';
   const userData = fakeUser({ first_name: userFirstName });

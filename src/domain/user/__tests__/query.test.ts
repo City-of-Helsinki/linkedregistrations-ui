@@ -43,7 +43,7 @@ test('should return user', async () => {
 });
 
 test('should return error for the failing user query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch user' };
   setQueryMocks(
     rest.get(`*/user/${TEST_USER_ID}`, (req, res, ctx) =>

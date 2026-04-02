@@ -29,7 +29,7 @@ test('should return web store payment', async () => {
 });
 
 test('should return error for the failing payment query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch web store payment' };
   setQueryMocks(
     rest.get(`*/payment/${TEST_PAYMENT_ID}/`, (req, res, ctx) =>

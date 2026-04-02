@@ -11,11 +11,11 @@ import {
 } from '../../constants';
 import useSignupGroupAction from '../useSignupGroupActions';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 describe('useSignupGroupActions', () => {
   it('should call onSuccess when updated successfully', async () => {
-    const onSuccess = jest.fn();
+    const onSuccess = vi.fn();
     const wrapper = getQueryWrapper();
     setQueryMocks(
       rest.put(`*/signup_group/${TEST_SIGNUP_GROUP_ID}/`, (req, res, ctx) =>
@@ -37,8 +37,8 @@ describe('useSignupGroupActions', () => {
 
   it('should call onError when update fails', async () => {
     // eslint-disable-next-line no-console
-    console.error = jest.fn();
-    const onError = jest.fn();
+    console.error = vi.fn();
+    const onError = vi.fn();
     const error = { errorMessage: 'Failed to update signup' };
     const wrapper = getQueryWrapper();
     setQueryMocks(

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import i18n from 'i18next';
 import * as ics from 'ics';
-import { clear, advanceTo } from 'jest-date-mock';
 
 import {
   fakeEvent,
@@ -31,8 +30,12 @@ import {
 } from '../utils';
 
 afterEach(() => {
-  clear();
-  jest.restoreAllMocks();
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 describe('getEventFields function', () => {
@@ -170,7 +173,7 @@ describe('getEventAttributes', () => {
   });
 
   it('should user current time as start time value is start time is not defined', async () => {
-    advanceTo('2023-12-05');
+    vi.setSystemTime(new Date('2023-12-05'));
     const eventAttributes = getEventAttributes({
       event: fakeEvent({ ...eventOverrides, end_time: null, start_time: null }),
       locale: 'fi',
@@ -263,7 +266,7 @@ describe('createEventIcsFile', () => {
   };
 
   it('should create ics file for single event', async () => {
-    const createEvents = jest.spyOn(ics, 'createEvents');
+    const createEvents = vi.spyOn(ics, 'createEvents');
 
     await createEventIcsFile({
       event: fakeEvent(commonEventOverrides),
@@ -278,7 +281,7 @@ describe('createEventIcsFile', () => {
   });
 
   it('should create ics file for recurring event', async () => {
-    const createEvents = jest.spyOn(ics, 'createEvents');
+    const createEvents = vi.spyOn(ics, 'createEvents');
 
     await createEventIcsFile({
       event: fakeEvent({
@@ -310,15 +313,15 @@ describe('createEventIcsFile', () => {
 
 describe('downloadEventIcsFile', () => {
   it('should download the file successfully', async () => {
-    const link = { click: jest.fn() } as any;
+    const link = { click: vi.fn() } as any;
     const href = 'https://test.com';
 
-    jest.spyOn(document, 'createElement').mockImplementation(() => link);
-    global.URL.createObjectURL = jest.fn(() => href);
-    global.URL.revokeObjectURL = jest.fn();
+    vi.spyOn(document, 'createElement').mockImplementation(() => link);
+    global.URL.createObjectURL = vi.fn(() => href);
+    global.URL.revokeObjectURL = vi.fn();
 
     await downloadEventIcsFile({
-      addNotification: jest.fn(),
+      addNotification: vi.fn(),
       event: fakeEvent({ id: TEST_EVENT_ID }),
       locale: 'fi',
       t: i18n.t.bind(i18n),
@@ -330,11 +333,11 @@ describe('downloadEventIcsFile', () => {
   });
 
   it('should call addNotification if ics createEvent fails', async () => {
-    jest
-      .spyOn(ics, 'createEvents')
-      .mockImplementation(((_: any, callback: ics.NodeCallback) =>
-        callback(new Error('error'), '')) as any);
-    const addNotification = jest.fn();
+    vi.spyOn(ics, 'createEvents').mockImplementation(((
+      _: any,
+      callback: ics.NodeCallback
+    ) => callback(new Error('error'), '')) as any);
+    const addNotification = vi.fn();
 
     await downloadEventIcsFile({
       addNotification,
@@ -362,7 +365,7 @@ describe('isEventStarted', () => {
   ])(
     'should return true if event is not started',
     async (event, expectedResult) => {
-      advanceTo('2024-05-01');
+      vi.setSystemTime(new Date('2024-05-01'));
       expect(isEventStarted(event)).toBe(expectedResult);
     }
   );

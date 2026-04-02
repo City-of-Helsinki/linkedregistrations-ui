@@ -24,7 +24,7 @@ test('should return event', async () => {
 });
 
 test('should return error for the failing event query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch event' };
   setQueryMocks(
     rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>

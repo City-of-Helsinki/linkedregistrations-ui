@@ -33,13 +33,13 @@ export const openSignupsPageMenu = async () => {
 export const shouldExportSignupsAsExcel = async (
   registration: Registration
 ) => {
-  global.URL.createObjectURL = jest.fn(() => 'https://test.com');
-  global.URL.revokeObjectURL = jest.fn();
+  global.URL.createObjectURL = vi.fn(() => 'https://test.com');
+  global.URL.revokeObjectURL = vi.fn();
   const user = userEvent.setup();
 
   await loadingSpinnerIsNotInDocument(10000);
 
-  const link: any = { click: jest.fn(), remove: jest.fn() };
+  const link: any = { click: vi.fn(), remove: vi.fn() };
 
   const { menu } = await openSignupsPageMenu();
   const exportAsExcelButton = await within(menu).getByRole('button', {
@@ -49,7 +49,7 @@ export const shouldExportSignupsAsExcel = async (
   // Mock document.createElement which is needed by downloadBlob. RenderComponent needs
   // createElement so do this after rendering components to avoid errors
   const createElement = document.createElement;
-  document.createElement = jest.fn().mockImplementation(() => link);
+  document.createElement = vi.fn().mockImplementation(() => link);
 
   await user.click(exportAsExcelButton);
 

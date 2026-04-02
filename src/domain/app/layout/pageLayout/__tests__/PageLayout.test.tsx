@@ -1,11 +1,16 @@
+import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import { render, screen } from '../../../../../utils/testUtils';
 import { SIGNUP_QUERY_PARAMS } from '../../../../signup/constants';
 import PageLayout from '../PageLayout';
 
-const renderComponent = (query?: { [SIGNUP_QUERY_PARAMS.IFRAME]: string }) =>
-  render(<PageLayout />, { query });
+const renderComponent = (query?: { [SIGNUP_QUERY_PARAMS.IFRAME]: string }) => {
+  if (query) {
+    mockRouter.setCurrentUrl({ pathname: '/', query });
+  }
+  return render(<PageLayout />);
+};
 
 test('should show page header', async () => {
   renderComponent();

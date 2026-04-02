@@ -16,7 +16,7 @@ const toggleButtonLabel = 'Toggle';
 const defaultProps: AccordionProps = {
   toggleButtonLabel,
   open: true,
-  onClick: jest.fn(),
+  onClick: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<AccordionProps>) =>
@@ -42,7 +42,7 @@ test('should show contentif accordion is open', async () => {
 
 test('should call onClick', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
 
   renderComponent({ open: true, onClick });
 
@@ -53,7 +53,7 @@ test('should call onClick', async () => {
 
 test('should call onClick by pressing enter', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
 
   renderComponent({ open: true, onClick });
 

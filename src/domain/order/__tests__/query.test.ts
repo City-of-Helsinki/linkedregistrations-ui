@@ -29,7 +29,7 @@ test('should return web store order', async () => {
 });
 
 test('should return error for the failing order query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch web store order' };
   setQueryMocks(
     rest.get(`*/order/${TEST_ORDER_ID}/`, (req, res, ctx) =>

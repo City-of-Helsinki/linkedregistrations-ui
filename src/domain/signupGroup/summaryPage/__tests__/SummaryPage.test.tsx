@@ -45,13 +45,13 @@ import {
 import { SignupGroupFormFields } from '../../types';
 import SummaryPage from '../SummaryPage';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const defaultSession = fakeAuthenticatedSession();
 
 beforeEach(() => {
   // Mock getSession return value
-  (nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
+  (nextAuth as any).getSession = vi.fn().mockReturnValue(defaultSession);
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
@@ -303,7 +303,7 @@ test('should route to signup completed page', async () => {
 });
 
 test('should route to payment service after creating chargeable signup', async () => {
-  window.open = jest.fn();
+  window.open = vi.fn();
   setQueryMocks(
     ...mockedLanguagesResponses,
     mockedUserResponse,
@@ -380,7 +380,7 @@ test('should route to signup group completed page', async () => {
 });
 
 test('should route to payment service after creating chargeable signup group', async () => {
-  window.open = jest.fn();
+  window.open = vi.fn();
   setQueryMocks(
     ...mockedLanguagesResponses,
     mockedUserResponse,

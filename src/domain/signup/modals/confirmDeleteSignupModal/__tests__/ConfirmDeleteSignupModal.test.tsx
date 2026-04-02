@@ -16,15 +16,15 @@ configure({ defaultHidden: true });
 const defaultProps: ConfirmDeleteSignupModalProps = {
   isOpen: true,
   isSaving: false,
-  onClose: jest.fn(),
-  onDelete: jest.fn(),
+  onClose: vi.fn(),
+  onDelete: vi.fn(),
 };
 
 const renderComponent = (props: Partial<ConfirmDeleteSignupModalProps>) =>
   render(<ConfirmDeleteSignupModal {...defaultProps} {...props} />);
 
 test('should call onDelete', async () => {
-  const onDelete = jest.fn();
+  const onDelete = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onDelete });
 
@@ -36,7 +36,7 @@ test('should call onDelete', async () => {
 });
 
 test('should call onClose', async () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onClose });
 

@@ -19,12 +19,12 @@ import { MenuItemOptionProps } from '../types';
 configure({ defaultHidden: true });
 
 afterEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
 
 const items: MenuItemOptionProps[] = [1, 2, 3, 4].map((item) => ({
   icon: <IconPen />,
-  onClick: jest.fn(),
+  onClick: vi.fn(),
   label: `Label ${item}`,
 }));
 

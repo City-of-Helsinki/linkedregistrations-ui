@@ -30,7 +30,7 @@ test('should render authentication required notification', () => {
 
 test('should start signIn process', async () => {
   const user = userEvent.setup();
-  jest.spyOn(nextAuth, 'signIn').mockImplementation();
+  vi.spyOn(nextAuth, 'signIn');
   renderComponent();
 
   const signInButton = getSignInButton();
