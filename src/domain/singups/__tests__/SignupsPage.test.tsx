@@ -42,12 +42,12 @@ import {
 
 configure({ defaultHidden: true });
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const defaultSession = fakeAuthenticatedSession();
 
 // Mock getSession return value
-(nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
+(nextAuth as any).getSession = vi.fn().mockReturnValue(defaultSession);
 
 const defaultMocks = [
   rest.get(`*/signup/`, (req, res, ctx) =>

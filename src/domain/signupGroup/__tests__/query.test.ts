@@ -73,7 +73,7 @@ test('should return signup group', async () => {
 });
 
 test('should return error for the failing signup group query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch signup group' };
   setQueryMocks(
     rest.get(`*/signup_group/${TEST_SIGNUP_GROUP_ID}`, (req, res, ctx) =>

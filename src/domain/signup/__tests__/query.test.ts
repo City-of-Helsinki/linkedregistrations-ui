@@ -71,7 +71,7 @@ test('should return signup', async () => {
 test.each([401, 403, 404, 500, 502])(
   'should return error for the failing signup query, error code %s',
   async (errorCode) => {
-    console.error = jest.fn();
+    console.error = vi.fn();
     const error = { errorMessage: 'Failed to fetch signup' };
     setQueryMocks(
       rest.get(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>

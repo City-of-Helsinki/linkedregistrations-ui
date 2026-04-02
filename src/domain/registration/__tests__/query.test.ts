@@ -73,7 +73,7 @@ test('should return registration', async () => {
 });
 
 test('should return error for the failing registration query', async () => {
-  console.error = jest.fn();
+  console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch registration' };
   setQueryMocks(
     rest.get(`*/registration/${TEST_REGISTRATION_ID}`, (req, res, ctx) =>

@@ -5,7 +5,7 @@ import SearchInput from '../../../common/components/searchInput/SearchInput';
 
 import styles from './searchRow.module.scss';
 
-type SearchRowProps = {
+export type SearchRowProps = {
   className?: string;
   countText: string;
   onSearchChange: (value: string) => void;

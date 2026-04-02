@@ -22,7 +22,7 @@ describe('replaceParamsToQueryString function', () => {
         replaceParamsToQueryString(
           originalQueryString,
           params,
-          (o: { param; value }) => o.value
+          (o: { param: unknown; value: string }) => o.value
         )
       ).toEqual(expectedQueryString);
     }

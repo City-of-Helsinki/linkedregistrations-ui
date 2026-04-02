@@ -1,8 +1,10 @@
+import { TFunction } from 'next-i18next';
+
 import { getErrorText, isValidPhoneNumber } from '../validationUtils';
 
 describe('getErrorText', () => {
   it('should return error text', () => {
-    const t = jest.fn();
+    const t = vi.fn() as unknown as TFunction;
     const errorKey = 'errorkey';
     const error = { value: 10, key: errorKey };
 

@@ -24,7 +24,7 @@ const defaultProps: EventCalendarButtonProps = {
 };
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = (props?: Partial<EventCalendarButtonProps>) =>
@@ -35,11 +35,11 @@ test('should download an ics file successfully', async () => {
   renderComponent();
 
   // Mock these functions after renderComponent to avoid issues with initial rendering
-  const link = { click: jest.fn() } as any;
+  const link = { click: vi.fn() } as any;
   const href = 'https://test.com';
-  jest.spyOn(document, 'createElement').mockImplementation(() => link);
-  global.URL.createObjectURL = jest.fn(() => href);
-  global.URL.revokeObjectURL = jest.fn();
+  vi.spyOn(document, 'createElement').mockImplementation(() => link);
+  global.URL.createObjectURL = vi.fn(() => href);
+  global.URL.revokeObjectURL = vi.fn();
 
   const addToCalendarButton = screen.getByRole('button', {
     name: 'Lisää kalenteriin',
@@ -86,11 +86,11 @@ test('should download an ics file successfully for recurring event', async () =>
   renderComponent({ event: recurringEvent });
 
   // Mock these functions after renderComponent to avoid issues with initial rendering
-  const link = { click: jest.fn() } as any;
+  const link = { click: vi.fn() } as any;
   const href = 'https://test.com';
-  jest.spyOn(document, 'createElement').mockImplementation(() => link);
-  global.URL.createObjectURL = jest.fn(() => href);
-  global.URL.revokeObjectURL = jest.fn();
+  vi.spyOn(document, 'createElement').mockImplementation(() => link);
+  global.URL.createObjectURL = vi.fn(() => href);
+  global.URL.revokeObjectURL = vi.fn();
 
   const addToCalendarButton = screen.getByRole('button', {
     name: 'Lisää kalenteriin',
@@ -105,7 +105,7 @@ test('should download an ics file successfully for recurring event', async () =>
 
 test('should call custom onClick function', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
   renderComponent({ onClick });
 
   const addToCalendarButton = screen.getByRole('button', {

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
 import { rest } from 'msw';
 
 import {
@@ -29,12 +28,16 @@ import {
 } from '../utils';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 describe('getRegistrationWarning', () => {
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime(new Date('2022-11-07'));
   });
 
   const singleRegistrationOverrides: Partial<Registration> = {
@@ -294,7 +297,7 @@ describe('isWaitingListCapacityUsed', () => {
 
 describe('isRegistrationOpen', () => {
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime(new Date('2022-11-07'));
   });
 
   it('should return true if enrolment_start_time is not defined', () => {
@@ -341,7 +344,7 @@ describe('isRegistrationOpen', () => {
 
 describe('isSignupEnded', () => {
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime(new Date('2022-11-07'));
   });
 
   it('should return false if enrolment_start_time is not defined', () => {
@@ -373,7 +376,7 @@ describe('isSignupEnded', () => {
 
 describe('isRegistrationPossible', () => {
   it('should return false if registration is not open', () => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime(new Date('2022-11-07'));
 
     expect(
       isRegistrationPossible(
@@ -625,7 +628,10 @@ describe('registrationPathBuilder with NEXT_PUBLIC_USE_IMAGE_PROXY environment v
   });
 
   const cases: [string | undefined, string][] = [
-    ['true', '/registration/hel:123/?include=include1&use_image_proxy=true&nocache=true'],
+    [
+      'true',
+      '/registration/hel:123/?include=include1&use_image_proxy=true&nocache=true',
+    ],
     ['false', '/registration/hel:123/?include=include1&nocache=true'],
     [undefined, '/registration/hel:123/?include=include1&nocache=true'],
   ];
@@ -649,11 +655,11 @@ describe('exportSignupsAsExcel function', () => {
   const registration = fakeRegistration({ id: TEST_REGISTRATION_ID });
 
   it('should download signups as excel', async () => {
-    const link: any = { click: jest.fn(), remove: jest.fn() };
-    global.URL.createObjectURL = jest.fn(() => 'https://test.com');
-    global.URL.revokeObjectURL = jest.fn();
+    const link: any = { click: vi.fn(), remove: vi.fn() };
+    global.URL.createObjectURL = vi.fn(() => 'https://test.com');
+    global.URL.revokeObjectURL = vi.fn();
     const createElement = document.createElement;
-    document.createElement = jest.fn().mockImplementation(() => link);
+    document.createElement = vi.fn().mockImplementation(() => link);
 
     setQueryMocks(
       rest.get(
@@ -662,7 +668,7 @@ describe('exportSignupsAsExcel function', () => {
       )
     );
     exportSignupsAsExcel({
-      addNotification: jest.fn(),
+      addNotification: vi.fn(),
       registration,
       session: fakeAuthenticatedSession(),
       t: i18n.t.bind(i18n),
@@ -694,7 +700,7 @@ describe('exportSignupsAsExcel function', () => {
         )
       );
 
-      const addNotification = jest.fn();
+      const addNotification = vi.fn();
       exportSignupsAsExcel({
         addNotification,
         registration,

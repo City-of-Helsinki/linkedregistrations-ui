@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { rest } from 'msw';
+import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import {
@@ -22,13 +23,16 @@ import SignupGroupCompletedPage from '../SignupGroupCompletedPage';
 
 const renderComponent = (query?: {
   [SIGNUP_QUERY_PARAMS.REDIRECT_URL]: string;
-}) =>
-  render(<SignupGroupCompletedPage />, {
+}) => {
+  mockRouter.setCurrentUrl({
+    pathname: '/',
     query: {
       registrationId: TEST_REGISTRATION_ID,
       ...query,
     },
   });
+  return render(<SignupGroupCompletedPage />);
+};
 
 const registrationWithoutConfirmationMessage = fakeRegistration({
   id: TEST_REGISTRATION_ID,

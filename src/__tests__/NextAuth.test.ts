@@ -3,7 +3,6 @@
 import '../tests/mockNextAuth';
 
 import mockAxios from 'axios';
-import { advanceTo, clear } from 'jest-date-mock';
 import { Session, User } from 'next-auth';
 
 import { SIGNOUT_REDIRECT } from '../constants';
@@ -24,12 +23,14 @@ import {
 import { mockDefaultConfig } from '../utils/mockNextJsConfig';
 
 afterEach(() => {
-  clear();
-  jest.resetAllMocks();
+  vi.useRealTimers();
+  vi.resetAllMocks();
 });
 
 beforeEach(() => {
   mockDefaultConfig();
+
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 const accessToken = 'access-token';
@@ -88,12 +89,12 @@ const testApiTokenUrl =
   'https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus/protocol/openid-connect/token';
 
 const mockTokenResonses = () => {
-  global.fetch = jest.fn(() =>
+  global.fetch = vi.fn(() =>
     Promise.resolve({
       json: () => Promise.resolve({ token_endpoint: testTokenUrl }),
     })
   ) as any;
-  mockAxios.post = jest.fn().mockImplementation(async (url) => {
+  mockAxios.post = vi.fn().mockImplementation(async (url) => {
     switch (url) {
       case testTokenUrl:
         return { data: refreshResponse };
@@ -113,7 +114,7 @@ describe('getApiAccessTokens function', () => {
   });
 
   test("should throw an error in api-tokens endpoint doesn't return api tokens", async () => {
-    jest.spyOn(mockAxios, 'post').mockResolvedValue({ data: {} });
+    vi.spyOn(mockAxios, 'post').mockResolvedValue({ data: {} });
 
     await expect(
       async () => await getApiAccessTokens(accessToken)
@@ -121,9 +122,9 @@ describe('getApiAccessTokens function', () => {
   });
 
   test('should return api tokens', async () => {
-    jest
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    vi.spyOn(mockAxios, 'post').mockResolvedValue({
+      data: { ...apiTokenResponse },
+    });
 
     const apiTokens = await getApiAccessTokens(accessToken);
     await expect(apiTokens).toEqual({ linkedevents: 'api-token' });
@@ -138,8 +139,8 @@ describe('refreshAccessToken function', () => {
   });
 
   test('should return error if request to refresh access token fails', async () => {
-    console.error = jest.fn();
-    jest.spyOn(mockAxios, 'post').mockResolvedValue({ data: undefined });
+    console.error = vi.fn();
+    vi.spyOn(mockAxios, 'post').mockResolvedValue({ data: undefined });
 
     const { error } = await refreshAccessToken({ ...token, refreshToken });
     expect(error).toBe('RefreshAccessTokenError');
@@ -165,11 +166,11 @@ describe('getProfile function', () => {
 
 describe('jwtCallback function', () => {
   test('should return session after initial sign in', async () => {
-    advanceTo('2023-01-01');
+    vi.setSystemTime(new Date('2023-01-01'));
 
-    jest
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    vi.spyOn(mockAxios, 'post').mockResolvedValue({
+      data: { ...apiTokenResponse },
+    });
 
     const jwt = await jwtCallback({ token, user, account });
 
@@ -188,11 +189,11 @@ describe('jwtCallback function', () => {
   });
 
   test('should return original token if token is not expired', async () => {
-    advanceTo('2023-01-01');
+    vi.setSystemTime(new Date('2023-01-01'));
 
-    jest
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    vi.spyOn(mockAxios, 'post').mockResolvedValue({
+      data: { ...apiTokenResponse },
+    });
 
     const jwt = await jwtCallback({ token });
 
@@ -200,11 +201,9 @@ describe('jwtCallback function', () => {
   });
 
   test('should return null if refreshing token fails', async () => {
-    advanceTo('2023-01-01');
+    vi.setSystemTime(new Date('2023-01-01'));
 
-    jest
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    vi.spyOn(mockAxios, 'post').mockRejectedValue(new Error('refresh failed'));
 
     const jwt = await jwtCallback({
       token: { ...token, accessTokenExpires: 1662531200000 },
@@ -214,7 +213,7 @@ describe('jwtCallback function', () => {
   });
 
   test('should refresh api token', async () => {
-    advanceTo('2023-01-01');
+    vi.setSystemTime(new Date('2023-01-01'));
     mockTokenResonses();
 
     const jwt = await jwtCallback({
@@ -252,7 +251,7 @@ describe('redirectCallback function', () => {
   const baseUrl = 'http://localhost:3000';
 
   test('should return url from wellKnown endpoint', async () => {
-    global.fetch = jest.fn(() =>
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         json: () =>
           Promise.resolve({ end_session_endpoint: 'https://test.fi' }),

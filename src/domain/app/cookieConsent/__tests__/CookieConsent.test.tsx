@@ -16,7 +16,7 @@ import {
 } from '../../../../utils/testUtils';
 import CookieConsent from '../CookieConsent';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 configure({ defaultHidden: true });
 
@@ -29,18 +29,18 @@ const clearAllCookies = () =>
 const realDateNow = Date.now.bind(global.Date);
 
 beforeAll(() => {
-  const dateNowStub = jest.fn(() => 1530518207007);
+  const dateNowStub = vi.fn(() => 1530518207007);
   global.Date.now = dateNowStub;
 });
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 
-  global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn(),
-  }));
+  global.ResizeObserver = class {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+  };
 
   clearAllCookies();
   i18n.changeLanguage('fi');

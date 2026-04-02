@@ -32,12 +32,12 @@ import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ReservationTimer from '../ReservationTimer';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const defaultServerErrorsProps: SignupServerErrorsContextProps = {
   serverErrorItems: [],
-  setServerErrorItems: jest.fn(),
-  showServerErrors: jest.fn(),
+  setServerErrorItems: vi.fn(),
+  showServerErrors: vi.fn(),
 };
 
 const session = fakeAuthenticatedSession();
@@ -52,10 +52,10 @@ const renderComponent = (
       >
         <ReservationTimer
           callbacksDisabled={false}
-          disableCallbacks={jest.fn()}
+          disableCallbacks={vi.fn()}
           initReservationData={true}
           registration={registration}
-          setSignups={jest.fn()}
+          setSignups={vi.fn()}
           signups={[]}
         />
       </SignupServerErrorsContext.Provider>
@@ -64,16 +64,16 @@ const renderComponent = (
   );
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
   // Mock getSession return value
-  (nextAuth as any).getSession = jest.fn().mockReturnValue(session);
+  (nextAuth as any).getSession = vi.fn().mockReturnValue(session);
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
 });
 
 test('should show server errors when creating seats reservation fails', async () => {
-  const showServerErrors = jest.fn();
+  const showServerErrors = vi.fn();
 
   setQueryMocks(
     mockedUserResponse,
@@ -174,7 +174,7 @@ test('should route to create signup group page if reservation is expired', async
 });
 
 test('should reload page if reservation is expired and route is create signup group page', async () => {
-  mockRouter.reload = jest.fn();
+  mockRouter.reload = vi.fn();
   const user = userEvent.setup();
 
   setSignupGroupFormSessionStorageValues({

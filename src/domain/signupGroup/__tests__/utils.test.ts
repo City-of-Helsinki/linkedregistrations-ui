@@ -1,5 +1,4 @@
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
 
 import {
   fakeContactPerson,
@@ -68,7 +67,11 @@ const editableSignupGroupOverride = {
 };
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 describe('canEditSignupGroup function', () => {
@@ -319,7 +322,7 @@ describe('canCancelSignupGroup function', () => {
   it.each(cases)(
     'should return whether signup group can be cancelled',
     (signupGroup, event, expectedResult, now) => {
-      advanceTo(now);
+      vi.setSystemTime(new Date(now));
       expect(canCancelSignupGroup({ event, signupGroup })).toBe(expectedResult);
     }
   );
@@ -407,7 +410,7 @@ describe('getCancelSignupGroupWarning function', () => {
   it.each(cases)(
     'should return correct cancel signup group warning',
     (signupGroup, event, expectedWarning, now) => {
-      advanceTo(now);
+      vi.setSystemTime(new Date(now));
       expect(
         getCancelSignupGroupWarning({
           event,

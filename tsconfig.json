@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -13,7 +13,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -21,7 +21,11 @@
     "plugins": [
       {
         "name": "next"
-      }
+      },
+    ],
+    "downlevelIteration": true,
+    "types": [
+      "vitest/globals"
     ]
   },
   "include": [
@@ -33,10 +37,6 @@
   ],
   "exclude": [
     "node_modules",
-    "**/__mocks__/*",
-    "**/__tests__/*",
-    "src/tests/*",
-    "src/utils/testUtils.tsx",
-    "src/utils/mockDataUtils.ts"
+    "vitest.config.ts"
   ]
 }

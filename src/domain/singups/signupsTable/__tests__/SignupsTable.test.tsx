@@ -29,7 +29,7 @@ import SignupsTable, { SignupsTableProps } from '../SignupsTable';
 
 configure({ defaultHidden: true });
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const signupName = [signupNames[0].first_name, signupNames[0].last_name].join(
   ' '

@@ -565,7 +565,7 @@ export const setSignupGroupFormSessionStorageValues = ({
   seatsReservation?: SeatsReservation;
   signupGroupFormValues?: Partial<SignupGroupFormFields>;
 }) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+  vi.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
     switch (key) {
       case `${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registrationId}`:
         return JSON.stringify({
@@ -598,7 +598,7 @@ export const setSessionStorageValues = (
   reservation: SeatsReservation,
   registration: Registration
 ) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+  vi.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
     const reservationKey = `${RESERVATION_NAMES.SIGNUP_RESERVATION}-${registration.id}`;
 
     if (key === reservationKey) {

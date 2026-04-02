@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
 
 import {
   fakeEvent,
@@ -44,7 +43,11 @@ const editableSignupOverride = {
 };
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 describe('canEditSignup function', () => {
@@ -275,7 +278,7 @@ describe('canCancelSignup function', () => {
   it.each(cases)(
     'should return whether signup can be cancelled',
     (signup, signupGroup, event, expectedResult, now) => {
-      advanceTo(now);
+      vi.setSystemTime(new Date(now));
       expect(canCancelSignup({ event, signup, signupGroup })).toBe(
         expectedResult
       );
@@ -370,7 +373,7 @@ describe('getCancelSignupWarning function', () => {
   it.each(cases)(
     'should return correct cancel signup warning',
     (signup, signupGroup, event, expectedWarning, now) => {
-      advanceTo(now);
+      vi.setSystemTime(new Date(now));
       expect(
         getCancelSignupWarning({
           event,

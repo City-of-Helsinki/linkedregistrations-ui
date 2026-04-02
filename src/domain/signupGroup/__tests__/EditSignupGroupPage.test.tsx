@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom';
-import { axe } from 'jest-axe';
 import { rest } from 'msw';
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import React from 'react';
+import { axe } from 'vitest-axe';
 
 import { ExtendedSession } from '../../../types';
 import { fakeOffers } from '../../../utils/mockDataUtils';
@@ -45,14 +45,14 @@ import {
 
 configure({ defaultHidden: true });
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const defaultSession = fakeAuthenticatedSession();
 const renderComponent = (session: ExtendedSession | null = defaultSession) =>
   render(<EditSignupGroupPage />, { session });
 
 // Mock getSession return value
-(nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
+(nextAuth as any).getSession = vi.fn().mockReturnValue(defaultSession);
 
 test.skip('page is accessible', async () => {
   const { container } = renderComponent();

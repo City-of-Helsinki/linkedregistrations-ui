@@ -19,10 +19,7 @@ export const shouldRenderErrorPageTexts = async ({
 
 export const shouldSignOut = async () => {
   const user = userEvent.setup();
-  jest
-    .spyOn(nextAuth, 'signOut')
-    .mockImplementation()
-    .mockResolvedValue({ url: 'https://test.com' });
+  vi.spyOn(nextAuth, 'signOut').mockResolvedValue({ url: 'https://test.com' });
 
   const signoutButton = getSignOutButton();
   await user.click(signoutButton);

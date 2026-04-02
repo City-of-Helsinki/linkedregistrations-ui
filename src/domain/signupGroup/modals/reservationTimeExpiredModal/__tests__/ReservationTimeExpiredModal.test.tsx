@@ -15,14 +15,14 @@ configure({ defaultHidden: true });
 
 const defaultProps: ReservationTimeExpiredModalProps = {
   isOpen: true,
-  onTryAgain: jest.fn(),
+  onTryAgain: vi.fn(),
 };
 
 const renderComponent = (props: Partial<ReservationTimeExpiredModalProps>) =>
   render(<ReservationTimeExpiredModal {...defaultProps} {...props} />);
 
 test('should call onTryAgain', async () => {
-  const onTryAgain = jest.fn();
+  const onTryAgain = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onTryAgain });
 

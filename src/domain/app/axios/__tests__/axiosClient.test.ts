@@ -10,12 +10,12 @@ import axiosClient, {
 const apiToken = TEST_API_TOKEN;
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('callDelete', () => {
   it('should call axios delete without authorization header', async () => {
-    const axiosDelete = jest.spyOn(axiosClient, 'delete').mockResolvedValue({});
+    const axiosDelete = vi.spyOn(axiosClient, 'delete').mockResolvedValue({});
 
     await callDelete({ session: null, url: '/test/' });
 
@@ -24,7 +24,7 @@ describe('callDelete', () => {
   });
 
   it('should call axios delete with authorization header', async () => {
-    const axiosDelete = jest.spyOn(axiosClient, 'delete').mockResolvedValue({});
+    const axiosDelete = vi.spyOn(axiosClient, 'delete').mockResolvedValue({});
 
     await callDelete({ session: fakeAuthenticatedSession(), url: '/test/' });
 
@@ -37,7 +37,7 @@ describe('callDelete', () => {
 
 describe('callGet', () => {
   it('should call axios get without authorization header', async () => {
-    const axiosGet = jest.spyOn(axiosClient, 'get').mockResolvedValue({});
+    const axiosGet = vi.spyOn(axiosClient, 'get').mockResolvedValue({});
 
     await callGet({ session: null, url: '/test/' });
 
@@ -46,7 +46,7 @@ describe('callGet', () => {
   });
 
   it('should call axios get with authorization header', async () => {
-    const axiosGet = jest.spyOn(axiosClient, 'get').mockResolvedValue({});
+    const axiosGet = vi.spyOn(axiosClient, 'get').mockResolvedValue({});
 
     await callGet({ session: fakeAuthenticatedSession(), url: '/test/' });
 
@@ -59,7 +59,7 @@ describe('callGet', () => {
 
 describe('callPatch', () => {
   it('should call axios patch without authorization header', async () => {
-    const axiosPatch = jest.spyOn(axiosClient, 'patch').mockResolvedValue({});
+    const axiosPatch = vi.spyOn(axiosClient, 'patch').mockResolvedValue({});
 
     await callPatch({ data: 'data', session: null, url: '/test/' });
 
@@ -68,7 +68,7 @@ describe('callPatch', () => {
   });
 
   it('should call axios patch with authorization header', async () => {
-    const axiosPatch = jest.spyOn(axiosClient, 'patch').mockResolvedValue({});
+    const axiosPatch = vi.spyOn(axiosClient, 'patch').mockResolvedValue({});
 
     await callPatch({
       data: 'data',
@@ -85,7 +85,7 @@ describe('callPatch', () => {
 
 describe('callPost', () => {
   it('should call axios post without authorization header', async () => {
-    const axiosPost = jest.spyOn(axiosClient, 'post').mockResolvedValue({});
+    const axiosPost = vi.spyOn(axiosClient, 'post').mockResolvedValue({});
 
     await callPost({ data: 'data', session: null, url: '/test/' });
 
@@ -94,7 +94,7 @@ describe('callPost', () => {
   });
 
   it('should call axios post with authorization header', async () => {
-    const axiosPost = jest.spyOn(axiosClient, 'post').mockResolvedValue({});
+    const axiosPost = vi.spyOn(axiosClient, 'post').mockResolvedValue({});
 
     await callPost({
       data: 'data',

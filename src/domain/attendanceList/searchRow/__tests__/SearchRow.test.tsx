@@ -7,8 +7,8 @@ configure({ defaultHidden: true });
 
 const defaultProps: SearchRowProps = {
   countText: '100 items',
-  onSearchChange: jest.fn(),
-  onSearchSubmit: jest.fn(),
+  onSearchChange: vi.fn(),
+  onSearchSubmit: vi.fn(),
   searchInputLabel: 'Search',
   searchValue: '',
 };

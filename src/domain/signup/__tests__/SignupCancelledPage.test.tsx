@@ -1,4 +1,5 @@
 import { rest } from 'msw';
+import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import { fakeRegistration } from '../../../utils/mockDataUtils';
@@ -7,10 +8,13 @@ import { event, eventOverrides } from '../../event/__mocks__/event';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import SignupCancelledPage from '../SignupCancelledPage';
 
-const renderComponent = () =>
-  render(<SignupCancelledPage />, {
+const renderComponent = () => {
+  mockRouter.setCurrentUrl({
+    pathname: '/',
     query: { registrationId: TEST_REGISTRATION_ID },
   });
+  return render(<SignupCancelledPage />);
+};
 
 test('should show signup cancelled text', async () => {
   const registration = fakeRegistration({

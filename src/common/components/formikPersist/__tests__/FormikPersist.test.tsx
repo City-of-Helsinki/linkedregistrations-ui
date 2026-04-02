@@ -4,6 +4,7 @@ import { act, render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as nextAuth from 'next-auth/react';
 import * as React from 'react';
+import { Mock } from 'vitest';
 
 import { fakeAuthenticatedSession } from '../../../../utils/mockSession';
 import Persist from '../FormikPersist';
@@ -12,7 +13,7 @@ const session = fakeAuthenticatedSession();
 
 beforeEach(() => {
   // Mock getSession return value
-  (nextAuth as any).getSession = jest.fn().mockReturnValue(session);
+  (nextAuth as any).getSession = vi.fn().mockReturnValue(session);
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
@@ -40,7 +41,7 @@ const defaultState = {
 test('attempts to rehydrate on mount', async () => {
   let injected: Partial<FormikProps<{ name: string }>> = {};
 
-  (localStorage.getItem as jest.Mock).mockReturnValueOnce(
+  (localStorage.getItem as Mock).mockReturnValueOnce(
     JSON.stringify({
       ...defaultState,
       values: { name: 'Name from local storage' },
@@ -48,7 +49,7 @@ test('attempts to rehydrate on mount', async () => {
   );
 
   await render(
-    <Formik initialValues={{ name: 'Test name' }} onSubmit={jest.fn()}>
+    <Formik initialValues={{ name: 'Test name' }} onSubmit={vi.fn()}>
       {(props: FormikProps<{ name: string }>) => {
         injected = props;
 
@@ -82,7 +83,7 @@ test('attempts to rehydrate on mount', async () => {
 test('attempts to rehydrate on mount if session storage is true on props', async () => {
   let injected: Partial<FormikProps<{ name: string }>> = {};
 
-  (sessionStorage.getItem as jest.Mock).mockReturnValueOnce(
+  (sessionStorage.getItem as Mock).mockReturnValueOnce(
     JSON.stringify({
       ...defaultState,
       values: { name: 'Name from session storage' },
@@ -90,7 +91,7 @@ test('attempts to rehydrate on mount if session storage is true on props', async
   );
 
   await render(
-    <Formik initialValues={{ name: 'Test name' }} onSubmit={jest.fn()}>
+    <Formik initialValues={{ name: 'Test name' }} onSubmit={vi.fn()}>
       {(props: FormikProps<{ name: string }>) => {
         injected = props;
         return (

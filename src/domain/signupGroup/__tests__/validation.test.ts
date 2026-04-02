@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { advanceTo, clear } from 'jest-date-mock';
 import * as Yup from 'yup';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../../constants';
@@ -33,7 +32,11 @@ import {
 } from '../validation';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 const validSignup: SignupFormFields = {
@@ -145,7 +148,7 @@ const testSignupGroupSchema = async (
 
 describe('isAboveMinAge function', () => {
   test('should return true if value is empty', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testAboveMinAge(9, '');
 
@@ -153,7 +156,7 @@ describe('isAboveMinAge function', () => {
   });
 
   test('should return false if age is less than min age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testAboveMinAge(9, '1.1.2022');
 
@@ -161,7 +164,7 @@ describe('isAboveMinAge function', () => {
   });
 
   test('should return false if age is less than min age in start time', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testAboveMinAge(9, '1.1.2022', '2022-12-12');
 
@@ -169,7 +172,7 @@ describe('isAboveMinAge function', () => {
   });
 
   test('should return true if age is greater than min age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testAboveMinAge(9, '1.1.2012');
 
@@ -177,7 +180,7 @@ describe('isAboveMinAge function', () => {
   });
 
   test('should return true if age is greater than min age in start time', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testAboveMinAge(9, '11.12.2012', '2022-12-12');
 
@@ -187,7 +190,7 @@ describe('isAboveMinAge function', () => {
 
 describe('isBelowMaxAge function', () => {
   test('should return true if value is empty', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testBelowMaxAge(9, '');
 
@@ -195,7 +198,7 @@ describe('isBelowMaxAge function', () => {
   });
 
   test('should return false if age is greater than max age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testBelowMaxAge(9, '1.1.2012');
 
@@ -203,7 +206,7 @@ describe('isBelowMaxAge function', () => {
   });
 
   test('should return true if age is less than max age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testBelowMaxAge(9, '1.1.2015');
 
@@ -211,7 +214,7 @@ describe('isBelowMaxAge function', () => {
   });
 
   test('should return false if age is greater than max age in start time', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     const result = await testBelowMaxAge(9, '1.1.2015', '2025-10-10');
 
@@ -315,7 +318,7 @@ describe('signupSchema function', () => {
   });
 
   test('should return false if age is greater than max age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     expect(
       await testSignupSchema(
@@ -332,7 +335,7 @@ describe('signupSchema function', () => {
   });
 
   test('should return false if age is less than min age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     expect(
       await testSignupSchema(
@@ -349,7 +352,7 @@ describe('signupSchema function', () => {
   });
 
   test('should return false if date of birth is in invalid format', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime(new Date('2022-10-10'));
 
     expect(
       await testSignupSchema(

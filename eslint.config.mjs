@@ -4,10 +4,10 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import-x';
 import eslintReact from "@eslint-react/eslint-plugin";
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import jestPlugin from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
 import { defineConfig } from 'eslint/config';
 import nextPlugin from '@next/eslint-plugin-next'
+import vitestGlobals from 'eslint-config-vitest-globals/flat';
 
 export default defineConfig({
   files: ['src/**/*.{ts,tsx}'],
@@ -18,6 +18,7 @@ export default defineConfig({
     tseslint.configs.recommended,
     importPlugin.flatConfigs.recommended,
     eslintConfigPrettier,
+    vitestGlobals(),
   ],
   settings: {
     react: {
@@ -35,10 +36,6 @@ export default defineConfig({
     '@stylistic': stylisticPlugin,
     'react': eslintReact,
     'react-hooks': reactHooksPlugin,
-    'jest': jestPlugin
-  },
-  languageOptions: {
-    globals: jestPlugin.environments.globals.globals
   },
   rules: {
     '@stylistic/brace-style': [

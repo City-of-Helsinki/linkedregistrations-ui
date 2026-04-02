@@ -16,7 +16,7 @@ import { ROUTES } from '../../../app/routes/constants';
 import { TEST_REGISTRATION_ID } from '../../../registration/constants';
 import SearchPanel from '../SearchPanel';
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 configure({ defaultHidden: true });
 

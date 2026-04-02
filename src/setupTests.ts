@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import '@testing-library/jest-dom';
-import 'jest-localstorage-mock';
+import '@testing-library/jest-dom/vitest';
 import './tests/initI18n';
 import { webcrypto } from 'crypto';
 import { TextEncoder } from 'node:util';
 
-import { toHaveNoViolations } from 'jest-axe';
 import { setConfig } from 'next/config';
+import { expect, beforeAll, afterAll, afterEach, vi } from 'vitest';
+import * as matchers from 'vitest-axe/matchers';
 
 import config from '../next.config';
 
@@ -15,10 +15,34 @@ import { server } from './tests/msw/server';
 
 setConfig(config);
 
-expect.extend(toHaveNoViolations);
+expect.extend(matchers);
 
 // Mock scrollTo function
-window.scrollTo = jest.fn();
+window.scrollTo = vi.fn();
+
+// Mock localStorage and sessionStorage with vi.fn() so tests can use mockReturnValueOnce etc.
+const createStorageMock = () => {
+  const store: Record<string, string> = {};
+  return {
+    getItem: vi.fn((key: string) => store[key] ?? null),
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
+    }),
+    clear: vi.fn(() => {
+      Object.keys(store).forEach((key) => delete store[key]);
+    }),
+    get length() {
+      return Object.keys(store).length;
+    },
+    key: vi.fn((index: number) => Object.keys(store)[index] ?? null),
+  };
+};
+
+Object.defineProperty(window, 'localStorage', { value: createStorageMock() });
+Object.defineProperty(window, 'sessionStorage', { value: createStorageMock() });
 
 const originalWarn = console.warn.bind(console.warn);
 
@@ -50,13 +74,25 @@ console.error = (msg: any, ...optionalParams: any[]) => {
 beforeAll(() => {
   server.listen();
 
-  global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn(),
-  }));
+  // Wrap MSW's fetch interceptor to handle relative URLs (e.g. /api/auth/_log
+  // from next-auth logger). Must be applied AFTER server.listen() so it wraps
+  // MSW's interceptor — otherwise MSW replaces our wrapper and creates
+  // new Request(relativeUrl) internally, which crashes in Node.
+  const mswFetch = globalThis.fetch;
+  globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+    if (typeof input === 'string' && input.startsWith('/')) {
+      return Promise.resolve(new Response(null, { status: 200 }));
+    }
+    return mswFetch(input, init);
+  };
 
-  global.TextEncoder = TextEncoder;
+  global.ResizeObserver = class {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+  };
+
+  global.TextEncoder = TextEncoder as typeof globalThis.TextEncoder;
 
   Object.defineProperties(global, {
     crypto: { value: webcrypto, writable: true },
@@ -71,15 +107,13 @@ afterAll(() => {
   server.close();
 });
 
-jest.setTimeout(1000000);
-
 process.env.NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED = 'true';
 
 // Mock Sentry
-jest.mock('@sentry/nextjs', () => ({
-  captureException: jest.fn(),
-  withSentryConfig: jest.fn((config) => config)
+vi.mock('@sentry/nextjs', () => ({
+  captureException: vi.fn(),
+  withSentryConfig: vi.fn((config) => config),
 }));
-jest.mock('@sentry/browser', () => ({
-  captureException: jest.fn(),
+vi.mock('@sentry/browser', () => ({
+  captureException: vi.fn(),
 }));

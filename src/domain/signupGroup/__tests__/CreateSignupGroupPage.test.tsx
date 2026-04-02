@@ -3,12 +3,12 @@
 
 import subDays from 'date-fns/subDays';
 import subYears from 'date-fns/subYears';
-import { axe } from 'jest-axe';
 import { rest } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import React from 'react';
+import { axe } from 'vitest-axe';
 
 import { ExtendedSession } from '../../../types';
 import formatDate from '../../../utils/formatDate';
@@ -39,7 +39,7 @@ import { findFirstNameInputs, getSignupFormElement } from '../testUtils';
 
 configure({ defaultHidden: true });
 
-jest.mock('next/dist/client/router', () => require('next-router-mock'));
+vi.mock('next/dist/client/router', () => require('next-router-mock'));
 
 const signupValues = {
   city: 'City',
@@ -62,7 +62,7 @@ const renderComponent = (session: ExtendedSession | null = defaultSession) =>
 
 beforeEach(() => {
   // Mock getSession return value
-  (nextAuth as any).getSession = jest.fn().mockReturnValue(defaultSession);
+  (nextAuth as any).getSession = vi.fn().mockReturnValue(defaultSession);
   seats = 1;
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
@@ -459,7 +459,7 @@ test('should show server errors when updating seats reservation fails', async ()
 });
 
 test('should reload page if reservation is expired and route is create signup group page', async () => {
-  mockRouter.reload = jest.fn();
+  mockRouter.reload = vi.fn();
   const user = userEvent.setup();
 
   setQueryMocks(...defaultMocks);

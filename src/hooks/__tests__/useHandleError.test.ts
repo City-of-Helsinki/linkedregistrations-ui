@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser';
 import { act, renderHook } from '@testing-library/react';
-import { advanceTo, clear } from 'jest-date-mock';
 
 import { mockedUserResponse, user } from '../../domain/user/__mocks__/user';
 import useUser from '../../domain/user/hooks/useUser';
@@ -9,13 +8,17 @@ import { getQueryWrapper, setQueryMocks, waitFor } from '../../utils/testUtils';
 import useHandleError from '../useHandleError';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
 });
 
 describe('useHandleError', () => {
   it('should call savingFinished when handling error finished', async () => {
-    advanceTo('2023-01-01');
-    const savingFinished = jest.fn();
+    vi.setSystemTime(new Date('2023-01-01'));
+    const savingFinished = vi.fn();
     setQueryMocks(mockedUserResponse);
     const wrapper = getQueryWrapper(fakeAuthenticatedSession());
     const { result: userResult } = renderHook(() => useUser(), {
@@ -37,7 +40,7 @@ describe('useHandleError', () => {
       expect(Sentry.captureException).toBeCalledWith('Failed to save', {
         extra: {
           data: expect.objectContaining({
-            currentUrl: 'http://localhost/',
+            currentUrl: window.location.href,
             errorAsString: '{}',
             object: undefined,
             payloadAsString: undefined,

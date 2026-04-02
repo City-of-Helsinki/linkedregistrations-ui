@@ -24,7 +24,7 @@ const tokenUrl = 'https://localhost:8000/token/';
 describe('getApiTokensRequest function', () => {
   it('should fetch api token', async () => {
     const apiTokenResponse: APITokens = { [linkedEventsApiScope]: apiToken };
-    const axiosFn = jest
+    const axiosFn = vi
       .spyOn(mockAxios, 'post')
       .mockResolvedValue({ data: { ...apiTokenResponse } });
 
@@ -61,7 +61,7 @@ describe('getApiTokensRequest function', () => {
       refresh_token: refreshToken,
       token_type: 'type',
     };
-    const axiosFn = jest
+    const axiosFn = vi
       .spyOn(mockAxios, 'post')
       .mockResolvedValue({ data: { ...apiTokenResponse } });
 

@@ -1,15 +1,17 @@
 import * as nextAuth from 'next-auth/react';
 import React from 'react';
 
-import { LoginMethod } from "../../../constants";
+import { LoginMethod } from '../../../constants';
 import { ExtendedSession } from '../../../types';
 import { configure, render, screen, userEvent } from '../../../utils/testUtils';
 import SignInRequired from '../SignInRequired';
 
 configure({ defaultHidden: true });
 
-const renderComponent = (session?: ExtendedSession, loginMethods?: LoginMethod[]) =>
-  render(<SignInRequired loginMethods={loginMethods}/>, { session });
+const renderComponent = (
+  session?: ExtendedSession,
+  loginMethods?: LoginMethod[]
+) => render(<SignInRequired loginMethods={loginMethods} />, { session });
 
 const getSignInButton = () => {
   return screen.getByRole('button', { name: /kirjaudu/i });
@@ -31,7 +33,7 @@ test('should render sign in required page', () => {
 
 test('should start signIn process', async () => {
   const user = userEvent.setup();
-  jest.spyOn(nextAuth, 'signIn').mockImplementation();
+  vi.spyOn(nextAuth, 'signIn');
   renderComponent();
 
   const signInButton = getSignInButton();
@@ -44,7 +46,7 @@ test('should start signIn process', async () => {
 
 test('should start signIn process with loginMethods', async () => {
   const user = userEvent.setup();
-  jest.spyOn(nextAuth, 'signIn').mockImplementation();
+  vi.spyOn(nextAuth, 'signIn');
   renderComponent(undefined, ['suomi_fi']);
 
   const signInButton = getSignInButton();
