@@ -20,21 +20,6 @@ vi.mock('next-auth/react', async () => {
 // Reference: https://github.com/nextauthjs/next-auth/discussions/4185#discussioncomment-2397318
 // We also need to mock the whole next-auth package, since it's used in
 // our various pages via the `export { getServerSideProps }` function.
-vi.mock('next-auth/next', () => ({
-  __esModule: true,
-  default: vi.fn(),
-  getServerSession: vi.fn(() =>
-    Promise.resolve({
-      accessToken: undefined,
-      accessTokenExpiresAt: null,
-      apiToken: null,
-      apiTokenExpiresAt: null,
-      expires: '',
-      sub: null,
-    } as ExtendedSession)
-  ),
-}));
-
 vi.mock('next-auth', async () => {
   const originalModule = await vi.importActual('next-auth');
 

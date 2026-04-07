@@ -20,11 +20,6 @@ export default defineConfig(({ mode }) => {
     test: {
       globals: true,
       environment: 'jsdom',
-      environmentOptions: {
-        jsdom: {
-          url: 'http://localhost:3000',
-        },
-      },
       env,
       setupFiles: ['./src/setupTests.ts', 'fake-indexeddb/auto'],
       reporters: ['verbose', 'junit'],

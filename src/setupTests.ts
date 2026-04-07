@@ -13,6 +13,7 @@ if (typeof Blob !== 'undefined' && !Blob.prototype.stream) {
   Blob.prototype.stream = function () {
     return new ReadableStream({
       start: async (controller) => {
+        // @ts-expect-error 'this' implicitly has type 'any' because it does not have a type annotation.
         controller.enqueue(new Uint8Array(await this.arrayBuffer()));
         controller.close();
       },
