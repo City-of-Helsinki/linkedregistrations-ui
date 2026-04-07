@@ -97,7 +97,12 @@ beforeAll(() => {
   const mswFetch = globalThis.fetch;
   globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
     if (typeof input === 'string' && input.startsWith('/')) {
-      return Promise.resolve(new Response(null, { status: 200 }));
+      return Promise.resolve(
+        new Response(JSON.stringify({}), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
     }
     return mswFetch(input, init);
   };
