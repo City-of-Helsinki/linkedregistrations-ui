@@ -27,7 +27,9 @@ export const createSeatsReservation = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -46,7 +48,9 @@ export const updateSeatsReservation = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 

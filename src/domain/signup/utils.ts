@@ -68,7 +68,9 @@ export const fetchSignup = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -87,7 +89,9 @@ export const createSignups = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -105,7 +109,9 @@ export const deleteSignup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -124,7 +130,9 @@ export const patchSignup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -143,7 +151,9 @@ export const updateSignup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 

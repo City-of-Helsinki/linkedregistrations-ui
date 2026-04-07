@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next';
-import { getServerSession, NextAuthOptions } from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 
 import { fetchUserQuery } from '../domain/user/query';
 import { User } from '../domain/user/types';
