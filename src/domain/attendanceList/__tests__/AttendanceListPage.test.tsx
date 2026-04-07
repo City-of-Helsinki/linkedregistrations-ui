@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
@@ -120,8 +120,8 @@ test('should mark signup as present', async () => {
   let presence_status = PRESENCE_STATUS.Present;
   setQueryMocks(
     ...defaultMocks,
-    rest.patch(`*/signup/${patchedSignup.id}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json({ ...patchedSignup, presence_status }))
+    http.patch(`*/signup/${patchedSignup.id}/`, () =>
+      HttpResponse.json({ ...patchedSignup, presence_status })
     )
   );
   pushAttendanceListRoute();
@@ -142,10 +142,10 @@ test('should show toast message if updating presence status fails', async () => 
 
   setQueryMocks(
     ...defaultMocks,
-    rest.patch(`*/signup/${patchedSignup.id}/`, (req, res, ctx) =>
-      res(
-        ctx.status(404),
-        ctx.json({ errorMessage: 'Failed to patch signup presence status' })
+    http.patch(`*/signup/${patchedSignup.id}/`, () =>
+      HttpResponse.json(
+        { errorMessage: 'Failed to patch signup presence status' },
+        { status: 404 }
       )
     )
   );
@@ -170,8 +170,8 @@ test('should show authentication required page if user is not authenticated', as
 });
 
 test('should show strong identification required page if user is not strongly identificated', async () => {
-  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({ ...user, is_strongly_identified: false }))
+  const userRequestMock = http.get(`*/user/${TEST_USER_ID}/`, () =>
+    HttpResponse.json({ ...user, is_strongly_identified: false })
   );
   setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
   pushAttendanceListRoute();
@@ -195,8 +195,8 @@ test('should show insufficient permissions page if has_registration_user_access 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
     mockedUserResponse,
-    rest.get(`*/registration/${registrationId}/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
+    http.get(`*/registration/${registrationId}/`, () =>
+      HttpResponse.json({ errorMessage: 'Not found' }, { status: 404 })
     )
   );
   pushAttendanceListRoute();
@@ -230,9 +230,8 @@ test('should route to signups page when clicking view participants button', asyn
 test('should export signups as an excel after clicking export as excel button', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.get(
-      `*registration/${registrationId}/signups/export/xlsx/`,
-      (req, res, ctx) => res(ctx.status(200), ctx.json({}))
+    http.get(`*registration/${registrationId}/signups/export/xlsx/`, () =>
+      new HttpResponse(new ArrayBuffer(0))
     )
   );
   pushAttendanceListRoute();

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import mockRouter from 'next-router-mock';
 import React from 'react';
 
@@ -28,6 +27,7 @@ const renderComponent = (query?: {
     pathname: '/',
     query: {
       registrationId: TEST_REGISTRATION_ID,
+      signupGroupId: TEST_SIGNUP_GROUP_ID,
       ...query,
     },
   });
@@ -39,10 +39,9 @@ const registrationWithoutConfirmationMessage = fakeRegistration({
   event,
   confirmation_message: null,
 });
-const mockedRegistrationWithoutConfirmationMessageResponse = rest.get(
+const mockedRegistrationWithoutConfirmationMessageResponse = http.get(
   `*/registration/${TEST_REGISTRATION_ID}`,
-  (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registrationWithoutConfirmationMessage))
+  () => HttpResponse.json(registrationWithoutConfirmationMessage)
 );
 
 const confirmationMessage = 'Custom confirmation message';
@@ -52,44 +51,40 @@ const registrationWithConfirmationMessage = fakeRegistration({
   event,
   confirmation_message: { fi: confirmationMessage },
 });
-const mockedRegistrationWithConfirmationMessageResponse = rest.get(
+const mockedRegistrationWithConfirmationMessageResponse = http.get(
   `*/registration/${TEST_REGISTRATION_ID}`,
-  (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registrationWithConfirmationMessage))
+  () => HttpResponse.json(registrationWithConfirmationMessage)
 );
 
-const mockedSignupGroupResponse = rest.get(
-  `*/signup_group/*`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(signupGroup))
+const mockedSignupGroupResponse = http.get(`*/signup_group/*`, () =>
+  HttpResponse.json(signupGroup)
 );
 
-const mockedSignupGroupInWaitingListResponse = rest.get(
+const mockedSignupGroupInWaitingListResponse = http.get(
   `*/signup_group/*`,
-  (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json(
-        fakeSignupGroup({
-          id: TEST_SIGNUP_GROUP_ID,
-          signups: [
-            fakeSignup({ attendee_status: ATTENDEE_STATUS.Waitlisted }),
-          ],
-        })
-      )
+  () =>
+    HttpResponse.json(
+      fakeSignupGroup({
+        id: TEST_SIGNUP_GROUP_ID,
+        signups: [fakeSignup({ attendee_status: ATTENDEE_STATUS.Waitlisted })],
+      })
     )
 );
 
 const { location } = window;
 
 beforeAll((): void => {
-  // @ts-ignore
-  delete window.location;
-  // @ts-ignore
-  window.location = { href: '' };
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: { href: 'http://localhost:3000' },
+  });
 });
 
 afterAll((): void => {
-  window.location = location;
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: location,
+  });
 });
 
 test('should show default signup completed text', async () => {

@@ -3,7 +3,7 @@ import '../tests/mockNextAuth';
 
 import { DehydratedState } from '@tanstack/react-query';
 import subYears from 'date-fns/subYears';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { GetServerSidePropsContext } from 'next';
 import singletonRouter from 'next/router';
 import React from 'react';
@@ -201,21 +201,13 @@ const signupGroupValues: SignupGroupFormFields = {
 const mocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
-  rest.get(`*/order/${TEST_ORDER_ID}`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(order))
+  http.get(`*/order/${TEST_ORDER_ID}`, () => HttpResponse.json(order)),
+  http.get(`*/payment/${TEST_ORDER_ID}`, () => HttpResponse.json(payment)),
+  http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+    HttpResponse.json(registration)
   ),
-  rest.get(`*/payment/${TEST_ORDER_ID}`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(payment))
-  ),
-  rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registration))
-  ),
-  rest.get(`*/signup/*`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(signup))
-  ),
-  rest.get(`*/signup_group/*`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(signupGroup))
-  ),
+  http.get(`*/signup/*`, () => HttpResponse.json(signup)),
+  http.get(`*/signup_group/*`, () => HttpResponse.json(signupGroup)),
 ];
 
 beforeEach(() => {

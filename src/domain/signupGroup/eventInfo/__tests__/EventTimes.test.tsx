@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
@@ -38,8 +38,8 @@ const renderComponent = (props?: Partial<EventTimesProps>) =>
 test('should show event times if event is recurring event', async () => {
   const user = userEvent.setup();
   setQueryMocks(
-    rest.get(`*/event/${eventWithSubEvents.id}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(eventWithSubEvents))
+    http.get(`*/event/${eventWithSubEvents.id}/`, () =>
+      HttpResponse.json(eventWithSubEvents)
     )
   );
   renderComponent();

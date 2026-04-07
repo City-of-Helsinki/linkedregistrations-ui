@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeSignup } from '../../../utils/mockDataUtils';
 import {
@@ -17,9 +17,8 @@ import {
 } from '../query';
 
 const signup = fakeSignup();
-const mockedSignupResponse = rest.get(
-  `*/signup/${TEST_SIGNUP_ID}`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(signup))
+const mockedSignupResponse = http.get(`*/signup/${TEST_SIGNUP_ID}`, () =>
+  HttpResponse.json(signup)
 );
 
 it('should fetch signup data', async () => {
@@ -74,8 +73,8 @@ test.each([401, 403, 404, 500, 502])(
     console.error = vi.fn();
     const error = { errorMessage: 'Failed to fetch signup' };
     setQueryMocks(
-      rest.get(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
-        res(ctx.status(errorCode), ctx.json(error))
+      http.get(`*/signup/${TEST_SIGNUP_ID}`, () =>
+        HttpResponse.json(error, { status: errorCode })
       )
     );
 

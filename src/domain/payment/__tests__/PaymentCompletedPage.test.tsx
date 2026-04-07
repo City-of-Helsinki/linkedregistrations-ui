@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable max-len */
 
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import React from 'react';
 
@@ -23,12 +23,8 @@ const order = fakeWebStoreOrder();
 const payment = fakeWebStorePayment();
 
 const mocks = [
-  rest.get(`*/order/${TEST_ORDER_ID}`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(order))
-  ),
-  rest.get(`*/payment/${TEST_ORDER_ID}`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(payment))
-  ),
+  http.get(`*/order/${TEST_ORDER_ID}`, () => HttpResponse.json(order)),
+  http.get(`*/payment/${TEST_ORDER_ID}`, () => HttpResponse.json(payment)),
 ];
 
 beforeEach(() => {

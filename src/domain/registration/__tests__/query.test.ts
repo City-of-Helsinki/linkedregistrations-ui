@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import {
@@ -17,9 +17,9 @@ import {
 } from '../query';
 
 const registration = fakeRegistration();
-const mockedRegistrationResponse = rest.get(
+const mockedRegistrationResponse = http.get(
   `*/registration/${TEST_REGISTRATION_ID}`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(registration))
+  () => HttpResponse.json(registration)
 );
 
 it('should fetch registration data', async () => {
@@ -76,8 +76,8 @@ test('should return error for the failing registration query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch registration' };
   setQueryMocks(
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/registration/${TEST_REGISTRATION_ID}`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

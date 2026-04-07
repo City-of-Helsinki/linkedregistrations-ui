@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import mockRouter from 'next-router-mock';
 import React from 'react';
@@ -56,11 +56,7 @@ const renderComponent = () => {
 };
 
 test('should render signups table', async () => {
-  setQueryMocks(
-    rest.get(`*/signup/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(fakeSignups(0)))
-    )
-  );
+  setQueryMocks(http.get(`*/signup/`, () => HttpResponse.json(fakeSignups(0))));
   renderComponent();
 
   screen.getByRole('table', { name: 'Signups table' });
@@ -84,11 +80,11 @@ test('should navigate between pages', async () => {
 
   pushSignupsRoute();
   setQueryMocks(
-    rest.get(`*/signup/`, (req, res, ctx) => {
-      if (req.url.searchParams.get('page') === '2') {
-        return res(ctx.status(200), ctx.json(signupsPage2));
+    http.get(`*/signup/`, ({ request }) => {
+      if (new URL(request.url).searchParams.get('page') === '2') {
+        return HttpResponse.json(signupsPage2);
       }
-      return res(ctx.status(200), ctx.json(signups));
+      return HttpResponse.json(signups);
     })
   );
 
@@ -125,11 +121,7 @@ test('should navigate between pages', async () => {
 
 test('should route to edit signup page when clicking signup name', async () => {
   pushSignupsRoute();
-  setQueryMocks(
-    rest.get(`*/signup/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(signups))
-    )
-  );
+  setQueryMocks(http.get(`*/signup/`, () => HttpResponse.json(signups)));
 
   renderComponent();
 
@@ -146,11 +138,9 @@ test('should route to edit signup page when clicking signup name', async () => {
 test('should route to edit signup group page when clicking signup name and signup has a group', async () => {
   pushSignupsRoute();
   setQueryMocks(
-    rest.get(`*/signup/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(signupsWithGroup))
-    ),
-    rest.get(`*/signup_group/${TEST_SIGNUP_GROUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(signupGroup))
+    http.get(`*/signup/`, () => HttpResponse.json(signupsWithGroup)),
+    http.get(`*/signup_group/${TEST_SIGNUP_GROUP_ID}`, () =>
+      HttpResponse.json(signupGroup)
     )
   );
 

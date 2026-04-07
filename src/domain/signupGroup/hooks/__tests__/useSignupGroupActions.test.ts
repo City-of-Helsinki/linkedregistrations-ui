@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { getQueryWrapper, setQueryMocks } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -18,8 +18,8 @@ describe('useSignupGroupActions', () => {
     const onSuccess = vi.fn();
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup_group/${TEST_SIGNUP_GROUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(signupGroup))
+      http.put(`*/signup_group/${TEST_SIGNUP_GROUP_ID}/`, () =>
+        HttpResponse.json(signupGroup)
       )
     );
     const { result } = renderHook(
@@ -42,8 +42,8 @@ describe('useSignupGroupActions', () => {
     const error = { errorMessage: 'Failed to update signup' };
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup_group/${TEST_SIGNUP_GROUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(404), ctx.json(error))
+      http.put(`*/signup_group/${TEST_SIGNUP_GROUP_ID}/`, () =>
+        HttpResponse.json(error, { status: 404 })
       )
     );
     const { result } = renderHook(

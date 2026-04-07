@@ -5,6 +5,21 @@ import './tests/initI18n';
 import { webcrypto } from 'crypto';
 import { TextEncoder } from 'node:util';
 
+// Polyfill Blob.prototype.stream for jsdom, which lacks it.
+// MSW's XHR interceptor creates a jsdom Blob for responseType: 'blob',
+// then passes it to Node's native Response constructor, which calls
+// blob.stream() via undici's extractBody — causing a TypeError.
+if (typeof Blob !== 'undefined' && !Blob.prototype.stream) {
+  Blob.prototype.stream = function () {
+    return new ReadableStream({
+      start: async (controller) => {
+        controller.enqueue(new Uint8Array(await this.arrayBuffer()));
+        controller.close();
+      },
+    });
+  } as () => ReadableStream;
+}
+
 import { setConfig } from 'next/config';
 import { expect, beforeAll, afterAll, afterEach, vi } from 'vitest';
 import * as matchers from 'vitest-axe/matchers';

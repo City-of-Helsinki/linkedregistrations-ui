@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { QueryClient } from '@tanstack/react-query';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeUser } from '../../../utils/mockDataUtils';
 import {
@@ -13,8 +13,8 @@ import { TEST_USER_ID } from '../constants';
 import { fetchUserQuery, useUserQuery } from '../query';
 
 const user = fakeUser();
-const mockedUserResponse = rest.get(`*/user/${TEST_USER_ID}`, (req, res, ctx) =>
-  res(ctx.status(200), ctx.json(user))
+const mockedUserResponse = http.get(`*/user/${TEST_USER_ID}`, () =>
+  HttpResponse.json(user)
 );
 
 it('should fetch user data', async () => {
@@ -46,8 +46,8 @@ test('should return error for the failing user query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch user' };
   setQueryMocks(
-    rest.get(`*/user/${TEST_USER_ID}`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/user/${TEST_USER_ID}`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

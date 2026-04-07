@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import i18n from 'i18next';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
 import React from 'react';
@@ -113,9 +113,7 @@ test('should start logout process', async () => {
   const userData = fakeUser({ first_name: userFirstName });
 
   const mocks = [
-    rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(userData))
-    ),
+    http.get(`*/user/${TEST_USER_ID}/`, () => HttpResponse.json(userData)),
   ];
   setQueryMocks(...mocks);
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeSignupGroup } from '../../../utils/mockDataUtils';
 import {
@@ -17,9 +17,9 @@ import {
 } from '../query';
 
 const signupGroup = fakeSignupGroup();
-const mockedSignupGroupResponse = rest.get(
+const mockedSignupGroupResponse = http.get(
   `*/signup_group/${TEST_SIGNUP_GROUP_ID}`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(signupGroup))
+  () => HttpResponse.json(signupGroup)
 );
 
 it('should fetch signup group data', async () => {
@@ -76,8 +76,8 @@ test('should return error for the failing signup group query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch signup group' };
   setQueryMocks(
-    rest.get(`*/signup_group/${TEST_SIGNUP_GROUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/signup_group/${TEST_SIGNUP_GROUP_ID}`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

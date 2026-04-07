@@ -3,7 +3,7 @@
 
 import subDays from 'date-fns/subDays';
 import subYears from 'date-fns/subYears';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
@@ -158,8 +158,8 @@ const signupGroupWithPaymentValues: SignupGroupFormFields = {
 const defaultMocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
-  rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registration))
+  http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+    HttpResponse.json(registration)
   ),
 ];
 
@@ -282,9 +282,7 @@ test('should route back to signup form after clicking submit button if there are
 test('should route to signup completed page', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/signup/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json([signup]))
-    )
+    http.post(`*/signup/`, () => HttpResponse.json([signup], { status: 201 }))
   );
 
   setSignupGroupFormSessionStorageValues({
@@ -307,11 +305,11 @@ test('should route to payment service after creating chargeable signup', async (
   setQueryMocks(
     ...mockedLanguagesResponses,
     mockedUserResponse,
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(registrationWithPriceGroup))
+    http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+      HttpResponse.json(registrationWithPriceGroup)
     ),
-    rest.post(`*/signup/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json([signupWithPayment]))
+    http.post(`*/signup/`, () =>
+      HttpResponse.json([signupWithPayment], { status: 201 })
     )
   );
 
@@ -331,10 +329,10 @@ test('should show server errors when creating signup request fails', async () =>
   const user = userEvent.setup();
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/signup/`, (req, res, ctx) =>
-      res(
-        ctx.status(400),
-        ctx.json({ city: ['Tämän kentän arvo ei voi olla "null".'] })
+    http.post(`*/signup/`, () =>
+      HttpResponse.json(
+        { city: ['Tämän kentän arvo ei voi olla "null".'] },
+        { status: 400 }
       )
     )
   );
@@ -359,8 +357,8 @@ test('should show server errors when creating signup request fails', async () =>
 test('should route to signup group completed page', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/signup_group/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json(signupGroup))
+    http.post(`*/signup_group/`, () =>
+      HttpResponse.json(signupGroup, { status: 201 })
     )
   );
 
@@ -384,11 +382,11 @@ test('should route to payment service after creating chargeable signup group', a
   setQueryMocks(
     ...mockedLanguagesResponses,
     mockedUserResponse,
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(registrationWithPriceGroup))
+    http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+      HttpResponse.json(registrationWithPriceGroup)
     ),
-    rest.post(`*/signup_group/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json(signupGroupWithPayment))
+    http.post(`*/signup_group/`, () =>
+      HttpResponse.json(signupGroupWithPayment, { status: 201 })
     )
   );
 
@@ -408,10 +406,9 @@ test('should show server errors when creating signup group request fails', async
   const user = userEvent.setup();
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/signup_group/`, (req, res, ctx) =>
-      res(
-        ctx.status(400),
-        ctx.json({
+    http.post(`*/signup_group/`, () =>
+      HttpResponse.json(
+        {
           city: ['Tämän kentän arvo ei voi olla "null".'],
           detail: 'The participant is too old.',
           name: ['Tämän kentän arvo ei voi olla "null".'],
@@ -419,7 +416,8 @@ test('should show server errors when creating signup group request fails', async
             'Kenttien email, registration tulee muodostaa uniikki joukko.',
             'Kenttien phone_number, registration tulee muodostaa uniikki joukko.',
           ],
-        })
+        },
+        { status: 400 }
       )
     )
   );
@@ -443,14 +441,11 @@ test('should show server errors when creating signup group request fails', async
 
 test('should show sign up is closed text if enrolment end date is in the past', async () => {
   setQueryMocks(
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-      res(
-        ctx.status(200),
-        ctx.json({
-          ...registration,
-          enrolment_end_time: subDays(new Date(), 2).toISOString(),
-        })
-      )
+    http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+      HttpResponse.json({
+        ...registration,
+        enrolment_end_time: subDays(new Date(), 2).toISOString(),
+      })
     )
   );
 
@@ -466,8 +461,8 @@ test('should show sign up is closed text if enrolment end date is in the past', 
 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
-    rest.get(`*/registration/not-found/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
+    http.get(`*/registration/not-found/`, () =>
+      HttpResponse.json({ errorMessage: 'Not found' }, { status: 404 })
     )
   );
 

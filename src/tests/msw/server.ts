@@ -2,5 +2,5 @@ import { setupServer } from 'msw/node';
 
 const server = setupServer();
 
-export * from 'msw';
+export { http, HttpResponse } from 'msw';
 export { server };

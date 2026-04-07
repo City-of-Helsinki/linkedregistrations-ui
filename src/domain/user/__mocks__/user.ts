@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeUser } from '../../../utils/mockDataUtils';
 import { TEST_USER_EMAIL, TEST_USER_ID } from '../constants';
@@ -8,8 +8,7 @@ const user = fakeUser({
   is_strongly_identified: true,
 });
 
-const mockedUserResponse = rest.get(
-  `*/user/${TEST_USER_ID}/`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(user))
+const mockedUserResponse = http.get(`*/user/${TEST_USER_ID}/`, () =>
+  HttpResponse.json(user)
 );
 export { mockedUserResponse, user };

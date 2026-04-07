@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 
 import {
@@ -68,15 +68,13 @@ test('should show modal if reserved seats are in waiting list', async () => {
     seatsReservation: reservation,
   });
   setQueryMocks(
-    rest.put(`*/seats_reservation/${reservation.id}`, (req, res, ctx) =>
-      res(
-        ctx.status(200),
-        ctx.json(
-          fakeSeatsReservation({
-            seats: 2,
-            in_waitlist: true,
-          })
-        )
+    http.put(`*/seats_reservation/${reservation.id}`, () =>
+      HttpResponse.json(
+        fakeSeatsReservation({
+          seats: 2,
+          in_waitlist: true,
+        }),
+        { status: 200 }
       )
     )
   );

@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import mockRouter from 'next-router-mock';
 import React from 'react';
 
@@ -23,8 +23,8 @@ test('should show signup cancelled text', async () => {
   });
 
   setQueryMocks(
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(registration))
+    http.get(`*/registration/${TEST_REGISTRATION_ID}`, () =>
+      HttpResponse.json(registration)
     )
   );
   renderComponent();
