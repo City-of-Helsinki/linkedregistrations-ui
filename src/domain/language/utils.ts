@@ -25,7 +25,9 @@ export const fetchLanguages = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 

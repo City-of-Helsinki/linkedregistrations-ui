@@ -300,7 +300,9 @@ export const createSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -316,7 +318,9 @@ export const fetchSignupGroup = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -334,7 +338,9 @@ export const deleteSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 
@@ -353,7 +359,9 @@ export const updateSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 

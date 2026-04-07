@@ -192,7 +192,9 @@ export const fetchEvent = async (
     });
     return data;
   } catch (error) {
-    throw Error(JSON.stringify((error as AxiosError).response?.data));
+    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+      cause: error,
+    });
   }
 };
 

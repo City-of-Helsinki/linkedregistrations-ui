@@ -76,6 +76,5 @@ export default defineConfig({
     'no-console': 'warn',
     'no-plusplus': 'error',
     'object-curly-spacing': ['warn', 'always'],
-    'preserve-caught-error': 0
   },
 });

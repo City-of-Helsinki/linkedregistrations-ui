@@ -12,7 +12,8 @@ const parseServerErrorMessage = ({
   error: LEServerError;
   t: TFunction;
 }): string => {
-  let errorStr: string;
+  // eslint-disable-next-line no-useless-assignment
+  let errorStr = '';
 
   if (typeof error === 'string') {
     errorStr = error;
