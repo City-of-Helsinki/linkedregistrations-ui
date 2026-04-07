@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
@@ -50,9 +50,7 @@ const defaultSession = fakeAuthenticatedSession();
 (nextAuth as any).getSession = vi.fn().mockReturnValue(defaultSession);
 
 const defaultMocks = [
-  rest.get(`*/signup/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(fakeSignups(0)))
-  ),
+  http.get(`*/signup/`, () => HttpResponse.json(fakeSignups(0))),
   mockedUserResponse,
   mockedRegistrationWithUserAccessResponse,
 ];
@@ -79,8 +77,8 @@ test('should show authentication required page if user is not authenticated', as
 });
 
 test('should show strong identification required page if user is not strongly identificated', async () => {
-  const userRequestMock = rest.get(`*/user/${TEST_USER_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({ ...user, is_strongly_identified: false }))
+  const userRequestMock = http.get(`*/user/${TEST_USER_ID}/`, () =>
+    HttpResponse.json({ ...user, is_strongly_identified: false })
   );
   setQueryMocks(...[userRequestMock, mockedRegistrationWithUserAccessResponse]);
   pushSignupsRoute();
@@ -104,8 +102,8 @@ test('should show insufficient permissions page if has_registration_user_access 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
     mockedUserResponse,
-    rest.get(`*/registration/${registrationId}/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
+    http.get(`*/registration/${registrationId}/`, () =>
+      HttpResponse.json({ errorMessage: 'Not found' }, { status: 404 })
     )
   );
   pushSignupsRoute();
@@ -141,9 +139,9 @@ test('should route to signups page when clicking view attendance list button', a
 test('should export signups as an excel after clicking export as excel button', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.get(
+    http.get(
       `*registration/${registrationId}/signups/export/xlsx/`,
-      (req, res, ctx) => res(ctx.status(200), ctx.json({}))
+      () => new HttpResponse(new ArrayBuffer(0))
     )
   );
   pushSignupsRoute();

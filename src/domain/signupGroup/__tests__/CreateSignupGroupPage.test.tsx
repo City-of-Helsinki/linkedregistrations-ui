@@ -3,7 +3,7 @@
 
 import subDays from 'date-fns/subDays';
 import subYears from 'date-fns/subYears';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
@@ -72,8 +72,8 @@ beforeEach(() => {
 const defaultMocks = [
   ...mockedLanguagesResponses,
   mockedUserResponse,
-  rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(registration))
+  http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+    HttpResponse.json(registration)
   ),
 ];
 
@@ -101,8 +101,8 @@ test('should validate signup group form and focus invalid field', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     )
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
@@ -182,14 +182,11 @@ test('should validate signup group form and focus invalid field', async () => {
 
 test('should show sign up is closed text if enrolment end date is in the past', async () => {
   setQueryMocks(
-    rest.get(`*/registration/${TEST_REGISTRATION_ID}/`, (req, res, ctx) =>
-      res(
-        ctx.status(200),
-        ctx.json({
-          ...registration,
-          enrolment_end_time: subDays(new Date(), 2).toISOString(),
-        })
-      )
+    http.get(`*/registration/${TEST_REGISTRATION_ID}/`, () =>
+      HttpResponse.json({
+        ...registration,
+        enrolment_end_time: subDays(new Date(), 2).toISOString(),
+      })
     )
   );
 
@@ -205,8 +202,8 @@ test('should show sign up is closed text if enrolment end date is in the past', 
 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
-    rest.get(`*/registration/not-found/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
+    http.get(`*/registration/not-found/`, () =>
+      HttpResponse.json({ errorMessage: 'Not found' }, { status: 404 })
     )
   );
 
@@ -229,11 +226,11 @@ test('should add and delete participants', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     ),
-    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
+    http.put(`*/seats_reservation/${seatsReservation.id}/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats })
     )
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
@@ -282,17 +279,16 @@ test('should show server errors when updating seats reservation fails', async ()
   const user = userEvent.setup();
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     ),
-    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
-      seats === 2
-        ? res(
-            ctx.status(400),
-            ctx.json('Not enough seats available. Capacity left: 0.')
-          )
-        : res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
-    )
+    http.put(`*/seats_reservation/${seatsReservation.id}/`, () => {
+      return seats === 2
+        ? HttpResponse.json('Not enough seats available. Capacity left: 0.', {
+            status: 400,
+          })
+        : HttpResponse.json({ ...seatsReservation, seats });
+    })
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
   renderComponent();
@@ -323,11 +319,11 @@ test('should show and hide participant specific fields', async () => {
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     ),
-    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
+    http.put(`*/seats_reservation/${seatsReservation.id}/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats })
     )
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
@@ -350,11 +346,11 @@ test('should delete participants by clicking delete participant button', async (
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     ),
-    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
+    http.put(`*/seats_reservation/${seatsReservation.id}/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats })
     )
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
@@ -406,17 +402,16 @@ test('should show server errors when updating seats reservation fails', async ()
 
   setQueryMocks(
     ...defaultMocks,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json({ ...seatsReservation, seats }))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({ ...seatsReservation, seats }, { status: 201 })
     ),
-    rest.put(`*/seats_reservation/${seatsReservation.id}/`, (req, res, ctx) =>
-      seats === 2
-        ? res(
-            ctx.status(400),
-            ctx.json('Not enough seats available. Capacity left: 0.')
-          )
-        : res(ctx.status(200), ctx.json({ ...seatsReservation, seats }))
-    )
+    http.put(`*/seats_reservation/${seatsReservation.id}/`, () => {
+      return seats === 2
+        ? HttpResponse.json('Not enough seats available. Capacity left: 0.', {
+            status: 400,
+          })
+        : HttpResponse.json({ ...seatsReservation, seats });
+    })
   );
   pushCreateSignupGroupRoute(TEST_REGISTRATION_ID);
   renderComponent();

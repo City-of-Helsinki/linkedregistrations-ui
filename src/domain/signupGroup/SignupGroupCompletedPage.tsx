@@ -60,9 +60,7 @@ export const SignupCompletedPage: React.FC<Props> = ({
             ? t('signup:completedPage.textWaitingList', { name })
             : t('signup:completedPage.text', { name })}
         </p>
-        <p>
-          {t('signup:completedPage.suggestScreencap')}
-        </p>
+        <p>{t('signup:completedPage.suggestScreencap')}</p>
         {confirmationMessage && (
           <ConfirmationMessage registration={registration} />
         )}

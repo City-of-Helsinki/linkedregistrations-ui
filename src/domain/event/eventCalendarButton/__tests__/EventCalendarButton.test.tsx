@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 
 import {
@@ -79,8 +79,8 @@ test('should download an ics file successfully for recurring event', async () =>
 
   const user = userEvent.setup();
   setQueryMocks(
-    rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(recurringEvent))
+    http.get(`*/event/${TEST_EVENT_ID}/`, () =>
+      HttpResponse.json(recurringEvent)
     )
   );
   renderComponent({ event: recurringEvent });

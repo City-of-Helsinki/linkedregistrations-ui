@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 
 import {
@@ -45,9 +45,7 @@ const getElement = (key: 'age' | 'date' | 'description' | 'name' | 'price') => {
 
 beforeEach(() => {
   setQueryMocks(
-    rest.get(`*/place/${TEST_PLACE_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(place))
-    )
+    http.get(`*/place/${TEST_PLACE_ID}/`, () => HttpResponse.json(place))
   );
 });
 

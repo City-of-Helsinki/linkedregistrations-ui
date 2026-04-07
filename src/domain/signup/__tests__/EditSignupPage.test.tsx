@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
@@ -63,37 +63,28 @@ test.skip('page is accessible', async () => {
   expect(await axe(container)).toHaveNoViolations();
 });
 
-const mockedRegistrationResponse = rest.get(
+const mockedRegistrationResponse = http.get(
   `*/registration/${TEST_REGISTRATION_ID}/`,
-  (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({
-        ...registration,
-        event: {
-          ...registration.event,
-          offers: fakeOffers(1, [{ is_free: true }]),
-        },
-      })
-    )
+  () =>
+    HttpResponse.json({
+      ...registration,
+      event: {
+        ...registration.event,
+        offers: fakeOffers(1, [{ is_free: true }]),
+      },
+    })
 );
-const mockedSignupResponse = rest.get(`*/signup/*`, (req, res, ctx) =>
-  res(ctx.status(200), ctx.json(signup))
+const mockedSignupResponse = http.get(`*/signup/*`, () =>
+  HttpResponse.json(signup)
 );
-const mockedSignupNotCreatedByUserResponse = rest.get(
-  `*/signup/*`,
-  (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({ ...signup, is_created_by_current_user: false })
-    )
+const mockedSignupNotCreatedByUserResponse = http.get(`*/signup/*`, () =>
+  HttpResponse.json({ ...signup, is_created_by_current_user: false })
 );
-const mockedSignupWithGroupResponse = rest.get(`*/signup/*`, (req, res, ctx) =>
-  res(ctx.status(200), ctx.json({ ...signup, signup_group: signupGroup.id }))
+const mockedSignupWithGroupResponse = http.get(`*/signup/*`, () =>
+  HttpResponse.json({ ...signup, signup_group: signupGroup.id })
 );
-const mockedSignupGroupResponse = rest.get(
-  `*/signup_group/*`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(signupGroup))
+const mockedSignupGroupResponse = http.get(`*/signup_group/*`, () =>
+  HttpResponse.json(signupGroup)
 );
 
 const commonMocks = [
@@ -130,8 +121,9 @@ test('should edit signup page field', async () => {
 test('should cancel signup', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.delete(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json(null))
+    http.delete(
+      `*/signup/${TEST_SIGNUP_ID}`,
+      () => new HttpResponse(null, { status: 201 })
     )
   );
   pushEditSignupRoute(TEST_REGISTRATION_ID);
@@ -148,10 +140,9 @@ test('should cancel signup', async () => {
 });
 
 test('should disable cancel button if event is already started', async () => {
-  const mockedRegistrationWithOnGoingEventResponse = rest.get(
+  const mockedRegistrationWithOnGoingEventResponse = http.get(
     `*/registration/${TEST_REGISTRATION_ID}/`,
-    (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(registrationWithOnGoingEvent))
+    () => HttpResponse.json(registrationWithOnGoingEvent)
   );
   setQueryMocks(...commonMocks, mockedRegistrationWithOnGoingEventResponse);
   pushEditSignupRoute(TEST_REGISTRATION_ID);
@@ -165,8 +156,8 @@ test('should disable cancel button if event is already started', async () => {
 test('should show error message when cancelling signup fails', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.delete(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(403), ctx.json({ detail: 'Malformed UUID.' }))
+    http.delete(`*/signup/${TEST_SIGNUP_ID}`, () =>
+      HttpResponse.json({ detail: 'Malformed UUID.' }, { status: 403 })
     )
   );
   pushEditSignupRoute(TEST_REGISTRATION_ID);
@@ -185,8 +176,8 @@ test('should show error message when cancelling signup fails', async () => {
 test('should update signup', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.put(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(201), ctx.json(signup))
+    http.put(`*/signup/${TEST_SIGNUP_ID}`, () =>
+      HttpResponse.json(signup, { status: 201 })
     )
   );
   pushEditSignupRoute(TEST_REGISTRATION_ID);
@@ -301,8 +292,8 @@ test('contact person fields should be disabled if signup has a signup group', as
 test('should show error message when updating signup fails', async () => {
   setQueryMocks(
     ...defaultMocks,
-    rest.put(`*/signup/${TEST_SIGNUP_ID}`, (req, res, ctx) =>
-      res(ctx.status(403), ctx.json({ name: 'Name is required.' }))
+    http.put(`*/signup/${TEST_SIGNUP_ID}`, () =>
+      HttpResponse.json({ name: 'Name is required.' }, { status: 403 })
     )
   );
   pushEditSignupRoute(TEST_REGISTRATION_ID);
@@ -320,12 +311,10 @@ test('should show error message when updating signup fails', async () => {
 
 test('should show not found page if registration does not exist', async () => {
   setQueryMocks(
-    rest.get(`*/registration/not-found/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not found' }))
+    http.get(`*/registration/not-found/`, () =>
+      HttpResponse.json({ errorMessage: 'Not found' }, { status: 404 })
     ),
-    rest.get(`*/signup/*`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(signup))
-    )
+    http.get(`*/signup/*`, () => HttpResponse.json(signup))
   );
   pushEditSignupRoute('not-found');
   renderComponent();

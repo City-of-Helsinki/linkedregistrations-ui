@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeAuthenticatedSession } from '../../../utils/mockSession';
 import { getQueryWrapper, setQueryMocks } from '../../../utils/testUtils';
@@ -12,9 +12,7 @@ describe('usePatchSignup', () => {
   it('should patch signup successfully', async () => {
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.patch(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(signup))
-      )
+      http.patch(`*/signup/${TEST_SIGNUP_ID}/`, () => HttpResponse.json(signup))
     );
     const { result } = renderHook(
       () => usePatchSignupMutation({ session: fakeAuthenticatedSession() }),
@@ -34,8 +32,8 @@ describe('usePatchSignup', () => {
     const error = { errorMessage: 'Failed to patch signup presence status' };
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.patch(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(404), ctx.json(error))
+      http.patch(`*/signup/${TEST_SIGNUP_ID}/`, () =>
+        HttpResponse.json(error, { status: 404 })
       )
     );
     const { result } = renderHook(
@@ -57,9 +55,7 @@ describe('useUpdateSignupMutation', () => {
   it('should update signup successfully', async () => {
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(signup))
-      )
+      http.put(`*/signup/${TEST_SIGNUP_ID}/`, () => HttpResponse.json(signup))
     );
     const { result } = renderHook(
       () => useUpdateSignupMutation({ session: fakeAuthenticatedSession() }),
@@ -81,8 +77,8 @@ describe('useUpdateSignupMutation', () => {
     const error = { errorMessage: 'Failed to update signup' };
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(404), ctx.json(error))
+      http.put(`*/signup/${TEST_SIGNUP_ID}/`, () =>
+        HttpResponse.json(error, { status: 404 })
       )
     );
     const { result } = renderHook(

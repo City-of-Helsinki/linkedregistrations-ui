@@ -1,5 +1,5 @@
 import range from 'lodash/range';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeRegistration, fakeSignups } from '../../../utils/mockDataUtils';
 import { event } from '../../event/__mocks__/event';
@@ -34,18 +34,15 @@ const patchedSignup = {
   presence_status: PRESENCE_STATUS.Present,
 };
 
-const mockedRegistrationWithUserAccessResponse = rest.get(
+const mockedRegistrationWithUserAccessResponse = http.get(
   `*/registration/${registrationId}/`,
-  (req, res, ctx) => res(ctx.status(200), ctx.json(registration))
+  () => HttpResponse.json(registration)
 );
 
-const mockedRegistrationWithoutUserAccessResponse = rest.get(
+const mockedRegistrationWithoutUserAccessResponse = http.get(
   `*/registration/${registrationId}/`,
-  (req, res, ctx) =>
-    res(
-      ctx.status(200),
-      ctx.json({ ...registration, has_registration_user_access: false })
-    )
+  () =>
+    HttpResponse.json({ ...registration, has_registration_user_access: false })
 );
 
 export {

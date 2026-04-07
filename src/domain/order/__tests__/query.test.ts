@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeWebStoreOrder } from '../../../utils/mockWebStoreDataUtils';
 import { getQueryWrapper, setQueryMocks } from '../../../utils/testUtils';
@@ -11,9 +11,7 @@ import { useWebStoreOrderQuery } from '../query';
 test('should return web store order', async () => {
   const order = fakeWebStoreOrder();
   setQueryMocks(
-    rest.get(`*/order/${TEST_ORDER_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(order))
-    )
+    http.get(`*/order/${TEST_ORDER_ID}/`, () => HttpResponse.json(order))
   );
 
   const wrapper = getQueryWrapper();
@@ -32,8 +30,8 @@ test('should return error for the failing order query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch web store order' };
   setQueryMocks(
-    rest.get(`*/order/${TEST_ORDER_ID}/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/order/${TEST_ORDER_ID}/`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { fakeWebStorePayment } from '../../../utils/mockWebStoreDataUtils';
 import { getQueryWrapper, setQueryMocks } from '../../../utils/testUtils';
@@ -11,9 +11,7 @@ import { useWebStorePaymentQuery } from '../query';
 test('should return web store payment', async () => {
   const payment = fakeWebStorePayment();
   setQueryMocks(
-    rest.get(`*/payment/${TEST_PAYMENT_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(payment))
-    )
+    http.get(`*/payment/${TEST_PAYMENT_ID}/`, () => HttpResponse.json(payment))
   );
 
   const wrapper = getQueryWrapper();
@@ -32,8 +30,8 @@ test('should return error for the failing payment query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch web store payment' };
   setQueryMocks(
-    rest.get(`*/payment/${TEST_PAYMENT_ID}/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/payment/${TEST_PAYMENT_ID}/`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

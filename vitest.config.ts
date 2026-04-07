@@ -1,3 +1,6 @@
+// Ensure consistent date handling in tests regardless of host timezone
+process.env.TZ = 'UTC';
+
 import { defineConfig, coverageConfigDefaults } from 'vitest/config';
 import { loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';

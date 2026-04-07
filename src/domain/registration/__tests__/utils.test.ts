@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import i18n from 'i18next';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import {
   fakeRegistration,
@@ -662,9 +662,9 @@ describe('exportSignupsAsExcel function', () => {
     document.createElement = vi.fn().mockImplementation(() => link);
 
     setQueryMocks(
-      rest.get(
+      http.get(
         `*registration/${TEST_REGISTRATION_ID}/signups/export/xlsx/`,
-        (req, res, ctx) => res(ctx.status(200), ctx.json(registration))
+        () => new HttpResponse(new ArrayBuffer(0))
       )
     );
     exportSignupsAsExcel({
@@ -694,9 +694,9 @@ describe('exportSignupsAsExcel function', () => {
     'should show correct correct error, %p returns %p',
     async (status, error) => {
       setQueryMocks(
-        rest.get(
+        http.get(
           `*registration/${TEST_REGISTRATION_ID}/signups/export/xlsx/`,
-          (req, res, ctx) => res(ctx.status(status), ctx.json({}))
+          () => new HttpResponse(null, { status })
         )
       );
 

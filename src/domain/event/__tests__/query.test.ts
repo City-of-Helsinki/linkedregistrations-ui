@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { getQueryWrapper, setQueryMocks } from '../../../utils/testUtils';
 import { event } from '../__mocks__/event';
@@ -9,9 +9,7 @@ import { useEventQuery } from '../query';
 
 test('should return event', async () => {
   setQueryMocks(
-    rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-      res(ctx.status(200), ctx.json(event))
-    )
+    http.get(`*/event/${TEST_EVENT_ID}/`, () => HttpResponse.json(event))
   );
 
   const wrapper = getQueryWrapper();
@@ -27,8 +25,8 @@ test('should return error for the failing event query', async () => {
   console.error = vi.fn();
   const error = { errorMessage: 'Failed to fetch event' };
   setQueryMocks(
-    rest.get(`*/event/${TEST_EVENT_ID}/`, (req, res, ctx) =>
-      res(ctx.status(404), ctx.json(error))
+    http.get(`*/event/${TEST_EVENT_ID}/`, () =>
+      HttpResponse.json(error, { status: 404 })
     )
   );
 

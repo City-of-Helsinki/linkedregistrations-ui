@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import singletonRouter from 'next/router';
 import * as nextAuth from 'next-auth/react';
 import mockRouter from 'next-router-mock';
@@ -77,8 +77,8 @@ test('should show server errors when creating seats reservation fails', async ()
 
   setQueryMocks(
     mockedUserResponse,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(ctx.status(400), ctx.json({}))
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json({}, { status: 400 })
     )
   );
   singletonRouter.push({
@@ -96,11 +96,10 @@ test('should show modal if reserved seats are in waiting list', async () => {
   const user = userEvent.setup();
   setQueryMocks(
     mockedUserResponse,
-    rest.post(`*/seats_reservation/`, (req, res, ctx) =>
-      res(
-        ctx.status(201),
-        ctx.json(fakeSeatsReservation({ seats: 1, in_waitlist: true }))
-      )
+    http.post(`*/seats_reservation/`, () =>
+      HttpResponse.json(fakeSeatsReservation({ seats: 1, in_waitlist: true }), {
+        status: 201,
+      })
     )
   );
   singletonRouter.push({

@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import {
   fakeLanguages,
@@ -67,11 +67,11 @@ const serviceLanguagesResponse = fakeLanguages(
 );
 
 const mockedLanguagesResponses = [
-  rest.get('*/language/', (req, res, ctx) => {
-    if (req.url.searchParams.get('service_language')) {
-      return res(ctx.status(200), ctx.json(serviceLanguagesResponse));
+  http.get('*/language/', ({ request }) => {
+    if (new URL(request.url).searchParams.get('service_language')) {
+      return HttpResponse.json(serviceLanguagesResponse);
     }
-    return res(ctx.status(200), ctx.json(languagesResponse));
+    return HttpResponse.json(languagesResponse);
   }),
 ];
 export {

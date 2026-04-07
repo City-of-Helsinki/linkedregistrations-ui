@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { getQueryWrapper, setQueryMocks } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -16,9 +16,7 @@ describe('useSignupActions', () => {
     const onSuccess = vi.fn();
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(signup))
-      )
+      http.put(`*/signup/${TEST_SIGNUP_ID}/`, () => HttpResponse.json(signup))
     );
     const { result } = renderHook(
       () => useSignupAction({ registration, signup }),
@@ -38,8 +36,8 @@ describe('useSignupActions', () => {
     const error = { errorMessage: 'Failed to update signup' };
     const wrapper = getQueryWrapper();
     setQueryMocks(
-      rest.put(`*/signup/${TEST_SIGNUP_ID}/`, (req, res, ctx) =>
-        res(ctx.status(404), ctx.json(error))
+      http.put(`*/signup/${TEST_SIGNUP_ID}/`, () =>
+        HttpResponse.json(error, { status: 404 })
       )
     );
     const { result } = renderHook(

@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 import { getQueryWrapper, setQueryMocks } from '../../../../utils/testUtils';
 import { mockedLanguagesResponses } from '../../__mocks__/languages';
@@ -48,11 +48,7 @@ test('should return service language options', async () => {
 });
 
 test('should return empty array', async () => {
-  setQueryMocks(
-    rest.get('*/language/', (req, res, ctx) =>
-      res(ctx.status(200), ctx.json({}))
-    )
-  );
+  setQueryMocks(http.get('*/language/', () => HttpResponse.json({})));
   const wrapper = getQueryWrapper();
 
   const { result } = renderHook(() => useLanguageOptions(), { wrapper });
