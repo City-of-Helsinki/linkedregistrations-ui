@@ -53,8 +53,8 @@
     "picomatch": "^4.0.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.2.2",
-    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@eslint-react/eslint-plugin": "^4.2.3",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^8.4.1",
