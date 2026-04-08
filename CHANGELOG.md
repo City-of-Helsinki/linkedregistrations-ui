@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.9.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.0...linkedregistrations-ui-v1.9.1) (2026-04-08)
+
+
+### Dependencies
+
+* Brace-expansion resolution Refs: KEH-281 ([c8fd968](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c8fd968901da5d4e615f2bfb2c97b3bdac66fb23))
+* Bump @sentry/nextjs Refs: KEH-277 ([e3dbef5](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e3dbef541021023c2de00eb55e4883503f645910))
+* Bump commilint Refs: KEH-281 ([939808d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/939808dcfce5acaa27c3c799cf57db98ad5f4249))
+* Bump eslint to v10 and upgrade plugins Refs: KEH-277 ([e154285](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e15428585f0f5f09165c0321c7e99b674291407c))
+* Bump js-yaml from 4.1.0 to 4.1.1 ([6735648](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/6735648988c7823fc88be430fd922372714b2236))
+* Bump lodash Refs: KEH-281 ([1e42084](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/1e420848b6d12700539a1e71f064b435737da39c))
+* Bump lodash-es from 4.17.23 to 4.18.1 ([9706ae7](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/9706ae74b55f26a9592b62e63e13264780a8eb4a))
+* Bump vite from 8.0.3 to 8.0.7 ([a764b1e](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a764b1e151949dbdf5a674ae8e2300caf22744f6))
+* Bump vitest Refs: KEH-281 ([57bb81b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/57bb81b3e67f8ac50bbd0156adf53eac2c743391))
+* Eslint react plugin latest Refs: KEH-277 ([506188a](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/506188a916c5b3423ad32f8203ae50a5e0d5634d))
+* Fix picomatch resolution Refs: KEH-281 ([3b76a93](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/3b76a938fdaed675ab7398b36413c6492a884de8))
+* Migrate jest to vitest Refs: KEH-277 ([dc55016](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/dc55016ecf3c7bba474c16865e1b048fc86278e0))
+* Migrate msw to v2 Refs: KEH-277 ([5b9d68b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5b9d68b207ee0df26e86999ba2646a2913dbba2c))
+* Minimatch resolution Refs: KEH-281 ([ecbd4f4](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/ecbd4f44777e85c0481f6426db76bc76a26673a3))
+* Picomatch resolution: Refs: KEH-277 ([854d4ac](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/854d4ace676713cb4a17110888944844fee517d5))
+* Remove unused snyk Refs: KEH-277 ([5cd4487](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5cd4487461d3c97c5dae1b9139d92efa647562cf))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.8.1...linkedregistrations-ui-v1.9.0) (2026-03-30)
 
 
