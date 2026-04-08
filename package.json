@@ -49,7 +49,8 @@
   },
   "resolutions": {
     "**/@rollup/pluginutils/picomatch": "^4.0.2",
-    "**/micromatch/picomatch": "^4.0.3"
+    "**/micromatch/picomatch": "^4.0.3",
+    "**/@typescript-eslint/typescript-estree/minimatch": "^9.0.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.2",
