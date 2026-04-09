@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.1...linkedregistrations-ui-v1.9.2) (2026-04-09)
+
+
+### Dependencies
+
+* Bump lodash from 4.17.23 to 4.18.1 ([a47de5e](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a47de5e3655e3f8bd8569e009f1a3b5b337b2f31))
+
 ## [1.9.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.0...linkedregistrations-ui-v1.9.1) (2026-04-08)
 
 
