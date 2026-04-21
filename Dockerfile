@@ -88,12 +88,14 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_T
     SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" yarn build
 
 # ============================================================
-FROM registry.access.redhat.com/ubi9/nodejs-18 AS production
+FROM registry.access.redhat.com/ubi9/nodejs-22-minimal AS production
 # ============================================================
 WORKDIR /app
 
 USER root
-RUN groupadd --system --gid 1001 nodejs
+RUN microdnf install -y shadow-utils && microdnf clean all && \
+    groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1000 --gid 0 --home /app default
 
 USER default
 
