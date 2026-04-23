@@ -95,7 +95,7 @@ WORKDIR /app
 USER root
 RUN microdnf install -y shadow-utils && microdnf clean all && \
     groupadd --system --gid 1001 nodejs && \
-    useradd --system --uid 1000 --gid 0 --home /app default
+    useradd --uid 1000 --gid 0 --home /app --no-create-home --shell /sbin/nologin default
 
 USER default
 
