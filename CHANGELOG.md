@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.2...linkedregistrations-ui-v1.9.3) (2026-04-23)
+
+
+### Bug Fixes
+
+* Dockerfile production node version upgrade Refs: LINK-2523 ([8cded08](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/8cded085738764e1c9b41a9a870bff8592f7a12b))
+* Dockerfile production shadow-utils Refs: LINK-2523 ([8cded08](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/8cded085738764e1c9b41a9a870bff8592f7a12b))
+* Dockerfile production useradd warning Refs: LINK-2523 ([78a8c4b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/78a8c4b178c4f93bd52ce74c299550d4643fe216))
+
+
+### Dependencies
+
+* Bump axios from 1.13.5 to 1.15.0 ([da402ff](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/da402ff116121e2fb365cc84d5aff836e520aaeb))
+
 ## [1.9.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.1...linkedregistrations-ui-v1.9.2) (2026-04-09)
 
 
