@@ -143,11 +143,11 @@ const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
 const mockNumberString = (size: number): string =>
   [...Array(size)]
-    .map(() => Math.floor(Math.random() * 10).toString())
+    .map(() => Math.floor(Math.random() * 10).toString()) // NOSONAR
     .join('');
 
 const mockString = (size: number): string =>
-  [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
+  [...Array(size)].map(() => Math.random().toString(36)[2]).join(''); // NOSONAR
 
 const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
   waitFor(
