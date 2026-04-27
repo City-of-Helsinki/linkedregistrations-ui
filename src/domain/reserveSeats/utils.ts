@@ -1,10 +1,10 @@
-import { AxiosError } from 'axios';
 import isPast from 'date-fns/isPast';
 
 import { RESERVATION_NAMES } from '../../constants';
 import { ExtendedSession } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
-import { callPost, callPut } from '../app/axios/axiosClient';
+import { callPost, callPut } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 
 import {
   CreateSeatsReservationInput,
@@ -27,7 +27,7 @@ export const createSeatsReservation = async ({
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
@@ -48,7 +48,7 @@ export const updateSeatsReservation = async ({
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }

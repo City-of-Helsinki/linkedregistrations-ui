@@ -1,10 +1,9 @@
-import mockAxios from 'axios';
-
 import { APITokens, OidcUser, RefreshTokenResponse } from '../../../types';
 import {
   fakeAuthenticatedSession,
   fakeOidcUser,
 } from '../../../utils/mockSession';
+import { FetchError } from '../../app/fetch/fetchError';
 import {
   getApiTokensRequest,
   getUserFirstName,
@@ -24,36 +23,72 @@ const tokenUrl = 'https://localhost:8000/token/';
 describe('getApiTokensRequest function', () => {
   it('should fetch api token', async () => {
     const apiTokenResponse: APITokens = { [linkedEventsApiScope]: apiToken };
-    const axiosFn = vi
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ access_token: apiToken }),
+    });
+    vi.stubGlobal('fetch', mockFetch);
 
-    await getApiTokensRequest({
+    const result = await getApiTokensRequest({
       accessToken,
       linkedEventsApiScope,
       url: apiTokensUrl,
     });
 
-    await expect(axiosFn).toHaveBeenCalledWith(
+    expect(result).toEqual(apiTokenResponse);
+    expect(mockFetch).toHaveBeenCalledWith(
       apiTokensUrl,
-      {
-        audience: 'linkedevents',
-        grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
-        permission: '#access',
-      },
-      {
+      expect.objectContaining({
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        responseType: 'json',
-      }
+        body: expect.any(URLSearchParams),
+      })
     );
+    const calledBody: URLSearchParams = mockFetch.mock.calls[0][1].body;
+    expect(calledBody.get('audience')).toBe(linkedEventsApiScope);
+    expect(calledBody.get('grant_type')).toBe(
+      'urn:ietf:params:oauth:grant-type:uma-ticket'
+    );
+    expect(calledBody.get('permission')).toBe('#access');
+  });
+
+  it('should throw FetchError when response is not ok', async () => {
+    const errorData = { detail: 'Unauthorized' };
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 401,
+      statusText: 'Unauthorized',
+      json: () => Promise.resolve(errorData),
+    });
+    vi.stubGlobal('fetch', mockFetch);
+
+    await expect(
+      getApiTokensRequest({
+        accessToken,
+        linkedEventsApiScope,
+        url: apiTokensUrl,
+      })
+    ).rejects.toThrow(FetchError);
+
+    await expect(
+      getApiTokensRequest({
+        accessToken,
+        linkedEventsApiScope,
+        url: apiTokensUrl,
+      })
+    ).rejects.toMatchObject({
+      status: 401,
+      data: errorData,
+      message: 'Unauthorized',
+    });
   });
 });
 
-describe('getApiTokensRequest function', () => {
-  it('should fetch api token', async () => {
+describe('refreshAccessTokenRequest function', () => {
+  it('should refresh access token', async () => {
     const apiTokenResponse: RefreshTokenResponse = {
       access_token: accessToken,
       expires_in: 3600,
@@ -61,9 +96,11 @@ describe('getApiTokensRequest function', () => {
       refresh_token: refreshToken,
       token_type: 'type',
     };
-    const axiosFn = vi
-      .spyOn(mockAxios, 'post')
-      .mockResolvedValue({ data: { ...apiTokenResponse } });
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ...apiTokenResponse }),
+    });
+    vi.stubGlobal('fetch', mockFetch);
 
     await refreshAccessTokenRequest({
       clientId,
@@ -72,19 +109,19 @@ describe('getApiTokensRequest function', () => {
       url: tokenUrl,
     });
 
-    await expect(axiosFn).toHaveBeenCalledWith(
+    expect(mockFetch).toHaveBeenCalledWith(
       tokenUrl,
-      {
-        client_id: clientId,
-        client_secret: clientSecret,
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-      },
-      {
+      expect.objectContaining({
+        method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        responseType: 'json',
-      }
+        body: expect.any(URLSearchParams),
+      })
     );
+    const calledBody: URLSearchParams = mockFetch.mock.calls[0][1].body;
+    expect(calledBody.get('client_id')).toBe(clientId);
+    expect(calledBody.get('client_secret')).toBe(clientSecret);
+    expect(calledBody.get('grant_type')).toBe('refresh_token');
+    expect(calledBody.get('refresh_token')).toBe(refreshToken);
   });
 });
 

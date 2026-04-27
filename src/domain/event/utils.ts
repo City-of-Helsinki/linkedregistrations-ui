@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import isAfter from 'date-fns/isAfter';
 import isPast from 'date-fns/isPast';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
@@ -10,7 +9,8 @@ import { HELSINKI_TIME_ZONE } from '../../constants';
 import { ExtendedSession, Language } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
-import { callGet } from '../app/axios/axiosClient';
+import { callGet } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 import { getPlaceFields } from '../place/utils';
 
 import { EventStatus, PublicationStatus, SuperEventType } from './constants';
@@ -192,7 +192,7 @@ export const fetchEvent = async (
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }

@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import { APITokens, ExtendedSession, RefreshTokenResponse } from '../../types';
+import { FetchError } from '../app/fetch/fetchError';
 
 export const getApiTokensRequest = async ({
   accessToken,
@@ -11,23 +10,28 @@ export const getApiTokensRequest = async ({
   linkedEventsApiScope: string;
   url: string;
 }): Promise<APITokens> => {
-  const response = await axios.post(
-    url,
-    {
-      audience: linkedEventsApiScope,
-      grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
-      permission: '#access',
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      responseType: 'json',
-    }
-  );
+  const body = new URLSearchParams({
+    audience: linkedEventsApiScope,
+    grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
+    permission: '#access',
+  });
 
-  const linkedevents = response.data.access_token;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body,
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => null);
+    throw new FetchError(response.statusText, response.status, data);
+  }
+
+  const responseData = await response.json();
+  const linkedevents = responseData.access_token;
 
   return { linkedevents };
 };
@@ -43,21 +47,25 @@ export const refreshAccessTokenRequest = async ({
   refreshToken: string;
   url: string;
 }): Promise<RefreshTokenResponse> => {
-  const response = await axios.post(
-    url,
-    {
-      client_id: clientId,
-      client_secret: clientSecret,
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-    },
-    {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      responseType: 'json',
-    }
-  );
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+  });
 
-  return response.data;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => null);
+    throw new FetchError(response.statusText, response.status, data);
+  }
+
+  return response.json();
 };
 
 export const getUserFirstName = ({

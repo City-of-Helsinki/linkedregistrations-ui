@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { TFunction } from 'i18next';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
@@ -15,7 +14,8 @@ import {
   callGet,
   callPost,
   callPut,
-} from '../app/axios/axiosClient';
+} from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 import { Event } from '../event/types';
 import {
   isEventStarted,
@@ -300,7 +300,7 @@ export const createSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
@@ -318,7 +318,7 @@ export const fetchSignupGroup = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
@@ -338,7 +338,7 @@ export const deleteSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
@@ -359,7 +359,7 @@ export const updateSignupGroup = async ({
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }

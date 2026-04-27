@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import isNil from 'lodash/isNil';
@@ -11,7 +10,8 @@ import { ExtendedSession, Language } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
-import { callGet } from '../app/axios/axiosClient';
+import { callGet } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
@@ -41,7 +41,7 @@ export const fetchRegistration = async (
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
@@ -309,10 +309,9 @@ export const exportSignupsAsExcel = async ({
     });
     downloadBlob(data, `registered_persons_${registration.id}`);
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const { response } = error;
+    if (error instanceof FetchError) {
       let errorMessage: string;
-      switch (response?.status) {
+      switch (error.status) {
         case 401:
           errorMessage = t('common:errors.authorizationRequired');
           break;
@@ -324,6 +323,11 @@ export const exportSignupsAsExcel = async ({
           break;
       }
       addNotification({ type: 'error', label: errorMessage });
+    } else {
+      addNotification({
+        type: 'error',
+        label: t('common:errors.serverError'),
+      });
     }
   }
 };

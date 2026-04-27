@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '../tests/mockNextAuth';
 
-import mockAxios from 'axios';
 import { Session, User } from 'next-auth';
 
 import { SIGNOUT_REDIRECT } from '../constants';
@@ -89,21 +88,31 @@ const testApiTokenUrl =
   'https://tunnistus.hel.fi/auth/realms/helsinki-tunnistus/protocol/openid-connect/token';
 
 const mockTokenResonses = () => {
-  global.fetch = vi.fn(() =>
-    Promise.resolve({
-      json: () => Promise.resolve({ token_endpoint: testTokenUrl }),
-    })
-  ) as any;
-  mockAxios.post = vi.fn().mockImplementation(async (url) => {
-    switch (url) {
-      case testTokenUrl:
-        return { data: refreshResponse };
-      case testApiTokenUrl:
-        return {
-          data: { ...apiTokenResponse, access_token: 'refreshed-api-token' },
-        };
+  global.fetch = vi.fn().mockImplementation(async (url: string) => {
+    if (url.includes('.well-known')) {
+      return {
+        ok: true,
+        json: () => Promise.resolve({ token_endpoint: testTokenUrl }),
+      };
     }
-  });
+    if (url === testTokenUrl) {
+      return {
+        ok: true,
+        json: () => Promise.resolve(refreshResponse),
+      };
+    }
+    if (url === testApiTokenUrl) {
+      return {
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            ...apiTokenResponse,
+            access_token: 'refreshed-api-token',
+          }),
+      };
+    }
+    throw new Error(`Unexpected fetch call to URL: ${url}`);
+  }) as any;
 };
 
 describe('getApiAccessTokens function', () => {
@@ -114,7 +123,10 @@ describe('getApiAccessTokens function', () => {
   });
 
   test("should throw an error in api-tokens endpoint doesn't return api tokens", async () => {
-    vi.spyOn(mockAxios, 'post').mockResolvedValue({ data: {} });
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({}),
+    }) as any;
 
     await expect(
       async () => await getApiAccessTokens(accessToken)
@@ -122,9 +134,10 @@ describe('getApiAccessTokens function', () => {
   });
 
   test('should return api tokens', async () => {
-    vi.spyOn(mockAxios, 'post').mockResolvedValue({
-      data: { ...apiTokenResponse },
-    });
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ...apiTokenResponse }),
+    }) as any;
 
     const apiTokens = await getApiAccessTokens(accessToken);
     await expect(apiTokens).toEqual({ linkedevents: 'api-token' });
@@ -140,7 +153,9 @@ describe('refreshAccessToken function', () => {
 
   test('should return error if request to refresh access token fails', async () => {
     console.error = vi.fn();
-    vi.spyOn(mockAxios, 'post').mockResolvedValue({ data: undefined });
+    global.fetch = vi
+      .fn()
+      .mockRejectedValue(new Error('request failed')) as any;
 
     const { error } = await refreshAccessToken({ ...token, refreshToken });
     expect(error).toBe('RefreshAccessTokenError');
@@ -168,9 +183,10 @@ describe('jwtCallback function', () => {
   test('should return session after initial sign in', async () => {
     vi.setSystemTime(new Date('2023-01-01'));
 
-    vi.spyOn(mockAxios, 'post').mockResolvedValue({
-      data: { ...apiTokenResponse },
-    });
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ...apiTokenResponse }),
+    }) as any;
 
     const jwt = await jwtCallback({ token, user, account });
 
@@ -191,10 +207,6 @@ describe('jwtCallback function', () => {
   test('should return original token if token is not expired', async () => {
     vi.setSystemTime(new Date('2023-01-01'));
 
-    vi.spyOn(mockAxios, 'post').mockResolvedValue({
-      data: { ...apiTokenResponse },
-    });
-
     const jwt = await jwtCallback({ token });
 
     expect(jwt).toEqual(token);
@@ -203,7 +215,9 @@ describe('jwtCallback function', () => {
   test('should return null if refreshing token fails', async () => {
     vi.setSystemTime(new Date('2023-01-01'));
 
-    vi.spyOn(mockAxios, 'post').mockRejectedValue(new Error('refresh failed'));
+    global.fetch = vi
+      .fn()
+      .mockRejectedValue(new Error('refresh failed')) as any;
 
     const jwt = await jwtCallback({
       token: { ...token, accessTokenExpires: 1662531200000 },
