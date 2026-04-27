@@ -1,11 +1,11 @@
-import { AxiosError } from 'axios';
 import capitalize from 'lodash/capitalize';
 import get from 'lodash/get';
 
 import { OptionType, Language, ExtendedSession } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
-import { callGet } from '../app/axios/axiosClient';
+import { callGet } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 
 import {
   LanguagesQueryVariables,
@@ -25,7 +25,7 @@ export const fetchLanguages = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }

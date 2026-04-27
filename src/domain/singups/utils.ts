@@ -1,10 +1,10 @@
-import { AxiosError } from 'axios';
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 
 import { ExtendedSession } from '../../types';
 import getStringValueFromQuery from '../../utils/getStringValueFromQuery';
 import queryBuilder from '../../utils/queryBuilder';
-import { callGet } from '../app/axios/axiosClient';
+import { callGet } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 import { SignupsResponse } from '../signup/types';
 
 import { SignupSearchInitialValues, SignupsQueryVariables } from './types';
@@ -46,7 +46,7 @@ export const fetchSignups = async (
     return data;
   } catch (error) {
     /* istanbul ignore next */
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }

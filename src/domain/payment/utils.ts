@@ -1,7 +1,6 @@
-import { AxiosError } from 'axios';
-
 import getPublicRuntimeConfig from '../../utils/getPublicRuntimeConfig';
-import { callGet } from '../app/axios/axiosClient';
+import { callGet } from '../app/fetch/fetchClient';
+import { FetchError } from '../app/fetch/fetchError';
 
 import { WebStorePayment, WebStorePaymentQueryVariables } from './types';
 
@@ -21,7 +20,7 @@ export const fetchWebStorePayment = async (
     });
     return data;
   } catch (error) {
-    throw new Error(JSON.stringify((error as AxiosError).response?.data), {
+    throw new Error(JSON.stringify((error as FetchError).data), {
       cause: error,
     });
   }
