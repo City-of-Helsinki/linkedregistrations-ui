@@ -49,7 +49,12 @@ export const shouldExportSignupsAsExcel = async (
   // Mock document.createElement which is needed by downloadBlob. RenderComponent needs
   // createElement so do this after rendering components to avoid errors
   const createElement = document.createElement;
-  document.createElement = vi.fn().mockImplementation(() => link);
+  document.createElement = vi
+    .fn()
+    .mockImplementation((tagName: string, ...args: any[]) => {
+      if (tagName === 'a') return link;
+      return createElement.call(document, tagName, ...args);
+    });
 
   await user.click(exportAsExcelButton);
 
