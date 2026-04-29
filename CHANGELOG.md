@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.9.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.3...linkedregistrations-ui-v1.9.4) (2026-04-29)
+
+
+### Bug Fixes
+
+* Fix unit test ([b9ef601](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b9ef601b58a2f065940a9829d0c71bcf52096710))
+* Tell sonar to skip two lines ([69501db](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/69501db26ae6c2d24c30eb810318b90e9e31941c))
+
+
+### Dependencies
+
+* Bump follow-redirects from 1.15.11 to 1.16.0 ([7881b2c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7881b2cf3a019ed9c6920d32e647414310cf2f28))
+* Bump i18next-fs-backend from 2.6.1 to 2.6.4 ([5cfc3d4](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/5cfc3d4904f2d2a21c7283164dd5ee19cf4adab8))
+* Bump next from 15.5.14 to 15.5.15 ([56425bc](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/56425bc97b61ececc595d3483f65c1b6daab2273))
+
 ## [1.9.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.2...linkedregistrations-ui-v1.9.3) (2026-04-23)
 
 
