@@ -3,21 +3,18 @@ FROM registry.access.redhat.com/ubi9/nodejs-22 AS dependencies
 # ============================================================
 WORKDIR /app
 
-# Install yarn and set yarn version
 USER root
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN yum -y install yarn
 
-ENV YARN_VERSION 1.22.22
-RUN yarn policies set-version $YARN_VERSION
+# Install pnpm
+RUN npm install -g pnpm@11.1.3
 
 # Install dependencies
-COPY package.json yarn.lock /app/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
 RUN chown -R default:root /app
 
 USER default
 
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY .env* next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
 COPY /public/ /app/public
@@ -31,7 +28,7 @@ WORKDIR /app
 USER default
 
 # Bake package.json start command into the image
-CMD yarn next dev -p ${PORT}
+CMD pnpm next dev -p ${PORT}
 
 # ============================================================
 FROM dependencies AS builder
@@ -85,7 +82,7 @@ ARG NEXT_PUBLIC_USE_IMAGE_PROXY
 # When building locally with Docker Compose, the auth token can be provided using SENTRY_AUTH_TOKEN environment variable.
 # Our AzDO pipeline uses /secrets/SENTRY_AUTH_TOKEN to pass the auth token so this works there too.
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_TOKEN \
-    SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" yarn build
+    SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" pnpm build
 
 # ============================================================
 FROM registry.access.redhat.com/ubi9/nodejs-22-minimal AS production
