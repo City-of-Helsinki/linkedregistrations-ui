@@ -12,4 +12,5 @@
 !sentry.properties
 !sentry.server.config.ts
 !tsconfig.json
-!yarn.lock
+!pnpm-lock.yaml
+!pnpm-workspace.yaml

@@ -7,7 +7,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Prerequisites
 
 1. Node 22 (`nvm use`)
-1. Yarn
+1. pnpm
 1. Docker
 
 ## Development with Docker
@@ -60,11 +60,11 @@ Set the following variables in `.env.local`:
 - OIDC_LINKED_EVENTS_API_SCOPE=linkedevents-api-dev
 - NEXT_PUBLIC_LINKED_EVENTS_URL=http://localhost:8080/v1
 
-Run `yarn && yarn dev`
+Run `pnpm i && pnpm dev`
 
 ## Running development environment locally without docker
 
-Run `yarn && yarn start`
+Run `pnpm i && pnpm start`
 
 ## Configurable environment variables
 
@@ -131,7 +131,7 @@ specification, and line length is limited to 72 characters.
 
 In the project directory, you can run:
 
-### `yarn dev`
+### `pnpm dev`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -139,20 +139,20 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn build`
+### `pnpm build`
 
 Builds the app for production to the `build` folder.
 
-### `yarn start`
+### `pnpm start`
 
 Runs the built app in the production mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `yarn test`
+### `pnpm test`
 
 Launches the test runner in the interactive watch mode.
 
-### `yarn test:coverage`
+### `pnpm test:coverage`
 
 Run tests and generate coverage report
 
@@ -163,7 +163,7 @@ Run tests and generate coverage report
 To debug in VS Code:
 
 1. Install the "Debugger for Chrome" extension to VS Code
-2. Run `yarn dev`
+2. Run `pnpm dev`
 3. Set a breakpoint
 4. Run "Chrome" debug configuration in VS Code
 5. Reload the project in your browser
@@ -180,7 +180,7 @@ No plugin is needed.
 We recommend using VS Code's debugger.
 
 1. Place a `debugger;` statement in any test
-2. Run yarn `test:debug`
+2. Run pnpm `test:debug`
 3. Open `about:inspect` in Chrome
 4. Select `inspect` on you process, press Play and you're good to go.
 
