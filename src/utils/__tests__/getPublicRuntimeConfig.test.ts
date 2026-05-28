@@ -1,5 +1,5 @@
+import { beforeEach, vi } from 'vitest';
 import getPublicRuntimeConfig from '../getPublicRuntimeConfig';
-import { mockConfig } from '../mockNextJsConfig';
 
 const publicRuntimeConfig = {
   linkedEventsApiBaseUrl: 'https://linkedevents-backend:8000/v1',
@@ -15,9 +15,28 @@ const expectedPublicRuntimeConfig = {
   signupsLoginMethods: ['helsinki_tunnus', 'helsinkiad'],
 };
 
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+
 describe('getPublicRuntimeConfig function', () => {
-  it('should return public runtime config', () => {
-    mockConfig(publicRuntimeConfig, {});
+  it('should return public runtime config', () => {
+    vi.stubEnv(
+      'NEXT_PUBLIC_LINKED_EVENTS_URL',
+      publicRuntimeConfig.linkedEventsApiBaseUrl
+    );
+    vi.stubEnv(
+      'NEXT_PUBLIC_WEB_STORE_API_BASE_URL',
+      publicRuntimeConfig.webStoreApiBaseUrl
+    );
+    vi.stubEnv(
+      'NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS',
+      publicRuntimeConfig.attendanceListLoginMethods
+    );
+    vi.stubEnv(
+      'NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS',
+      publicRuntimeConfig.signupsLoginMethods
+    );
     expect(getPublicRuntimeConfig()).toEqual(expectedPublicRuntimeConfig);
   });
 
@@ -29,7 +48,22 @@ describe('getPublicRuntimeConfig function', () => {
   it.each(cases)(
     'should throw error if and public runtime variable is missing',
     (publicRuntimeConfig) => {
-      mockConfig(publicRuntimeConfig, {});
+      vi.stubEnv(
+        'NEXT_PUBLIC_LINKED_EVENTS_URL',
+        publicRuntimeConfig.linkedEventsApiBaseUrl
+      );
+      vi.stubEnv(
+        'NEXT_PUBLIC_WEB_STORE_API_BASE_URL',
+        publicRuntimeConfig.webStoreApiBaseUrl
+      );
+      vi.stubEnv(
+        'NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS',
+        publicRuntimeConfig.attendanceListLoginMethods
+      );
+      vi.stubEnv(
+        'NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS',
+        publicRuntimeConfig.signupsLoginMethods
+      );
       expect(getPublicRuntimeConfig).toThrow(
         'Invalid configuration. Some required public runtime variable are missing'
       );

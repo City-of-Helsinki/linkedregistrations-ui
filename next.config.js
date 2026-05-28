@@ -24,23 +24,8 @@ const moduleExports = {
   sassOptions: {
     includePaths: ['src/styles'],
   },
-  publicRuntimeConfig: {
-    linkedEventsApiBaseUrl: process.env.NEXT_PUBLIC_LINKED_EVENTS_URL,
-    webStoreApiBaseUrl: process.env.NEXT_PUBLIC_WEB_STORE_API_BASE_URL,
-    attendanceListLoginMethods:
-      process.env.NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS,
-    signupsLoginMethods: process.env.NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS,
-  },
-  serverRuntimeConfig: {
-    env: process.env.NEXT_ENV,
-    oidcApiTokensUrl: process.env.OIDC_API_TOKENS_URL,
-    oidcClientId: process.env.OIDC_CLIENT_ID,
-    oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
-    oidcIssuer: process.env.OIDC_ISSUER,
-    oidcLinkedEventsApiScope: process.env.OIDC_LINKED_EVENTS_API_SCOPE,
-  },
   env: {
-    APP_VERSION: packageJson.version
+    APP_VERSION: packageJson.version,
   },
   output: 'standalone',
   eslint: {
@@ -64,7 +49,7 @@ module.exports = withSentryConfig(moduleExports, {
     },
     treeshake: {
       // Automatically tree-shake Sentry logger statements to reduce bundle size
-      removeDebugLogging: true
+      removeDebugLogging: true,
     },
     reactComponentAnnotation: {
       enabled: true,
