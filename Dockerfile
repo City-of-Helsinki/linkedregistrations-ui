@@ -1,5 +1,5 @@
 # ============================================================
-FROM registry.access.redhat.com/ubi9/nodejs-22 AS dependencies
+FROM registry.access.redhat.com/ubi9/nodejs-24 AS dependencies
 # ============================================================
 WORKDIR /app
 
@@ -85,7 +85,7 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_T
     SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" pnpm build
 
 # ============================================================
-FROM registry.access.redhat.com/ubi9/nodejs-22-minimal AS production
+FROM registry.access.redhat.com/ubi9/nodejs-24-minimal AS production
 # ============================================================
 WORKDIR /app
 

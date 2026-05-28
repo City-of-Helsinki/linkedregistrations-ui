@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Prerequisites
 
-1. Node 22 (`nvm use`)
+1. Node 24 (`nvm use`)
 1. pnpm
 1. Docker
 
