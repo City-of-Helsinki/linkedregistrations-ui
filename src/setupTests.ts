@@ -21,15 +21,10 @@ if (typeof Blob !== 'undefined' && !Blob.prototype.stream) {
   } as () => ReadableStream;
 }
 
-import { setConfig } from 'next/config';
 import { expect, beforeAll, afterAll, afterEach, vi } from 'vitest';
 import * as matchers from 'vitest-axe/matchers';
 
-import config from '../next.config';
-
 import { server } from './tests/msw/server';
-
-setConfig(config);
 
 expect.extend(matchers);
 
