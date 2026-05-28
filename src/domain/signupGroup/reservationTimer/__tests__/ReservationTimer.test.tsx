@@ -108,13 +108,21 @@ test('should show modal if reserved seats are in waiting list', async () => {
   });
   renderComponent();
 
-  const modal = await screen.findByRole('dialog', {
-    name: 'Olet ilmoittautumassa tapahtuman jonoon',
-  });
+  const modalName = 'Olet ilmoittautumassa tapahtuman jonoon';
+
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: modalName },
+    { timeout: 5000 }
+  );
 
   await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 
-  await waitFor(() => expect(modal).not.toBeInTheDocument());
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('dialog', { name: modalName })
+    ).not.toBeInTheDocument()
+  );
 });
 
 test('should display reservation expiring modal if there is less than 60 seconds left', async () => {

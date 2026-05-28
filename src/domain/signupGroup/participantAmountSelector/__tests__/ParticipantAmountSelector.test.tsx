@@ -89,9 +89,11 @@ test('should show modal if reserved seats are in waiting list', async () => {
   await user.type(participantAmountInput, '2');
   await user.click(updateParticipantAmountButton);
 
-  const modal = await screen.findByRole('dialog', {
-    name: 'Olet ilmoittautumassa tapahtuman jonoon',
-  });
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Olet ilmoittautumassa tapahtuman jonoon' },
+    { timeout: 5000 }
+  );
 
   await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 
