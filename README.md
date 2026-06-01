@@ -64,7 +64,7 @@ Run `pnpm i && pnpm dev`
 
 ## Running development environment locally without docker
 
-Run `pnpm i && pnpm start`
+Run `pnpm i && pnpm dev`
 
 ## Configurable environment variables
 
@@ -134,7 +134,7 @@ In the project directory, you can run:
 ### `pnpm dev`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
@@ -146,7 +146,7 @@ Builds the app for production to the `build` folder.
 ### `pnpm start`
 
 Runs the built app in the production mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 ### `pnpm test`
 
@@ -156,17 +156,21 @@ Launches the test runner in the interactive watch mode.
 
 Run tests and generate coverage report
 
+### `pnpm update-runtime-env`
+
+Generates `public/env-config.js` (and in test mode `public/test-env-config.js`) from runtime environment variables.
+This is run automatically by `pnpm dev`, `pnpm start`, `pnpm test`, and `pnpm test:coverage`, but can also be run manually when needed.
+
 ## Debugging
 
 ### Debugging project in VS Code
 
 To debug in VS Code:
 
-1. Install the "Debugger for Chrome" extension to VS Code
-2. Run `pnpm dev`
+1. Run `pnpm dev`
+2. Use one of the provided Next.js debug configurations in VS Code
 3. Set a breakpoint
-4. Run "Chrome" debug configuration in VS Code
-5. Reload the project in your browser
+4. Reload the project in your browser
 
 ### Debugging Tests in VS Code
 
@@ -174,15 +178,3 @@ No plugin is needed.
 
 1. Set a breakpoint
 2. Run the "Run tests" debugger configuration
-
-### Debugging Tests in Chrome
-
-We recommend using VS Code's debugger.
-
-1. Place a `debugger;` statement in any test
-2. Run pnpm `test:debug`
-3. Open `about:inspect` in Chrome
-4. Select `inspect` on you process, press Play and you're good to go.
-
-See more detailed instructions here:
-https://create-react-app.dev/docs/debugging-tests#debugging-tests-in-chrome

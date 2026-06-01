@@ -32,6 +32,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# generated runtime env files
+public/env-config.js
+public/test-env-config.js
+
 # vercel
 .vercel
 

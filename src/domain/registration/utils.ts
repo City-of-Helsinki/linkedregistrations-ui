@@ -8,6 +8,7 @@ import { AddNotificationFn } from '../../common/components/notificationsContext/
 import { TIME_FORMAT, VALIDATION_MESSAGE_KEYS } from '../../constants';
 import { ExtendedSession, Language } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getEnvValue from '../../utils/getEnvValue';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder, { VariableToKeyItem } from '../../utils/queryBuilder';
 import { callGet } from '../app/fetch/fetchClient';
@@ -52,7 +53,7 @@ export const registrationPathBuilder = ({
   ...args
 }: RegistrationQueryVariables): string => {
   const { id, include } = args;
-  const USE_IMAGE_PROXY = process.env.NEXT_PUBLIC_USE_IMAGE_PROXY === 'true';
+  const USE_IMAGE_PROXY = getEnvValue('NEXT_PUBLIC_USE_IMAGE_PROXY') === 'true';
 
   const variableToKeyItems: VariableToKeyItem[] = [
     { key: 'include', value: include },

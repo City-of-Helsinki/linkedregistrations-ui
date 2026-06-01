@@ -607,6 +607,21 @@ describe('getMaxSeatsAmount function', () => {
 });
 
 describe('registrationPathBuilder function', () => {
+  const originalUseImageProxy = process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
+
+  beforeEach(() => {
+    delete process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
+  });
+
+  afterEach(() => {
+    if (originalUseImageProxy === undefined) {
+      delete process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
+      return;
+    }
+
+    process.env.NEXT_PUBLIC_USE_IMAGE_PROXY = originalUseImageProxy;
+  });
+
   const cases: [RegistrationQueryVariables, string][] = [
     [{ id: 'hel:123' }, '/registration/hel:123/?nocache=true'],
     [
@@ -621,10 +636,15 @@ describe('registrationPathBuilder function', () => {
 });
 
 describe('registrationPathBuilder with NEXT_PUBLIC_USE_IMAGE_PROXY environment variable', () => {
-  const originalEnv = process.env;
+  const originalUseImageProxy = process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
 
   afterEach(() => {
-    process.env = originalEnv;
+    if (originalUseImageProxy === undefined) {
+      delete process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
+      return;
+    }
+
+    process.env.NEXT_PUBLIC_USE_IMAGE_PROXY = originalUseImageProxy;
   });
 
   const cases: [string | undefined, string][] = [
@@ -639,10 +659,11 @@ describe('registrationPathBuilder with NEXT_PUBLIC_USE_IMAGE_PROXY environment v
   it.each(cases)(
     'should respect NEXT_PUBLIC_USE_IMAGE_PROXY environment variable with value %p, result %p',
     (useImageProxyValue, expectedPath) => {
-      process.env = {
-        ...originalEnv,
-        NEXT_PUBLIC_USE_IMAGE_PROXY: useImageProxyValue,
-      };
+      if (useImageProxyValue === undefined) {
+        delete process.env.NEXT_PUBLIC_USE_IMAGE_PROXY;
+      } else {
+        process.env.NEXT_PUBLIC_USE_IMAGE_PROXY = useImageProxyValue;
+      }
 
       expect(
         registrationPathBuilder({ id: 'hel:123', include: ['include1'] })

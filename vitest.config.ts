@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => {
         include: ['src/**/*.{js,jsx,ts,tsx}'],
         exclude: [
           ...coverageConfigDefaults.exclude,
+          'scripts/**',
           'src/pages/404.tsx',
           'src/pages/_app.tsx',
           'src/pages/_document.tsx',
