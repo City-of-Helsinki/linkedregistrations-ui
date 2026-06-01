@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/nextjs';
 
 import { beforeSend, beforeSendTransaction } from './domain/app/sentry/utils';
+import getEnvValue from './utils/getEnvValue';
 
-if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+if (getEnvValue('NEXT_PUBLIC_SENTRY_DSN')) {
   Sentry.init({
     beforeSend,
     beforeSendTransaction,
@@ -17,24 +18,27 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
         behaviour: 'drop-error-if-contains-third-party-frames',
       }),
     ],
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
-    release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
+    dsn: getEnvValue('NEXT_PUBLIC_SENTRY_DSN'),
+    environment: getEnvValue('NEXT_PUBLIC_SENTRY_ENVIRONMENT'),
+    release: getEnvValue('NEXT_PUBLIC_SENTRY_RELEASE'),
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
       'ResizeObserver loop limit exceeded',
     ],
     tracesSampleRate: parseFloat(
-      process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE || '0'
+      getEnvValue('NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE') || '0'
     ),
     tracePropagationTargets: (
-      process.env.NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS || ''
-    ).split(','),
+      getEnvValue('NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS') ?? ''
+    )
+      .split(',')
+      .map((target) => target.trim())
+      .filter(Boolean),
     replaysSessionSampleRate: parseFloat(
-      process.env.NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE || '0'
+      getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE') || '0'
     ),
     replaysOnErrorSampleRate: parseFloat(
-      process.env.NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '0'
+      getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE') || '0'
     ),
     debug: false,
   });

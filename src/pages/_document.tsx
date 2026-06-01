@@ -8,6 +8,7 @@ import Document, {
   DocumentContext,
   DocumentProps,
 } from 'next/document';
+import Script from 'next/script';
 
 type Props = {
   hdsCriticalRules: string;
@@ -33,6 +34,7 @@ class MyDocument extends Document<Props> {
             data-used-styles
             dangerouslySetInnerHTML={{ __html: this.props.hdsCriticalRules }}
           />
+          <Script src="/env-config.js" strategy="beforeInteractive" />
         </Head>
         <body>
           <Main />

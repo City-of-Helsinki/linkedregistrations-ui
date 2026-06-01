@@ -17,6 +17,7 @@ USER default
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY .env* next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
+COPY /scripts/ /app/scripts
 COPY /public/ /app/public
 COPY /src/ /app/src
 
@@ -40,44 +41,15 @@ USER default:root
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Set environmental variables (when building image on Azure) 
-# specified in pipelines/library files 
-ARG NEXT_PUBLIC_LINKED_EVENTS_URL
-ARG NEXT_PUBLIC_SENTRY_DSN
-ARG NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE
-ARG NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS
-ARG NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE
-ARG NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
-ARG NEXT_PUBLIC_SENTRY_RELEASE
-ARG NEXT_PUBLIC_SENTRY_ENVIRONMENT
-ARG NEXT_PUBLIC_ATTENDANCE_LIST_LOGIN_METHODS
-ARG NEXT_PUBLIC_SIGNUPS_LOGIN_METHODS
-
-ARG OIDC_ISSUER
-ARG OIDC_API_TOKENS_URL
-ARG OIDC_CLIENT_ID
-ARG OIDC_CLIENT_SECRET
-ARG OIDC_LINKED_EVENTS_API_SCOPE
-
+# Build-time values injected by Azure pipelines (via --build-arg).
+ARG PORT
 ARG SENTRY_PROJECT
-
-ARG NEXT_PUBLIC_MATOMO_URL
-ARG NEXT_PUBLIC_MATOMO_SITE_ID
-ARG NEXT_PUBLIC_MATOMO_JS_TRACKER_FILE
-ARG NEXT_PUBLIC_MATOMO_PHP_TRACKER_FILE
-ARG NEXT_PUBLIC_MATOMO_ENABLED
-
-ARG NEXTAUTH_SECRET
-ARG NEXTAUTH_URL
-
+ARG SENTRY_ORG
+ARG SENTRY_URL
 ARG NEXT_ENV
-
-ARG NEXT_PUBLIC_WEB_STORE_INTEGRATION_ENABLED
-ARG NEXT_PUBLIC_WEB_STORE_API_BASE_URL
-
-ARG NEXT_PUBLIC_USE_IMAGE_PROXY
+ARG NEXT_PUBLIC_SENTRY_RELEASE
 
 # When building locally with Docker Compose, the auth token can be provided using SENTRY_AUTH_TOKEN environment variable.
 # Our AzDO pipeline uses /secrets/SENTRY_AUTH_TOKEN to pass the auth token so this works there too.
@@ -96,10 +68,16 @@ RUN microdnf install -y shadow-utils && microdnf clean all && \
 
 USER default
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=builder /app/public ./public
+COPY --from=builder --chown=default:root /app/public ./public
+COPY --from=builder --chown=default:root /app/scripts ./scripts
+
+# Allow OpenShift/Azure-style random non-root users (gid 0) to write runtime env file.
+RUN chmod -R g=u /app/public /app/scripts && \
+    rm -f /app/public/env-config.js && \
+    ln -s /tmp/env-config.js /app/public/env-config.js
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
@@ -109,4 +87,5 @@ COPY --from=builder --chown=default:nodejs /app/.next/static ./.next/static
 # Expose port
 EXPOSE $PORT
 
-CMD node server.js -p ${PORT}
+ENTRYPOINT ["sh", "/app/scripts/docker-entrypoint.sh"]
+CMD ["sh", "-c", "node server.js -p ${PORT}"]

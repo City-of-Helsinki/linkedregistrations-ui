@@ -1,4 +1,5 @@
-import { beforeEach, vi } from 'vitest';
+import { vi } from 'vitest';
+
 import getServerRuntimeConfig from '../getServerRuntimeConfig';
 
 const serverRuntimeConfig = {

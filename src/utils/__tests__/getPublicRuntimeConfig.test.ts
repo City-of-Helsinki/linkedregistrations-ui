@@ -1,4 +1,5 @@
-import { beforeEach, vi } from 'vitest';
+import { vi } from 'vitest';
+
 import getPublicRuntimeConfig from '../getPublicRuntimeConfig';
 
 const publicRuntimeConfig = {

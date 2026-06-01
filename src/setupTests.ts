@@ -67,6 +67,9 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
     !msgStr.match(
       /Could not find the stylesheet to update with the ".*" selector!/i
     ) &&
+    !msgStr.includes(
+      'Warning: window._env_ is undefined. The env-config.js script may not have loaded successfully.'
+    ) &&
     originalWarn(msg, ...optionalParams)
   );
 };

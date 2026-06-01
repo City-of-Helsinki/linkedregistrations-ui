@@ -4,6 +4,8 @@
 !.sentryclirc
 !public
 !src
+!scripts
+!scripts/**
 !next-i18next.config.js
 !next.config.js
 !package.json
