@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.10.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.5...linkedregistrations-ui-v1.10.0) (2026-06-08)
+
+
+### Features
+
+* Add runtime env injection and wire app to use it ([aada849](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/aada849d9c87328b947b6c38b74a7f9071cc5484))
+* Migrate project tooling from Yarn to pnpm ([c402b61](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c402b61de50f27c2f7c0b9b923fc72e64a5ae156))
+* Upgrade Node.js from 22 to 24 ([43aab95](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/43aab9515dd3056e733187740925410c8e6e31ff))
+
+
+### Dependencies
+
+* Upgrade Playwright to 1.60.0 for Node 24 install fix ([0316e58](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0316e5804fe4bdcc80681f27c63a25ca19822fab))
+
 ## [1.9.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.4...linkedregistrations-ui-v1.9.5) (2026-05-12)
 
 
