@@ -26,7 +26,7 @@ export const useWebStoreOrderQuery = ({
   options,
 }: {
   args: WebStoreOrderQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
+  options?: Pick<UseQueryOptions<WebStoreOrder, Error>, 'enabled' | 'retry'>;
 }): UseQueryResult<WebStoreOrder> => {
   return useQuery<WebStoreOrder, Error>({
     queryKey: ['order', args.id],

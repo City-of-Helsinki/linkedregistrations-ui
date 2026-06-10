@@ -26,7 +26,7 @@ export const useWebStorePaymentQuery = ({
   options,
 }: {
   args: WebStorePaymentQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
+  options?: Pick<UseQueryOptions<WebStorePayment, Error>, 'enabled' | 'retry'>;
 }): UseQueryResult<WebStorePayment> => {
   return useQuery<WebStorePayment, Error>({
     queryKey: ['payment', args.id],

@@ -3,6 +3,7 @@
 import '../styles/main.scss';
 
 import {
+  DehydratedState,
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
@@ -22,7 +23,7 @@ import PageLayout from '../domain/app/layout/pageLayout/PageLayout';
 import useCookieConsentSettings from '../hooks/useCookieConsentSettings';
 
 type Props = {
-  dehydratedState?: unknown;
+  dehydratedState?: DehydratedState;
   session?: Session | null;
 } & SSRConfig;
 

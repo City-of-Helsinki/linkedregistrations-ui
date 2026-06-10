@@ -46,7 +46,7 @@ export const useSignupQuery = ({
   session,
 }: {
   args: SignupQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled'>;
+  options?: Pick<UseQueryOptions<Signup, Error>, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Signup> => {
   return useQuery<Signup, Error>({

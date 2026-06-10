@@ -46,11 +46,11 @@ it('should prefetch signup data', async () => {
 
   expect(dehydrate(queryClient).queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryKey: ['signup', TEST_SIGNUP_ID],
         queryHash: `["signup","${TEST_SIGNUP_ID}"]`,
         state: expect.objectContaining({ data: signup }),
-      },
+      }),
     ])
   );
 });

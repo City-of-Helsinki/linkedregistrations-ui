@@ -46,7 +46,7 @@ export const useRegistrationQuery = ({
   session,
 }: {
   args: RegistrationQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
+  options?: Pick<UseQueryOptions<Registration, Error>, 'enabled' | 'retry'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Registration> => {
   return useQuery<Registration, Error>({
