@@ -7,7 +7,7 @@ import {
   IconAngleUp,
 } from 'hds-react';
 import React, { useRef, useState } from 'react';
-import mergeRefs from 'react-merge-refs';
+import { mergeRefs } from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
 
 import useClickOrFocusOutside from '../../../hooks/useClickOrFocusOutside';
