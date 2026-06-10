@@ -15,7 +15,7 @@ export const useEventQuery = ({
   session,
 }: {
   args: EventQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled' | 'retry'>;
+  options?: Pick<UseQueryOptions<Event, Error>, 'enabled' | 'retry'>;
   session: ExtendedSession | null;
 }): UseQueryResult<Event> => {
   return useQuery<Event, Error>({

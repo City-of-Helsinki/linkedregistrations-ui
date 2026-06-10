@@ -108,11 +108,11 @@ const isHeadingRendered = async (heading: string | RegExp) => {
 const isWebStoreOrderInDehydratedState = (dehydratedState: DehydratedState) => {
   expect(dehydratedState.queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryHash: `["order","${TEST_ORDER_ID}"]`,
         queryKey: ['order', TEST_ORDER_ID],
         state: expect.objectContaining({ data: order }),
-      },
+      }),
     ])
   );
 };
@@ -122,11 +122,11 @@ const isWebStorePaymentInDehydratedState = (
 ) => {
   expect(dehydratedState.queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryHash: `["payment","${TEST_ORDER_ID}"]`,
         queryKey: ['payment', TEST_ORDER_ID],
         state: expect.objectContaining({ data: payment }),
-      },
+      }),
     ])
   );
 };
@@ -134,11 +134,11 @@ const isWebStorePaymentInDehydratedState = (
 const isRegistrationInDehydratedState = (dehydratedState: DehydratedState) => {
   expect(dehydratedState.queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryHash: `["registration","${TEST_REGISTRATION_ID}"]`,
         queryKey: ['registration', TEST_REGISTRATION_ID],
         state: expect.objectContaining({ data: registration }),
-      },
+      }),
     ])
   );
 };
@@ -146,11 +146,11 @@ const isRegistrationInDehydratedState = (dehydratedState: DehydratedState) => {
 const isSignupInDehydratedState = (dehydratedState: DehydratedState) => {
   expect(dehydratedState.queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryHash: `["signup","${TEST_SIGNUP_ID}"]`,
         queryKey: ['signup', TEST_SIGNUP_ID],
         state: expect.objectContaining({ data: signup }),
-      },
+      }),
     ])
   );
 };
@@ -158,11 +158,11 @@ const isSignupInDehydratedState = (dehydratedState: DehydratedState) => {
 const isSignupGroupInDehydratedState = (dehydratedState: DehydratedState) => {
   expect(dehydratedState.queries).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         queryHash: `["signupGroup","${TEST_SIGNUP_GROUP_ID}"]`,
         queryKey: ['signupGroup', TEST_SIGNUP_GROUP_ID],
         state: expect.objectContaining({ data: signupGroup }),
-      },
+      }),
     ])
   );
 };

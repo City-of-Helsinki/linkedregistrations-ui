@@ -46,7 +46,7 @@ export const useSignupGroupQuery = ({
   session,
 }: {
   args: SignupGroupQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled'>;
+  options?: Pick<UseQueryOptions<SignupGroup, Error>, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<SignupGroup> => {
   return useQuery<SignupGroup, Error>({

@@ -31,7 +31,7 @@ export const useUserQuery = ({
   session,
 }: {
   args: UserQueryVariables;
-  options?: Pick<UseQueryOptions, 'enabled'>;
+  options?: Pick<UseQueryOptions<User, Error>, 'enabled'>;
   session: ExtendedSession | null;
 }): UseQueryResult<User> => {
   return useQuery<User, Error>({
