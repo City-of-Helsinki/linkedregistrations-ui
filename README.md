@@ -161,6 +161,12 @@ Run tests and generate coverage report
 Generates `public/env-config.js` (and in test mode `public/test-env-config.js`) from runtime environment variables.
 This is run automatically by `pnpm dev`, `pnpm start`, `pnpm test`, and `pnpm test:coverage`, but can also be run manually when needed.
 
+### `pnpm fix-hds-shim`
+
+Workaround for a packaging issue in `hds-core@6.x`: generates a missing `cookieConsent.js` file that `hds-react` expects but the package does not ship.
+This is run automatically by `pnpm dev` and `pnpm build`. Run it manually if you encounter a `MODULE_NOT_FOUND` error for `hds-core/lib/components/cookie-consent/cookieConsent` after installing dependencies.
+Can be removed once HDS publishes a fixed release.
+
 ## Debugging
 
 ### Debugging project in VS Code
