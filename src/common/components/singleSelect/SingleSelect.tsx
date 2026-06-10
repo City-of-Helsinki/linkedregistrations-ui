@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { Select, SelectProps } from 'hds-react';
-import React from 'react';
+import { Select } from 'hds-react';
+import React, { ComponentProps } from 'react';
 
 import styles from '../select/select.module.scss';
 import SelectLoadingSpinner, {
@@ -8,7 +8,7 @@ import SelectLoadingSpinner, {
 } from '../selectLoadingSpinner/SelectLoadingSpinner';
 
 export type SingleSelectProps = SelectLoadingSpinnerProps &
-  SelectProps & { className?: string };
+  ComponentProps<typeof Select> & { className?: string };
 
 const SingleSelect: React.FC<SingleSelectProps> = ({
   className,

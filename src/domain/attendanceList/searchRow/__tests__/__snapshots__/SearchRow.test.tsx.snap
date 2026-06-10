@@ -11,36 +11,36 @@ exports[`should render component 1`] = `
       100 items
     </span>
     <div
-      class="TextInput-module_root__2CMNr text-input_hds-text-input__2LODq searchInput hideLabel"
+      class="TextInput-module_root__lPctx text-input_hds-text-input__mG8r6 searchInput hideLabel"
     >
       <label
-        class="FieldLabel-module_label__1zrXK "
-        for=":r0:"
+        class="FieldLabel-module_label__EyKsf "
+        for="_r_0_"
       >
         Search
       </label>
       <div
-        class="TextInput-module_inputWrapper__3Rvel text-input_hds-text-input__input-wrapper__1OqYG"
+        class="TextInput-module_inputWrapper__9kbLn text-input_hds-text-input__input-wrapper__1RzOg"
       >
         <input
-          class="TextInput-module_input__1BlHi text-input_hds-text-input__input__GJm5C TextInput-module_hasButton__2KCM1 TextInput-module_hasClearButton__3-tBe text-input_hds-text-input__input-clear__17qr1"
-          id=":r0:"
+          class="TextInput-module_input__LLKkZ text-input_hds-text-input__input__Kglq3 TextInput-module_hasButton__QBhbZ TextInput-module_hasClearButton__pzO7Y text-input_hds-text-input__input-clear__IWS8R"
+          id="_r_0_"
           placeholder="Search"
           type="text"
           value=""
         />
         <div
-          class="TextInput-module_buttonWrapper___filA text-input_hds-text-input__buttons__1RMzT"
+          class="TextInput-module_buttonWrapper__HMzcC text-input_hds-text-input__buttons__09ye8"
         >
           <button
             aria-label="Tyhjennä"
-            class="TextInput-module_button__1ySMX text-input_hds-text-input__button__1Fh0I TextInput-module_clearButton__bfCLI text-input_hds-text-input__button-clear__2ED7z"
+            class="TextInput-module_button__U7WgL text-input_hds-text-input__button__VhpOY TextInput-module_clearButton__NCXCn text-input_hds-text-input__button-clear__OsL2p"
             type="button"
           >
             <svg
               aria-hidden="true"
               aria-label="cross-circle"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -55,13 +55,13 @@ exports[`should render component 1`] = `
           </button>
           <button
             aria-label="Etsi"
-            class="TextInput-module_button__1ySMX text-input_hds-text-input__button__1Fh0I"
+            class="TextInput-module_button__U7WgL text-input_hds-text-input__button__VhpOY"
             type="button"
           >
             <svg
               aria-hidden="true"
               aria-label="search"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
