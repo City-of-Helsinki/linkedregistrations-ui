@@ -20,6 +20,7 @@ export default function getEnvValue(key: string): string | undefined {
   if (typeof globalThis.window !== 'undefined') {
     // Detect if env-config.js failed to load
     if (globalThis.window._env_ === undefined && !warnedAboutMissingEnv) {
+      // eslint-disable-next-line no-console
       console.warn(
         'Warning: window._env_ is undefined. The env-config.js script may not have loaded successfully.'
       );
