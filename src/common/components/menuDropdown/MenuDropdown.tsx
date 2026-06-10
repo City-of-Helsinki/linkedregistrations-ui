@@ -6,7 +6,7 @@ import {
   IconAngleDown,
   IconAngleUp,
 } from 'hds-react';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
 
@@ -61,31 +61,24 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 
-  const ensureMenuIsClosed = () => {
-    /* istanbul ignore else */
-    if (menuOpen) {
-      setMenuOpen(false);
-      setFocusedIndex(-1);
-    }
-  };
+  const ensureMenuIsClosed = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
 
-  const ensureMenuIsOpen = () => {
-    /* istanbul ignore else */
-    if (!menuOpen) {
-      setMenuOpen(true);
-    }
-  };
+  const ensureMenuIsOpen = useCallback(() => {
+    setMenuOpen(true);
+  }, []);
 
-  const setFocusToButton = () => {
+  const setFocusToButton = useCallback(() => {
     toggleButton.current?.focus();
-  };
+  }, []);
 
-  const handleItemClick = () => {
+  const handleItemClick = useCallback(() => {
     if (closeOnItemClick) {
       ensureMenuIsClosed();
       setFocusToButton();
     }
-  };
+  }, [closeOnItemClick, ensureMenuIsClosed, setFocusToButton]);
 
   const {
     setup: setupClickOrFocusOutside,
@@ -132,13 +125,25 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   });
 
   React.useEffect(() => {
+    if (!menuOpen) {
+      setFocusedIndex(-1);
+    }
+  }, [menuOpen, setFocusedIndex]);
+
+  React.useEffect(() => {
     setupKeyboardNav();
     setupClickOrFocusOutside();
+
     return () => {
       teardownKeyoboardNav();
       teardownClickOrFocusOutside();
     };
-  });
+  }, [
+    setupClickOrFocusOutside,
+    setupKeyboardNav,
+    teardownClickOrFocusOutside,
+    teardownKeyoboardNav,
+  ]);
 
   const getToggleButton = () => {
     const commonProps: Partial<ButtonProps> = {
@@ -169,7 +174,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     event.preventDefault();
     event.stopPropagation();
 
-    setMenuOpen(!menuOpen);
+    setMenuOpen((isOpen) => !isOpen);
   };
 
   return (

@@ -37,7 +37,9 @@ const ConfirmDeleteSignupModal: React.FC<ConfirmDeleteSignupModalProps> = ({
       aria-describedby={descriptionId}
       className={styles.dialog}
       isOpen={isOpen}
-      focusAfterCloseRef={openConfirmationButtonRef}
+      focusAfterCloseRef={
+        openConfirmationButtonRef as React.RefObject<HTMLElement>
+      }
       variant="danger"
     >
       <Dialog.Header
