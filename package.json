@@ -8,8 +8,8 @@
     "pnpm": ">=11.1.3"
   },
   "scripts": {
-    "dev": "pnpm update-runtime-env && next dev -p 3001",
-    "build": "next build",
+    "dev": "pnpm fix-hds-shim && pnpm update-runtime-env && next dev -p 3001",
+    "build": "pnpm fix-hds-shim && next build",
     "start": "pnpm update-runtime-env && next start -p 3001",
     "lint": "eslint .",
     "prepare": "husky",
@@ -19,7 +19,8 @@
     "test:e2e:ci": "playwright test",
     "test:e2e:start": "playwright test",
     "test:e2e:record": "playwright codegen https://linkedregistrations.dev.hel.ninja/",
-    "update-runtime-env": "node scripts/update-runtime-env.js . ./public"
+    "update-runtime-env": "node scripts/update-runtime-env.js . ./public",
+    "fix-hds-shim": "node scripts/fix-hds-core-cookie-consent.js"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
