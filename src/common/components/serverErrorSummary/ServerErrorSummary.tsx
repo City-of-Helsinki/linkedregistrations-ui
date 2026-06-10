@@ -1,4 +1,4 @@
-import { ErrorSummary, ErrorSummarySize } from 'hds-react';
+import { Notification, NotificationSize } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
@@ -32,10 +32,11 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
 
   return (
     <div className={styles.serverErrorSummary} id={id}>
-      <ErrorSummary
+      <Notification
+        type="error"
         className={styles.serverErrorSummary}
         label={t('common:titleServerErrorSummary')}
-        size={ErrorSummarySize.Medium}
+        size={NotificationSize.Medium}
       >
         <ul>
           {errors.map(({ label, message }) => (
@@ -50,7 +51,7 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
             </li>
           ))}
         </ul>
-      </ErrorSummary>
+      </Notification>
     </div>
   );
 };

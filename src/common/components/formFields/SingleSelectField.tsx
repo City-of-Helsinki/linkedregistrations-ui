@@ -1,12 +1,12 @@
 import { FieldProps, useField } from 'formik';
-import { Option, SelectProps } from 'hds-react';
+import { Option, Select } from 'hds-react';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
 import { getErrorText } from '../../../utils/validationUtils';
 import SingleSelect from '../singleSelect/SingleSelect';
 
-type Props = SelectProps & FieldProps;
+type Props = ComponentProps<typeof Select> & FieldProps;
 
 const SingleSelectField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
