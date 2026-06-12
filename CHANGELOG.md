@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.11.0...linkedregistrations-ui-v1.12.0) (2026-06-12)
+
+
+### Features
+
+* Add HelsinkiGroteskPro variable font ([8df348e](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/8df348e796bb59fba3ce86927578bb8dc94b8385))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.10.0...linkedregistrations-ui-v1.11.0) (2026-06-12)
 
 
