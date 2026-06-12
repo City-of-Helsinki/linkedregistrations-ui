@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.10.0...linkedregistrations-ui-v1.11.0) (2026-06-12)
+
+
+### Features
+
+* Upgrade HDS to v6 and align select/error components ([2e86063](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/2e860630d379dad8daa0b213ebad9b71f41b6754))
+* Upgrade to React 19 and align compatibility fixes ([fb003aa](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/fb003aa93601cec02e88c43ed65ca5058d29e16b))
+
+
+### Bug Fixes
+
+* Add workaround for hds-core cookie consent ([9b54b1d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/9b54b1de7482bc4e285cda20750a5aac2e510615))
+
+
+### Dependencies
+
+* Add missing runtime dependencies and vite ([9498c5d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/9498c5d2568efb3f3dc31d08fb1a9b99a228e738))
+* Align testing-library deps with React 19 ([7659594](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/76595940963970275d262c6dccb396ebc7a58e91))
+* Remove unused TypeScript ESLint type definitions ([4b71854](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4b718540a30d29df2dc200e0179308b804c0e656))
+* Update react-query, react-scroll and hooks lint plugin ([8681201](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/868120171a259fbd83ffa663695fbfa65aa9fd48))
+
 ## [1.10.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.9.5...linkedregistrations-ui-v1.10.0) (2026-06-08)
 
 
