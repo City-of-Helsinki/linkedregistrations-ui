@@ -6,7 +6,7 @@ WORKDIR /app
 USER root
 
 # Install pnpm
-RUN npm install -g pnpm@11.1.3
+RUN npm install -g pnpm@11.9.0
 
 # Install dependencies
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
