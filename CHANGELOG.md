@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.12.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.0...linkedregistrations-ui-v1.12.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* Stuck Dependabot workflows ([#305](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/305)) ([7227a34](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7227a3413208631ab11c711492e68698fc22a36d))
+* Upgrade undici to &gt;=7.28.0 ([64489d7](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/64489d77988ead93b73f9e634382cb6c853b2618))
+
+
+### Dependencies
+
+* Bump fast-uri from 3.1.2 to 3.1.4 ([27e3266](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/27e3266a613ea902e437f4a65460ac43519acf33))
+* Bump next from 15.5.18 to 15.5.21 ([7a56c2f](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7a56c2fe62379b085fda6815f3dabe8f890b2dcf))
+* Bump next-auth from 4.24.13 to 4.24.15 ([b9fb973](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b9fb973ba96db425d239d39aa74c7f214bc5a8d0))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.11.0...linkedregistrations-ui-v1.12.0) (2026-06-12)
 
 
