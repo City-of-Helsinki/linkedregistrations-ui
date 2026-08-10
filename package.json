@@ -8,8 +8,8 @@
     "pnpm": ">=11.9.0"
   },
   "scripts": {
-    "dev": "pnpm fix-hds-shim && pnpm update-runtime-env && next dev -p 3001",
-    "build": "pnpm fix-hds-shim && next build",
+    "dev": "pnpm update-runtime-env && next dev -p 3001",
+    "build": "next build",
     "start": "pnpm update-runtime-env && next start -p 3001",
     "lint": "eslint .",
     "prepare": "husky",
@@ -19,8 +19,7 @@
     "test:e2e:ci": "playwright test",
     "test:e2e:start": "playwright test",
     "test:e2e:record": "playwright codegen https://linkedregistrations.dev.hel.ninja/",
-    "update-runtime-env": "node scripts/update-runtime-env.js . ./public",
-    "fix-hds-shim": "node scripts/fix-hds-core-cookie-consent.js"
+    "update-runtime-env": "node scripts/update-runtime-env.js . ./public"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
@@ -37,9 +36,9 @@
     "date-fns-tz": "^2.0.1",
     "dotenv": "^16.5.0",
     "formik": "^2.4.9",
-    "hds-core": "^6.0.2",
-    "hds-design-tokens": "^6.0.2",
-    "hds-react": "^6.0.2",
+    "hds-core": "^6.0.5",
+    "hds-design-tokens": "^6.0.5",
+    "hds-react": "^6.0.5",
     "i18next": "^23.16.8",
     "ics": "^3.7.2",
     "lodash": "^4.18.1",
