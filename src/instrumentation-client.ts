@@ -25,7 +25,7 @@ if (getEnvValue('NEXT_PUBLIC_SENTRY_DSN')) {
       'ResizeObserver loop completed with undelivered notifications',
       'ResizeObserver loop limit exceeded',
     ],
-    tracesSampleRate: parseFloat(
+    tracesSampleRate: Number.parseFloat(
       getEnvValue('NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE') || '0'
     ),
     tracePropagationTargets: (
@@ -34,10 +34,10 @@ if (getEnvValue('NEXT_PUBLIC_SENTRY_DSN')) {
       .split(',')
       .map((target) => target.trim())
       .filter(Boolean),
-    replaysSessionSampleRate: parseFloat(
+    replaysSessionSampleRate: Number.parseFloat(
       getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE') || '0'
     ),
-    replaysOnErrorSampleRate: parseFloat(
+    replaysOnErrorSampleRate: Number.parseFloat(
       getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE') || '0'
     ),
     debug: false,

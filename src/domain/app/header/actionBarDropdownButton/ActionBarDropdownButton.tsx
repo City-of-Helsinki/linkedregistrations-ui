@@ -11,10 +11,15 @@ const ActionBarDropdowButton: FC<PropsWithChildren<Props>> = ({
   children,
   className,
   iconRight,
+  type = 'button',
   ...rest
 }) => {
   return (
-    <button {...rest} className={classNames(styles.link, className)}>
+    <button
+      {...rest}
+      type={type}
+      className={classNames(styles.link, className)}
+    >
       {children}
       {iconRight}
     </button>
