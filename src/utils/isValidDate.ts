@@ -6,9 +6,9 @@ const isValidDate = (dateString: string): boolean => {
 
   // Parse the date parts to integers
   const parts = dateString.split('.');
-  const day = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10);
-  const year = parseInt(parts[2], 10);
+  const day = Number.parseInt(parts[0], 10);
+  const month = Number.parseInt(parts[1], 10);
+  const year = Number.parseInt(parts[2], 10);
 
   // Check the ranges of month and year
   if (year < 1000 || year > 3000 || month === 0 || month > 12) return false;
