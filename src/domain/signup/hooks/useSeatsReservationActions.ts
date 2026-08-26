@@ -87,7 +87,7 @@ const useSeatsReservationActions = ({
     savingFinished();
 
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(seatsReservation));
+    callbacks?.onSuccess?.(seatsReservation);
   };
 
   const { handleError } = useHandleError<
