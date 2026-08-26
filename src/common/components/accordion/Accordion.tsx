@@ -82,11 +82,9 @@ const Accordion: React.FC<React.PropsWithChildren<AccordionProps>> = ({
   return (
     <div className={classNames(styles.accordion, className)}>
       <div className={styles.headingWrapper}>
-        <div
+        <button
           {...toggleButtonProps}
           className={styles.toggleButton}
-          role="button"
-          tabIndex={0}
         >
           <span aria-hidden={true}>{icon}</span>
           <span>
@@ -98,13 +96,13 @@ const Accordion: React.FC<React.PropsWithChildren<AccordionProps>> = ({
               </div>
             )}
           </span>
-        </div>
+        </button>
         {deleteButton}
       </div>
 
-      <div {...contentProps} className={styles.content} role="region">
+      <section {...contentProps} className={styles.content}>
         {open && children}
-      </div>
+      </section>
     </div>
   );
 };
