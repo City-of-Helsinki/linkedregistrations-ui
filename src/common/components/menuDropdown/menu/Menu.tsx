@@ -58,8 +58,7 @@ export const Menu: React.FC<MenuProps> = ({
   if (!menuOpen) return null;
 
   return (
-    <div
-      role="region"
+    <section
       aria-hidden={!menuOpen}
       aria-labelledby={ariaLabelledBy}
       id={id}
@@ -95,7 +94,7 @@ export const Menu: React.FC<MenuProps> = ({
           />
         );
       })}
-    </div>
+    </section>
   );
 };
 
