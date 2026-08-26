@@ -14,7 +14,6 @@ import {
   sessionCallback,
 } from '../pages/api/auth/[...nextauth]';
 import {
-  ApiTokenResponse,
   ExtendedJWT,
   RefreshTokenResponse,
   TunnistamoAccount,
@@ -70,7 +69,7 @@ const user: User = {
   id: 'user:id',
 };
 
-const apiTokenResponse: ApiTokenResponse = {
+const apiTokenResponse: RefreshTokenResponse = {
   access_token: 'api-token',
   id_token: 'id-token',
   refresh_token: refreshToken,
