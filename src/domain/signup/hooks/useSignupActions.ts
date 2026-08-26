@@ -68,7 +68,7 @@ const useSignupActions = ({
   ) => {
     clean();
     // Call callback function if defined
-    await callbacks?.onSuccess?.(response);
+    callbacks?.onSuccess?.(response);
   };
 
   const cleanAfterUpdate = async (
@@ -77,7 +77,7 @@ const useSignupActions = ({
   ) => {
     clean();
     // Call callback function if defined
-    await callbacks?.onSuccess?.(id);
+    callbacks?.onSuccess?.(id);
   };
 
   const { handleError } = useHandleError<

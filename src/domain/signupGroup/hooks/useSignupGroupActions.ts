@@ -68,7 +68,7 @@ const useSignupGroupActions = ({
   ) => {
     clean();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(response));
+    callbacks?.onSuccess?.(response);
   };
 
   const cleanAfterUpdate = async (
@@ -77,7 +77,7 @@ const useSignupGroupActions = ({
   ) => {
     clean();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(id));
+    callbacks?.onSuccess?.(id);
   };
 
   const { handleError } = useHandleError<
