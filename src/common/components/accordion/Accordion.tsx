@@ -22,7 +22,6 @@ type ToggleButtonProps = {
   'aria-label': string;
   id: string;
   onClick: (e: React.MouseEvent) => void;
-  onKeyDown: (e: React.KeyboardEvent) => void;
 };
 
 type ContentProps = {
@@ -57,12 +56,6 @@ const Accordion: React.FC<React.PropsWithChildren<AccordionProps>> = ({
     onClick: (e: React.MouseEvent) => {
       /* istanbul ignore else */
       if (!isEventFromIcon(e)) {
-        onClick();
-      }
-    },
-    onKeyDown: (e: React.KeyboardEvent) => {
-      /* istanbul ignore else */
-      if (e.key === 'Enter' && !isEventFromIcon(e)) {
         onClick();
       }
     },
