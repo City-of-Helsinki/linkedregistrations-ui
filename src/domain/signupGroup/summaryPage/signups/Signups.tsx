@@ -31,7 +31,7 @@ const Signups: React.FC<Props> = ({ registration }) => {
       {signups.map((signup, index) => {
         return (
           <Signup
-            key={`${signup.id ?? 'new'}-${index}`}
+            key={signup.id ?? `new-${index}`}
             registration={registration}
             signup={signup}
             signupPath={getSignupPath(index)}
