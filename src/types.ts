@@ -94,8 +94,6 @@ export type RefreshTokenResponse = {
   id_token: string;
 };
 
-export type ApiTokenResponse = RefreshTokenResponse;
-
 export type MutationCallbacks<SuccessResponseType = string> = {
   onError?: (error: any) => void;
   onSuccess?: (data?: SuccessResponseType) => void;
