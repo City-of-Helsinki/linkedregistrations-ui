@@ -157,6 +157,33 @@ export const parseSignupGroupServerErrors = ({
   }
 };
 
+// Get correct field name for an error item
+function parseSeatsReservationServerErrorLabel({
+  key,
+}: {
+  key: string;
+}): string {
+  return key === 'seats' ? '' : key;
+}
+
+// Get error item for an single error.
+function parseSeatsReservationServerError({
+  error,
+  key,
+  t,
+}: {
+  error: LEServerError;
+  key: string;
+  t: TFunction;
+}) {
+  return [
+    {
+      label: parseSeatsReservationServerErrorLabel({ key }),
+      message: parseServerErrorMessage({ error, t }),
+    },
+  ];
+}
+
 export const parseSeatsReservationServerErrors = ({
   error,
   t,
@@ -179,32 +206,8 @@ export const parseSeatsReservationServerErrors = ({
     : Object.entries(error).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
-          ...parseSeatsReservationServerError({ error, key }),
+          ...parseSeatsReservationServerError({ error, key, t }),
         ],
         []
       );
-
-  // Get correct field name for an error item
-  function parseSeatsReservationServerErrorLabel({
-    key,
-  }: {
-    key: string;
-  }): string {
-    return key === 'seats' ? '' : key;
-  }
-  // Get error item for an single error.
-  function parseSeatsReservationServerError({
-    error,
-    key,
-  }: {
-    error: LEServerError;
-    key: string;
-  }) {
-    return [
-      {
-        label: parseSeatsReservationServerErrorLabel({ key }),
-        message: parseServerErrorMessage({ error, t }),
-      },
-    ];
-  }
 };
