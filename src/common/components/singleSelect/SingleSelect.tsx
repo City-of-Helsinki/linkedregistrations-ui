@@ -17,11 +17,7 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
 }) => {
   return (
     <SelectLoadingSpinner isLoading={isLoading}>
-      <Select
-        {...rest}
-        className={classNames(className, styles.select)}
-        children={undefined}
-      />
+      <Select {...rest} className={classNames(className, styles.select)} />
     </SelectLoadingSpinner>
   );
 };
