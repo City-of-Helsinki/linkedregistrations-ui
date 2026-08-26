@@ -45,3 +45,6 @@ public/test-env-config.js
 
 # e2e / playwright
 /report
+
+# Copilot
+.agents
