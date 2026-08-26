@@ -136,7 +136,7 @@ const Signups: React.FC<Props> = ({
                 };
 
                 return (
-                  <React.Fragment key={index}>
+                  <React.Fragment key={`${signup.id ?? 'new'}-${index}`}>
                     <ConfirmDeleteParticipantModal
                       isOpen={openModalIndex === index}
                       isSaving={saving}
