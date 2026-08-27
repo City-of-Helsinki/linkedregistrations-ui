@@ -294,7 +294,7 @@ export const showErrors = ({
 type FieldList = Array<string | RegExp>;
 
 const isInFieldList = (fieldList: FieldList, fieldName: string): boolean =>
-  Boolean(fieldList.find((field) => new RegExp(field).test(fieldName)));
+  fieldList.some((field) => new RegExp(field).test(fieldName));
 
 export const getFocusableFieldId = (
   fieldName: string

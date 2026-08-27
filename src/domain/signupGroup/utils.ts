@@ -264,10 +264,8 @@ export const isSignupFieldRequired = (
 ): boolean => registration.mandatory_fields.includes(snakeCase(fieldId));
 
 export const isAnySignupInWaitingList = (signupGroup: SignupGroup): boolean =>
-  Boolean(
-    signupGroup.signups.find(
-      (su) => su.attendee_status === ATTENDEE_STATUS.Waitlisted
-    )
+  signupGroup.signups.some(
+    (su) => su.attendee_status === ATTENDEE_STATUS.Waitlisted
   );
 
 export const isDateOfBirthFieldRequired = (
