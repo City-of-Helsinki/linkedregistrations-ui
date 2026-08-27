@@ -5,8 +5,8 @@ import React from 'react';
 import MainContent from '../../../domain/app/layout/mainContent/MainContent';
 import useSignOut from '../../../hooks/useSignOut';
 import Button from '../button/Button';
+import ErrorPageMeta from '../errorPageMeta/ErrorPageMeta';
 import ErrorTemplate from '../errorTemplate/ErrorTemplate';
-import ErrorPageMeta from '../errrorPageMeta/ErrorPageMeta';
 import PageWrapper from '../pageWrapper/PageWrapper';
 
 import styles from './errorPageWithLogoutButton.module.scss';

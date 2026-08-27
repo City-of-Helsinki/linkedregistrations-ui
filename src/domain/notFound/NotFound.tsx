@@ -1,8 +1,8 @@
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
+import ErrorPageMeta from '../../common/components/errorPageMeta/ErrorPageMeta';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
-import ErrorPageMeta from '../../common/components/errrorPageMeta/ErrorPageMeta';
 import MainContent from '../app/layout/mainContent/MainContent';
 
 const NotFound: React.FC = () => {

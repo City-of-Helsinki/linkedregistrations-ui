@@ -3,8 +3,8 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import Button from '../../common/components/button/Button';
+import ErrorPageMeta from '../../common/components/errorPageMeta/ErrorPageMeta';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
-import ErrorPageMeta from '../../common/components/errrorPageMeta/ErrorPageMeta';
 import { LoginMethod } from '../../constants';
 import useSignIn from '../../hooks/useSignIn';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -15,10 +15,11 @@ type Props = {
   loginMethods?: LoginMethod[];
 };
 
-
 const SignInRequired: React.FC<Props> = (props) => {
   const { t } = useTranslation('common');
-  const extraSignInParams = props.loginMethods ? { "login_methods": props.loginMethods.join(",") } : undefined;
+  const extraSignInParams = props.loginMethods
+    ? { login_methods: props.loginMethods.join(',') }
+    : undefined;
   const { handleSignIn } = useSignIn(extraSignInParams);
 
   return (
