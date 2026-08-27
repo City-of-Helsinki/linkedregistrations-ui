@@ -18,7 +18,7 @@ const ErrorPageMeta: React.FC<ErrorPageMetaProps> = ({
       <meta name="description" content={openGraphProperties.description} />
       <meta name="twitter:card" content="summary" />
       {Object.entries(openGraphProperties)
-        .filter((p) => p)
+        .filter(Boolean)
         .map(([property, value]) => (
           <meta key={property} property={`og:${property}`} content={value} />
         ))}
