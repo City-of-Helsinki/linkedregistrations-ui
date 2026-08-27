@@ -72,7 +72,7 @@ export const getEventLocationText = ({
 
   return (
     [locationName, streetAddress, addressLocality]
-      .filter((e) => e)
+      .filter(Boolean)
       .join(', ') || '-'
   );
 };
