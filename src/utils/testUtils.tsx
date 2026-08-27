@@ -142,8 +142,8 @@ type CustomRenderResult = RenderResult;
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
 const mockNumberString = (size: number): string =>
-  [...new Array(size)]
-    .map(() => Math.floor(Math.random() * 10).toString()) // NOSONAR
+  [...new Array(size)] // NOSONAR
+    .map(() => Math.floor(Math.random() * 10).toString())
     .join('');
 
 const mockString = (size: number): string =>
