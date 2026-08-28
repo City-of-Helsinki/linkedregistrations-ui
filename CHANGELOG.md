@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.12.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.1...linkedregistrations-ui-v1.12.2) (2026-08-28)
+
+
+### Bug Fixes
+
+* Accordion explicit button type Refs: LINK-2602 ([02439f3](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/02439f3cacfa76d00fb33903ac7faa729d01289c))
+* Accordion remove unnecessary onKeyDown Refs: LINK-2602 ([e66f15f](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/e66f15f4807418b7dc7eff03bb99345aad51e5f3))
+* ErrorPageMeta filter meta values ([80baf09](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/80baf09cfb2c79ece59a5408bac9182464de8bbe))
+* ErrorPageMeta remove extra fragment Refs: LINK-2602 ([b2a9794](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/b2a9794e26bad6a97419b7aaa790a2becf6ea8ca))
+* Menu use native section Refs: LINK-2602 ([15a7e86](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/15a7e8603de9b3830fd1b5fe28d2b47232f4ab70))
+* ParseIdFromAtId use findLast Refs: LINK-2602 ([d9e9952](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/d9e9952a401f4b347e78b7b82657570256a3c538))
+* Signup no index as key Refs: LINK-2602 ([744aa38](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/744aa38c1f2595a9a4b11078c2b88afe461ace43))
+* Signups list key Refs: LINK-2602 ([9b75afb](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/9b75afb6e7caba2261d13d6fe3a391e911567f95))
+* SingleSelect no children prop Refs: LINK-2602 ([356af03](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/356af030d41d42b6636ec2e93533e624c70da789))
+* Sonar issue ([594ec5b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/594ec5bfbbef0321a75f6a2cb62e2da8cd8933da))
+
 ## [1.12.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.0...linkedregistrations-ui-v1.12.1) (2026-07-29)
 
 
