@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "engines": {
-    "node": ">=24.14.1",
+    "node": ">=24.15.0",
     "pnpm": ">=11.9.0"
   },
   "scripts": {
@@ -81,7 +81,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "fake-indexeddb": "^6.0.0",
     "husky": "^9.0.11",
-    "jsdom": "^29.0.1",
+    "jsdom": "^30.0.1",
     "msw": "^2.13.0",
     "next-router-mock": "^0.9.13",
     "prettier": "^3.2.5",
