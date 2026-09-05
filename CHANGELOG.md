@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.2...linkedregistrations-ui-v1.12.3) (2026-09-05)
+
+
+### Bug Fixes
+
+* High-level dependabot alerts ([4eccc3c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4eccc3c1ba21be8ac490b5b5dbcb6c726629d7d3))
+
 ## [1.12.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.1...linkedregistrations-ui-v1.12.2) (2026-08-28)
 
 
