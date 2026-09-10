@@ -35,3 +35,11 @@ minimumReleaseAgeExclude:
   - "@babel/core@7.29.7"
   - "@opentelemetry/core@2.8.0"
   - undici@7.28.0
+  - "@types/node@24.13.4"
+  - baseline-browser-mapping@2.11.21
+  - browserslist@4.28.9
+  - electron-to-chromium@1.5.426
+  - ignore@7.0.9
+  - node-releases@2.0.55
+  - postcss@8.5.28
+  - schema-utils@4.4.0
