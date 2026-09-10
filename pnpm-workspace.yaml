@@ -41,5 +41,6 @@ minimumReleaseAgeExclude:
   - electron-to-chromium@1.5.426
   - ignore@7.0.9
   - node-releases@2.0.55
+  - obug@2.2.1
   - postcss@8.5.28
   - schema-utils@4.4.0
