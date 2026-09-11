@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.12.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.2...linkedregistrations-ui-v1.12.3) (2026-09-11)
+
+
+### Bug Fixes
+
+* High-level dependabot alerts ([4eccc3c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4eccc3c1ba21be8ac490b5b5dbcb6c726629d7d3))
+* Upgrade HDS to 6.0.5 and remove cookie-consent shim ([850ffcc](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/850ffccf1ff7d9c21d7a251168b5a0b4dfcc318c))
+
+
+### Dependencies
+
+* Bump @faker-js/faker from 8.4.1 to 10.5.0 ([a017d9a](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a017d9ad1f298c37d6be809bd33ee5fbec62e482))
+* Bump next from 15.5.21 to 15.5.24 ([aecc4bc](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/aecc4bc0fc64fac3e46995144b88e5e1e3964c9e))
+* Bump vitest from 4.1.3 to 4.1.11 ([812c011](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/812c0111875e177ba38f6be3c5eb4319926c358a))
+
 ## [1.12.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.1...linkedregistrations-ui-v1.12.2) (2026-08-28)
 
 
