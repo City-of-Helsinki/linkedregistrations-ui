@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.3...linkedregistrations-ui-v1.12.4) (2026-09-11)
+
+
+### Bug Fixes
+
+* Clear accessibility notification timers after use ([a619725](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a619725ffd42031754be2ffefc5cad9042200d01))
+
 ## [1.12.3](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.2...linkedregistrations-ui-v1.12.3) (2026-09-11)
 
 
