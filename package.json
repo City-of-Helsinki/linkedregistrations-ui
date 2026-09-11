@@ -1,6 +1,6 @@
 {
   "name": "linkedregistrations-ui",
-  "version": "1.12.3",
+  "version": "1.12.4",
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "engines": {
