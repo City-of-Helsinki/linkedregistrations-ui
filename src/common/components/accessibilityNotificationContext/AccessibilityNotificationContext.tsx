@@ -4,7 +4,9 @@ import React, {
   FC,
   PropsWithChildren,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -22,12 +24,35 @@ export const AccessibilityNotificationContext = createContext<
   AccessibilityNotificationContextProps | undefined
 >(undefined);
 
+const scheduleTimeout = (
+  timeouts: Set<ReturnType<typeof setTimeout>>,
+  callback: () => void,
+  delay: number
+) => {
+  const timeoutId = setTimeout(() => {
+    timeouts.delete(timeoutId);
+    callback();
+  }, delay);
+
+  timeouts.add(timeoutId);
+};
+
 export const AccessibilityNotificationProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const [notifications, setNotifications] = useState<
     AccessibilityNotificationProps[]
   >([]);
+  const timeoutsRef = useRef(new Set<ReturnType<typeof setTimeout>>());
+
+  useEffect(() => {
+    const timeouts = timeoutsRef.current;
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+      timeouts.clear();
+    };
+  }, []);
 
   const removeNotification = (notificationId: string) => {
     setNotifications((items) =>
@@ -49,13 +74,11 @@ export const AccessibilityNotificationProvider: FC<PropsWithChildren> = ({
 
     setNotifications((items) => [...items, { id: notificationId, text: '' }]);
     // Change notification text after 100ms to force screen reader
-    // to read the notification
-    setTimeout(() => {
+    // to read the notification. Clear the notification after 1000ms.
+    scheduleTimeout(timeoutsRef.current, () => {
       updateNotificationText(text, notificationId);
     }, 100);
-
-    // Clear notification area after 1000ms
-    setTimeout(() => {
+    scheduleTimeout(timeoutsRef.current, () => {
       removeNotification(notificationId);
     }, 1000);
   }, []);
