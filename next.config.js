@@ -3,6 +3,9 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const { i18n } = require('./next-i18next.config');
 const packageJson = require('./package.json');
+const nextBuildCpus = process.env.NEXT_BUILD_CPUS
+  ? Number(process.env.NEXT_BUILD_CPUS)
+  : undefined;
 
 const moduleExports = {
   i18n,
@@ -33,6 +36,11 @@ const moduleExports = {
   },
   staticPageGenerationTimeout: 300,
   productionBrowserSourceMaps: true,
+  experimental: {
+    // Limit parallel page-data workers in memory-constrained CI builds.
+    ...(nextBuildCpus ? { cpus: nextBuildCpus } : {}),
+    ...(nextBuildCpus ? { webpackMemoryOptimizations: true } : {}),
+  },
 };
 
 module.exports = withSentryConfig(moduleExports, {

@@ -41,7 +41,8 @@ USER default:root
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_BUILD_CPUS=1 \
+    NEXT_TELEMETRY_DISABLED=1
 
 # Build-time values injected by Azure pipelines (via --build-arg).
 ARG PORT
