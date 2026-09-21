@@ -32,6 +32,12 @@ const moduleExports = {
     APP_VERSION: packageJson.version,
   },
   output: 'standalone',
+  // next-i18next requires its config from process.cwd() at runtime, which file
+  // tracing can't detect, so the standalone build would otherwise omit it and
+  // every serverSideTranslations() page would 500.
+  outputFileTracingIncludes: {
+    '**/*': ['./next-i18next.config.js'],
+  },
   staticPageGenerationTimeout: 300,
   productionBrowserSourceMaps: true,
   experimental: {
