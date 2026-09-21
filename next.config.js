@@ -10,6 +10,7 @@ const nextBuildCpus = process.env.NEXT_BUILD_CPUS
 const moduleExports = {
   i18n,
   reactStrictMode: true,
+  agentRules: false,
   async redirects() {
     return [
       {
