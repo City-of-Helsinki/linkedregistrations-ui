@@ -1,4 +1,4 @@
-@import '~hds-design-tokens/lib/breakpoint/breakpoint.scss';
+@import 'hds-design-tokens/lib/breakpoint/breakpoint.scss';
 
 @mixin small-up {
   @media only screen and (min-width: $breakpoint-s) {
