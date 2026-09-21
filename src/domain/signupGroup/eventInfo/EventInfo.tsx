@@ -1,6 +1,6 @@
 import { IconClock, IconLocation, IconTicket, IconUser, Tag } from 'hds-react';
 import capitalize from 'lodash/capitalize';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';

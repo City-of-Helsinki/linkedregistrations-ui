@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: [
-        { find: /^next-i18next$/, replacement: 'react-i18next' },
         { find: 'next/router', replacement: 'next-router-mock' },
         { find: 'next/dist/client/router', replacement: 'next-router-mock' },
       ],

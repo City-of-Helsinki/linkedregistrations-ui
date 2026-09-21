@@ -2,7 +2,7 @@
 import classNames from 'classnames';
 import { ErrorMessage, FieldProps } from 'formik';
 import { ButtonVariant, IconAngleDown, IconAngleUp } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import useLocale from '../../../hooks/useLocale';

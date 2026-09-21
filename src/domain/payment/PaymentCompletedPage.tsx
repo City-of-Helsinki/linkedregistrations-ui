@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import { FC } from 'react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';

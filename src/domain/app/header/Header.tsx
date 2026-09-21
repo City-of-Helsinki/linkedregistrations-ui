@@ -10,7 +10,7 @@ import {
   logoSvDark,
 } from 'hds-react';
 import { useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID } from '../../../constants';

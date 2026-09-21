@@ -5,7 +5,7 @@ import {
   IconAlertCircle,
   IconCross,
 } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import Button from '../../../../common/components/button/Button';

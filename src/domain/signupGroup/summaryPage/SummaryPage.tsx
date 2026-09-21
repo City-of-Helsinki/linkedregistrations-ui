@@ -5,7 +5,7 @@ import { ButtonVariant, IconPen } from 'hds-react';
 import pick from 'lodash/pick';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { FC, useCallback, useRef } from 'react';
 
 import Button from '../../../common/components/button/Button';

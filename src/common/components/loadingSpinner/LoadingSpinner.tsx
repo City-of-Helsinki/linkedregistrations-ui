@@ -3,7 +3,7 @@ import {
   LoadingSpinner as HdsLoadingSpinner,
   LoadingSpinnerProps,
 } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import styles from './loadingSpinner.module.scss';

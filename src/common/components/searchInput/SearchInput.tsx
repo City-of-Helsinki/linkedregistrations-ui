@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { IconSearch, TextInputProps } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useId } from 'react';
 
 import TextInput from '../textInput/TextInput';

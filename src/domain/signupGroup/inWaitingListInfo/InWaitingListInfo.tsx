@@ -1,5 +1,5 @@
 import { Tooltip } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { FC } from 'react';
 
 import styles from './inWaitingListInfo.module.scss';

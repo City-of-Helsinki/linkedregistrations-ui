@@ -1,5 +1,5 @@
 import { IconLocation, IconTicket, IconUser } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useEffect, useRef } from 'react';
 
 import TextWithIcon from '../../../../common/components/textWithIcon/TextWithIcon';

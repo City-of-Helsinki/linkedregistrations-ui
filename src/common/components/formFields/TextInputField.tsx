@@ -1,7 +1,7 @@
 import { FieldProps, useField } from 'formik';
 import { TextInputProps } from 'hds-react';
 import isNil from 'lodash/isNil';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import { getErrorText } from '../../../utils/validationUtils';

@@ -13,7 +13,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
-import { appWithTranslation, SSRConfig } from 'next-i18next';
+import { appWithTranslation, SSRConfig } from 'next-i18next/pages';
 import React from 'react';
 
 import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';

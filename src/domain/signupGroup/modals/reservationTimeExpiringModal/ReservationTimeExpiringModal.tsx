@@ -1,4 +1,4 @@
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import InfoModal from '../../../../common/components/dialog/infoModal/InfoModal';

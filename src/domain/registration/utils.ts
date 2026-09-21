@@ -1,7 +1,7 @@
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import isNil from 'lodash/isNil';
-import { TFunction } from 'next-i18next';
+import { TFunction } from 'next-i18next/pages';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { AddNotificationFn } from '../../common/components/notificationsContext/NotificationsContext';
