@@ -31,15 +31,11 @@ const moduleExports = {
     APP_VERSION: packageJson.version,
   },
   output: 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   staticPageGenerationTimeout: 300,
   productionBrowserSourceMaps: true,
   experimental: {
     // Limit parallel page-data workers in memory-constrained CI builds.
     ...(nextBuildCpus ? { cpus: nextBuildCpus } : {}),
-    ...(nextBuildCpus ? { webpackMemoryOptimizations: true } : {}),
   },
 };
 
@@ -51,15 +47,22 @@ module.exports = withSentryConfig(moduleExports, {
   silent: false,
 
   project: process.env.SENTRY_PROJECT,
+  // Bundler-agnostic: forwarded to the webpack plugin under webpack,
+  // injects module metadata via a loader under Turbopack.
+  applicationKey: process.env.SENTRY_PROJECT,
   webpack: {
-    unstable_sentryWebpackPluginOptions: {
-      applicationKey: process.env.SENTRY_PROJECT,
-    },
     treeshake: {
       // Automatically tree-shake Sentry logger statements to reduce bundle size
+      // (webpack only; no Turbopack equivalent exists yet)
       removeDebugLogging: true,
     },
     reactComponentAnnotation: {
+      enabled: true,
+    },
+  },
+  // Turbopack equivalent of webpack.reactComponentAnnotation.enabled above
+  _experimental: {
+    turbopackReactComponentAnnotation: {
       enabled: true,
     },
   },
