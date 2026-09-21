@@ -14,7 +14,7 @@ export const RequiredIndicator: React.FC<RequiredIndicatorProps> = ({
 }) => (
   <span
     aria-hidden
-    className={classNames(styles.indicator, className)}
+    className={classNames(styles.indicator, 'hds-text-input__required', className)}
     style={style}
   >
     *
