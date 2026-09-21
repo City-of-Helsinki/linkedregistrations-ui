@@ -1,6 +1,6 @@
 import { Notification, NotificationSize } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 import { scroller } from 'react-scroll';
 

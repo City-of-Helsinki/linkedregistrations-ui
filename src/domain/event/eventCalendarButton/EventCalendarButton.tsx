@@ -1,5 +1,5 @@
 import { ButtonProps, ButtonVariant, IconCalendar } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import { FC, MouseEventHandler } from 'react';
 
 import Button from '../../../common/components/button/Button';

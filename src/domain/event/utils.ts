@@ -2,7 +2,7 @@ import isAfter from 'date-fns/isAfter';
 import isPast from 'date-fns/isPast';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { DateArray, DateTime, EventAttributes, createEvents } from 'ics';
-import { TFunction } from 'next-i18next';
+import { TFunction } from 'next-i18next/pages';
 
 import { AddNotificationFn } from '../../common/components/notificationsContext/NotificationsContext';
 import { HELSINKI_TIME_ZONE } from '../../constants';

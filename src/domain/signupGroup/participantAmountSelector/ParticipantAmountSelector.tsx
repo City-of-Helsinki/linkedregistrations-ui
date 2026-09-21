@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { useField } from 'formik';
 import { ButtonVariant } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useState } from 'react';
 
 import Button from '../../../common/components/button/Button';

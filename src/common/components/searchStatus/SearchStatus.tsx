@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import { FC, useEffect } from 'react';
 
 import { useAccessibilityNotificationContext } from '../accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';

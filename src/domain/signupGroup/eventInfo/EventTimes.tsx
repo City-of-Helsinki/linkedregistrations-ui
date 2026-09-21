@@ -1,5 +1,5 @@
 import orderBy from 'lodash/orderBy';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import { FC, useState } from 'react';
 
 import Accordion from '../../../common/components/accordion/Accordion';

@@ -1,6 +1,6 @@
 import { CookieSettingsPage } from 'hds-react';
 import { GetServerSideProps } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
 import React from 'react';
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {

@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 import { IconTrash } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useMemo } from 'react';
 
 import Accordion from '../../../../../common/components/accordion/Accordion';

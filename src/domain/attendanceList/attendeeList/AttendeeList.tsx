@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import orderBy from 'lodash/orderBy';
 import { useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useState } from 'react';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';

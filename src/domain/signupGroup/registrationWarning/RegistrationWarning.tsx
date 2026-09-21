@@ -1,4 +1,4 @@
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { useMemo } from 'react';
 
 import Notification from '../../../common/components/notification/Notification';

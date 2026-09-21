@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import omit from 'lodash/omit';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import { SearchRow } from '../../../common/components/searchRow/SearchRow';

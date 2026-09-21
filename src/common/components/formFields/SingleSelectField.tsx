@@ -1,6 +1,6 @@
 import { FieldProps, useField } from 'formik';
 import { Option, Select } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { ComponentProps } from 'react';
 
 import { getErrorText } from '../../../utils/validationUtils';

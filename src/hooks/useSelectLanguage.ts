@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import { SUPPORTED_LANGUAGES } from '../constants';

@@ -2,7 +2,7 @@
 import { DehydratedState } from '@tanstack/react-query';
 import { Session, User as NextAuthUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
-import { SSRConfig } from 'next-i18next';
+import { SSRConfig } from 'next-i18next/pages';
 import { MouseEvent } from 'react';
 
 export type Language = 'en' | 'fi' | 'sv';

@@ -1,5 +1,5 @@
 import { IconSize, IconUser } from 'hds-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';

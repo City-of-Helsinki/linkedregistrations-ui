@@ -1,6 +1,6 @@
 import { Button, ButtonVariant, IconCross, IconPen } from 'hds-react';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import { SIGNUP_ACTIONS } from '../../signup/constants';

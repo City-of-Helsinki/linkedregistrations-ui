@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next/pages';
 import React, { FC, PropsWithChildren, useCallback, useMemo } from 'react';
 
 import { ServerErrorItem } from '../../../types';
