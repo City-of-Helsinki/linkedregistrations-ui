@@ -108,7 +108,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
       </div>
       <ErrorMessage key={locale} name={errorName || name}>
         {(error) => (
-          <div className={styles.errorText}>{getErrorText(error, true, t)}</div>
+          <div className={classNames(styles.errorText, 'hds-text-input__error-text')}>{getErrorText(error, true, t)}</div>
         )}
       </ErrorMessage>
       {visibleOptionAmount && options.length > visibleOptionAmount && (
