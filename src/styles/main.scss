@@ -4,6 +4,8 @@
 @import './vendor/normalize';
 @import 'fonts';
 
+@import 'hds-core/lib/components/text-input/text-input.css';
+
 html,
 body {
   --label-height: 1.75rem;
