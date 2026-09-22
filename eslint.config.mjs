@@ -11,7 +11,7 @@ import vitestGlobals from 'eslint-config-vitest-globals/flat';
 
 export default defineConfig(
   // Must be its own config object: `ignores` alongside `files` is not a global ignore.
-  { ignores: [ '.next' ] },
+  { ignores: [ '.next', 'coverage' ] },
   {
     files: [ 'src/**/*.{ts,tsx}' ],
     extends: [
