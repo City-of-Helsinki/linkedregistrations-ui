@@ -1,7 +1,7 @@
-@import '../../../styles/mixins.scss';
+@use '../../../styles/mixins.scss';
 
 .hideLabel {
   label {
-    @include hidden-from-screen;
+    @include mixins.hidden-from-screen;
   }
 }

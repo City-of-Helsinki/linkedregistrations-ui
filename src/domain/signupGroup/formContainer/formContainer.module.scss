@@ -1,8 +1,7 @@
-@import '../../../styles/breakpoints.scss';
-@import '../../../styles/widths.scss';
+@use '../../../styles/widths.scss';
 
 .formContainer {
-  @include max-width-column(6);
+  @include widths.max-width-column(6);
 
   padding: var(--spacing-m) 0;
   box-sizing: content-box;

@@ -1,9 +1,9 @@
+@use './vendor/normalize';
+@use 'fonts';
+
 @import 'hds-core/lib/base.css';
 /* Imports hds design tokens as CSS variables */
 @import 'hds-design-tokens/lib/all.min.css';
-@import './vendor/normalize';
-@import 'fonts';
-
 @import 'hds-core/lib/components/text-input/text-input.css';
 
 html,
@@ -20,5 +20,5 @@ body {
 
 * {
   box-sizing: border-box;
-  font-family: $font-family-base;
+  font-family: fonts.$font-family-base;
 }

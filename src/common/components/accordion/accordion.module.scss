@@ -1,4 +1,4 @@
-@import '../../../styles//mixins.scss';
+@use '../../../styles/mixins.scss';
 
 .accordion {
   --accordion-background-color: transparent;
@@ -25,7 +25,7 @@
     border: none;
     box-sizing: border-box;
 
-    @include focus-outline(-3px);
+    @include mixins.focus-outline(-3px);
 
     span {
       display: flex;

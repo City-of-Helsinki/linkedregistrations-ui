@@ -1,5 +1,4 @@
-@import '../../../styles/breakpoints.scss';
-@import '../../../styles/widths.scss';
+@use '../../../styles/widths.scss';
 
 .cancelledTemplate {
   --cancelled-template-icon-color: var(--color-error);
@@ -31,7 +30,7 @@
         margin: var(--spacing-m) auto var(--spacing-2-xs);
       }
 
-      @include max-width-column(4);
+      @include widths.max-width-column(4);
     }
   }
 

@@ -1,4 +1,4 @@
-@import '.././../../../styles/mixins.scss';
+@use '../../../../styles/mixins.scss';
 
 .link {
   display: flex;
@@ -9,7 +9,7 @@
   align-items: center;
   min-height: 56px;
 
-  @include focus-outline(-3px);
+  @include mixins.focus-outline(-3px);
 
   > * {
     margin-left: var(--spacing-2-xs);

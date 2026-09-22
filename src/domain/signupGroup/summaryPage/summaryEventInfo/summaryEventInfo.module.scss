@@ -1,4 +1,4 @@
-@import '../../../../styles//breakpoints.scss';
+@use '../../../../styles/breakpoints.scss';
 
 .summaryEventInfo {
   h1 {
@@ -17,7 +17,7 @@
     grid-gap: var(--spacing-s);
     margin-bottom: var(--spacing-s);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
     }
   }
@@ -27,7 +27,7 @@
     grid-template-columns: auto 1fr;
     grid-gap: var(--spacing-s);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
     }
   }

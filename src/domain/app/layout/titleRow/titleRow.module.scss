@@ -1,6 +1,6 @@
-@import '../../../../styles/breakpoints.scss';
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/widths.scss';
+@use '../../../../styles/breakpoints.scss';
+@use '../../../../styles/mixins.scss';
+@use '../../../../styles/widths.scss';
 
 .titleRowWrapper {
   display: grid;
@@ -22,8 +22,8 @@
     .actionsDropdown {
       justify-self: flex-end;
 
-      @include medium-up {
-        @include min-width-column(2);
+      @include breakpoints.medium-up {
+        @include widths.min-width-column(2);
       }
     }
 
@@ -31,14 +31,14 @@
       height: var(--spacing-3-xl);
       padding: var(--spacing-3-xs);
 
-      @include focus-outline(0px);
+      @include mixins.focus-outline(0px);
 
       svg {
         transform: rotate(90deg);
       }
     }
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       display: flex;
 
       .title {
@@ -51,7 +51,7 @@
       }
 
       button {
-        @include min-width-column(2);
+        @include widths.min-width-column(2);
 
         white-space: nowrap;
       }

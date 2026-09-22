@@ -1,70 +1,70 @@
-@import 'hds-design-tokens/lib/breakpoint/breakpoint.scss';
+@use 'hds-design-tokens/lib/breakpoint/breakpoint.scss';
 
 @mixin small-up {
-  @media only screen and (min-width: $breakpoint-s) {
+  @media only screen and (min-width: breakpoint.$breakpoint-s) {
     @content;
   }
 }
 
 @mixin medium-up {
-  @media only screen and (min-width: $breakpoint-m) {
+  @media only screen and (min-width: breakpoint.$breakpoint-m) {
     @content;
   }
 }
 @mixin large-up {
-  @media only screen and (min-width: $breakpoint-l) {
+  @media only screen and (min-width: breakpoint.$breakpoint-l) {
     @content;
   }
 }
 @mixin x-large-up {
-  @media only screen and (min-width: $breakpoint-xl) {
+  @media only screen and (min-width: breakpoint.$breakpoint-xl) {
     @content;
   }
 }
 
 @mixin x-small-down {
-  @media only screen and (max-width: $breakpoint-s - 0.02px) {
+  @media only screen and (max-width: breakpoint.$breakpoint-s - 0.02px) {
     @content;
   }
 }
 @mixin small-down {
-  @media only screen and (max-width: $breakpoint-m - 0.02px) {
+  @media only screen and (max-width: breakpoint.$breakpoint-m - 0.02px) {
     @content;
   }
 }
 @mixin medium-down {
-  @media only screen and (max-width: $breakpoint-l - 0.02px) {
+  @media only screen and (max-width: breakpoint.$breakpoint-l - 0.02px) {
     @content;
   }
 }
 @mixin large-down {
-  @media only screen and (max-width: $breakpoint-xl - 0.02px) {
+  @media only screen and (max-width: breakpoint.$breakpoint-xl - 0.02px) {
     @content;
   }
 }
 
 @mixin x-small-only {
-  @media only screen and (max-width: $breakpoint-s - 0.02px) {
+  @media only screen and (max-width: breakpoint.$breakpoint-s - 0.02px) {
     @content;
   }
 }
 @mixin small-only {
-  @media only screen and (min-width: $breakpoint-s) and (max-width: $breakpoint-m - 0.02px) {
+  @media only screen and (min-width: breakpoint.$breakpoint-s) and (max-width: breakpoint.$breakpoint-m - 0.02px) {
     @content;
   }
 }
 @mixin medium-only {
-  @media only screen and (min-width: $breakpoint-m) and (max-width: $breakpoint-l - 0.02px) {
+  @media only screen and (min-width: breakpoint.$breakpoint-m) and (max-width: breakpoint.$breakpoint-l - 0.02px) {
     @content;
   }
 }
 @mixin large-only {
-  @media only screen and (min-width: $breakpoint-l) and (max-width: $breakpoint-xl - 0.02px) {
+  @media only screen and (min-width: breakpoint.$breakpoint-l) and (max-width: breakpoint.$breakpoint-xl - 0.02px) {
     @content;
   }
 }
 @mixin x-large-only {
-  @media only screen and (min-width: $breakpoint-xl) {
+  @media only screen and (min-width: breakpoint.$breakpoint-xl) {
     @content;
   }
 }

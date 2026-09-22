@@ -1,4 +1,4 @@
-@import '../../../styles/breakpoints.scss';
+@use '../../../styles/breakpoints.scss';
 
 .splittedRow {
   display: grid;
@@ -6,31 +6,31 @@
 }
 
 .medium-medium {
-  @include small-up {
+  @include breakpoints.small-up {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     grid-gap: var(--spacing-m);
   }
 }
 
 .large-small {
-  @include small-up {
+  @include breakpoints.small-up {
     grid-template-columns: 2fr 1fr;
   }
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     grid-gap: var(--spacing-m);
   }
 }
 
 .small-large {
-  @include small-up {
+  @include breakpoints.small-up {
     grid-template-columns: 1fr 2fr;
   }
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     grid-gap: var(--spacing-m);
   }
 }

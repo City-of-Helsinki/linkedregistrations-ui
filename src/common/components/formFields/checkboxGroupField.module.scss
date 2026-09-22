@@ -1,12 +1,12 @@
-@import '../../../styles//breakpoints.scss';
-@import '../../../styles//mixins.scss';
+@use '../../../styles/breakpoints.scss';
+@use '../../../styles/mixins.scss';
 
 .checkboxGroup {
   padding: 0;
   border: unset;
 
   legend {
-    @include hidden-from-screen;
+    @include mixins.hidden-from-screen;
   }
 }
 
@@ -24,20 +24,20 @@
   }
 
   &.columns2 {
-    @include medium_up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   &.columns3 {
-    @include medium_up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
       grid-template-columns: repeat(3, 1fr);
     }
   }
   &.columns4 {
-    @include medium_up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
       grid-template-columns: repeat(4, 1fr);
     }

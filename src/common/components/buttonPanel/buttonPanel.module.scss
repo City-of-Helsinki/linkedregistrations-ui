@@ -1,6 +1,6 @@
-@import '../../../styles/breakpoints';
-@import '../../../styles/mixins';
-@import '../../../styles/widths';
+@use '../../../styles/breakpoints.scss';
+@use '../../../styles/mixins.scss';
+@use '../../../styles/widths.scss';
 
 .buttonPanel {
   padding: var(--spacing-m) 0;
@@ -9,14 +9,14 @@
 }
 
 .formContainer {
-  @include max-width-column(6);
+  @include widths.max-width-column(6);
 }
 
 .buttonsRow {
   display: grid;
   grid-gap: var(--spacing-s);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     display: flex;
     grid-gap: unset;
     justify-content: space-between;
@@ -32,7 +32,7 @@
     grid-gap: var(--spacing-s);
     grid-template-columns: repeat(2, 1fr);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       display: flex;
       grid-gap: unset;
 
@@ -47,11 +47,11 @@
 
     button {
       white-space: nowrap;
-      @include min-width-column(2);
+      @include widths.min-width-column(2);
     }
 
     .fullWidthOnMobile {
-      @include small-down {
+      @include breakpoints.small-down {
         grid-column: 1 /3;
       }
     }
@@ -62,13 +62,13 @@
   }
 
   .hideOnMobile {
-    @include small-down {
+    @include breakpoints.small-down {
       display: none;
     }
   }
 
   .smallButton {
-    @include min-width-column(1);
+    @include widths.min-width-column(1);
   }
 
   button {
@@ -80,14 +80,14 @@
 
 .backButton {
   height: var(--spacing-3-xl);
-  @include max-width-column(1);
+  @include widths.max-width-column(1);
 
   div {
     margin-left: 0 !important;
   }
 
   span {
-    @include hidden-from-screen;
+    @include mixins.hidden-from-screen;
   }
 }
 

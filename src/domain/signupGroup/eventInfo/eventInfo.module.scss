@@ -1,4 +1,4 @@
-@import '../../../styles/breakpoints.scss';
+@use '../../../styles/breakpoints.scss';
 
 .eventInfo {
   --event-info-image-height: 368px;
@@ -20,7 +20,7 @@
   height: var(--event-info-image-height-mobile);
   margin-bottom: var(--spacing-m);
 
-  @include small-up {
+  @include breakpoints.small-up {
     height: var(--event-info-image-height);
     margin-bottom: var(--spacing-l);
   }
@@ -59,7 +59,7 @@
     grid-template-columns: auto 1fr;
     grid-gap: var(--spacing-s);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
     }
   }
@@ -70,7 +70,7 @@
     grid-template-columns: auto 1fr;
     grid-gap: var(--spacing-s);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       grid-gap: var(--spacing-m);
     }
   }

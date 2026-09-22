@@ -1,12 +1,12 @@
-@import '../../../styles/breakpoints.scss';
-@import '../../../styles/widths.scss';
+@use '../../../styles/breakpoints.scss';
+@use '../../../styles/widths.scss';
 
 .searchRow {
   display: flex;
   flex-direction: column-reverse;
   margin: var(--spacing-m) 0;
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     display: grid;
     grid-gap: var(--spacing-m);
     grid-template-columns: 1fr auto;
@@ -18,7 +18,7 @@
   font-weight: 600;
   margin-top: var(--spacing-m);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     margin-top: 0;
     display: flex;
     align-items: flex-end;
@@ -28,7 +28,7 @@
 .searchInput {
   --dropdown-border-color-default: var(--color-black-90);
 
-  @include medium-up {
-    @include min-width-column(4);
+  @include breakpoints.medium-up {
+    @include widths.min-width-column(4);
   }
 }
