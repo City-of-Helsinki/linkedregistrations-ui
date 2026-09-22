@@ -1,9 +1,9 @@
-@import '../../../styles/breakpoints.scss';
+@use '../../../styles/breakpoints.scss';
 
 .participantAmountSelector {
   margin-bottom: var(--spacing-xs);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     display: grid;
     grid-gap: var(--spacing-m);
     grid-template-columns: 2fr 4fr;
@@ -12,12 +12,12 @@
   .buttonWrapper {
     padding-top: var(--spacing-m);
 
-    @include medium-up {
+    @include breakpoints.medium-up {
       padding-top: var(--label-height);
     }
 
     button {
-      @include small-down {
+      @include breakpoints.small-down {
         width: 100%;
       }
     }

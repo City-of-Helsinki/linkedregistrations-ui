@@ -1,4 +1,4 @@
-@import '../../../../styles/breakpoints.scss';
+@use '../../../../styles/breakpoints.scss';
 
 .emailRow,
 .membershipNumberRow,
@@ -8,7 +8,7 @@
   grid-gap: var(--spacing-m);
   grid-template-columns: 1fr;
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     grid-template-columns: 1fr 1fr;
   }
 }

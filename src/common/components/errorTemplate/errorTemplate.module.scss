@@ -1,5 +1,4 @@
-@import '../../../styles/breakpoints.scss';
-@import '../../../styles/widths.scss';
+@use '../../../styles/widths.scss';
 
 .errorTemplate {
   --error-template-icon-color: var(--color-bus);
@@ -26,7 +25,7 @@
       line-height: var(--lineheight-l);
       margin: var(--spacing-m) auto var(--spacing-l);
 
-      @include max-width-column(6);
+      @include widths.max-width-column(6);
     }
   }
 

@@ -1,8 +1,8 @@
-@import '../../../../../styles/breakpoints.scss';
-@import '../../../../../styles//mixins.scss';
+@use '../../../../../styles/breakpoints.scss';
+@use '../../../../../styles/mixins.scss';
 
 .streetAddressRow {
-  @include small-down {
+  @include breakpoints.small-down {
     > div:first-child {
       order: 2;
     }
@@ -23,7 +23,7 @@
   border: none;
   background-color: var(--color-black-5);
 
-  @include focus-outline(-3px);
+  @include mixins.focus-outline(-3px);
 
   &:hover {
     background-color: var(--color-black-10);

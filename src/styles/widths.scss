@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $widths: (
   1: 94px,
   2: 212px,
@@ -15,9 +17,9 @@ $widths: (
 
 @mixin min-width-column($column) {
   // If the column count exists in the map.
-  @if map-has-key($widths, $column) {
+  @if map.has-key($widths, $column) {
     // Get the minimum width.
-    min-width: map-get($widths, $column) !important;
+    min-width: map.get($widths, $column) !important;
 
     // If the column count doesn't exist in the map.
   } @else {
@@ -28,9 +30,9 @@ $widths: (
 
 @mixin max-width-column($column) {
   // If the column count exists in the map.
-  @if map-has-key($widths, $column) {
+  @if map.has-key($widths, $column) {
     // Get the maximum width.
-    max-width: map-get($widths, $column) !important;
+    max-width: map.get($widths, $column) !important;
 
     // If the column count doesn't exist in the map.
   } @else {

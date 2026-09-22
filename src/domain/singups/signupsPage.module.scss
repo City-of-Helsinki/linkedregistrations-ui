@@ -1,11 +1,11 @@
-@import '../../styles/breakpoints.scss';
+@use '../../styles/breakpoints.scss';
 
 .pageContentContainer {
   background-color: var(--color-white);
   margin: var(--spacing-m) calc(0px - var(--spacing-s));
   padding: var(--spacing-s);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     margin: var(--spacing-m) calc(0px - var(--spacing-m));
     padding: var(--spacing-m);
   }

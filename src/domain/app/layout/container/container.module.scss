@@ -1,4 +1,4 @@
-@import '../../../../styles/breakpoints.scss';
+@use '../../../../styles/breakpoints.scss';
 
 .container {
   box-sizing: border-box;
@@ -7,15 +7,15 @@
   padding: 0 var(--spacing-s);
   width: 100%;
 
-  @include small-down {
+  @include breakpoints.small-down {
     position: relative;
   }
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     padding: 0 var(--spacing-m);
   }
 
-  @include large-up {
+  @include breakpoints.large-up {
     margin: 0 auto;
     max-width: var(--breakpoint-xl);
   }
@@ -25,7 +25,7 @@
   }
 
   &.withOffset {
-    @include x-large-up {
+    @include breakpoints.x-large-up {
       grid-template-columns: repeat(12, 1fr);
       grid-gap: var(--spacing-m);
 

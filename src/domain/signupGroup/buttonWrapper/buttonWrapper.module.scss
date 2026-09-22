@@ -1,10 +1,10 @@
-@import '../../../styles/widths.scss';
+@use '../../../styles/widths.scss';
 
 .buttonWrapper {
   display: flex;
   justify-content: flex-end;
 
   button {
-    @include min-width-column(2);
+    @include widths.min-width-column(2);
   }
 }

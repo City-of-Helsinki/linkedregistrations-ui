@@ -1,5 +1,5 @@
-@import '../../../styles/mixins.scss';
+@use '../../../styles/mixins.scss';
 
 .accessibilityNotification {
-  @include hidden-from-screen;
+  @include mixins.hidden-from-screen;
 }

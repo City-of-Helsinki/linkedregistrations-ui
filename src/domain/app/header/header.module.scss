@@ -1,4 +1,4 @@
-@import '../../../styles/breakpoints.scss';
+@use '../../../styles/breakpoints.scss';
 
 .navigation {
   --actionbar-background-color: var(--color-coat-of-arms) !important;
@@ -13,7 +13,7 @@
   position: sticky !important;
   top: 0;
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     .loginMenu {
       h3 {
         color: var(--color-black-90) !important;
@@ -21,7 +21,7 @@
     }
   }
 
-  @include medium-down {
+  @include breakpoints.medium-down {
     --lang-selector-item-font-color: var(--color-black-90) !important;
     --nav-link-font-color: var(--color-black-90) !important;
 

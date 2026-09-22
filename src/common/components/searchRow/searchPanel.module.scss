@@ -1,5 +1,5 @@
-@import '../../../styles/breakpoints.scss';
-@import '../../../styles/widths.scss';
+@use '../../../styles/breakpoints.scss';
+@use '../../../styles/widths.scss';
 
 .searchRow {
   display: grid;
@@ -7,13 +7,13 @@
   margin-top: var(--spacing-m);
   margin-bottom: var(--spacing-m);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     display: flex;
   }
 }
 
 .buttonColumn {
-  @include min-width-column(2);
+  @include widths.min-width-column(2);
 }
 
 .textSearchColumn {

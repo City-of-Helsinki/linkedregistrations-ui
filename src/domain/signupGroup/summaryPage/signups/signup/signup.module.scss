@@ -1,7 +1,7 @@
-@import '../../../../../styles/breakpoints.scss';
+@use '../../../../../styles/breakpoints.scss';
 
 .streetAddressRow {
-  @include medium-up {
+  @include breakpoints.medium-up {
     > div:first-child {
       order: 2;
     }

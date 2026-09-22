@@ -1,4 +1,4 @@
-@import '../../../styles/breakpoints.scss';
+@use '../../../styles/breakpoints.scss';
 
 .summaryPage {
   h2 {
@@ -9,7 +9,7 @@
 .notification {
   margin-bottom: var(--spacing-m);
 
-  @include medium-up {
+  @include breakpoints.medium-up {
     margin-top: var(--spacing-m);
     margin-bottom: var(--spacing-xl);
   }
