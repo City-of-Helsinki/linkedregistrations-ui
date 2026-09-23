@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.12.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.4...linkedregistrations-ui-v1.12.5) (2026-09-23)
+
+
+### Bug Fixes
+
+* Build include next-i18next config Refs: LINK-2504 ([262659c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/262659cd2d27aad783247b4d24167f420523914f))
+* Main.scss import orders Refs: LINK-2504 ([0fa3194](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0fa3194218a5e0899cac034e9d2a82cfbd53eafe))
+* Next.js 16 sass fixes Refs: LINK-2504 ([c9f3b85](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c9f3b857e6d921cdff0f0eb6b00d292ab24ccf06))
+* Proxy sonar maintainability Refs: LINK-2504 ([7cc525d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/7cc525d70e8fa59ce92aefc2bc336a74826b3bac))
+
+
+### Dependencies
+
+* Nextjs 16 deps upgrades Refs: LINK-2504 ([4c9309d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/4c9309df25b554f9593ea854588e862df29a0b10))
+* Upgrade next-i18next next-router-mock Refs: LINK-2504 ([a1c9797](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a1c97970d1cdd0500901d8d1827d4b6ac0eeef6b))
+
 ## [1.12.4](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.3...linkedregistrations-ui-v1.12.4) (2026-09-11)
 
 
