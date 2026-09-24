@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.6](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.5...linkedregistrations-ui-v1.12.6) (2026-09-24)
+
+
+### Bug Fixes
+
+* Readiness use version Refs: RATY-355 ([f4e1c17](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/f4e1c171f60da0129441d69746d2bf7eda9110d8))
+
 ## [1.12.5](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.4...linkedregistrations-ui-v1.12.5) (2026-09-23)
 
 
