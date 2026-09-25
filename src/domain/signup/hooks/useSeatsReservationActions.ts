@@ -63,7 +63,7 @@ const useSeatsReservationActions = ({
     setSaving(false);
   };
 
-  const cleanAfterUpdate = async (
+  const cleanAfterUpdate = (
     seatsReservation: SeatsReservation,
     callbacks?: MutationCallbacks<SeatsReservation>
   ) => {
