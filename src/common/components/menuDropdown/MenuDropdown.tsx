@@ -1,4 +1,3 @@
-import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
 import {
   ButtonProps,
@@ -51,7 +50,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     scroll:
       /* istanbul ignore next */
       fixedPosition && menuOpen,
-    polyfill: ResizeObserver,
   });
 
   const toggleButton = useRef<HTMLButtonElement>(null);

@@ -17,7 +17,6 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import { NextRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import React, { useMemo } from 'react';
-import wait from 'waait';
 
 import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
@@ -26,6 +25,8 @@ import { registration } from '../domain/registration/__mocks__/registration';
 import { SignupGroupFormProvider } from '../domain/signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { server } from '../tests/msw/server';
 import { ExtendedSession } from '../types';
+
+import wait from './wait';
 
 export const arrowUpKeyPressHelper = (): boolean =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
