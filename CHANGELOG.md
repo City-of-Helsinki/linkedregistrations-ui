@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.7](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.6...linkedregistrations-ui-v1.12.7) (2026-09-28)
+
+
+### Bug Fixes
+
+* Change cleanAfterUpdate to a non-async function ([efbce6c](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/efbce6c171bf1bc3c515c6f0566214d65a226693))
+* Remove unused and misplaced dependencies ([dac8e3b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/dac8e3b022b2d30b0f9c54259f2ba275b579938d))
+
 ## [1.12.6](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.5...linkedregistrations-ui-v1.12.6) (2026-09-24)
 
 
