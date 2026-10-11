@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.12.8](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.7...linkedregistrations-ui-v1.12.8) (2026-10-11)
+
+
+### Bug Fixes
+
+* Enforce secure dependency versions ([a44d82f](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/a44d82f4dcdfbe37e844039940b4836beca5359f))
+
+
+### Dependencies
+
+* Bump fast-uri from 4.1.4 to 4.2.1 ([25b81d1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/25b81d1f7ffffea5ca8f7bfb6b69864614d15748))
+* Bump next from 16.3.5 to 16.3.6 ([809cfc8](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/809cfc8c8bb76c16af2d37253f58897cf3f75d03))
+* Update Next.js to patched release ([d5eea1b](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/d5eea1b42ad86e7b4402948da4106c3455ebafcb))
+
 ## [1.12.7](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.6...linkedregistrations-ui-v1.12.7) (2026-09-28)
 
 
