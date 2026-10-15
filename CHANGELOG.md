@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.9](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.8...linkedregistrations-ui-v1.12.9) (2026-10-15)
+
+
+### Dependencies
+
+* Next 16.4.1 critical patch Refs: RATY-401 ([96dc7c8](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/96dc7c84f8b76a231177722b64a25cb2964aeb1c))
+
 ## [1.12.8](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.7...linkedregistrations-ui-v1.12.8) (2026-10-12)
 
 
