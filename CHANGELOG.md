@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.9...linkedregistrations-ui-v1.13.0) (2026-10-24)
+
+
+### Features
+
+* Nvmrc set to lts, broaden node engine Refs: LINK-2645 ([571cec1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/571cec10b0cb59d1d1fd38e8c1bfeefd974227d5))
+
 ## [1.12.9](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.8...linkedregistrations-ui-v1.12.9) (2026-10-15)
 
 
