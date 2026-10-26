@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.13.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.9...linkedregistrations-ui-v1.13.0) (2026-10-26)
+
+
+### Features
+
+* Nvmrc set to lts, broaden node engine Refs: LINK-2645 ([571cec1](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/571cec10b0cb59d1d1fd38e8c1bfeefd974227d5))
+
+
+### Dependencies
+
+* Bump @sentry/nextjs from 10.62.0 to 10.75.2 ([c929091](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c929091be55aa4750644095192ffb57b2afb1437))
+* Bump vite from 8.0.16 to 8.1.6 ([0d996b4](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/0d996b44f97f4f392966bc13ca7ba851cc193107))
+
 ## [1.12.9](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.8...linkedregistrations-ui-v1.12.9) (2026-10-15)
 
 
