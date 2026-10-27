@@ -49,6 +49,7 @@ ARG PORT
 ARG SENTRY_PROJECT
 ARG SENTRY_ORG
 ARG SENTRY_URL
+ARG SENTRY_SOURCEMAPS_PATH
 ARG NEXT_ENV
 ARG NEXT_PUBLIC_SENTRY_RELEASE
 
@@ -57,6 +58,9 @@ ARG NEXT_PUBLIC_SENTRY_RELEASE
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_TOKEN \
     SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" pnpm build
 
+# Sentry CLI rewrites and injects debug IDs to source files and maps.
+RUN pnpm exec sentry-cli sourcemaps inject ${SENTRY_SOURCEMAPS_PATH}
+ 
 # ============================================================
 FROM registry.access.redhat.com/ubi9/nodejs-24-minimal AS production
 # ============================================================
