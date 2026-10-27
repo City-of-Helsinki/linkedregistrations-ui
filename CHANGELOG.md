@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.13.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.13.0...linkedregistrations-ui-v1.13.1) (2026-10-27)
+
+
+### Dependencies
+
+* Bump js-yaml from 5.4.0 to 5.5.0 ([06e1f01](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/06e1f01a6da655295e50cd2314155f1cb633f1c1))
+* Bump postcss-selector-parser from 6.1.4 to 6.1.5 ([d403ebf](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/d403ebfc11e7d01cb02b46b8b1d90b54c272f01a))
+* Bump undici from 8.10.0 to 8.12.3 ([fb748f3](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/fb748f3340e2081027b30c4c2e7935b41794ed17))
+
 ## [1.13.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.12.9...linkedregistrations-ui-v1.13.0) (2026-10-26)
 
 
