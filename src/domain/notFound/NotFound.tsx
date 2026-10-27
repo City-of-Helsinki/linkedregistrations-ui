@@ -1,3 +1,4 @@
+import { Button } from 'hds-react';
 import { useTranslation } from 'next-i18next/pages';
 import React from 'react';
 
@@ -20,6 +21,13 @@ const NotFound: React.FC = () => {
           text={t('errorPage.text')}
           title={t('errorPage.title')}
         />
+        <Button
+          onClick={() => {
+            throw new Error('Test error in review');
+          }}
+        >
+          Click to error
+        </Button>
       </MainContent>
     </>
   );

@@ -25,9 +25,7 @@ if (getEnvValue('NEXT_PUBLIC_SENTRY_DSN')) {
       'ResizeObserver loop completed with undelivered notifications',
       'ResizeObserver loop limit exceeded',
     ],
-    tracesSampleRate: Number.parseFloat(
-      getEnvValue('NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE') || '0'
-    ),
+    tracesSampleRate: 0.1,
     tracePropagationTargets: (
       getEnvValue('NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS') ?? ''
     )
@@ -37,9 +35,7 @@ if (getEnvValue('NEXT_PUBLIC_SENTRY_DSN')) {
     replaysSessionSampleRate: Number.parseFloat(
       getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_SESSION_SAMPLE_RATE') || '0'
     ),
-    replaysOnErrorSampleRate: Number.parseFloat(
-      getEnvValue('NEXT_PUBLIC_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE') || '0'
-    ),
+    replaysOnErrorSampleRate: 1.0,
     debug: false,
   });
 }
