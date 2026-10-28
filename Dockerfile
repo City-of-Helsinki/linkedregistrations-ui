@@ -58,7 +58,7 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_T
     SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" pnpm build
 
 # Sentry CLI rewrites and injects debug IDs to sourcemaps. Not uploading to Sentry at this stage.
-RUN pnpm exec sentry-cli sourcemaps inject .next/static .next/server
+#RUN pnpm exec sentry-cli sourcemaps inject .next/static .next/server
  
 # ============================================================
 FROM registry.access.redhat.com/ubi9/nodejs-24-minimal AS production
