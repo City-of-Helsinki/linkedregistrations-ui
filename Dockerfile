@@ -16,9 +16,9 @@ USER default
 
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
-COPY .env* next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
+COPY .env* LICENSE next-i18next.config.js next.config.js sentry.edge.config.ts sentry.properties sentry.server.config.ts tsconfig.json /app/
 COPY /scripts/ /app/scripts
-COPY /public/ /app/public
+COPY --chown=default:root /public/ /app/public
 COPY /src/ /app/src
 
 # =============================
