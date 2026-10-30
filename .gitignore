@@ -36,6 +36,10 @@ yarn-error.log*
 public/env-config.js
 public/test-env-config.js
 
+# generated third-party license notices
+/public/third-party-licenses.txt
+/public/oss-licenses.json
+
 # vercel
 .vercel
 

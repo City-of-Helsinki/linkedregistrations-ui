@@ -1,8 +1,14 @@
 /** @type {import('next').NextConfig} */
+const {
+  withThirdPartyLicenses,
+} = require('@city-of-helsinki/license-notices/next');
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const { i18n } = require('./next-i18next.config');
 const packageJson = require('./package.json');
+const {
+  thirdPartyLicensesConfig,
+} = require('./scripts/thirdPartyLicenses.config');
 const nextBuildCpus = process.env.NEXT_BUILD_CPUS
   ? Number(process.env.NEXT_BUILD_CPUS)
   : undefined;
@@ -46,7 +52,14 @@ const moduleExports = {
   },
 };
 
-module.exports = withSentryConfig(moduleExports, {
+// Inside withSentryConfig, so the notices are read before anything else
+// touches the source maps.
+const nextConfig = withThirdPartyLicenses(
+  moduleExports,
+  thirdPartyLicensesConfig
+);
+
+module.exports = withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

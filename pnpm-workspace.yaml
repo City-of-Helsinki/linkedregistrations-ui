@@ -31,3 +31,6 @@ allowBuilds:
   msw: false
   sharp: true
   unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - "@city-of-helsinki/license-notices@0.2.0"
