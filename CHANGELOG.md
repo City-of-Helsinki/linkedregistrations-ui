@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.13.1...linkedregistrations-ui-v1.14.0) (2026-10-31)
+
+
+### Features
+
+* Serve third-party license notices ([#346](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/346)) ([c504d3d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c504d3de45c4c74875601b3b0ca81bea7f12923a))
+
 ## [1.13.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.13.0...linkedregistrations-ui-v1.13.1) (2026-10-27)
 
 
