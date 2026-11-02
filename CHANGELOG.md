@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.13.1...linkedregistrations-ui-v1.14.0) (2026-11-02)
+
+
+### Features
+
+* Dockerfile inject sentry debug ids Refs: RATY-432 ([c499dda](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c499dda95ff459acad00a506aa1086a69720c3a8))
+* Serve third-party license notices ([#346](https://github.com/City-of-Helsinki/linkedregistrations-ui/issues/346)) ([c504d3d](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/c504d3de45c4c74875601b3b0ca81bea7f12923a))
+
 ## [1.13.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.13.0...linkedregistrations-ui-v1.13.1) (2026-10-27)
 
 
