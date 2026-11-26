@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.14.1...linkedregistrations-ui-v1.14.2) (2026-11-26)
+
+
+### Dependencies
+
+* Bump i18next from 23.16.8 to 26.3.4 ([181b702](https://github.com/City-of-Helsinki/linkedregistrations-ui/commit/181b7022fae3baf93d9a48b2389db013addeeb0e))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/linkedregistrations-ui/compare/linkedregistrations-ui-v1.14.0...linkedregistrations-ui-v1.14.1) (2026-11-18)
 
 
